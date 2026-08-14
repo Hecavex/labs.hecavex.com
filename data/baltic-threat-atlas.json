@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "updated": "2026-08-14",
+  "publisher": "HECAVEX",
+  "scope": "Selected public-source cyber observations concerning Lithuania, Latvia and Estonia; not an exhaustive incident census or prevalence dataset.",
+  "records": [
+    {"id":"lt-2023-broadcast-disinformation","date":"2023-07-10","country":"Lithuania","type":"incident","title":"Broadcast content replaced in two incidents","actor":null,"attribution":"none in cited report","source":"https://www.nksc.lt/doc/rkgc/CTAC_2023_3rd_Quarter_Report.pdf"},
+    {"id":"lt-2024-annual-incidents","date":"2024","country":"Lithuania","type":"annual-statistic","title":"63% increase in recorded incidents","actor":null,"attribution":"none","source":"https://www.nksc.lt/doc/rkgc/CTAC_2024_Yearly_Report.pdf"},
+    {"id":"lv-2024-q2-threat-hunt","date":"2024-Q2","country":"Latvia","type":"threat-hunt","title":"Foreign intruder presence identified in eight organisations","actor":null,"attribution":"foreign intruders; identities undisclosed","source":"https://cert.lv/en/2024/08/cert-lv-activity-review-q2-2024"},
+    {"id":"lv-2024-q2-ddos","date":"2024-Q2","country":"Latvia","type":"campaign","title":"Continued politically motivated DDoS waves","actor":"Russia and proxy hacktivists (source wording)","attribution":"CERT.LV reporting","source":"https://cert.lv/en/2024/08/cert-lv-activity-review-q2-2024"},
+    {"id":"ee-2023-september-ddos","date":"2023-09","country":"Estonia","type":"campaign","title":"84 DDoS attacks registered in one month","actor":"pro-Kremlin groups (source wording)","attribution":"RIA reporting","source":"https://www.ria.ee/en/news/information-system-authority-number-cyber-incidents-increased-quarter-year"},
+    {"id":"ee-2024-unit-29155","date":"2024-09-05","country":"Estonia","type":"attribution","title":"Unit 29155 operations jointly attributed","actor":"GRU Unit 29155","attribution":"multinational government advisory","source":"https://www.cisa.gov/news-events/alerts/2024/09/05/fbi-cisa-nsa-and-us-and-international-partners-release-advisory-russian-military-cyber-actors"}
+  ]
+}

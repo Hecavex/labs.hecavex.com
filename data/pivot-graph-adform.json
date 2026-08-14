@@ -1,0 +1,23 @@
+{
+  "schema_version":"1.0.0",
+  "case":"adform-clipper-2026",
+  "evidence_bundle":"https://hecavex.com/assets/data/adform-clipper-2026/README.md",
+  "nodes":[
+    {"id":"capture","class":"observed","label":"Captured JavaScript"},
+    {"id":"endpoint","class":"observed","label":"Adform script path"},
+    {"id":"hashes","class":"observed","label":"4 exact SHA-256 responses"},
+    {"id":"scans","class":"observed","label":"83 passive observations"},
+    {"id":"hosts","class":"derived","label":"59 unique page hostnames"},
+    {"id":"capability","class":"assessment","label":"BTC/ETH replacement capability"},
+    {"id":"limit","class":"limitation","label":"No transfer or operator proven"}
+  ],
+  "edges":[
+    {"source":"capture","target":"endpoint","relationship":"associated delivery path"},
+    {"source":"capture","target":"scans","relationship":"pivoted to passive observations"},
+    {"source":"endpoint","target":"hashes","relationship":"served exact response variants"},
+    {"source":"scans","target":"hosts","relationship":"deduplicates to"},
+    {"source":"hashes","target":"capability","relationship":"supports"},
+    {"source":"hosts","target":"capability","relationship":"observed context for"},
+    {"source":"capability","target":"limit","relationship":"bounded by"}
+  ]
+}

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Baltic Threat Atlas — HECAVEX Labs</title>
+  <meta name="description" content="A selected, source-linked set of public cyber threat observations concerning Lithuania, Latvia and Estonia.">
+  <link rel="canonical" href="https://labs.hecavex.com/baltic-threat-atlas/"><link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="/"><img src="/assets/hecavex-mark.svg" alt=""><strong>HECAVEX</strong><span>Labs · evidence-led CTI experiments</span></a>
+    <nav class="nav" aria-label="Labs navigation"><a href="/">Overview</a><a href="/baltic-threat-atlas/" aria-current="page">Baltic atlas</a><a href="/pivot-graph/">Pivot graph</a><a href="/cra-reporting/">CRA triage</a><a href="https://apt.hecavex.com/">APT Notes ↗</a><a href="https://hecavex.com/en/">Research ↗</a></nav>
+    <div class="sidebar-meta">No trackers · no accounts<br>Published by Deividas Lis</div>
+  </aside>
+  <div class="shell">
+    <header class="topbar"><span class="crumb">HECAVEX Labs / Baltic Threat Atlas</span><a href="/data/baltic-threat-atlas.json">Download JSON</a></header>
+    <main class="main">
+      <section class="hero"><div class="eyebrow">Lab 01 · selected observations</div><h1>Baltic Threat Atlas</h1><p class="lede">A compact index of public cyber observations concerning Lithuania, Latvia and Estonia. It separates what an authority reported from what HECAVEX infers—and usually leaves the second part blank.</p></section>
+      <section class="section">
+        <div class="notice"><strong>Not a prevalence map.</strong> Reporting practices and source coverage differ by country. Six selected records cannot measure which country is “most attacked”, and an unnamed foreign presence is not an actor attribution.</div>
+      </section>
+      <section class="section">
+        <div class="filters">
+          <label><span>Search records</span><input data-filter="search" type="search" placeholder="Actor, sector, technique…"></label>
+          <label><span>Country</span><select data-filter="country"><option value="">All countries</option><option value="lithuania">Lithuania</option><option value="latvia">Latvia</option><option value="estonia">Estonia</option></select></label>
+          <label><span>Observation type</span><select data-filter="type"><option value="">All types</option><option value="incident">Incident</option><option value="campaign">Campaign</option><option value="threat-hunt">Threat hunt</option><option value="annual-statistic">Annual statistic</option><option value="attribution">Attribution</option></select></label>
+          <label><span>Year</span><select data-filter="year"><option value="">All years</option><option>2023</option><option>2024</option><option>2025</option></select></label>
+        </div>
+        <div class="records">
+          <article class="record" data-record data-country="lithuania" data-type="incident" data-year="2023"><time>2023-07-10<br>Lithuania</time><div><span class="badge observed">reported</span><h3>Broadcast content replaced in two incidents</h3><p>Lithuania’s NCSC reported two cyber incidents affecting online music streams, where original playlists were allegedly replaced with recorded disinformation. The report does not attribute these two incidents to a named actor.</p><a href="https://www.nksc.lt/doc/rkgc/CTAC_2023_3rd_Quarter_Report.pdf">NKSC/RCDC Q3 report ↗</a></div><div class="meta">Type: incident<br>Sector: media<br>Attribution: none</div></article>
+          <article class="record" data-record data-country="lithuania" data-type="annual-statistic" data-year="2024"><time>2024 annual<br>Lithuania</time><div><span class="badge observed">reported</span><h3>63% increase in recorded incidents</h3><p>The 2024 CTAC report says Lithuania recorded a 63% increase, connected to improved identification and more active reporting. It also says 59% of recorded incidents involved social-engineering techniques.</p><a href="https://www.nksc.lt/doc/rkgc/CTAC_2024_Yearly_Report.pdf">NKSC/RCDC 2024 report ↗</a></div><div class="meta">Type: statistic<br>Technique: social engineering<br>Caveat: reporting effect</div></article>
+          <article class="record" data-record data-country="latvia" data-type="threat-hunt" data-year="2024"><time>2024 Q2<br>Latvia</time><div><span class="badge observed">reported</span><h3>Foreign intruder presence found during threat hunts</h3><p>CERT.LV reported analysing more than 140,000 installations in 31 organisations. It identified foreign intruder presence with high confidence in eight organisations and said that access was removed. The public summary did not identify those actors.</p><a href="https://cert.lv/en/2024/08/cert-lv-activity-review-q2-2024">CERT.LV Q2 review ↗</a></div><div class="meta">Type: threat hunt<br>Coverage: 31 organisations<br>Actor: undisclosed</div></article>
+          <article class="record" data-record data-country="latvia" data-type="campaign" data-year="2024"><time>2024 Q2<br>Latvia</time><div><span class="badge observed">reported</span><h3>Continued politically motivated DDoS waves</h3><p>CERT.LV described DDoS waves against public authorities and selected sectors by Russia and proxy hacktivists. The attacks were largely repelled and had no significant lasting societal impact in the reporting period.</p><a href="https://cert.lv/en/2024/08/cert-lv-activity-review-q2-2024">CERT.LV Q2 review ↗</a></div><div class="meta">Type: campaign<br>Technique: DDoS<br>Impact: limited</div></article>
+          <article class="record" data-record data-country="estonia" data-type="campaign" data-year="2023"><time>2023-09<br>Estonia</time><div><span class="badge observed">reported</span><h3>84 DDoS attacks registered in one month</h3><p>RIA said September 2023 set a record with 84 registered DDoS attacks. Public-sector, financial, transport and media services were among the wider politically motivated target set; most attacks had limited impact.</p><a href="https://www.ria.ee/en/news/information-system-authority-number-cyber-incidents-increased-quarter-year">RIA annual summary ↗</a></div><div class="meta">Type: campaign<br>Technique: DDoS<br>Actor class: pro-Kremlin</div></article>
+          <article class="record" data-record data-country="estonia" data-type="attribution" data-year="2024"><time>2024-09-05<br>Estonia + partners</time><div><span class="badge observed">government attribution</span><h3>Unit 29155 operations jointly attributed</h3><p>Estonia joined a multinational advisory attributing cyber operations against several countries to Russian GRU Unit 29155. This is a government attribution, not an independent HECAVEX attribution.</p><a href="https://www.cisa.gov/news-events/alerts/2024/09/05/fbi-cisa-nsa-and-us-and-international-partners-release-advisory-russian-military-cyber-actors">Joint advisory via CISA ↗</a></div><div class="meta">Type: attribution<br>Actor: Unit 29155<br>Confidence: official</div></article>
+        </div>
+      </section>
+      <section class="section"><div class="section-head"><div><div class="eyebrow">Method</div><h2>How to read this dataset</h2></div></div><div class="grid"><div class="card"><h3>One record, one claim</h3><p>Each row captures a bounded public observation. Nearby events are not merged into a campaign without evidence.</p></div><div class="card"><h3>Attribution stays attributed</h3><p>Government or vendor attribution is labelled as such. An unnamed APT presence remains unnamed.</p></div><div class="card"><h3>Known coverage gap</h3><p>The MVP favours national authorities and joint advisories. It is not an exhaustive incident census.</p></div></div></section>
+    </main>
+    <footer class="footer">Dataset version 0.1.0 · Updated 14 Aug 2026 · <a href="/data/baltic-threat-atlas.json">Machine-readable JSON</a> · <a href="https://hecavex.com/en/corrections/">Corrections</a></footer>
+  </div><script src="/assets/site.js"></script>
+</body></html>

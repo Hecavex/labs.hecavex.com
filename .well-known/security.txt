@@ -1,0 +1,5 @@
+Contact: mailto:info@hecavex.com
+Canonical: https://labs.hecavex.com/.well-known/security.txt
+Preferred-Languages: en, lt
+Policy: https://hecavex.com/security/
+Expires: 2027-08-14T00:00:00.000Z
