@@ -1,16 +1,131 @@
-const nodes = [
-  {id:'capture',x:13,y:48,label:'Captured JavaScript',kind:'source',class:'Observed',detail:'A public gist preserved the captured malicious JavaScript and served as the initial artefact.',evidence:'https://gist.github.com/malexmave/8ef5eabc7b6866698f1ea8a811c75b57',evidenceLabel:'Captured code'},
-  {id:'endpoint',x:34,y:25,label:'Adform script path',kind:'source',class:'Observed',detail:'The investigation associated the payload with the trackpoint-async.js delivery path. Archived copies preserve time-bounded responses.',evidence:'https://hecavex.com/assets/data/adform-clipper-2026/payload-capabilities.csv',evidenceLabel:'Capability table'},
-  {id:'hashes',x:55,y:25,label:'4 exact SHA-256 responses',kind:'observed',class:'Observed',detail:'Four distinct response hashes were grouped from passive observations and archived material. Exact hashing prevents visual-similarity claims from becoming identity claims.',evidence:'https://hecavex.com/assets/data/adform-clipper-2026/payload-capabilities.csv',evidenceLabel:'Capability table'},
-  {id:'scans',x:34,y:73,label:'83 passive observations',kind:'observed',class:'Observed',detail:'The released CSV contains time-bounded urlscan rows. These are passive observation records, not proof of operator control or victim loss.',evidence:'https://hecavex.com/assets/data/adform-clipper-2026/urlscan-exact-hash-observations.csv',evidenceLabel:'Observation CSV'},
-  {id:'hosts',x:58,y:73,label:'59 unique page hostnames',kind:'observed',class:'Derived',detail:'Deduplicating page_hostname across the released observation rows produces 59 unique hostnames. The count is reproducible from the CSV.',evidence:'https://hecavex.com/assets/data/adform-clipper-2026/reproduction-notes.md',evidenceLabel:'Reproduction notes'},
-  {id:'capability',x:81,y:38,label:'BTC/ETH replacement capability',kind:'assessment',class:'Assessed',detail:'Three recovered response variants contained valid BTC and ETH replacement capability. The earliest stage held invalid destination strings.',evidence:'https://hecavex.com/assets/data/adform-clipper-2026/payload-capabilities.csv',evidenceLabel:'Capability table'},
-  {id:'limit',x:81,y:70,label:'No transfer or operator proven',kind:'assessment',class:'Limitation',detail:'The evidence supports malicious code presence and capability. It does not prove a completed wallet rewrite, transferred funds, operator identity or knowing participation by affected site owners.',evidence:'https://hecavex.com/assets/data/adform-clipper-2026/README.md',evidenceLabel:'Evidence boundary'}
-];
-const edges = [['capture','endpoint'],['capture','scans'],['endpoint','hashes'],['hashes','capability'],['scans','hosts'],['hosts','capability'],['capability','limit']];
-const graph = document.querySelector('#graph');
-const byId = Object.fromEntries(nodes.map((n)=>[n.id,n]));
-function drawEdge(a,b){ const start=byId[a],end=byId[b]; const line=document.createElement('span'); const dx=end.x-start.x,dy=end.y-start.y; line.className='edge'; line.style.left=`${start.x}%`;line.style.top=`${start.y}%`;line.style.width=`${Math.hypot(dx,dy)}%`;line.style.transform=`rotate(${Math.atan2(dy,dx)*180/Math.PI}deg)`;graph.append(line); }
-edges.forEach(([a,b])=>drawEdge(a,b));
-function selectNode(node,button){ document.querySelectorAll('.node').forEach((el)=>el.classList.remove('active'));button.classList.add('active');document.querySelector('#node-title').textContent=node.label;document.querySelector('#node-class').textContent=node.class;document.querySelector('#node-detail').textContent=node.detail;const link=document.createElement('a');link.href=node.evidence;link.textContent=`${node.evidenceLabel} ↗`;document.querySelector('#node-evidence').replaceChildren(link); }
-nodes.forEach((node)=>{const button=document.createElement('button');button.className=`node ${node.kind}`;button.style.left=`${node.x}%`;button.style.top=`${node.y}%`;button.textContent=node.label;button.addEventListener('click',()=>selectNode(node,button));graph.append(button);});
+(() => {
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.querySelector('#graph-svg');
+  const ledger = document.querySelector('#claim-ledger');
+  const search = document.querySelector('#global-q');
+  let data;
+
+  const createSvg = (name, attrs = {}) => {
+    const node = document.createElementNS(NS, name);
+    Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, value));
+    return node;
+  };
+
+  const create = (name, text, className) => {
+    const node = document.createElement(name);
+    if (text !== undefined) node.textContent = text;
+    if (className) node.className = className;
+    return node;
+  };
+
+  function edgePoints(source, target) {
+    const dx = target.x - source.x;
+    const dy = target.y - source.y;
+    const sourceScale = 1 / Math.max(Math.abs(dx) / 74, Math.abs(dy) / 31);
+    const targetScale = 1 / Math.max(Math.abs(dx) / 82, Math.abs(dy) / 38);
+    return {
+      x1: source.x + dx * sourceScale,
+      y1: source.y + dy * sourceScale,
+      x2: target.x - dx * targetScale,
+      y2: target.y - dy * targetScale
+    };
+  }
+
+  function selectNode(node) {
+    document.querySelectorAll('.graph-node').forEach((item) => item.classList.toggle('active', item.dataset.id === node.id));
+    document.querySelector('#node-title').textContent = node.label;
+    document.querySelector('#node-class').textContent = node.class;
+    document.querySelector('#node-confidence').textContent = node.confidence;
+    document.querySelector('#node-detail').textContent = node.meaning;
+    const link = create('a', `${node.evidence_label} ↗`);
+    link.href = node.evidence;
+    link.rel = 'noopener';
+    document.querySelector('#node-evidence').replaceChildren(link);
+  }
+
+  function renderGraph() {
+    const defs = createSvg('defs');
+    const marker = createSvg('marker', { id: 'arrow', viewBox: '0 0 10 10', refX: '8', refY: '5', markerWidth: '6', markerHeight: '6', orient: 'auto-start-reverse' });
+    marker.append(createSvg('path', { d: 'M 0 0 L 10 5 L 0 10 z', fill: 'currentColor' }));
+    defs.append(marker);
+    svg.append(defs);
+
+    const byId = Object.fromEntries(data.nodes.map((node) => [node.id, node]));
+    data.edges.forEach((edge) => {
+      const source = byId[edge.source];
+      const target = byId[edge.target];
+      const points = edgePoints(source, target);
+      const line = createSvg('line', { class: 'graph-edge', ...points });
+      svg.append(line);
+      const label = createSvg('text', { class: 'graph-edge-label', x: String((points.x1 + points.x2) / 2), y: String((points.y1 + points.y2) / 2 - 7), 'text-anchor': 'middle' });
+      label.textContent = edge.relationship;
+      svg.append(label);
+    });
+
+    data.nodes.forEach((node) => {
+      const group = createSvg('g', { class: 'graph-node', 'data-id': node.id, 'data-class': node.class, role: 'button', tabindex: '0', 'aria-label': `${node.label}, ${node.class}` });
+      group.append(createSvg('rect', { x: String(node.x - 76), y: String(node.y - 31), width: '152', height: '62' }));
+      const text = createSvg('text', { x: String(node.x), y: String(node.y - 4), 'text-anchor': 'middle' });
+      node.short_label.forEach((line, index) => {
+        const tspan = createSvg('tspan', { x: String(node.x), dy: index === 0 ? '0' : '17' });
+        tspan.textContent = line;
+        text.append(tspan);
+      });
+      group.append(text);
+      group.addEventListener('click', () => selectNode(node));
+      group.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); selectNode(node); } });
+      svg.append(group);
+    });
+    selectNode(data.nodes[0]);
+  }
+
+  function renderLedger() {
+    ledger.replaceChildren(...data.nodes.map((node) => {
+      const row = create('tr');
+      row.dataset.search = [node.label, node.class, node.confidence, node.meaning].join(' ').toLowerCase();
+      const object = create('td');
+      const button = create('button', node.label, 'button small');
+      button.type = 'button';
+      button.addEventListener('click', () => { selectNode(node); document.querySelector('#graph').scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+      object.append(button);
+      const kind = create('td');
+      kind.append(create('span', node.class, `badge ${node.class === 'assessment' ? 'assessed' : node.class}`));
+      const confidence = create('td', node.confidence);
+      const evidence = create('td');
+      const link = create('a', `${node.evidence_label} ↗`);
+      link.href = node.evidence;
+      link.rel = 'noopener';
+      evidence.append(link);
+      row.append(object, kind, confidence, evidence);
+      return row;
+    }));
+    document.querySelector('#ledger-count').textContent = `${data.nodes.length} claims`;
+  }
+
+  function filterLedger() {
+    const query = search.value.trim().toLowerCase();
+    let visible = 0;
+    [...ledger.children].forEach((row) => { row.hidden = Boolean(query) && !row.dataset.search.includes(query); if (!row.hidden) visible += 1; });
+    document.querySelector('#ledger-count').textContent = `${visible} of ${data.nodes.length} claims`;
+  }
+
+  async function initialise() {
+    try {
+      const response = await fetch('/data/pivot-graph-adform.json', { credentials: 'same-origin' });
+      if (!response.ok) throw new Error(`Graph request failed with ${response.status}`);
+      data = await response.json();
+      document.querySelector('#case-node-count').textContent = String(data.nodes.length);
+      document.querySelector('#case-edge-count').textContent = String(data.edges.length);
+      renderGraph();
+      renderLedger();
+    } catch (error) {
+      document.querySelector('#node-title').textContent = 'Case data unavailable';
+      document.querySelector('#node-detail').textContent = 'Download the graph JSON or report the problem.';
+      console.error(error);
+    }
+  }
+
+  search?.addEventListener('input', filterLedger);
+  search?.closest('form')?.addEventListener('submit', (event) => { event.preventDefault(); filterLedger(); });
+  initialise();
+})();

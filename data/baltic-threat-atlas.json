@@ -133,6 +133,18 @@
       "actor": "GRU Unit 29155",
       "attribution": "Multinational government advisory",
       "confidence": "official-attribution",
+      "apt_refs": [
+        {
+          "type": "actor",
+          "label": "GRU Unit 29155",
+          "url": "https://apt.hecavex.com/actors/unit-29155/"
+        },
+        {
+          "type": "campaign",
+          "label": "WhisperGate operation",
+          "url": "https://apt.hecavex.com/campaigns/whispergate-operation/"
+        }
+      ],
       "source": "https://www.cisa.gov/news-events/alerts/2024/09/05/fbi-cisa-nsa-and-us-and-international-partners-release-advisory-russian-military-cyber-actors"
     },
     {
@@ -146,6 +158,18 @@
       "actor": "Laundry Bear / Void Blizzard",
       "attribution": "Multinational government advisory",
       "confidence": "official-attribution",
+      "apt_refs": [
+        {
+          "type": "actor",
+          "label": "Void Blizzard",
+          "url": "https://apt.hecavex.com/actors/void-blizzard/"
+        },
+        {
+          "type": "campaign",
+          "label": "Laundry Bear Zimbra campaign",
+          "url": "https://apt.hecavex.com/campaigns/laundry-bear-zimbra/"
+        }
+      ],
       "source": "https://www.aivd.nl/documenten/2026/07/23/russian-state-supported-cyber-actors-conduct-phishing-campaign-targeting-users-of-zimbra-collaboration-suite"
     },
     {
