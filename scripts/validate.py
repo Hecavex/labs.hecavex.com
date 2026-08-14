@@ -77,14 +77,18 @@ required = {
     "index.html",
     "baltic-threat-atlas/index.html",
     "pivot-graph/index.html",
-    "cra-reporting/index.html",
+    "osint-workbench/index.html",
     "assets/styles.css",
     "assets/site.js",
     "assets/atlas.js",
     "assets/pivot-graph.js",
-    "assets/cra-reporting.js",
+    "assets/osint-workbench.js",
     "data/baltic-threat-atlas.json",
+    "data/osint-resources.json",
+    "data/pivot-cases.json",
     "data/pivot-graph-adform.json",
+    "data/pivot-graph-unipark.json",
+    "data/pivot-graph-github-python.json",
     "CNAME",
     "robots.txt",
     "sitemap.xml",
@@ -227,29 +231,100 @@ if 'id="atlas-records"' not in atlas_html or '/assets/atlas.js' not in atlas_htm
 if any(record["title"] in atlas_html for record in records):
     errors.append("Atlas records must not be duplicated in HTML")
 
-graph = json.loads((root / "data/pivot-graph-adform.json").read_text(encoding="utf-8"))
-nodes = graph.get("nodes", [])
-edges = graph.get("edges", [])
-node_ids = {node.get("id") for node in nodes}
-if len(node_ids) != len(nodes) or None in node_ids:
-    errors.append("Pivot graph node ids must be present and unique")
-for node in nodes:
-    missing_node_fields = {"id", "class", "label", "short_label", "x", "y", "meaning", "confidence", "evidence"} - node.keys()
-    if missing_node_fields:
-        errors.append(f"Pivot node {node.get('id', '<unknown>')} is missing: {', '.join(sorted(missing_node_fields))}")
-for edge in edges:
-    if edge.get("source") not in node_ids or edge.get("target") not in node_ids:
-        errors.append(f"Pivot edge references an unknown node: {edge}")
-    if not edge.get("relationship"):
-        errors.append(f"Pivot edge has no relationship: {edge}")
+case_catalogue = json.loads((root / "data/pivot-cases.json").read_text(encoding="utf-8"))
+cases = case_catalogue.get("cases", [])
+case_ids = [case.get("id") for case in cases]
+if not cases:
+    errors.append("Pivot case catalogue must contain at least one case")
+if len(case_ids) != len(set(case_ids)) or None in case_ids:
+    errors.append("Pivot case ids must be present and unique")
 
-cra_html = (root / "cra-reporting/index.html").read_text(encoding="utf-8")
-for question in ("role", "market", "exploitation", "severe-data", "severe-code"):
-    if f'data-question="{question}"' not in cra_html:
-        errors.append(f"CRA triage is missing question: {question}")
-for control in ("copy-summary", "export-json", "aware-at"):
-    if f'id="{control}"' not in cra_html:
-        errors.append(f"CRA triage is missing control: {control}")
+allowed_classes = {"observed", "derived", "assessment", "limitation"}
+catalogued_graphs = set()
+total_nodes = 0
+total_edges = 0
+for case in cases:
+    missing_case_fields = {"id", "title", "short_title", "summary", "status", "updated", "graph", "research", "tags"} - case.keys()
+    if missing_case_fields:
+        errors.append(f"Pivot case {case.get('id', '<unknown>')} is missing: {', '.join(sorted(missing_case_fields))}")
+        continue
+    if urlparse(case["research"]).scheme != "https":
+        errors.append(f"Pivot case research URL must use HTTPS in {case['id']}")
+    graph_path = case["graph"].lstrip("/")
+    catalogued_graphs.add(graph_path)
+    if not (root / graph_path).is_file():
+        errors.append(f"Pivot case graph does not exist for {case['id']}: {graph_path}")
+        continue
+    graph = json.loads((root / graph_path).read_text(encoding="utf-8"))
+    if graph.get("case", {}).get("id") != case["id"]:
+        errors.append(f"Pivot catalogue and graph case ids differ for {case['id']}")
+    if not graph.get("case", {}).get("boundary"):
+        errors.append(f"Pivot graph has no explicit boundary for {case['id']}")
+    nodes = graph.get("nodes", [])
+    edges = graph.get("edges", [])
+    total_nodes += len(nodes)
+    total_edges += len(edges)
+    node_ids = {node.get("id") for node in nodes}
+    if len(node_ids) != len(nodes) or None in node_ids:
+        errors.append(f"Pivot graph node ids must be present and unique in {case['id']}")
+    node_classes = {node.get("class") for node in nodes}
+    if not {"assessment", "limitation"}.issubset(node_classes):
+        errors.append(f"Pivot graph must include an assessment and limitation in {case['id']}")
+    for node in nodes:
+        missing_node_fields = {"id", "class", "label", "short_label", "x", "y", "meaning", "confidence", "evidence_label", "evidence"} - node.keys()
+        if missing_node_fields:
+            errors.append(f"Pivot node {case['id']}/{node.get('id', '<unknown>')} is missing: {', '.join(sorted(missing_node_fields))}")
+        if node.get("class") not in allowed_classes:
+            errors.append(f"Unsupported pivot evidence class in {case['id']}/{node.get('id')}: {node.get('class')}")
+        if urlparse(node.get("evidence", "")).scheme != "https":
+            errors.append(f"Pivot evidence URL must use HTTPS in {case['id']}/{node.get('id')}")
+    for edge in edges:
+        if edge.get("source") not in node_ids or edge.get("target") not in node_ids:
+            errors.append(f"Pivot edge references an unknown node in {case['id']}: {edge}")
+        if not edge.get("relationship"):
+            errors.append(f"Pivot edge has no relationship in {case['id']}: {edge}")
+
+graph_files = {str(path.relative_to(root)).replace("\\", "/") for path in (root / "data").glob("pivot-graph-*.json")}
+if graph_files != catalogued_graphs:
+    errors.append(f"Pivot catalogue mismatch. Catalogued: {sorted(catalogued_graphs)}; present: {sorted(graph_files)}")
+
+pivot_html = (root / "pivot-graph/index.html").read_text(encoding="utf-8")
+if 'id="case-selector"' not in pivot_html or "/data/pivot-cases.json" not in pivot_html:
+    errors.append("Pivot Workspace is not wired to the case catalogue")
+
+osint = json.loads((root / "data/osint-resources.json").read_text(encoding="utf-8"))
+osint_sections = osint.get("sections", [])
+curation_sources = osint.get("curation_sources", [])
+if len(curation_sources) != 3:
+    errors.append("OSINT Workbench must identify its three curation sources")
+for source in curation_sources:
+    if urlparse(source.get("url", "")).hostname != "github.com":
+        errors.append(f"OSINT curation source must be a GitHub repository: {source}")
+
+section_ids = [section.get("id") for section in osint_sections]
+if len(section_ids) != len(set(section_ids)) or None in section_ids:
+    errors.append("OSINT section ids must be present and unique")
+tool_ids = []
+required_tool_fields = {"id", "name", "url", "access", "format", "use_when", "why", "caution"}
+for section in osint_sections:
+    tools = section.get("tools", [])
+    if len(tools) < 2:
+        errors.append(f"OSINT section must contain several selected tools: {section.get('id')}")
+    for tool in tools:
+        tool_ids.append(tool.get("id"))
+        missing_tool_fields = required_tool_fields - tool.keys()
+        if missing_tool_fields:
+            errors.append(f"OSINT tool {tool.get('id', '<unknown>')} is missing: {', '.join(sorted(missing_tool_fields))}")
+        if urlparse(tool.get("url", "")).scheme != "https":
+            errors.append(f"OSINT tool URL must use HTTPS: {tool.get('id')}")
+if len(tool_ids) != len(set(tool_ids)) or None in tool_ids:
+    errors.append("OSINT tool ids must be present and unique")
+
+osint_html = (root / "osint-workbench/index.html").read_text(encoding="utf-8")
+if 'id="resource-list"' not in osint_html or "/data/osint-resources.json" not in osint_html:
+    errors.append("OSINT Workbench is not wired to its canonical dataset")
+if any("cra-reporting" in path.read_text(encoding="utf-8").lower() for path in html_files):
+    errors.append("Retired CRA Triage links remain in public HTML")
 
 if errors:
     print("\n".join(f"ERROR: {error}" for error in errors), file=sys.stderr)
@@ -257,5 +332,6 @@ if errors:
 
 print(
     f"Validated {len(html_files)} HTML pages, {len(records)} Atlas records, "
-    f"{len(nodes)} pivot nodes, {len(edges)} typed edges and all required production endpoints."
+    f"{len(cases)} pivot cases, {total_nodes} pivot nodes, {total_edges} typed edges "
+    f"and {len(tool_ids)} OSINT tools across {len(osint_sections)} sections."
 )

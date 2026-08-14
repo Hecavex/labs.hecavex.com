@@ -1,0 +1,120 @@
+{
+  "schema_version": "2.0.0",
+  "case": {
+    "id": "github-python-loader-2024",
+    "title": "Malicious Python loader on GitHub",
+    "status": "updated",
+    "updated": "2026-08-14",
+    "research": "https://hecavex.com/en/research/github-and-malware/",
+    "boundary": "Static evidence supports a malicious multi-stage loader assessment. The unavailable final stage prevents reliable malware-family naming, data-theft claims or operator attribution. Similar-code search results are leads, not a campaign count."
+  },
+  "nodes": [
+    {
+      "id": "repository",
+      "class": "observed",
+      "label": "Deceptive GitHub repository",
+      "short_label": ["Deceptive GitHub", "repository"],
+      "x": 110,
+      "y": 105,
+      "meaning": "A repository advertised as a Discord utility supplied the original Python artefact. The repository name alone was not treated as proof of malware.",
+      "confidence": "direct observation",
+      "evidence_label": "Repository context",
+      "evidence": "https://hecavex.com/en/research/github-and-malware/#how-the-repository-surfaced"
+    },
+    {
+      "id": "loader",
+      "class": "observed",
+      "label": "Fernet decrypt-and-exec layer",
+      "short_label": ["Fernet decrypt", "and exec()"],
+      "x": 350,
+      "y": 105,
+      "meaning": "The script silently installed dependencies, decrypted an embedded blob with a hard-coded key and passed plaintext to exec().",
+      "confidence": "direct code observation",
+      "evidence_label": "Stage-one analysis",
+      "evidence": "https://hecavex.com/en/research/github-and-malware/#stage-one-the-advertised-tool-behaves-like-a-loader"
+    },
+    {
+      "id": "endpoints",
+      "class": "observed",
+      "label": "Two decoded retrieval locations",
+      "short_label": ["2 decoded", "retrieval locations"],
+      "x": 590,
+      "y": 105,
+      "meaning": "Static decoding recovered two defanged remote locations used as fallback retrieval points. One was already reputation-flagged during collection.",
+      "confidence": "direct static recovery",
+      "evidence_label": "Decoded infrastructure",
+      "evidence": "https://hecavex.com/en/research/github-and-malware/#decoded-infrastructure"
+    },
+    {
+      "id": "responses",
+      "class": "observed",
+      "label": "Encoded remote responses",
+      "short_label": ["Encoded remote", "responses"],
+      "x": 790,
+      "y": 105,
+      "meaning": "Both locations returned another encoded layer at collection time, but a complete final payload was not recovered.",
+      "confidence": "direct observation",
+      "evidence_label": "Response boundary",
+      "evidence": "https://hecavex.com/en/research/github-and-malware/#remote-responses-and-the-analytical-boundary"
+    },
+    {
+      "id": "chain",
+      "class": "derived",
+      "label": "Hidden staged execution chain",
+      "short_label": ["Hidden staged", "execution chain"],
+      "x": 260,
+      "y": 350,
+      "meaning": "Combining the decrypt-and-exec layer with encoded fallback retrieval, hidden temporary-file creation and background launch reconstructs a multi-stage execution chain.",
+      "confidence": "reproducible derivation",
+      "evidence_label": "Recovered next layer",
+      "evidence": "https://hecavex.com/en/research/github-and-malware/#recovering-the-next-layer-without-executing-it"
+    },
+    {
+      "id": "similarity",
+      "class": "derived",
+      "label": "Similar-code discovery leads",
+      "short_label": ["Similar-code", "discovery leads"],
+      "x": 510,
+      "y": 350,
+      "meaning": "Point-in-time GitHub searches found repeated Fernet constructions. Forks, demonstrations and unrelated code make these results leads rather than a defensible cluster.",
+      "confidence": "low until corroborated",
+      "evidence_label": "Similarity search caveat",
+      "evidence": "https://hecavex.com/en/research/github-and-malware/#similar-code-search"
+    },
+    {
+      "id": "assessment",
+      "class": "assessment",
+      "label": "Malicious multi-stage loader",
+      "short_label": ["Malicious", "multi-stage loader"],
+      "x": 785,
+      "y": 350,
+      "meaning": "Suppressed installation, in-memory execution, encoded infrastructure and hidden process launch support a high-confidence malicious-loader assessment.",
+      "confidence": "high for loader behaviour",
+      "evidence_label": "Published assessment",
+      "evidence": "https://hecavex.com/en/research/github-and-malware/#assessment"
+    },
+    {
+      "id": "limit",
+      "class": "limitation",
+      "label": "Final payload and actor unknown",
+      "short_label": ["Final payload/actor", "not established"],
+      "x": 650,
+      "y": 515,
+      "meaning": "The final stage was unavailable. The evidence cannot name an infostealer family, enumerate stolen data, attribute an operator or equate code similarity with common authorship.",
+      "confidence": "explicit evidence boundary",
+      "evidence_label": "Analytical boundary",
+      "evidence": "https://hecavex.com/en/research/github-and-malware/#remote-responses-and-the-analytical-boundary"
+    }
+  ],
+  "edges": [
+    { "source": "repository", "target": "loader", "relationship": "contained artefact" },
+    { "source": "loader", "target": "endpoints", "relationship": "decoded locations" },
+    { "source": "endpoints", "target": "responses", "relationship": "returned layers" },
+    { "source": "loader", "target": "chain", "relationship": "reconstructed behaviour" },
+    { "source": "loader", "target": "similarity", "relationship": "seeded code search" },
+    { "source": "chain", "target": "assessment", "relationship": "supports assessment" },
+    { "source": "responses", "target": "assessment", "relationship": "supports staging" },
+    { "source": "similarity", "target": "limit", "relationship": "requires corroboration" },
+    { "source": "assessment", "target": "limit", "relationship": "bounded by" }
+  ]
+}

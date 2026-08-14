@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0.0",
+  "reviewed": "2026-08-14",
+  "scope": "A practical selection of free or free-tier OSINT resources for lawful research. Provider access and limits can change.",
+  "curation_sources": [
+    {"name": "jivoi/awesome-osint", "url": "https://github.com/jivoi/awesome-osint"},
+    {"name": "Astrosp/Awesome-OSINT-List", "url": "https://github.com/Astrosp/Awesome-OSINT-List"},
+    {"name": "brandonhimpfen/awesome-osint", "url": "https://github.com/brandonhimpfen/awesome-osint"}
+  ],
+  "sections": [
+    {
+      "id": "search-discovery",
+      "name": "Search and discovery",
+      "description": "Start broad, vary indexes and preserve the query that produced the lead.",
+      "tools": [
+        {"id":"google-advanced","name":"Google Advanced Search","url":"https://www.google.com/advanced_search","access":"open","format":"web","use_when":"You need exact phrases, exclusions, date ranges, file types or site-restricted results.","why":"It turns an unstructured question into a reproducible query without memorising every operator.","caution":"Results are personalised, ranked and incomplete. Record the query, date and relevant result URL."},
+        {"id":"bing","name":"Bing","url":"https://www.bing.com/","access":"open","format":"web","use_when":"Google returns little, especially for recently indexed pages, images or Microsoft-hosted content.","why":"A different index often exposes pages and cached snippets missed by Google.","caution":"A snippet can be stale or assembled from text no longer present on the page."},
+        {"id":"brave-search","name":"Brave Search","url":"https://search.brave.com/","access":"open","format":"web","use_when":"You want an independent index and a second view of a keyword, name or domain.","why":"It reduces dependence on one search provider's ranking and coverage.","caution":"Privacy-focused search is not operational anonymity, and index coverage still has gaps."}
+      ]
+    },
+    {
+      "id": "web-history",
+      "name": "Web history and capture",
+      "description": "Recover historical pages, compare changes and preserve when a statement was visible.",
+      "tools": [
+        {"id":"wayback","name":"Wayback Machine","url":"https://web.archive.org/","access":"open","format":"web","use_when":"A page changed, disappeared or previously exposed useful paths, branding or contact details.","why":"Timestamped captures can reconstruct historical content without relying on the live site.","caution":"Archived pages may request live third-party resources. Capture time is not necessarily publication time."},
+        {"id":"archive-today","name":"Archive.today","url":"https://archive.ph/","access":"open","format":"web","use_when":"Wayback has no useful capture or you need a static snapshot of a public page.","why":"Its independent archive can preserve pages that another service missed.","caution":"Searching is passive; creating a capture causes the service to fetch the target."},
+        {"id":"common-crawl","name":"Common Crawl Index","url":"https://index.commoncrawl.org/","access":"open","format":"web/api","use_when":"You need historical URLs or response records at larger scale.","why":"Open crawl indexes support reproducible bulk discovery and older-content recovery.","caution":"Crawls are sampled and historical. Preserve crawl ID, timestamp and digest."}
+      ]
+    },
+    {
+      "id": "domain-dns-certificate",
+      "name": "Domain, DNS and certificates",
+      "description": "Establish registration context, DNS state and certificate-linked names before clustering infrastructure.",
+      "tools": [
+        {"id":"icann-lookup","name":"ICANN Lookup","url":"https://lookup.icann.org/en","access":"open","format":"web","use_when":"You need current registrar, status, nameserver and registration-date context.","why":"It queries authoritative registration-data services instead of an unknown WHOIS mirror.","caution":"Redaction and privacy services are normal. Registrant privacy is not suspicious and registrar choice is weak evidence."},
+        {"id":"crtsh","name":"crt.sh","url":"https://crt.sh/","access":"open","format":"web/json","use_when":"You have a domain, certificate fingerprint or organisation string and want CT-linked names.","why":"Certificate Transparency can reveal historical and sibling hostnames without touching them.","caution":"A wildcard certificate shows issuance scope, not every hostname actually deployed. Certificate reuse is not actor attribution."},
+        {"id":"dnsdumpster","name":"DNSDumpster","url":"https://dnsdumpster.com/","access":"open","format":"web","use_when":"You want a quick visual inventory of public DNS records and related hosts for a domain.","why":"It provides a low-friction starting map before deeper record-by-record validation.","caution":"Validate every result with an authoritative or separately collected source; historical and current records can be mixed."}
+      ]
+    },
+    {
+      "id": "ip-network",
+      "name": "IP and network intelligence",
+      "description": "Map an address to routing, hosting and observed service context without turning provider data into attribution.",
+      "tools": [
+        {"id":"internetdb","name":"Shodan InternetDB","url":"https://internetdb.shodan.io/","access":"open","format":"api","use_when":"You need a quick, unauthenticated view of ports, hostnames, tags and known CVEs associated with an IP.","why":"It is fast and script-friendly for first-pass enrichment.","caution":"The record is provider-collected and point-in-time. A CVE association is not proof of exploitability."},
+        {"id":"bgptools","name":"BGP.tools","url":"https://bgp.tools/","access":"open","format":"web","use_when":"You need prefix, ASN, upstream, downstream and route context around an IP.","why":"Routing context helps separate a workload, provider and surrounding address space.","caution":"ASN adjacency and shared hosting are leads, not evidence of common control."},
+        {"id":"greynoise","name":"GreyNoise Community","url":"https://viz.greynoise.io/","access":"free-tier","format":"web/api","use_when":"You want to know whether an IP was recently observed scanning the internet or belongs to a common benign service dataset.","why":"It helps distinguish routine internet noise from potentially targeted activity.","caution":"Its classification describes GreyNoise observations, not a universal reputation verdict. Free lookups are limited."}
+      ]
+    },
+    {
+      "id": "web-code",
+      "name": "Web artefacts and source code",
+      "description": "Pivot exact strings, response hashes, filenames and implementation details into related public material.",
+      "tools": [
+        {"id":"urlscan","name":"urlscan.io","url":"https://urlscan.io/","access":"free-tier","format":"web/api","use_when":"You have a URL, domain, IP, ASN, certificate, filename or response hash from a web investigation.","why":"Existing scans expose redirects, requests, responses, screenshots and repeatable artefact pivots.","caution":"Search before submitting. Public scans disclose the full URL and can expose tokens, PII or investigation interest."},
+        {"id":"github-code-search","name":"GitHub Code Search","url":"https://github.com/search?type=code","access":"free-account","format":"web","use_when":"You have an uncommon string, endpoint, typo, key, filename or code construction.","why":"Exact code matches can find public repositories, reused configuration and related samples.","caution":"Preserve the commit and blob. Forks, mirrors and copied code do not prove common authorship."},
+        {"id":"grep-app","name":"grep.app","url":"https://grep.app/","access":"open","format":"web","use_when":"You need fast exact-string or regular-expression search across indexed public GitHub code.","why":"Repository, path and language facets make broad code hunting easy without local cloning.","caution":"Open the original repository and verify the commit; indexing and freshness are incomplete."}
+      ]
+    },
+    {
+      "id": "usernames-social",
+      "name": "Usernames and social accounts",
+      "description": "Find candidate public profiles, then verify identity through content and cross-platform evidence.",
+      "tools": [
+        {"id":"whatsmyname","name":"WhatsMyName","url":"https://whatsmyname.app/","access":"open","format":"web","use_when":"You have a username and want quick candidate-account checks across many services.","why":"It is simple, transparent and useful for generating leads without installing a tool.","caution":"Username reuse is common. A matching handle is not proof that two accounts belong to the same person."},
+        {"id":"sherlock","name":"Sherlock","url":"https://github.com/sherlock-project/sherlock","access":"open-source","format":"cli","use_when":"You need repeatable, local username checks that can be exported and documented.","why":"It automates public profile checks across many sites and keeps the workflow under analyst control.","caution":"False positives, rate limits and site changes are expected. Manually verify every meaningful result."},
+        {"id":"maigret","name":"Maigret","url":"https://github.com/soxoj/maigret","access":"open-source","format":"cli","use_when":"You need username enumeration plus structured profile metadata from supported sites.","why":"Its reports can accelerate cross-platform triage and preserve a reproducible starting set.","caution":"Automated metadata can be stale or misparsed. Do not equate a username hit with identity resolution."}
+      ]
+    },
+    {
+      "id": "email-breach",
+      "name": "Email and breach exposure",
+      "description": "Check exposure and reputation without collecting passwords or turning breach data into targeting material.",
+      "tools": [
+        {"id":"hibp","name":"Have I Been Pwned","url":"https://haveibeenpwned.com/","access":"open/free-tier","format":"web/api","use_when":"You need to check whether your own or an authorised address appears in known breach records.","why":"It provides breach names and exposure context without publishing passwords.","caution":"Use only for legitimate defensive checks. A breach appearance does not show that a current password is valid."},
+        {"id":"emailrep","name":"EmailRep","url":"https://emailrep.io/","access":"free-tier","format":"web/api","use_when":"You need lightweight reputation and public-presence context around an email address.","why":"It combines several signals into a quick triage view and API response.","caution":"A reputation score is an assessment, not identity proof. Respect rate limits and privacy law."},
+        {"id":"hunter","name":"Hunter","url":"https://hunter.io/","access":"free-account","format":"web/api","use_when":"You are researching authorised organisational email patterns or publicly listed professional contacts.","why":"Domain search, source links and pattern confidence can validate corporate contact structure.","caution":"Do not use it for unsolicited targeting. Free quotas are limited and pattern-generated addresses require verification."}
+      ]
+    },
+    {
+      "id": "phone",
+      "name": "Phone-number research",
+      "description": "Normalise a number, establish numbering context and look for public reporting without assuming caller identity.",
+      "tools": [
+        {"id":"phoneinfoga","name":"PhoneInfoga","url":"https://github.com/sundowndev/phoneinfoga","access":"open-source","format":"cli/web","use_when":"You need country, carrier-format and search-engine pivots from an international number.","why":"It structures basic number intelligence and repeatable public searches in one workflow.","caution":"Subscriber identity is usually unavailable. Caller ID can be spoofed, recycled or used by an SMS provider."},
+        {"id":"libphonenumber","name":"libphonenumber demo","url":"https://libphonenumber.appspot.com/","access":"open","format":"web","use_when":"You need to parse, validate and format an international phone number before searching it.","why":"Correct normalisation prevents missed results caused by spaces, trunk prefixes or country-code variants.","caution":"A technically valid number is not proof that it is assigned, active or controlled by the sender."},
+        {"id":"truecaller","name":"Truecaller","url":"https://www.truecaller.com/reverse-phone-number-lookup","access":"free-account","format":"web","use_when":"You want community label and spam-report context for a number.","why":"Crowdsourced names and spam categories can provide a useful lead when corroborated elsewhere.","caution":"Labels are user supplied and can be wrong. Never publish a person's identity from this source alone."}
+      ]
+    },
+    {
+      "id": "image-video",
+      "name": "Image and video verification",
+      "description": "Find earlier appearances, extract frames and test media claims without treating one forensic signal as a verdict.",
+      "tools": [
+        {"id":"google-lens","name":"Google Lens","url":"https://lens.google.com/","access":"open","format":"web","use_when":"You need visually similar images, text extraction, object recognition or possible source pages.","why":"Its broad image index and region selection work well for tracing reused visual elements.","caution":"Uploads leave your environment. Crop variants and verify dates rather than trusting result order."},
+        {"id":"tineye","name":"TinEye","url":"https://tineye.com/","access":"open","format":"web","use_when":"You want exact or transformed image matches and a sortable history of indexed copies.","why":"It is particularly useful for locating older versions and common edits.","caution":"Oldest indexed result is not necessarily the original publication, and no match does not prove novelty."},
+        {"id":"invid","name":"InVID Verification Plugin","url":"https://www.invid-project.eu/tools-and-services/invid-verification-plugin/","access":"free","format":"browser-extension","use_when":"You need video keyframes, reverse searches, metadata views and verification helpers.","why":"It reduces video verification into inspectable steps instead of one opaque score.","caution":"Metadata can be stripped or altered. Combine keyframes, source history, landmarks and timing evidence."}
+      ]
+    },
+    {
+      "id": "geolocation-maps",
+      "name": "Geolocation and maps",
+      "description": "Compare terrain, roads, street imagery, shadows and historical satellite context.",
+      "tools": [
+        {"id":"google-earth","name":"Google Earth","url":"https://earth.google.com/web/","access":"open","format":"web","use_when":"You need terrain, 3D context, satellite imagery or broad visual comparison around a location.","why":"It provides a fast spatial overview and measurement tools familiar to most investigators.","caution":"Imagery dates and resolution vary. Always record the imagery date shown in the interface."},
+        {"id":"mapillary","name":"Mapillary","url":"https://www.mapillary.com/app/","access":"free-account","format":"web","use_when":"Street View has no coverage or you need user-contributed street-level imagery from another date.","why":"Independent sequences can reveal signs, road layout and changes missed by one mapping provider.","caution":"Contributor timestamps and GPS positions may be imperfect; corroborate landmarks and direction."},
+        {"id":"suncalc","name":"SunCalc","url":"https://www.suncalc.org/","access":"open","format":"web","use_when":"A shadow direction or sun position can help test a claimed time or camera orientation.","why":"It turns date, time and coordinates into a simple sun-path model.","caution":"Weather, terrain, camera perspective and uncertain timestamps can overwhelm the apparent precision."}
+      ]
+    },
+    {
+      "id": "companies-records",
+      "name": "Companies and public records",
+      "description": "Trace legal entities, officers, filings and sanctions as public-record leads, not guilt by association.",
+      "tools": [
+        {"id":"opencorporates","name":"OpenCorporates","url":"https://opencorporates.com/","access":"open/free-account","format":"web/api","use_when":"You need company names, jurisdictions, registration numbers, officers or filing links.","why":"Normalised company records make cross-jurisdiction entity discovery easier.","caution":"Names collide and records can lag. Confirm important facts in the named official registry."},
+        {"id":"occrp-aleph","name":"OCCRP Aleph","url":"https://aleph.occrp.org/","access":"open/free-account","format":"web","use_when":"You need cross-document search across public records, leaks and investigative datasets.","why":"Entity extraction and linked documents can expose relationships difficult to find through ordinary search.","caution":"A mention is not proof of wrongdoing. Read the source document and understand dataset provenance."},
+        {"id":"opensanctions","name":"OpenSanctions","url":"https://www.opensanctions.org/","access":"open/free-tier","format":"web/data","use_when":"You need sanctions, politically exposed person and related-entity screening context.","why":"It aggregates many official lists into a searchable, structured dataset.","caution":"Potential matches require identity resolution. Similar names alone must never drive an accusation."}
+      ]
+    },
+    {
+      "id": "malware-threat-intelligence",
+      "name": "Malware and threat intelligence",
+      "description": "Enrich hashes, URLs and infrastructure while keeping vendor labels and community submissions subordinate to evidence.",
+      "tools": [
+        {"id":"virustotal","name":"VirusTotal","url":"https://www.virustotal.com/gui/home/search","access":"free-account","format":"web/api","use_when":"You have a hash, URL, domain or IP and need detections, submissions and object relationships.","why":"Its cross-object view provides fast enrichment and historical leads from many sources.","caution":"Do not upload confidential files or private indicators. Zero detections does not mean benign."},
+        {"id":"urlhaus","name":"URLhaus","url":"https://urlhaus.abuse.ch/","access":"free-account","format":"web/api/feed","use_when":"You need malware-distribution URL, payload-hash and delivery context.","why":"It connects malicious download locations with collected payloads and time-bounded status.","caution":"It is for malware delivery, not phishing-only pages. A host may later be cleaned or reassigned."},
+        {"id":"malwarebazaar","name":"MalwareBazaar","url":"https://bazaar.abuse.ch/browse/","access":"free-account","format":"web/api","use_when":"You have a malware hash, signature, tag or family lead and want sample metadata.","why":"It supports hash enrichment and clustering without requiring sample execution.","caution":"Downloads are live malware. Family names are community labels and can conflict across sources."}
+      ]
+    },
+    {
+      "id": "documents-datasets",
+      "name": "Documents and datasets",
+      "description": "Find primary documents and structured datasets, then preserve their version and provenance.",
+      "tools": [
+        {"id":"google-dataset-search","name":"Google Dataset Search","url":"https://datasetsearch.research.google.com/","access":"open","format":"web","use_when":"You need a public dataset by topic, publisher, geography or format.","why":"It indexes dataset metadata across many repositories from one search interface.","caution":"Assess publisher, licence, update date, methodology and completeness before analysis."},
+        {"id":"documentcloud","name":"DocumentCloud","url":"https://www.documentcloud.org/","access":"open","format":"web","use_when":"You need searchable primary documents published by journalists and research organisations.","why":"OCR, annotations and source collections make large documentary records easier to inspect.","caution":"OCR errors are common. Quote and cite the underlying page image, not only extracted text."},
+        {"id":"data-europa","name":"data.europa.eu","url":"https://data.europa.eu/en","access":"open","format":"web/api","use_when":"You need official European public-sector datasets and catalogue metadata.","why":"It provides a cross-country discovery layer with publisher and licence context.","caution":"Catalogue entries point to national providers with different quality, formats and update schedules."}
+      ]
+    }
+  ]
+}

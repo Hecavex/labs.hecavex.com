@@ -1,0 +1,120 @@
+{
+  "schema_version": "2.0.0",
+  "case": {
+    "id": "unipark-smishing-2026",
+    "title": "UNIPARK smishing infrastructure",
+    "status": "published",
+    "updated": "2026-08-14",
+    "research": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/",
+    "evidence_bundle": "https://github.com/Hecavex/research-artifacts/releases/tag/unipark-smishing-2026-v1.0.0",
+    "boundary": "Exact artefact matches support a shared phishing-kit family. They do not prove that one operator controlled every hostname, identify the SMS sender, reveal a private administration panel or count successful victims."
+  },
+  "nodes": [
+    {
+      "id": "sms",
+      "class": "observed",
+      "label": "Received UNIPARK-themed SMS",
+      "short_label": ["UNIPARK-themed", "SMS lure"],
+      "x": 105,
+      "y": 105,
+      "meaning": "The supplied screenshot preserved the sender, delivery time, payment lure and defanged destination used as the investigation seed.",
+      "confidence": "direct observation",
+      "evidence_label": "SMS reconstruction",
+      "evidence": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/#the-sms"
+    },
+    {
+      "id": "domain",
+      "class": "observed",
+      "label": "unipark.fmqr[.]ink/com",
+      "short_label": ["fmqr[.]ink", "UNIPARK route"],
+      "x": 335,
+      "y": 105,
+      "meaning": "The SMS destination used a newly registered root domain, a brand subdomain and the /com route. It already resolved to the NKSC sinkhole during collection.",
+      "confidence": "direct observation",
+      "evidence_label": "Timeline and domain record",
+      "evidence": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/#timeline"
+    },
+    {
+      "id": "bundles",
+      "class": "observed",
+      "label": "Captured frontend bundles",
+      "short_label": ["Captured JS/CSS", "bundles"],
+      "x": 565,
+      "y": 105,
+      "meaning": "Static collection preserved the brand layer, shared application engine, Socket.IO client and anti-analysis logic without executing the page.",
+      "confidence": "direct observation",
+      "evidence_label": "Kit reverse engineering",
+      "evidence": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/#phishing-kit-reverse-engineering"
+    },
+    {
+      "id": "console",
+      "class": "observed",
+      "label": "Same-origin /console channel",
+      "short_label": ["Same-origin", "/console channel"],
+      "x": 795,
+      "y": 105,
+      "meaning": "The frontend constructs a same-origin Socket.IO connection at /console and exposes bidirectional state events. The path is not a unique IOC or a proven public admin panel.",
+      "confidence": "direct code observation",
+      "evidence_label": "Backend flow analysis",
+      "evidence": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/#backend-and-operator-controlled-flow"
+    },
+    {
+      "id": "hashes",
+      "class": "derived",
+      "label": "Exact-hash kit linkage",
+      "short_label": ["Exact-hash", "kit linkage"],
+      "x": 230,
+      "y": 350,
+      "meaning": "Four exact JS/CSS hashes linked the supplied deployment to an earlier UNIPARK host. A shared core-bundle hash expanded the pivot to 163 public scans.",
+      "confidence": "reproducible derivation",
+      "evidence_label": "Hash pivot table",
+      "evidence": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/#how-one-domain-became-126-hostnames"
+    },
+    {
+      "id": "hosts",
+      "class": "derived",
+      "label": "126 unique related hostnames",
+      "short_label": ["126 unique", "hostnames"],
+      "x": 500,
+      "y": 350,
+      "meaning": "Deduplicating page hostnames across 163 exact-core-hash URLScan records produced 126 hosts spanning several parking brands. This is not a victim count.",
+      "confidence": "reproducible derivation",
+      "evidence_label": "Published pivot results",
+      "evidence": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/#how-one-domain-became-126-hostnames"
+    },
+    {
+      "id": "capability",
+      "class": "assessment",
+      "label": "Reusable operator-driven payment kit",
+      "short_label": ["Reusable payment", "phishing kit"],
+      "x": 790,
+      "y": 350,
+      "meaning": "The shared engine, configurable brand layer, payment flow and server-directed screens support a high-confidence reusable phishing-kit assessment.",
+      "confidence": "high for capability",
+      "evidence_label": "Capability assessment",
+      "evidence": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/#assessment-and-what-we-can-honestly-say"
+    },
+    {
+      "id": "limit",
+      "class": "limitation",
+      "label": "Operator and complete backend unknown",
+      "short_label": ["Operator/backend", "not established"],
+      "x": 650,
+      "y": 515,
+      "meaning": "Public scans cannot reveal private hosts, hidden origins, server-side relays or a separate dashboard. Shared code can be sold, rented or copied, so kit lineage is not operator attribution.",
+      "confidence": "explicit evidence boundary",
+      "evidence_label": "Investigation limitations",
+      "evidence": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/#research-method-and-boundaries"
+    }
+  ],
+  "edges": [
+    { "source": "sms", "target": "domain", "relationship": "contained destination" },
+    { "source": "domain", "target": "bundles", "relationship": "served artefacts" },
+    { "source": "bundles", "target": "console", "relationship": "implemented channel" },
+    { "source": "bundles", "target": "hashes", "relationship": "seeded exact match" },
+    { "source": "hashes", "target": "hosts", "relationship": "deduplicated scans" },
+    { "source": "console", "target": "capability", "relationship": "supports control flow" },
+    { "source": "hosts", "target": "capability", "relationship": "shows kit reuse" },
+    { "source": "capability", "target": "limit", "relationship": "bounded by" }
+  ]
+}

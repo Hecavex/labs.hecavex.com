@@ -5,8 +5,8 @@
 Current projects:
 
 - **Baltic Threat Atlas** collects source-linked public observations and maps them to APT Notes only when the evidence supports the link.
-- **Pivot Workspace** shows how an investigation moves from an observed artefact to a derivation or assessment.
-- **CRA Article 14 Triage** helps prepare an incident record in the browser. Entered data stays in the browser unless the user exports it.
+- **Pivot Workspace** contains separate case graphs for the UniPark smishing infrastructure, the Adform JavaScript clipper and a malicious Python loader found on GitHub. Each graph keeps observations, derivations, assessments and limitations distinct.
+- **OSINT Workbench** is an annotated selection of free and free-tier tools from three established Awesome OSINT collections. It explains where, when and why to use each source, plus the evidential limits.
 
 ## Run it locally
 
