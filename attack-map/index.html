@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ATT&amp;CK Evidence Map | HECAVEX Labs</title>
+  <meta name="description" content="Explore source-linked MITRE ATT&amp;CK technique mappings for threat actors reviewed by HECAVEX, with campaign context, confidence and evidence boundaries.">
+  <link rel="canonical" href="https://labs.hecavex.com/attack-map/">
+  <link rel="icon" href="/assets/hecavex-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://hecavex.com/assets/lib/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <meta property="og:site_name" content="HECAVEX Labs">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="ATT&amp;CK Evidence Map | HECAVEX Labs">
+  <meta property="og:description" content="An interactive, citation-first view of reviewed adversary technique mappings.">
+  <meta property="og:url" content="https://labs.hecavex.com/attack-map/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://hecavex.com/assets/img/og/hecavex-default-en.png">
+  <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="HECAVEX ATT&amp;CK Evidence Map">
+  <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="ATT&amp;CK Evidence Map | HECAVEX Labs"><meta name="twitter:description" content="Interactive, source-linked adversary technique mappings from HECAVEX."><meta name="twitter:image" content="https://hecavex.com/assets/img/og/hecavex-default-en.png"><meta name="twitter:image:alt" content="HECAVEX ATT&amp;CK Evidence Map">
+  <meta name="hecavex-measurement-token" content="__HECAVEX_ANALYTICS_TOKEN__">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://hecavex.com/#organization","name":"HECAVEX","url":"https://hecavex.com/","founder":{"@id":"https://hecavex.com/#deividas-lis"}},{"@type":"Person","@id":"https://hecavex.com/#deividas-lis","name":"Deividas Lis","url":"https://hecavex.com/en/about/"},{"@type":"WebSite","@id":"https://hecavex.com/#website","name":"HECAVEX","url":"https://hecavex.com/","hasPart":[{"@id":"https://apt.hecavex.com/#website"},{"@id":"https://labs.hecavex.com/#website"}]},{"@type":"WebSite","@id":"https://apt.hecavex.com/#website","name":"APT Notes by HECAVEX","url":"https://apt.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"WebSite","@id":"https://labs.hecavex.com/#website","name":"HECAVEX Labs","url":"https://labs.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"SoftwareApplication","@id":"https://labs.hecavex.com/attack-map/#application","name":"HECAVEX ATT&CK Evidence Map","description":"An interactive source-linked view of reviewed MITRE ATT&CK technique mappings.","url":"https://labs.hecavex.com/attack-map/","applicationCategory":"SecurityApplication","operatingSystem":"Web browser","isAccessibleForFree":true,"creator":{"@id":"https://hecavex.com/#deividas-lis"},"publisher":{"@id":"https://hecavex.com/#organization"},"isPartOf":{"@id":"https://labs.hecavex.com/#website"}}]}</script>
+  <script>try{const t=localStorage.getItem('hecavex-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch{}</script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <aside class="sidebar" id="site-nav">
+    <header class="sidebar-profile"><a class="sidebar-mark" href="https://hecavex.com/en/" aria-label="HECAVEX home"><img src="/assets/hecavex-mark.svg" alt="" width="72" height="72"></a><a class="site-title" href="https://hecavex.com/en/">HECAVEX</a><p class="site-subtitle">Cyber Threat Intelligence &amp; Digital Investigations</p><details class="edition-switcher"><summary><i class="fa-solid fa-flask" aria-hidden="true"></i><span class="edition-label">Workspace</span><strong>Labs</strong><i class="fa-solid fa-chevron-down edition-chevron" aria-hidden="true"></i></summary><div class="edition-menu"><a href="/" aria-current="page"><span>Labs</span><small>TOOLS</small></a><a href="https://apt.hecavex.com/"><span>APT Notes</span><small>TI</small></a><a href="https://hecavex.com/en/"><span>Research</span><small>EN</small></a></div></details></header>
+    <nav aria-label="Primary navigation"><ul><li><a href="/"><i class="fa-solid fa-house fa-fw" aria-hidden="true"></i><span>Overview</span></a></li><li><a href="/baltic-threat-atlas/"><i class="fa-solid fa-map-location-dot fa-fw" aria-hidden="true"></i><span>Baltic Atlas</span></a></li><li><a href="/pivot-graph/"><i class="fa-solid fa-diagram-project fa-fw" aria-hidden="true"></i><span>Pivot Workspace</span></a></li><li><a href="/attack-map/" aria-current="page"><i class="fa-solid fa-table-cells" aria-hidden="true"></i><span>ATT&amp;CK Evidence</span></a></li><li><a href="/osint-workbench/"><i class="fa-solid fa-binoculars fa-fw" aria-hidden="true"></i><span>OSINT Workbench</span></a></li></ul><a class="external" href="https://apt.hecavex.com/"><i class="fa-solid fa-database fa-fw" aria-hidden="true"></i><span>APT NOTES</span></a><a class="external" href="https://hecavex.com/en/"><i class="fa-solid fa-arrow-up-right-from-square fa-fw" aria-hidden="true"></i><span>HECAVEX RESEARCH</span></a></nav>
+    <div class="sidebar-bottom"><button class="icon-button theme-toggle" type="button" aria-label="Change colour theme"><i class="fa-solid fa-display" aria-hidden="true"></i><span>Theme</span></button><a class="icon-button" href="/data/attack-evidence.json"><i class="fa-solid fa-code" aria-hidden="true"></i><span>Data</span></a></div>
+  </aside>
+
+  <header class="topbar-wrapper"><div class="topbar"><nav class="breadcrumb" aria-label="Breadcrumb"><span><a href="/">Home</a></span><span>ATT&amp;CK Evidence Map</span></nav><button class="topbar-button menu-toggle" type="button" aria-label="Open navigation" aria-controls="site-nav" aria-expanded="false"><i class="fa-solid fa-bars" aria-hidden="true"></i></button><div class="topbar-title">HECAVEX</div><button class="topbar-button search-toggle" type="button" aria-label="Search"><i class="fa-solid fa-search" aria-hidden="true"></i></button><form class="global-search" role="search"><label class="sr-only" for="global-q">Search techniques and campaigns</label><i class="fa-solid fa-search" aria-hidden="true"></i><input id="global-q" type="search" placeholder="Search techniques or campaigns" autocomplete="off"></form><button class="search-cancel" type="button">Cancel</button></div></header>
+
+  <main id="main-content"><div class="shell attack-shell">
+    <header class="brand-hero"><p class="eyebrow">Lab 04 · evidence mapping</p><h1>ATT&amp;CK mappings with the evidence left attached.</h1><p class="lead">Explore a phishing behaviour model, then compare it with reviewed actor evidence without losing the branch, campaign, time range, source or analytical boundary.</p><a class="button primary" href="#evidence-map">Open the matrix →</a><p class="hero-meta">ENTERPRISE ATT&amp;CK · 1 BEHAVIOUR MODEL · 2 ACTORS · REVIEWED 2026-08-15</p></header>
+
+    <div class="stat-grid"><div class="stat"><strong id="behaviour-total">1</strong><span>behaviour model</span></div><div class="stat"><strong id="actor-total">2</strong><span>reviewed actors</span></div><div class="stat"><strong id="mapping-total">33</strong><span>structured mappings</span></div><div class="stat"><strong id="source-total">0</strong><span>public sources</span></div></div>
+    <div class="notice"><strong>Evidence boundary.</strong> A behaviour model describes plausible branches, not a mandatory intrusion sequence. An actor cell means reviewed public reporting supports that relationship. An empty tactic does not prove absence. Neither view is an automated attribution result.</div>
+
+    <section class="section" id="evidence-map">
+      <div class="section-head"><div><p class="eyebrow">Interactive matrix</p><h2>Compare behaviour, then inspect the claim</h2></div><p id="mapping-count" aria-live="polite">Loading evidence…</p></div>
+      <div class="attack-view-tabs" id="view-mode" aria-label="Evidence map view"><button type="button" data-mode="behaviour">Behaviour Explorer</button><button type="button" data-mode="actor">Actor Evidence</button><button type="button" data-mode="compare">Actor Comparison</button></div>
+      <div class="attack-controls">
+        <label id="behaviour-control" for="behaviour-filter"><span>Behaviour</span><select id="behaviour-filter"></select></label>
+        <label id="overlay-control" for="overlay-filter"><span>Compare with actor evidence</span><select id="overlay-filter"><option value="none">No actor overlay</option><option value="apt28">APT28</option><option value="apt44">APT44</option></select></label>
+        <fieldset id="actor-control" hidden><legend>Actor</legend><div class="segmented" id="actor-filter"><button type="button" data-actor="apt28">APT28</button><button type="button" data-actor="apt44">APT44</button></div></fieldset>
+        <label for="tactic-filter"><span>Tactic</span><select id="tactic-filter"><option value="all">All tactics</option></select></label>
+        <label for="confidence-filter"><span>Confidence</span><select id="confidence-filter"><option value="all">All confidence</option><option value="high">High</option><option value="moderate">Moderate</option><option value="low">Low</option></select></label>
+        <button class="button small" id="clear-attack-filters" type="button">Reset view</button>
+      </div>
+      <div class="attack-toolbar"><div class="attack-legend" id="attack-legend" aria-label="Matrix legend"></div><div class="export-actions"><button class="button small" id="copy-view" type="button">Copy view URL</button><button class="button small" id="export-csv" type="button">Export CSV</button><button class="button small" id="export-navigator" type="button">Navigator JSON</button></div></div>
+      <div class="attack-summary" id="actor-summary"></div>
+      <div class="attack-matrix-wrap" tabindex="0" aria-label="Scrollable ATT&CK tactic matrix"><div class="attack-matrix" id="attack-matrix"></div></div>
+      <div class="empty" id="attack-empty" hidden>No reviewed mapping matches this view.</div>
+    </section>
+
+    <section class="section"><div class="section-head"><div><p class="eyebrow">Interpretation model</p><h2>What the labels mean</h2></div></div><div class="flow"><div class="flow-step"><p class="meta">REPORTED</p><h3>A source states the behaviour</h3><p>The relationship remains attributed to the named publisher. HECAVEX has reviewed and structured it, not independently observed the intrusion.</p></div><div class="flow-step"><p class="meta">OBSERVED</p><h3>HECAVEX holds direct evidence</h3><p>Reserved for evidence collected or reproduced during a documented HECAVEX investigation. None of the initial actor mappings use this label.</p></div><div class="flow-step"><p class="meta">ASSESSED</p><h3>An analytical inference is explicit</h3><p>Used only when the relationship is reasoned from stated evidence and limitations. It must never be visually confused with source reporting.</p></div></div></section>
+
+    <section class="section"><div class="notice"><strong>MITRE attribution.</strong> <span id="mitre-notice">ATT&amp;CK data attribution loading…</span> HECAVEX is independent and is not affiliated with or endorsed by MITRE. <a href="https://attack.mitre.org/resources/terms-of-use/">Terms of use ↗</a></div></section>
+  </div></main>
+
+  <dialog class="evidence-dialog" id="evidence-dialog" aria-labelledby="evidence-title"><div class="evidence-dialog-head"><div><p class="eyebrow" id="evidence-id"></p><h2 id="evidence-title">Technique evidence</h2></div><button class="dialog-close" type="button" aria-label="Close evidence details">×</button></div><div id="evidence-detail"></div></dialog>
+
+  <footer class="footer"><span>Evidence dataset 1.0 · reviewed 15 Aug 2026</span><nav aria-label="Footer"><a href="/data/attack-evidence.json">Source data</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://hecavex.com/en/methodology/">Methodology</a><a href="https://hecavex.com/en/privacy/">Privacy</a><a href="https://hecavex.com/en/contact/">Corrections</a></nav></footer>
+  <script src="/assets/site.js"></script><script src="/assets/attack-map.js"></script>
+</body>
+</html>

@@ -6,6 +6,7 @@ Current projects:
 
 - **Baltic Threat Atlas** collects source-linked public observations and maps them to APT Notes only when the evidence supports the link.
 - **Pivot Workspace** contains separate case graphs for the UniPark smishing infrastructure, the Adform JavaScript clipper and a malicious Python loader found on GitHub. Each graph keeps observations, derivations, assessments and limitations distinct.
+- **ATT&CK Explorer** starts with a bounded phishing behaviour model, then lets readers overlay reviewed APT28 or APT44 evidence and compare both actors. Every actor mapping retains campaign context, confidence, dates and public sources, with CSV and Navigator-layer exports.
 - **OSINT Workbench** is an annotated selection of free and free-tier tools from three established Awesome OSINT collections. It explains where, when and why to use each source, plus the evidential limits.
 
 ## Run it locally
@@ -23,6 +24,8 @@ python scripts/validate.py
 ```
 
 The validator checks the HTML, local links, metadata, structured data and the expected shape of each dataset.
+
+The ATT&amp;CK map is a generated publication layer over reviewed `technique_evidence` relationships maintained in APT Notes. Update the actor record and its source references first, then refresh `data/attack-evidence.json`; do not add an unsupported cell directly for visual completeness.
 
 ## Publishing
 

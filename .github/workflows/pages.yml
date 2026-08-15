@@ -43,7 +43,7 @@ jobs:
         run: |
           mkdir _site
           cp index.html CNAME .nojekyll robots.txt sitemap.xml LICENSE.md _site/
-          cp -R .well-known assets baltic-threat-atlas data osint-workbench pivot-graph _site/
+          cp -R .well-known assets attack-map baltic-threat-atlas data osint-workbench pivot-graph _site/
           if [ -n "$HECAVEX_ANALYTICS_TOKEN" ]; then
             find _site -name '*.html' -type f -exec sed -i "s/__HECAVEX_ANALYTICS_TOKEN__/$HECAVEX_ANALYTICS_TOKEN/g" {} +
           else

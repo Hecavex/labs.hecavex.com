@@ -77,11 +77,13 @@ required = {
     "index.html",
     "baltic-threat-atlas/index.html",
     "pivot-graph/index.html",
+    "attack-map/index.html",
     "osint-workbench/index.html",
     "assets/styles.css",
     "assets/site.js",
     "assets/atlas.js",
     "assets/pivot-graph.js",
+    "assets/attack-map.js",
     "assets/osint-workbench.js",
     "data/baltic-threat-atlas.json",
     "data/osint-resources.json",
@@ -89,6 +91,7 @@ required = {
     "data/pivot-graph-adform.json",
     "data/pivot-graph-unipark.json",
     "data/pivot-graph-github-python.json",
+    "data/attack-evidence.json",
     "CNAME",
     "robots.txt",
     "sitemap.xml",
@@ -292,6 +295,85 @@ pivot_html = (root / "pivot-graph/index.html").read_text(encoding="utf-8")
 if 'id="case-selector"' not in pivot_html or "/data/pivot-cases.json" not in pivot_html:
     errors.append("Pivot Workspace is not wired to the case catalogue")
 
+attack = json.loads((root / "data/attack-evidence.json").read_text(encoding="utf-8"))
+attack_actors = attack.get("actors", [])
+attack_behaviours = attack.get("behaviours", [])
+attack_tactics = attack.get("tactics", [])
+attack_records = [record for actor in attack_actors for record in actor.get("evidence", [])]
+behaviour_records = [record for behaviour in attack_behaviours for record in behaviour.get("techniques", [])]
+if {actor.get("id") for actor in attack_actors} != {"apt28", "apt44"}:
+    errors.append("ATT&CK Evidence Map must contain the reviewed APT28 and APT44 records")
+if len(attack_tactics) != 14 or len(set(attack_tactics)) != 14:
+    errors.append("ATT&CK Evidence Map must contain the 14 unique Enterprise tactics")
+if len(attack_records) != 19:
+    errors.append(f"ATT&CK Evidence Map expected 19 evidence records, found {len(attack_records)}")
+required_attack_fields = {"technique_id", "technique", "tactics", "status", "confidence", "campaign", "first_observed", "last_observed", "notes", "attack_url", "sources"}
+for actor in attack_actors:
+    if urlparse(actor.get("profile_url", "")).hostname != "apt.hecavex.com":
+        errors.append(f"ATT&CK actor profile must link to APT Notes: {actor.get('id')}")
+    for record in actor.get("evidence", []):
+        record_name = f"{actor.get('id')}/{record.get('technique_id', '<unknown>')}"
+        missing_attack_fields = required_attack_fields - record.keys()
+        if missing_attack_fields:
+            errors.append(f"ATT&CK record {record_name} is missing: {', '.join(sorted(missing_attack_fields))}")
+        technique_id = record.get("technique_id", "")
+        if not technique_id.startswith("T") or not technique_id[1:].replace(".", "").isdigit():
+            errors.append(f"Invalid ATT&CK technique id in {record_name}")
+        if not record.get("tactics") or not set(record.get("tactics", [])).issubset(set(attack_tactics)):
+            errors.append(f"Invalid tactic mapping in {record_name}: {record.get('tactics')}")
+        if record.get("status") not in {"reported", "observed", "assessed"}:
+            errors.append(f"Invalid evidence status in {record_name}: {record.get('status')}")
+        if record.get("confidence") not in {"high", "moderate", "low"}:
+            errors.append(f"Invalid ATT&CK confidence in {record_name}: {record.get('confidence')}")
+        if urlparse(record.get("attack_url", "")).hostname != "attack.mitre.org":
+            errors.append(f"Invalid MITRE ATT&CK URL in {record_name}")
+        if not record.get("sources"):
+            errors.append(f"ATT&CK record has no public source: {record_name}")
+        for source in record.get("sources", []):
+            if not {"title", "publisher", "published", "url"}.issubset(source):
+                errors.append(f"Incomplete ATT&CK source in {record_name}")
+            if urlparse(source.get("url", "")).scheme != "https":
+                errors.append(f"ATT&CK source must use HTTPS in {record_name}: {source.get('url')}")
+
+if {behaviour.get("id") for behaviour in attack_behaviours} != {"phishing"}:
+    errors.append("ATT&CK Behaviour Explorer must contain the bounded phishing model")
+required_behaviour_fields = {"technique_id", "technique", "tactics", "role", "branch", "stage", "notes", "caveat", "attack_url", "sources"}
+for behaviour in attack_behaviours:
+    behaviour_id = behaviour.get("id", "<unknown>")
+    branch_ids = {branch.get("id") for branch in behaviour.get("branches", [])}
+    if len(branch_ids) < 4 or None in branch_ids:
+        errors.append(f"ATT&CK behaviour {behaviour_id} must define its analytical branches")
+    if not behaviour.get("boundary"):
+        errors.append(f"ATT&CK behaviour {behaviour_id} has no explicit analytical boundary")
+    for record in behaviour.get("techniques", []):
+        record_name = f"{behaviour_id}/{record.get('technique_id', '<unknown>')}"
+        missing_fields = required_behaviour_fields - record.keys()
+        if missing_fields:
+            errors.append(f"ATT&CK behaviour record {record_name} is missing: {', '.join(sorted(missing_fields))}")
+        if record.get("role") not in {"delivery", "conditional", "outcome"}:
+            errors.append(f"Invalid behaviour role in {record_name}: {record.get('role')}")
+        if record.get("branch") not in branch_ids:
+            errors.append(f"Unknown behaviour branch in {record_name}: {record.get('branch')}")
+        if not record.get("tactics") or not set(record.get("tactics", [])).issubset(set(attack_tactics)):
+            errors.append(f"Invalid behaviour tactic mapping in {record_name}: {record.get('tactics')}")
+        if urlparse(record.get("attack_url", "")).hostname != "attack.mitre.org":
+            errors.append(f"Invalid MITRE ATT&CK URL in behaviour record {record_name}")
+        if not record.get("sources"):
+            errors.append(f"ATT&CK behaviour record has no public source: {record_name}")
+        for source in record.get("sources", []):
+            if not {"title", "publisher", "published", "url"}.issubset(source):
+                errors.append(f"Incomplete ATT&CK behaviour source in {record_name}")
+            if urlparse(source.get("url", "")).scheme != "https":
+                errors.append(f"ATT&CK behaviour source must use HTTPS in {record_name}: {source.get('url')}")
+
+attack_html = (root / "attack-map/index.html").read_text(encoding="utf-8")
+if 'id="attack-matrix"' not in attack_html or "/assets/attack-map.js" not in attack_html:
+    errors.append("ATT&CK Evidence Map is not wired to its canonical renderer")
+for path in html_files:
+    if path.name == "index.html" and path.parent in {root, root / "baltic-threat-atlas", root / "pivot-graph", root / "osint-workbench", root / "attack-map"}:
+        if "/attack-map/" not in path.read_text(encoding="utf-8"):
+            errors.append(f"ATT&CK Evidence Map is missing from navigation in {path.relative_to(root)}")
+
 osint = json.loads((root / "data/osint-resources.json").read_text(encoding="utf-8"))
 osint_sections = osint.get("sections", [])
 curation_sources = osint.get("curation_sources", [])
@@ -332,6 +414,7 @@ if errors:
 
 print(
     f"Validated {len(html_files)} HTML pages, {len(records)} Atlas records, "
-    f"{len(cases)} pivot cases, {total_nodes} pivot nodes, {total_edges} typed edges "
-    f"and {len(tool_ids)} OSINT tools across {len(osint_sections)} sections."
+    f"{len(cases)} pivot cases, {total_nodes} pivot nodes, {total_edges} typed edges, "
+    f"{len(attack_records)} actor evidence records, {len(behaviour_records)} behaviour mappings and {len(tool_ids)} OSINT tools "
+    f"across {len(osint_sections)} sections."
 )

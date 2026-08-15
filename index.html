@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>HECAVEX Labs | Threat intelligence workspaces</title>
-  <meta name="description" content="Evidence-led cyber threat intelligence workspaces from HECAVEX: Baltic observations, provenance-aware case graphs and a curated OSINT workbench.">
+  <meta name="description" content="Evidence-led cyber threat intelligence workspaces from HECAVEX: Baltic observations, provenance-aware case graphs, ATT&amp;CK evidence mappings and a curated OSINT workbench.">
   <link rel="canonical" href="https://labs.hecavex.com/">
   <link rel="icon" href="/assets/hecavex-mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://hecavex.com/assets/lib/fontawesome-free/css/all.min.css">
@@ -12,7 +12,7 @@
   <meta property="og:site_name" content="HECAVEX Labs">
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="HECAVEX Labs">
-  <meta property="og:description" content="Operational, evidence-led interfaces for cyber threat intelligence research.">
+  <meta property="og:description" content="Operational CTI interfaces for sourced observations, investigation graphs, ATT&amp;CK evidence and OSINT source selection.">
   <meta property="og:url" content="https://labs.hecavex.com/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://hecavex.com/assets/img/og/hecavex-default-en.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="HECAVEX Labs threat intelligence workspaces"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="HECAVEX Labs"><meta name="twitter:description" content="Operational, evidence-led interfaces for cyber threat intelligence research."><meta name="twitter:image" content="https://hecavex.com/assets/img/og/hecavex-default-en.png"><meta name="twitter:image:alt" content="HECAVEX Labs threat intelligence workspaces">
@@ -37,6 +37,7 @@
         <li><a href="/" aria-current="page"><i class="fa-solid fa-house fa-fw" aria-hidden="true"></i><span>Overview</span></a></li>
         <li><a href="/baltic-threat-atlas/"><i class="fa-solid fa-map-location-dot fa-fw" aria-hidden="true"></i><span>Baltic Atlas</span></a></li>
         <li><a href="/pivot-graph/"><i class="fa-solid fa-diagram-project fa-fw" aria-hidden="true"></i><span>Pivot Workspace</span></a></li>
+        <li><a href="/attack-map/"><i class="fa-solid fa-table-cells fa-fw" aria-hidden="true"></i><span>ATT&amp;CK Evidence</span></a></li>
         <li><a href="/osint-workbench/"><i class="fa-solid fa-binoculars fa-fw" aria-hidden="true"></i><span>OSINT Workbench</span></a></li>
       </ul>
       <a class="external" href="https://apt.hecavex.com/"><i class="fa-solid fa-database fa-fw" aria-hidden="true"></i><span>APT NOTES</span></a>
@@ -67,17 +68,18 @@
       </header>
 
       <div class="stat-grid" aria-label="Labs statistics">
-        <div class="stat"><strong>3</strong><span>public workspaces</span></div>
+        <div class="stat"><strong>4</strong><span>public workspaces</span></div>
         <div class="stat"><strong>13</strong><span>sourced Baltic observations</span></div>
         <div class="stat"><strong>3</strong><span>reproducible pivot cases</span></div>
-        <div class="stat"><strong>0</strong><span>records sent to a server</span></div>
+        <div class="stat"><strong>19</strong><span>ATT&amp;CK evidence records</span></div>
       </div>
 
       <section class="section" id="workspaces">
-        <div class="section-head"><div><p class="eyebrow">Operational interfaces</p><h2>Three deliberately bounded workspaces</h2></div><p>Each lab states what it knows, how it knows it and where the evidence stops.</p></div>
+        <div class="section-head"><div><p class="eyebrow">Operational interfaces</p><h2>Four deliberately bounded workspaces</h2></div><p>Each lab states what it knows, how it knows it and where the evidence stops.</p></div>
         <div class="grid" data-search-scope>
           <a class="panel" href="/baltic-threat-atlas/" data-search-item><span class="badge official">source linked</span><h3>Baltic Threat Atlas</h3><p>Query public cyber observations concerning Lithuania, Latvia and Estonia, then follow supported actor mappings into APT Notes.</p><span class="panel-link">Explore 13 observations →</span></a>
           <a class="panel" href="/pivot-graph/" data-search-item><span class="badge derived">3 case graphs</span><h3>Pivot Workspace</h3><p>Compare phishing infrastructure, malicious JavaScript and Python loader investigations from seed artefact through explicit analytical limits.</p><span class="panel-link">Explore the case library →</span></a>
+          <a class="panel" href="/attack-map/" data-search-item><span class="badge official">33 structured mappings</span><h3>ATT&amp;CK Explorer</h3><p>Explore plausible phishing branches, overlay reviewed APT28 or APT44 evidence, and inspect the public sources behind actor mappings.</p><span class="panel-link">Open the interactive matrix →</span></a>
           <a class="panel" href="/osint-workbench/" data-search-item><span class="badge current">39 selected tools</span><h3>OSINT Workbench</h3><p>Find free and free-tier OSINT tools by practical section, with clear guidance on when, why and how to use each source responsibly.</p><span class="panel-link">Browse the source directory →</span></a>
         </div>
       </section>
@@ -92,7 +94,7 @@
       </section>
 
       <section class="section">
-        <div class="notice"><strong>Evidence boundary.</strong> Labs is not a threat feed, automated attribution engine, blocklist or incident-response platform. The Atlas is selected, pivot cases are time-bounded, and the OSINT directory sends no indicator to third parties. Primary sources remain authoritative.</div>
+        <div class="notice"><strong>Evidence boundary.</strong> Labs is not a threat feed, automated attribution engine, blocklist or incident-response platform. The Atlas is selected, pivot cases are time-bounded, ATT&amp;CK mappings are source-linked, and the OSINT directory sends no indicator to third parties. Primary sources remain authoritative.</div>
       </section>
     </div>
   </main>
