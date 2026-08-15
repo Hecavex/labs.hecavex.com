@@ -5,12 +5,15 @@
   const confidenceFilter = document.querySelector('#confidence-filter');
   const behaviourFilter = document.querySelector('#behaviour-filter');
   const overlayFilter = document.querySelector('#overlay-filter');
+  const platformFilter = document.querySelector('#platform-filter');
+  const typeFilter = document.querySelector('#type-filter');
   const actorFilter = document.querySelector('#actor-filter');
   const modeFilter = document.querySelector('#view-mode');
   const empty = document.querySelector('#attack-empty');
   const dialog = document.querySelector('#evidence-dialog');
   let dataset;
-  let mode = 'behaviour';
+  let catalogue;
+  let mode = 'catalogue';
   let actorView = 'apt28';
 
   const create = (name, text, className) => {
@@ -60,7 +63,38 @@
     }));
   }
 
+  function catalogueRecords() {
+    return catalogue.techniques.map((technique) => ({
+      technique_id: technique.id,
+      technique: technique.name,
+      tactics: technique.tactics,
+      record_kind: 'catalogue',
+      entity_id: 'enterprise-attack',
+      entity_name: `Enterprise ATT&CK ${catalogue.version}`,
+      status: 'official',
+      confidence: '',
+      campaign: technique.parent ? `${technique.parent.id} ${technique.parent.name}` : 'Parent technique',
+      notes: technique.description,
+      caveat: '',
+      attack_url: technique.url,
+      platforms: technique.platforms,
+      subtechnique: technique.subtechnique,
+      parent: technique.parent,
+      version: technique.version,
+      modified: technique.modified,
+      associations: {
+        groups: technique.groups,
+        campaigns: technique.campaigns,
+        software: technique.software,
+        mitigations: technique.mitigations,
+        detections: technique.detections
+      },
+      sources: [{ title: `${technique.id} ${technique.name}`, publisher: 'MITRE ATT&CK', published: technique.modified, url: technique.url }]
+    }));
+  }
+
   function selectedRecords() {
+    if (mode === 'catalogue') return catalogueRecords();
     if (mode === 'behaviour') {
       const records = behaviourRecords();
       return overlayFilter.value === 'none' ? records : records.concat(actorRecords(overlayFilter.value));
@@ -72,26 +106,32 @@
   function filteredRecords() {
     const query = search?.value.trim().toLowerCase() || '';
     return selectedRecords().filter((record) => {
-      const haystack = [record.technique_id, record.technique, record.campaign, record.notes, record.caveat, record.role, record.branch, ...record.sources.flatMap((source) => [source.publisher, source.title])].filter(Boolean).join(' ').toLowerCase();
+      const related = record.associations ? Object.values(record.associations).flat().flatMap((item) => [item.id, item.name]) : [];
+      const haystack = [record.technique_id, record.technique, record.campaign, record.notes, record.caveat, record.role, record.branch, ...(record.platforms || []), ...related, ...record.sources.flatMap((source) => [source.publisher, source.title])].filter(Boolean).join(' ').toLowerCase();
       return (!query || haystack.includes(query))
         && (tacticFilter.value === 'all' || record.tactics.includes(tacticFilter.value))
-        && (confidenceFilter.value === 'all' || record.record_kind === 'behaviour' || record.confidence === confidenceFilter.value);
+        && (confidenceFilter.value === 'all' || ['behaviour', 'catalogue'].includes(record.record_kind) || record.confidence === confidenceFilter.value)
+        && (mode !== 'catalogue' || platformFilter.value === 'all' || record.platforms.includes(platformFilter.value))
+        && (mode !== 'catalogue' || typeFilter.value === 'all' || (typeFilter.value === 'subtechnique') === record.subtechnique);
     });
   }
 
   function viewSlug() {
+    if (mode === 'catalogue') return 'enterprise-catalogue';
     if (mode === 'behaviour') return `${behaviourFilter.value}${overlayFilter.value === 'none' ? '' : `-vs-${overlayFilter.value}`}`;
     return mode === 'compare' ? 'apt28-vs-apt44' : actorView;
   }
 
   function updateUrl(technique) {
     const params = new URLSearchParams();
-    if (mode !== 'behaviour') params.set('mode', mode);
+    if (mode !== 'catalogue') params.set('mode', mode);
     if (mode === 'actor') params.set('actor', actorView);
     if (mode === 'behaviour' && behaviourFilter.value !== 'phishing') params.set('behaviour', behaviourFilter.value);
     if (mode === 'behaviour' && overlayFilter.value !== 'none') params.set('overlay', overlayFilter.value);
     if (tacticFilter.value !== 'all') params.set('tactic', tacticFilter.value);
     if (mode !== 'behaviour' && confidenceFilter.value !== 'all') params.set('confidence', confidenceFilter.value);
+    if (mode === 'catalogue' && platformFilter.value !== 'all') params.set('platform', platformFilter.value);
+    if (mode === 'catalogue' && typeFilter.value !== 'all') params.set('type', typeFilter.value);
     if (search?.value.trim()) params.set('q', search.value.trim());
     if (technique) params.set('technique', technique);
     const query = params.toString();
@@ -99,6 +139,7 @@
   }
 
   function recordClass(records) {
+    if (records.some((record) => record.record_kind === 'catalogue')) return 'catalogue';
     const hasModel = records.some((record) => record.record_kind === 'behaviour');
     const actors = new Set(records.filter((record) => record.record_kind === 'actor').map((record) => record.actor_id));
     if (hasModel && actors.size) return 'overlap';
@@ -108,13 +149,13 @@
 
   function techniqueButton(records) {
     const primary = records[0];
-    const button = create('button', undefined, `attack-technique ${recordClass(records)}`);
+    const button = create('button', undefined, `attack-technique ${recordClass(records)}${primary.subtechnique ? ' subtechnique' : ''}`);
     button.type = 'button';
     button.dataset.technique = primary.technique_id;
     button.setAttribute('aria-label', `${primary.technique_id} ${primary.technique}. Open ${records.length} mapping${records.length === 1 ? '' : 's'}.`);
     button.append(create('span', primary.technique_id, 'technique-id'), create('strong', primary.technique));
     const meta = create('span', undefined, 'technique-meta');
-    const labels = [...new Set(records.map((record) => record.record_kind === 'behaviour' ? record.role : record.actor_name))];
+    const labels = [...new Set(records.map((record) => record.record_kind === 'catalogue' ? (record.subtechnique ? 'sub-technique' : 'technique') : record.record_kind === 'behaviour' ? record.role : record.actor_name))];
     meta.append(create('span', labels.join(' + ')), create('span', `${records.length} ${records.length === 1 ? 'mapping' : 'mappings'}`));
     button.append(meta);
     button.addEventListener('click', () => openEvidence(primary.technique_id));
@@ -137,6 +178,13 @@
     const summary = document.querySelector('#actor-summary');
     summary.replaceChildren();
     const text = create('div');
+    if (mode === 'catalogue') {
+      text.append(create('p', `OFFICIAL ENTERPRISE ATT&CK ${catalogue.version}`, 'eyebrow'), create('h3', 'Complete technique catalogue'), create('p', 'All active Enterprise techniques and sub-techniques from MITRE’s STIX release. Search also covers mapped groups, campaigns, software, mitigations, detection strategies and platforms.'));
+      text.append(create('p', 'These are official ATT&CK knowledge-base relationships. They are not HECAVEX attribution findings and do not mean every related actor uses a technique in every operation.', 'attack-boundary'));
+      summary.append(text);
+      appendMetrics(summary, records, ['Sub-techniques', new Set(records.filter((record) => record.subtechnique).map((record) => record.technique_id)).size]);
+      return;
+    }
     if (mode === 'behaviour') {
       const behaviour = behaviourById(behaviourFilter.value);
       const overlay = overlayFilter.value === 'none' ? null : actorById(overlayFilter.value);
@@ -166,7 +214,9 @@
   function renderLegend() {
     const legend = document.querySelector('#attack-legend');
     legend.replaceChildren();
-    const entries = mode === 'behaviour'
+    const entries = mode === 'catalogue'
+      ? [['catalogue', 'Official ATT&CK catalogue']]
+      : mode === 'behaviour'
       ? [['baseline', 'Behaviour model'], ...(overlayFilter.value === 'none' ? [] : [[overlayFilter.value, actorById(overlayFilter.value).name], ['overlap', 'Model + actor evidence']])]
       : mode === 'compare'
         ? [['apt28', 'APT28'], ['apt44', 'APT44'], ['shared', 'Both actors']]
@@ -179,11 +229,13 @@
   }
 
   function renderControls() {
+    document.querySelector('#platform-control').hidden = mode !== 'catalogue';
+    document.querySelector('#type-control').hidden = mode !== 'catalogue';
     document.querySelector('#behaviour-control').hidden = mode !== 'behaviour';
     document.querySelector('#overlay-control').hidden = mode !== 'behaviour';
     document.querySelector('#actor-control').hidden = mode !== 'actor';
-    confidenceFilter.closest('label').hidden = mode === 'behaviour';
-    if (mode === 'behaviour') confidenceFilter.value = 'all';
+    confidenceFilter.closest('label').hidden = ['behaviour', 'catalogue'].includes(mode);
+    if (['behaviour', 'catalogue'].includes(mode)) confidenceFilter.value = 'all';
     [...modeFilter.querySelectorAll('button')].forEach((button) => {
       const active = button.dataset.mode === mode;
       button.classList.toggle('active', active);
@@ -200,7 +252,7 @@
 
   function render() {
     const records = filteredRecords();
-    const tactics = tacticFilter.value === 'all' ? dataset.tactics : [tacticFilter.value];
+    const tactics = tacticFilter.value === 'all' ? catalogue.tactics.map((tactic) => tactic.name) : [tacticFilter.value];
     const columns = tactics.map((tactic) => {
       const column = create('section', undefined, 'attack-tactic');
       const tacticRecords = records.filter((record) => record.tactics.includes(tactic));
@@ -230,9 +282,13 @@
     return [['Model', record.entity_name], ['Relationship', record.role], ['Branch', record.campaign], ['Stage', record.stage], ['Evidence type', 'Educational model']];
   }
 
+  function catalogueFacts(record) {
+    return [['ATT&CK release', catalogue.version], ['Technique type', record.subtechnique ? 'Sub-technique' : 'Parent technique'], ['Parent', record.parent ? `${record.parent.id} ${record.parent.name}` : 'None'], ['Platforms', record.platforms.join(', ') || 'Not specified'], ['Object version', record.version || 'Not stated'], ['Modified', record.modified || 'Not stated']];
+  }
+
   function definitionList(record) {
     const list = create('dl', undefined, 'evidence-facts');
-    const facts = record.record_kind === 'behaviour' ? behaviourFacts(record) : actorFacts(record);
+    const facts = record.record_kind === 'catalogue' ? catalogueFacts(record) : record.record_kind === 'behaviour' ? behaviourFacts(record) : actorFacts(record);
     facts.forEach(([term, value]) => {
       const group = create('div');
       group.append(create('dt', term), create('dd', value));
@@ -253,6 +309,29 @@
       const article = create('article', undefined, `evidence-record ${recordClass([record])}`);
       article.append(definitionList(record), create('p', record.notes, 'evidence-note'));
       if (record.caveat) article.append(create('p', record.caveat, 'evidence-caveat'));
+      if (record.record_kind === 'catalogue') {
+        const related = create('div', undefined, 'catalogue-relations');
+        const labels = { groups: 'Groups', campaigns: 'Campaigns', software: 'Software', mitigations: 'Mitigations', detections: 'Detection strategies' };
+        Object.entries(record.associations).forEach(([key, items]) => {
+          const section = create('section');
+          section.append(create('h3', `${labels[key]} (${items.length})`));
+          if (!items.length) section.append(create('p', 'No active relationship in this ATT&CK release.', 'meta'));
+          else {
+            const list = create('ul');
+            items.forEach((item) => {
+              const entry = create('li');
+              const link = create('a', [item.id, item.name].filter(Boolean).join(' · '));
+              link.href = item.url;
+              link.rel = 'noopener';
+              entry.append(link);
+              list.append(entry);
+            });
+            section.append(list);
+          }
+          related.append(section);
+        });
+        article.append(related);
+      }
       const sources = create('div', undefined, 'evidence-sources');
       sources.append(create('h3', `Sources (${record.sources.length})`));
       record.sources.forEach((source) => {
@@ -298,7 +377,7 @@
     const grouped = groupBy(records, (record) => record.technique_id);
     const techniques = [...grouped.entries()].map(([techniqueID, group]) => {
       const className = recordClass(group);
-      const colors = { baseline: '#7fa5cf', apt28: '#63b3ed', apt44: '#e15a4f', shared: '#c7984c', overlap: '#c7984c' };
+      const colors = { catalogue: '#7fa5cf', baseline: '#7fa5cf', apt28: '#63b3ed', apt44: '#e15a4f', shared: '#c7984c', overlap: '#c7984c' };
       return {
         techniqueID,
         color: colors[className],
@@ -308,14 +387,14 @@
           { name: 'View', value: mode },
           { name: 'Entities', value: [...new Set(group.map((record) => record.entity_name))].join(', ') },
           { name: 'Mapping types', value: [...new Set(group.map((record) => record.record_kind))].join(', ') },
-          { name: 'HECAVEX review', value: dataset.updated }
+          { name: 'Dataset version', value: mode === 'catalogue' ? catalogue.version : dataset.updated }
         ],
         links: group.flatMap((record) => record.sources.map((source) => ({ label: source.publisher, url: source.url })))
       };
     });
     const layer = {
       name: `HECAVEX ${viewSlug().replaceAll('-', ' ')} ATT&CK view`,
-      versions: { attack: dataset.framework.version, navigator: '5.2.0', layer: '4.5' },
+      versions: { attack: catalogue.version, navigator: '5.2.0', layer: '4.5' },
       domain: 'enterprise-attack',
       description: `HECAVEX mappings reviewed on ${dataset.updated}. Behaviour models describe plausible branches; empty techniques are not evidence of absence.`,
       sorting: 0,
@@ -328,15 +407,17 @@
 
   function initialiseState() {
     const params = new URLSearchParams(location.search);
-    if (['behaviour', 'actor', 'compare'].includes(params.get('mode'))) mode = params.get('mode');
+    if (['catalogue', 'behaviour', 'actor', 'compare'].includes(params.get('mode'))) mode = params.get('mode');
     if (['apt28', 'apt44'].includes(params.get('actor'))) {
       actorView = params.get('actor');
       if (!params.has('mode')) mode = 'actor';
     }
     if (dataset.behaviours.some((item) => item.id === params.get('behaviour'))) behaviourFilter.value = params.get('behaviour');
     if (['none', 'apt28', 'apt44'].includes(params.get('overlay'))) overlayFilter.value = params.get('overlay');
-    if (dataset.tactics.includes(params.get('tactic'))) tacticFilter.value = params.get('tactic');
+    if (catalogue.tactics.some((item) => item.name === params.get('tactic'))) tacticFilter.value = params.get('tactic');
     if (['high', 'moderate', 'low'].includes(params.get('confidence'))) confidenceFilter.value = params.get('confidence');
+    if ([...platformFilter.options].some((option) => option.value === params.get('platform'))) platformFilter.value = params.get('platform');
+    if (['parent', 'subtechnique'].includes(params.get('type'))) typeFilter.value = params.get('type');
     if (params.get('q') && search) search.value = params.get('q');
     render();
     const technique = params.get('technique');
@@ -345,13 +426,22 @@
 
   async function initialise() {
     try {
-      const response = await fetch('/data/attack-evidence.json', { credentials: 'same-origin' });
-      if (!response.ok) throw new Error(`Evidence request failed with ${response.status}`);
-      dataset = await response.json();
-      dataset.tactics.forEach((tactic) => {
-        const option = create('option', tactic);
-        option.value = tactic;
+      const [evidenceResponse, catalogueResponse] = await Promise.all([
+        fetch('/data/attack-evidence.json', { credentials: 'same-origin' }),
+        fetch('/data/enterprise-attack.json', { credentials: 'same-origin' })
+      ]);
+      if (!evidenceResponse.ok) throw new Error(`Evidence request failed with ${evidenceResponse.status}`);
+      if (!catalogueResponse.ok) throw new Error(`Catalogue request failed with ${catalogueResponse.status}`);
+      [dataset, catalogue] = await Promise.all([evidenceResponse.json(), catalogueResponse.json()]);
+      catalogue.tactics.forEach((tactic) => {
+        const option = create('option', tactic.name);
+        option.value = tactic.name;
         tacticFilter.append(option);
+      });
+      [...new Set(catalogue.techniques.flatMap((technique) => technique.platforms))].sort().forEach((platform) => {
+        const option = create('option', platform);
+        option.value = platform;
+        platformFilter.append(option);
       });
       dataset.behaviours.forEach((behaviour) => {
         const option = create('option', behaviour.name);
@@ -361,11 +451,11 @@
       const actorMappings = dataset.actors.flatMap((actor) => actor.evidence);
       const behaviourMappings = dataset.behaviours.flatMap((behaviour) => behaviour.techniques);
       const allMappings = actorMappings.concat(behaviourMappings);
-      document.querySelector('#behaviour-total').textContent = String(dataset.behaviours.length);
-      document.querySelector('#actor-total').textContent = String(dataset.actors.length);
+      document.querySelector('#catalog-total').textContent = String(catalogue.techniques.length);
+      document.querySelector('#tactic-total').textContent = String(catalogue.tactics.length);
       document.querySelector('#mapping-total').textContent = String(allMappings.length);
       document.querySelector('#source-total').textContent = String(new Set(allMappings.flatMap((record) => record.sources.map((source) => source.url))).size);
-      document.querySelector('#mitre-notice').textContent = dataset.framework.notice;
+      document.querySelector('#mitre-notice').textContent = catalogue.notice;
       initialiseState();
     } catch (error) {
       document.querySelector('#mapping-count').textContent = 'Evidence data unavailable';
@@ -387,16 +477,18 @@
     actorView = button.dataset.actor;
     render();
   });
-  [behaviourFilter, overlayFilter, tacticFilter, confidenceFilter].forEach((control) => control.addEventListener('change', render));
+  [behaviourFilter, overlayFilter, tacticFilter, confidenceFilter, platformFilter, typeFilter].forEach((control) => control.addEventListener('change', render));
   search?.addEventListener('input', render);
   search?.closest('form')?.addEventListener('submit', (event) => { event.preventDefault(); render(); });
   document.querySelector('#clear-attack-filters').addEventListener('click', () => {
-    mode = 'behaviour';
+    mode = 'catalogue';
     actorView = 'apt28';
     behaviourFilter.value = 'phishing';
     overlayFilter.value = 'none';
     tacticFilter.value = 'all';
     confidenceFilter.value = 'all';
+    platformFilter.value = 'all';
+    typeFilter.value = 'all';
     if (search) search.value = '';
     render();
   });

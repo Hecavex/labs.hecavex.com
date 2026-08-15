@@ -92,6 +92,8 @@ required = {
     "data/pivot-graph-unipark.json",
     "data/pivot-graph-github-python.json",
     "data/attack-evidence.json",
+    "data/enterprise-attack.json",
+    "scripts/update_attack_catalog.py",
     "CNAME",
     "robots.txt",
     "sitemap.xml",
@@ -369,6 +371,28 @@ for behaviour in attack_behaviours:
 attack_html = (root / "attack-map/index.html").read_text(encoding="utf-8")
 if 'id="attack-matrix"' not in attack_html or "/assets/attack-map.js" not in attack_html:
     errors.append("ATT&CK Evidence Map is not wired to its canonical renderer")
+
+attack_catalogue = json.loads((root / "data/enterprise-attack.json").read_text(encoding="utf-8"))
+catalogue_tactics = attack_catalogue.get("tactics", [])
+catalogue_techniques = attack_catalogue.get("techniques", [])
+if len(catalogue_tactics) != 15:
+    errors.append(f"Enterprise ATT&CK catalogue expected 15 tactics, found {len(catalogue_tactics)}")
+if len(catalogue_techniques) < 650:
+    errors.append(f"Enterprise ATT&CK catalogue appears incomplete: {len(catalogue_techniques)} techniques")
+catalogue_ids = [record.get("id") for record in catalogue_techniques]
+if len(catalogue_ids) != len(set(catalogue_ids)) or None in catalogue_ids:
+    errors.append("Enterprise ATT&CK technique ids must be present and unique")
+catalogue_tactic_names = {tactic.get("name") for tactic in catalogue_tactics}
+required_catalogue_fields = {"id", "name", "url", "description", "tactics", "platforms", "subtechnique", "parent", "modified", "version", "groups", "campaigns", "software", "mitigations", "detections"}
+for record in catalogue_techniques:
+    record_name = record.get("id", "<unknown>")
+    missing_fields = required_catalogue_fields - record.keys()
+    if missing_fields:
+        errors.append(f"Enterprise ATT&CK record {record_name} is missing: {', '.join(sorted(missing_fields))}")
+    if urlparse(record.get("url", "")).hostname != "attack.mitre.org":
+        errors.append(f"Invalid official ATT&CK URL in catalogue record {record_name}")
+    if not set(record.get("tactics", [])).issubset(catalogue_tactic_names):
+        errors.append(f"Unknown tactic in catalogue record {record_name}: {record.get('tactics')}")
 for path in html_files:
     if path.name == "index.html" and path.parent in {root, root / "baltic-threat-atlas", root / "pivot-graph", root / "osint-workbench", root / "attack-map"}:
         if "/attack-map/" not in path.read_text(encoding="utf-8"):
@@ -415,6 +439,7 @@ if errors:
 print(
     f"Validated {len(html_files)} HTML pages, {len(records)} Atlas records, "
     f"{len(cases)} pivot cases, {total_nodes} pivot nodes, {total_edges} typed edges, "
-    f"{len(attack_records)} actor evidence records, {len(behaviour_records)} behaviour mappings and {len(tool_ids)} OSINT tools "
+    f"{len(catalogue_techniques)} Enterprise ATT&CK techniques, {len(attack_records)} actor evidence records, "
+    f"{len(behaviour_records)} behaviour mappings and {len(tool_ids)} OSINT tools "
     f"across {len(osint_sections)} sections."
 )

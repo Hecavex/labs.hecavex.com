@@ -9,7 +9,7 @@
   "framework": {
     "name": "MITRE ATT&CK",
     "domain": "Enterprise",
-    "version": "18",
+    "version": "19.2",
     "terms": "https://attack.mitre.org/resources/terms-of-use/",
     "notice": "© 2026 The MITRE Corporation. This work is reproduced and distributed with the permission of The MITRE Corporation."
   },

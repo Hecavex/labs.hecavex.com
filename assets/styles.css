@@ -266,7 +266,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--hx-ember); box-s
 .recipe li { margin-bottom: .5rem; }
 
 .attack-shell { max-width: 90rem; }
-.attack-view-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: .7rem; border: 1px solid var(--hx-border-subtle); background: var(--hx-surface-1); }
+.attack-view-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: .7rem; border: 1px solid var(--hx-border-subtle); background: var(--hx-surface-1); }
 .attack-view-tabs button { min-height: 2.8rem; padding: .65rem .8rem; border: 0; border-right: 1px solid var(--hx-border-subtle); background: transparent; color: var(--hx-text-muted); font: 700 .72rem var(--font-mono); text-transform: uppercase; }
 .attack-view-tabs button:last-child { border-right: 0; }
 .attack-view-tabs button[aria-selected="true"] { box-shadow: inset 0 -3px var(--hx-ember); background: var(--hx-ember-soft); color: var(--hx-text); }
@@ -302,6 +302,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--hx-ember); box-s
 .attack-techniques { display: grid; align-content: start; gap: .45rem; min-height: 16rem; padding: .55rem; }
 .attack-technique { width: 100%; padding: .6rem; border: 1px solid var(--hx-border); border-left-width: 3px; background: var(--hx-surface-1); color: var(--hx-text-soft); text-align: left; }
 .attack-technique.baseline { border-left-color: var(--hx-steel); background: rgb(127 165 207 / 8%); }
+.attack-technique.catalogue { border-left-color: var(--hx-steel); background: var(--hx-surface-1); }
+.attack-technique.catalogue.subtechnique { margin-left: .6rem; width: calc(100% - .6rem); border-left-color: var(--hx-border-strong); }
 .attack-technique.overlap { border-left-color: var(--hx-bronze); background: linear-gradient(90deg, var(--hx-bronze-soft), rgb(127 165 207 / 6%)); }
 .attack-technique.apt28 { border-left-color: #63b3ed; background: rgb(99 179 237 / 8%); }
 .attack-technique.apt44 { border-left-color: var(--hx-ember); background: var(--hx-ember-soft); }
@@ -315,7 +317,13 @@ input:focus, select:focus, textarea:focus { border-color: var(--hx-ember); box-s
 .evidence-record.baseline { border-left-color: var(--hx-steel); }
 .evidence-record.overlap { border-left-color: var(--hx-bronze); }
 .legend-dot.baseline { background: var(--hx-steel); }
+.legend-dot.catalogue { background: var(--hx-steel); }
 .legend-dot.overlap { background: var(--hx-bronze); box-shadow: 0 0 0 2px rgb(127 165 207 / 25%); }
+.catalogue-relations { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; margin: 1rem 0; }
+.catalogue-relations section { padding: .8rem; border: 1px solid var(--hx-border-subtle); background: var(--hx-surface-2); }
+.catalogue-relations h3 { margin-top: 0; }
+.catalogue-relations ul { max-height: 13rem; margin: 0; padding-left: 1.1rem; overflow: auto; }
+.catalogue-relations li { margin: .25rem 0; }
 .evidence-dialog { width: min(48rem, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); padding: 0; overflow: auto; border: 1px solid var(--hx-border-strong); background: var(--hx-bg); color: var(--hx-text-soft); box-shadow: 0 1.5rem 5rem rgb(0 0 0 / 55%); }
 .evidence-dialog::backdrop { background: rgb(2 5 8 / 78%); backdrop-filter: blur(2px); }
 .evidence-dialog-head { position: sticky; top: 0; z-index: 4; display: flex; align-items: start; justify-content: space-between; gap: 1rem; padding: 1rem 1.15rem; border-bottom: 1px solid var(--hx-border); background: var(--hx-surface-2); }
@@ -393,9 +401,13 @@ input:focus, select:focus, textarea:focus { border-color: var(--hx-ember); box-s
   .flow-step::after { display: none !important; }
   .filters { grid-template-columns: 1fr; }
   .attack-controls { grid-template-columns: 1fr; }
+  .attack-view-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .attack-view-tabs button:nth-child(2) { border-right: 0; }
+  .attack-view-tabs button:nth-child(-n+2) { border-bottom: 1px solid var(--hx-border-subtle); }
   .attack-toolbar { align-items: flex-start; flex-direction: column; }
   .attack-summary-metrics { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; gap: .5rem; }
   .evidence-facts { grid-template-columns: 1fr 1fr; }
+  .catalogue-relations { grid-template-columns: 1fr; }
   .atlas-record { grid-template-columns: 1fr; gap: .3rem; padding-inline: .25rem; }
   .footer { flex-direction: column; }
 }
