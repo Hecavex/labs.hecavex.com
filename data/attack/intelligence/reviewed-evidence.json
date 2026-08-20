@@ -1,10 +1,17 @@
 {
   "schema_version": "1.0",
-  "updated": "2026-08-15",
+  "updated": "2026-08-20",
   "source_system": {
     "name": "APT Notes by HECAVEX",
     "url": "https://apt.hecavex.com/",
     "method": "Source-linked technique evidence selected from reviewed public actor profiles."
+  },
+  "provenance_model": {
+    "evidence_classes": ["observed", "reported", "inferred", "disputed", "rejected"],
+    "confidence_scale": ["high", "moderate", "low"],
+    "mapping_unit": "One actor, campaign and procedure claim mapped to the most specific defensible ATT&CK technique.",
+    "required_context": ["procedure description", "public sources", "mapping status", "confidence", "first and last observed dates", "review date"],
+    "known_limit": "The compact publication layer preserves normalized procedure statements and links, not verbatim source excerpts or private analyst notes. Readers must review the cited source before reusing a claim."
   },
   "framework": {
     "name": "MITRE ATT&CK",
@@ -66,6 +73,7 @@
       "aliases": ["Fancy Bear", "Forest Blizzard", "Sednit", "Sofacy"],
       "summary": "Russian military intelligence intrusion set associated with GRU Unit 26165 and persistent espionage against governments, defence, logistics, technology, identity systems and organisations supporting Ukraine.",
       "profile_url": "https://apt.hecavex.com/actors/apt28/",
+      "review": {"owner":"HECAVEX / APT Notes","last_reviewed":"2026-08-15","review_due":"2026-11-15","scope":"Public procedure reporting; no independent attribution claim."},
       "evidence": [
         {
           "technique_id": "T1190",
@@ -172,6 +180,7 @@
       "aliases": ["Sandworm Team", "Seashell Blizzard", "FROZENBARENTS", "Voodoo Bear"],
       "summary": "Russian military intelligence intrusion set associated with GRU Unit 74455 and a full-spectrum mission spanning strategic access, espionage, destructive attacks, operational-technology disruption and influence activity.",
       "profile_url": "https://apt.hecavex.com/actors/apt44/",
+      "review": {"owner":"HECAVEX / APT Notes","last_reviewed":"2026-08-15","review_due":"2026-11-15","scope":"Public procedure reporting; no independent attribution claim."},
       "evidence": [
         {
           "technique_id": "T1190",

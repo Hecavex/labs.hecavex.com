@@ -76,7 +76,7 @@
 
   async function initialise() {
     try {
-      const response = await fetch('/data/osint-resources.json', { credentials: 'same-origin' });
+      const response = await fetch('/data/osint/resources.json', { credentials: 'same-origin' });
       if (!response.ok) throw new Error(`Resource request failed with ${response.status}`);
       const data = await response.json();
       sections = data.sections;

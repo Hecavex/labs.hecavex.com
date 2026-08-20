@@ -180,7 +180,7 @@
 
   async function initialise() {
     try {
-      const response = await fetch('/data/pivot-cases.json', { credentials: 'same-origin' });
+      const response = await fetch('/data/pivots/cases.json', { credentials: 'same-origin' });
       if (!response.ok) throw new Error(`Case catalogue request failed with ${response.status}`);
       catalogue = await response.json();
       document.querySelector('#case-total').textContent = String(catalogue.cases.length);

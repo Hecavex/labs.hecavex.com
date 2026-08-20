@@ -9,7 +9,7 @@
       "summary": "From one SMS and a newly registered domain to exact-hash kit reuse, 126 related hostnames and a carefully bounded infrastructure assessment.",
       "status": "published",
       "updated": "2026-08-14",
-      "graph": "/data/pivot-graph-unipark.json",
+      "graph": "/data/pivots/graphs/unipark.json",
       "research": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/",
       "evidence_bundle": "https://github.com/Hecavex/research-artifacts/releases/tag/unipark-smishing-2026-v1.0.0",
       "tags": ["smishing", "phishing kit", "exact hash", "infrastructure"]
@@ -21,7 +21,7 @@
       "summary": "A captured JavaScript payload, exact response hashes and passive observations separated from victim, loss and operator claims.",
       "status": "published",
       "updated": "2026-08-14",
-      "graph": "/data/pivot-graph-adform.json",
+      "graph": "/data/pivots/graphs/adform.json",
       "research": "https://hecavex.com/en/research/adform-supply-chain-crypto-clipper/",
       "evidence_bundle": "https://hecavex.com/assets/data/adform-clipper-2026/README.md",
       "tags": ["supply chain", "JavaScript", "response hash", "passive DNS"]
@@ -33,7 +33,7 @@
       "summary": "Static reconstruction of a deceptive repository, embedded-key decryption, encoded retrieval infrastructure and a missing final stage.",
       "status": "updated",
       "updated": "2026-08-14",
-      "graph": "/data/pivot-graph-github-python.json",
+      "graph": "/data/pivots/graphs/github-python.json",
       "research": "https://hecavex.com/en/research/github-and-malware/",
       "tags": ["malware", "Python", "GitHub", "static analysis"]
     }
