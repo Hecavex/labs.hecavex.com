@@ -571,6 +571,19 @@ if {layer.get("id") for layer in governance_layers} != {"official-catalogue", "o
 for layer in governance_layers:
     if not {"id", "label", "version", "records", "last_reviewed", "review_due", "owner", "scope"}.issubset(layer):
         errors.append(f"ATT&CK governance layer is incomplete: {layer.get('id', '<unknown>')}")
+catalogue_tactics = {record.get("id"): set(record.get("tactics", [])) for record in catalogue_techniques}
+review_gap_count = sum(
+    set(record.get("tactics", [])) != catalogue_tactics.get(record.get("technique_id"), set())
+    for record in [*attack_records, *behaviour_records]
+)
+actor_evidence_layer = next((layer for layer in governance_layers if layer.get("id") == "actor-evidence"), {})
+if actor_evidence_layer.get("review_gaps") != review_gap_count:
+    errors.append("ATT&CK governance does not expose the current tactic re-review gap count")
+if review_gap_count and actor_evidence_layer.get("review_due") != "Re-review required":
+    errors.append("ATT&CK governance must mark unresolved tactic drift for re-review")
+for package in packages:
+    if package.get("starter") and package.get("lifecycle", {}).get("last_reviewed") != "Not independently reviewed":
+        errors.append(f"Detection candidate {package.get('id', '<unknown>')} must not claim a review date")
 governance_records = {layer.get("id"): layer.get("records") for layer in governance_layers}
 expected_governance_records = {
     "official-catalogue": len(catalogue_techniques),

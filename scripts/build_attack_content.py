@@ -3,6 +3,7 @@
 
 from copy import deepcopy
 from datetime import date
+import argparse
 import json
 from pathlib import Path
 
@@ -194,7 +195,7 @@ def candidate_package(guide, technique, catalogue_version, updated):
             "package_owner": "Local detection team",
             "package_status": "engineering candidate",
             "created": updated,
-            "last_reviewed": updated,
+            "last_reviewed": "Not independently reviewed",
             "review_due": "Set during local implementation",
             "attack_version": catalogue_version,
             "technique_version": technique.get("version", "current catalogue"),
@@ -204,7 +205,18 @@ def candidate_package(guide, technique, catalogue_version, updated):
     }
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--refresh-candidates",
+        action="store_true",
+        help="regenerate existing engineering candidates while preserving their lifecycle review fields",
+    )
+    return parser.parse_args()
+
+
 def main():
+    args = parse_args()
     today = date.today().isoformat()
     catalogue = load(CATALOGUE_PATH)
     official_procedures = load(OFFICIAL_PROCEDURES_PATH)
@@ -216,35 +228,73 @@ def main():
     catalogue_ids = {technique["id"] for technique in catalogue["techniques"]}
     guide_by_id = {guide["technique_id"]: guide for guide in operations["guides"] if guide["technique_id"] in catalogue_ids}
     guide_by_id.update({guide["technique_id"]: guide for guide in ADDITIONAL_GUIDES})
-    operations["guides"] = sorted(guide_by_id.values(), key=lambda guide: guide["technique_id"])
-    operations["updated"] = today
+    next_guides = sorted(guide_by_id.values(), key=lambda guide: guide["technique_id"])
+    if next_guides != operations.get("guides", []):
+        operations["guides"] = next_guides
+        operations["updated"] = today
     write(OPERATIONS_PATH, operations)
 
     technique_by_id = {technique["id"]: technique for technique in catalogue["techniques"]}
-    authored = {package["technique_id"]: package for package in detections["packages"] if not package.get("starter")}
+    existing_packages = {package["technique_id"]: package for package in detections["packages"]}
     packages = []
     for guide in operations["guides"]:
         technique_id = guide["technique_id"]
-        package = deepcopy(authored.get(technique_id)) if technique_id in authored else candidate_package(guide, technique_by_id[technique_id], catalogue["version"], today)
+        existing = existing_packages.get(technique_id)
+        if existing and (not existing.get("starter") or not args.refresh_candidates):
+            package = deepcopy(existing)
+        else:
+            package = candidate_package(guide, technique_by_id[technique_id], catalogue["version"], today)
+            if existing:
+                package["lifecycle"] = deepcopy(existing.get("lifecycle", package["lifecycle"]))
+        if package.get("starter"):
+            package["lifecycle"]["last_reviewed"] = "Not independently reviewed"
+            package["lifecycle"]["review_due"] = "Set during local implementation"
         packages.append(package)
-    detections["schema_version"] = "2.0"
-    detections["updated"] = today
-    detections["packages"] = sorted(packages, key=lambda package: (package.get("starter", False), package["technique_id"]))
+    next_packages = sorted(packages, key=lambda package: (package.get("starter", False), package["technique_id"]))
+    if detections.get("schema_version") != "2.0" or next_packages != detections.get("packages", []):
+        detections["schema_version"] = "2.0"
+        detections["updated"] = today
+        detections["packages"] = next_packages
     write(DETECTIONS_PATH, detections)
 
     procedure_count = sum(len(group.get("procedures", [])) for group in official_procedures["groups"])
     reviewed_relationships = sum(len(actor.get("evidence", [])) for actor in evidence["actors"])
-    governance["updated"] = today
+    previous_governance = deepcopy(governance)
+    actor_reviews = [actor.get("review", {}) for actor in evidence["actors"]]
+    actor_last_reviewed = max((review["last_reviewed"] for review in actor_reviews), default="Not independently reviewed")
+    actor_review_due = min((review["review_due"] for review in actor_reviews), default="Set after review")
+    catalogue_tactics = {technique["id"]: set(technique.get("tactics", [])) for technique in catalogue["techniques"]}
+
+    def tactic_mismatch(item):
+        return set(item.get("tactics", [])) != catalogue_tactics.get(item.get("technique_id"), set())
+
+    actor_review_gaps = sum(
+        tactic_mismatch(item)
+        for actor in evidence["actors"]
+        for item in actor.get("evidence", [])
+    )
+    model_review_gaps = sum(
+        tactic_mismatch(item)
+        for behaviour in evidence.get("behaviours", [])
+        for item in behaviour.get("techniques", [])
+    )
+    evidence_review_gaps = actor_review_gaps + model_review_gaps
+    if evidence_review_gaps:
+        actor_review_due = "Re-review required"
+    reviewed_packages = [package for package in detections["packages"] if not package.get("starter")]
+    package_last_reviewed = max((package["lifecycle"]["last_reviewed"] for package in reviewed_packages), default="Not independently reviewed")
+    package_review_due = min((package["lifecycle"]["review_due"] for package in reviewed_packages), default="Set after review")
+
     governance["framework"] = {"name": "MITRE ATT&CK", "domain": "Enterprise", "version": catalogue["version"], "catalogue_generated": catalogue["generated"]}
     governance["curated_layers"] = [
-        {"id": "official-catalogue", "label": "Official ATT&CK catalogue", "version": catalogue["version"], "records": len(catalogue["techniques"]), "last_reviewed": today, "review_due": "On upstream release", "owner": "MITRE ATT&CK / HECAVEX publication build", "scope": f"{len(catalogue['groups'])} active official groups and {len(catalogue['techniques'])} active Enterprise techniques."},
-        {"id": "official-group-procedures", "label": "Official actor procedure relationships", "version": catalogue["version"], "records": procedure_count, "last_reviewed": today, "review_due": "On upstream release", "owner": "MITRE ATT&CK / HECAVEX publication build", "scope": "Group-to-technique procedure descriptions and available public citations extracted from the official STIX relationships."},
-        {"id": "operational-guides", "label": "Operational guides", "version": "2.0", "records": len(operations["guides"]), "last_reviewed": today, "review_due": "2026-11-20", "owner": "HECAVEX", "scope": "Evidence requirements, telemetry, benign overlap, pivots and response considerations."},
-        {"id": "actor-evidence", "label": "HECAVEX-reviewed actor evidence", "version": "1.0", "records": reviewed_relationships, "profiles": len(evidence["actors"]), "last_reviewed": evidence["updated"], "review_due": "2026-11-15", "owner": "HECAVEX / APT Notes", "scope": "Procedure-level mappings independently reviewed by HECAVEX; separate from the official reference catalogue."},
-        {"id": "detection-packages", "label": "Detection engineering packages", "version": "2.0", "records": len(detections["packages"]), "validation_ready": sum(not package.get("starter") for package in detections["packages"]), "engineering_candidates": sum(bool(package.get("starter")) for package in detections["packages"]), "last_reviewed": today, "review_due": "2026-11-20", "owner": "HECAVEX", "scope": "Product-neutral engineering candidates and validation packages; no production coverage claim."},
+        {"id": "official-catalogue", "label": "Official ATT&CK catalogue", "version": catalogue["version"], "records": len(catalogue["techniques"]), "last_reviewed": "Not independently reviewed", "review_due": "On upstream release", "owner": "MITRE ATT&CK / HECAVEX publication build", "scope": f"{len(catalogue['groups'])} active official groups and {len(catalogue['techniques'])} active Enterprise techniques."},
+        {"id": "official-group-procedures", "label": "Official actor procedure relationships", "version": catalogue["version"], "records": procedure_count, "last_reviewed": "Not independently reviewed", "review_due": "On upstream release", "owner": "MITRE ATT&CK / HECAVEX publication build", "scope": "Group-to-technique procedure descriptions and available public citations extracted from the official STIX relationships."},
+        {"id": "operational-guides", "label": "Operational guides", "version": "2.0", "records": len(operations["guides"]), "last_reviewed": "Not independently reviewed", "review_due": "Set after review", "owner": "HECAVEX", "scope": "Evidence requirements, telemetry, benign overlap, pivots and response considerations."},
+        {"id": "actor-evidence", "label": "HECAVEX-reviewed actor evidence", "version": "1.0", "records": reviewed_relationships, "profiles": len(evidence["actors"]), "review_gaps": evidence_review_gaps, "last_reviewed": actor_last_reviewed, "review_due": actor_review_due, "owner": "HECAVEX / APT Notes", "scope": f"Procedure-level mappings and the phishing model are curated by HECAVEX; {evidence_review_gaps} tactic relationships require re-review against the current catalogue."},
+        {"id": "detection-packages", "label": "Detection engineering packages", "version": "2.0", "records": len(detections["packages"]), "validation_ready": len(reviewed_packages), "engineering_candidates": sum(bool(package.get("starter")) for package in detections["packages"]), "last_reviewed": package_last_reviewed, "review_due": package_review_due, "owner": "HECAVEX", "scope": f"Independent lifecycle records: {len(reviewed_packages)} validation-ready; the remaining engineering candidates are unreviewed templates and make no production coverage claim."},
     ]
-    history_entry = {"date": today, "version": "3.0", "summary": f"Published {procedure_count} official actor procedure relationships across {len(catalogue['groups'])} groups, expanded operational guidance to {len(operations['guides'])} techniques and materialised {len(detections['packages'])} detection engineering packages."}
-    governance["change_history"] = [history_entry, *[item for item in governance.get("change_history", []) if item.get("version") != "3.0"]]
+    if governance != previous_governance:
+        governance["updated"] = today
     write(GOVERNANCE_PATH, governance)
 
     print(f"Built {len(operations['guides'])} guides, {len(detections['packages'])} packages and governance for {procedure_count} official actor procedures.")

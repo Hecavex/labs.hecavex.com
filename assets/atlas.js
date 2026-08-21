@@ -80,7 +80,11 @@
     });
     count.textContent = `${visible} of ${records.length} observations`;
     empty.hidden = visible !== 0;
-    document.querySelectorAll('[data-country-button]').forEach((button) => button.classList.toggle('active', button.dataset.countryButton === country.value));
+    document.querySelectorAll('[data-country-button]').forEach((button) => {
+      const active = button.dataset.countryButton === country.value;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
   }
 
   function renderMappings() {

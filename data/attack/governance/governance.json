@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated": "2026-08-20",
+  "updated": "2026-08-21",
   "framework": {
     "name": "MITRE ATT&CK",
     "domain": "Enterprise",
@@ -13,7 +13,7 @@
       "label": "Official ATT&CK catalogue",
       "version": "19.2",
       "records": 697,
-      "last_reviewed": "2026-08-20",
+      "last_reviewed": "Not independently reviewed",
       "review_due": "On upstream release",
       "owner": "MITRE ATT&CK / HECAVEX publication build",
       "scope": "176 active official groups and 697 active Enterprise techniques."
@@ -23,7 +23,7 @@
       "label": "Official actor procedure relationships",
       "version": "19.2",
       "records": 4628,
-      "last_reviewed": "2026-08-20",
+      "last_reviewed": "Not independently reviewed",
       "review_due": "On upstream release",
       "owner": "MITRE ATT&CK / HECAVEX publication build",
       "scope": "Group-to-technique procedure descriptions and available public citations extracted from the official STIX relationships."
@@ -33,8 +33,8 @@
       "label": "Operational guides",
       "version": "2.0",
       "records": 20,
-      "last_reviewed": "2026-08-20",
-      "review_due": "2026-11-20",
+      "last_reviewed": "Not independently reviewed",
+      "review_due": "Set after review",
       "owner": "HECAVEX",
       "scope": "Evidence requirements, telemetry, benign overlap, pivots and response considerations."
     },
@@ -44,10 +44,11 @@
       "version": "1.0",
       "records": 19,
       "profiles": 2,
-      "last_reviewed": "2026-08-20",
-      "review_due": "2026-11-15",
+      "review_gaps": 6,
+      "last_reviewed": "2026-08-15",
+      "review_due": "Re-review required",
       "owner": "HECAVEX / APT Notes",
-      "scope": "Procedure-level mappings independently reviewed by HECAVEX; separate from the official reference catalogue."
+      "scope": "Procedure-level mappings and the phishing model are curated by HECAVEX; 6 tactic relationships require re-review against the current catalogue."
     },
     {
       "id": "detection-packages",
@@ -59,7 +60,7 @@
       "last_reviewed": "2026-08-20",
       "review_due": "2026-11-20",
       "owner": "HECAVEX",
-      "scope": "Product-neutral engineering candidates and validation packages; no production coverage claim."
+      "scope": "Independent lifecycle records: 1 validation-ready; the remaining engineering candidates are unreviewed templates and make no production coverage claim."
     }
   ],
   "review_triggers": [

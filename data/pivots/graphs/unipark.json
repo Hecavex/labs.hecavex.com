@@ -44,7 +44,7 @@
       "meaning": "Static collection preserved the brand layer, shared application engine, Socket.IO client and anti-analysis logic without executing the page.",
       "confidence": "direct observation",
       "evidence_label": "Kit reverse engineering",
-      "evidence": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/#phishing-kit-reverse-engineering"
+      "evidence": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/#reverse-engineering-the-phishing-kit"
     },
     {
       "id": "console",
@@ -92,7 +92,7 @@
       "meaning": "The shared engine, configurable brand layer, payment flow and server-directed screens support a high-confidence reusable phishing-kit assessment.",
       "confidence": "high for capability",
       "evidence_label": "Capability assessment",
-      "evidence": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/#assessment-and-what-we-can-honestly-say"
+      "evidence": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/#what-the-evidence-supports"
     },
     {
       "id": "limit",
@@ -104,7 +104,7 @@
       "meaning": "Public scans cannot reveal private hosts, hidden origins, server-side relays or a separate dashboard. Shared code can be sold, rented or copied, so kit lineage is not operator attribution.",
       "confidence": "explicit evidence boundary",
       "evidence_label": "Investigation limitations",
-      "evidence": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/#research-method-and-boundaries"
+      "evidence": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/#method-and-safety-boundaries"
     }
   ],
   "edges": [

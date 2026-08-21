@@ -1,10 +1,11 @@
 (() => {
-  const DATA_VERSION = '20260820-5';
+  const DATA_VERSION = '20260821-1';
   const STORAGE_READINESS = 'hecavex-attack-readiness-v1';
   const STORAGE_READINESS_META = 'hecavex-attack-readiness-meta-v1';
   const STORAGE_INCIDENT = 'hecavex-attack-incident-v1';
   const STORAGE_INCIDENT_META = 'hecavex-attack-incident-meta-v1';
   const STORAGE_OBSERVATION = 'hecavex-attack-observation-v1';
+  const LOCAL_WORKSPACE_KEYS = [STORAGE_READINESS, STORAGE_READINESS_META, STORAGE_INCIDENT, STORAGE_INCIDENT_META, STORAGE_OBSERVATION];
   const $ = (selector, scope = document) => scope.querySelector(selector);
   const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
   const create = (tag, text, className) => {
@@ -14,10 +15,18 @@
     return element;
   };
   const unique = (values) => [...new Set(values.filter(Boolean))];
-  const safeLoad = (key, fallback) => {
-    try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; }
+  const showStorageWarning = (error) => {
+    const warning = $('#local-storage-warning');
+    if (warning) warning.hidden = false;
+    console.warn('HECAVEX Labs could not use browser storage.', error);
   };
-  const save = (key, value) => localStorage.setItem(key, JSON.stringify(value));
+  const safeLoad = (key, fallback) => {
+    try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch (error) { showStorageWarning(error); return fallback; }
+  };
+  const save = (key, value) => {
+    try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+    catch (error) { showStorageWarning(error); return false; }
+  };
   const download = (name, type, body) => {
     const url = URL.createObjectURL(new Blob([body], { type }));
     const link = create('a');
@@ -28,6 +37,10 @@
   };
   const validHttpUrl = (value) => !value || /^https?:\/\/[^\s]+$/i.test(value);
   const isoNow = () => new Date().toISOString();
+  const localDateTimeValue = (date = new Date()) => {
+    const pad = (value) => String(value).padStart(2, '0');
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+  };
   const uuid = () => crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
   let catalogue;
@@ -1155,7 +1168,11 @@
         if (parent) content.append(create('p', `${String(entry.relation || 'follows').toUpperCase()} · ${parent.observation}`, 'incident-relation'));
       }
       if (entry.note) content.append(create('p', entry.note));
-      const remove = create('button', 'Remove', 'text-button'); remove.type = 'button'; remove.addEventListener('click', () => { incident = incident.filter((item) => item.id !== entry.id); save(STORAGE_INCIDENT, incident); renderIncident(); });
+      const remove = create('button', 'Remove', 'text-button'); remove.type = 'button'; remove.addEventListener('click', () => {
+        incident = incident.filter((item) => item.id !== entry.id).map((item) => item.parent_id === entry.id ? { ...item, parent_id: '', relation: '' } : item);
+        save(STORAGE_INCIDENT, incident);
+        renderIncident();
+      });
       article.append(marker, content, remove); container.append(article);
     });
     setStatus(`${incident.length} local incident entries`);
@@ -1267,7 +1284,12 @@
     const history = create('details'); const summary = create('summary', 'Visible change history'); history.append(summary);
     const historyList = create('ul'); governance.change_history.forEach((entry) => historyList.append(create('li', `${entry.date} · ${entry.version} · ${entry.summary}`))); history.append(historyList); head.append(history); container.append(head);
     const layers = create('div', undefined, 'governance-layers');
-    governance.curated_layers.forEach((layer) => { const card = create('article'); card.append(create('p', `${layer.records} RECORDS · V${layer.version}`, 'eyebrow'), create('h4', layer.label), create('p', layer.scope), create('p', `${layer.owner} · reviewed ${layer.last_reviewed} · due ${layer.review_due}`, 'meta')); layers.append(card); });
+    governance.curated_layers.forEach((layer) => {
+      const card = create('article');
+      const review = /^\d{4}-\d{2}-\d{2}$/.test(layer.last_reviewed) ? `reviewed ${layer.last_reviewed}` : layer.last_reviewed;
+      card.append(create('p', `${layer.records} RECORDS · V${layer.version}`, 'eyebrow'), create('h4', layer.label), create('p', layer.scope), create('p', `${layer.owner} · ${review} · due ${layer.review_due}`, 'meta'));
+      layers.append(card);
+    });
     container.append(layers);
   }
 
@@ -1386,11 +1408,18 @@
     $('#incident-form').addEventListener('submit', (event) => {
       event.preventDefault(); if (!validateStandardForm(event.currentTarget, $('#incident-errors'))) return; const technique = parseTechnique($('#incident-technique').value);
       incident.push({ id: uuid(), time: $('#incident-time').value, timezone: incidentMeta.timezone, asset: $('#incident-asset').value.trim(), observation: $('#incident-observation').value.trim(), technique_id: technique?.id || '', status: $('#incident-status').value, note: $('#incident-note').value.trim(), parent_id: $('#incident-parent').value, relation: $('#incident-parent').value ? $('#incident-relation').value : '' });
-      save(STORAGE_INCIDENT, incident); clearFormErrors(event.currentTarget, $('#incident-errors')); event.currentTarget.reset(); $('#incident-time').value = new Date().toISOString().slice(0, 16); renderIncident();
+      save(STORAGE_INCIDENT, incident); clearFormErrors(event.currentTarget, $('#incident-errors')); event.currentTarget.reset(); $('#incident-time').value = localDateTimeValue(); renderIncident();
     });
     $('#export-incident').addEventListener('click', () => download('hecavex-incident-attack-map.json', 'application/json', `${JSON.stringify(incidentPayload(), null, 2)}\n`));
     $('#export-attack-flow').addEventListener('click', () => { try { download('hecavex-incident-attack-flow.json', 'application/json', `${JSON.stringify(attackFlowPayload(), null, 2)}\n`); } catch (error) { window.alert(error.message); } });
     $('#clear-incident').addEventListener('click', () => { if (window.confirm('Clear this browser-local incident timeline?')) { incident = []; save(STORAGE_INCIDENT, incident); renderIncident(); } });
+    $('#clear-local-workspaces').addEventListener('click', () => {
+      if (!window.confirm('Clear every browser-local ATT&CK workspace on this device? Export anything you need first.')) return;
+      try {
+        LOCAL_WORKSPACE_KEYS.forEach((key) => localStorage.removeItem(key));
+        window.location.reload();
+      } catch (error) { showStorageWarning(error); }
+    });
     [$('#reference-search'), $('#reference-tactic'), $('#reference-platform'), $('#reference-type')].forEach((control) => control.addEventListener(control.tagName === 'INPUT' ? 'input' : 'change', () => renderReference(true)));
     $('#reference-more').addEventListener('click', () => { referenceLimit += 80; renderReference(); });
     $('#export-csv').addEventListener('click', exportReferenceCsv); $('#export-navigator').addEventListener('click', exportNavigator);
@@ -1462,7 +1491,7 @@
       catalogue.groups.forEach((group) => { group.procedures = proceduresByGroup.get(group.id) || []; });
       buildEngineeringPackages();
       $('#catalog-total').textContent = String(catalogue.techniques.length); $('#group-total').textContent = String(catalogue.groups.length); $('#procedure-total').textContent = catalogue.groups.reduce((total, group) => total + (group.procedures?.length || 0), 0).toLocaleString('en-US'); $('#guide-total').textContent = String(operations.guides.length); $('#package-total').textContent = String(detectionPackages.packages.length); $('#reviewed-total').textContent = String(evidence.actors.length); $('#mitre-notice').textContent = catalogue.notice;
-      populateControls(); populateWorkspaceMeta(); prepareCapabilityEditor(); restoreObservationWorkspace(); renderSources(); renderGovernance(); bindEvents(); $('#incident-time').value = new Date().toISOString().slice(0, 16);
+      populateControls(); populateWorkspaceMeta(); prepareCapabilityEditor(); restoreObservationWorkspace(); renderSources(); renderGovernance(); bindEvents(); $('#incident-time').value = localDateTimeValue();
       const params = new URLSearchParams(location.search); let workflow = params.get('workflow') || 'observation';
       if (params.get('actor')) { const validActorIds = [...evidence.actors.map((actor) => actor.id), 'compare']; workflow = 'intelligence'; $('#intel-actor').value = validActorIds.includes(params.get('actor')) ? params.get('actor') : evidence.actors[0]?.id || ''; }
       if (params.get('group')) workflow = 'intelligence';
