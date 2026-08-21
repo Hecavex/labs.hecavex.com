@@ -872,8 +872,8 @@ label.field-error { border-color: var(--hx-danger) !important; background: var(-
 }
 
 @media (max-width: 480px) {
-  .stat-grid { grid-template-columns: 1fr; }
-  .stat { min-width: 0; }
+  .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat { min-width: 0; padding: .8rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

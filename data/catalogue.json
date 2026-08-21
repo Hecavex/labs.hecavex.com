@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "updated": "2026-08-21",
+  "updated": "2026-08-22",
   "publisher": "HECAVEX",
   "owner": "Deividas Lis",
   "catalogue_url": "https://labs.hecavex.com/data/",
@@ -132,11 +132,14 @@
       "publisher": "HECAVEX",
       "status": "experimental, best effort",
       "schema_version": "1",
-      "freshness_source": "The snapshot generatedAt field and coverage metadata report the successful publication and collector windows.",
-      "freshness": "Scheduled best-effort snapshot; delayed, failed and sampled collection remain visible in the payload and methodology.",
+      "freshness_source": "radar.json generatedAt records signal-snapshot publication time. collection-health.json separately records the latest bounded CertStream attempt, including actual timing, schedule delay, outcome, aggregate counts, last success and freshness.",
+      "freshness": "Two separate best-effort documents expose snapshot publication freshness and latest-attempt collection health; neither establishes continuous coverage or a complete certificate history.",
       "update_policy": "The publisher replaces the snapshot only after schema, safety and sharp-drop checks; there is no continuous-monitoring SLA.",
       "media_type": "application/json",
-      "content_url": "https://radar.hecavex.com/data/radar.json",
+      "content_urls": [
+        "https://radar.hecavex.com/data/radar.json",
+        "https://radar.hecavex.com/data/collection-health.json"
+      ],
       "methodology": "https://radar.hecavex.com/methodology/",
       "licence": "https://radar.hecavex.com/docs/#data-terms",
       "limitation": "Potential phishing and impersonation signals are candidates, not maliciousness verdicts; source-specific rights still apply."

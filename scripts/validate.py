@@ -331,6 +331,28 @@ for record in catalogue_records:
             if not target.is_file():
                 errors.append(f"Data catalogue references missing distribution: {value}")
 
+radar_record = next((record for record in catalogue_records if record.get("id") == "radar-live-signals"), {})
+expected_radar_distributions = {
+    "https://radar.hecavex.com/data/radar.json",
+    "https://radar.hecavex.com/data/collection-health.json",
+}
+radar_distributions = {
+    value for value in [radar_record.get("content_url"), *radar_record.get("content_urls", [])] if value
+}
+if radar_distributions != expected_radar_distributions:
+    errors.append(f"Radar catalogue distributions differ: {radar_distributions ^ expected_radar_distributions}")
+radar_freshness = f"{radar_record.get('freshness_source', '')} {radar_record.get('freshness', '')}".lower()
+for distinction in ("radar.json", "collection-health.json", "separate", "continuous coverage"):
+    if distinction not in radar_freshness:
+        errors.append(f"Radar catalogue freshness does not distinguish {distinction}")
+
+data_html = (root / "data/index.html").read_text(encoding="utf-8")
+for distribution in expected_radar_distributions:
+    if f'href="{distribution}"' not in data_html:
+        errors.append(f"Human data catalogue does not link Radar distribution: {distribution}")
+if "generatedAt</code> and coverage metadata" in data_html:
+    errors.append("Human data catalogue still attributes collection health to radar.json")
+
 # The catalogue's structured data must describe the datasets rather than attach
 # a Dataset-only distribution property directly to DataCatalog.
 data_document = documents.get((root / "data/index.html").resolve())

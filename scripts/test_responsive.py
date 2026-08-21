@@ -26,6 +26,11 @@ ROUTES = (
     "/licence/",
     "/security/",
 )
+WORKSPACE_SUMMARIES = {
+    "/baltic-threat-atlas/": {"first_control": ".country-button", "max_control_y": 1240},
+    "/pivot-graph/": {"first_control": ".case-card", "max_control_y": 1150},
+    "/osint-workbench/": {"first_control": "#section-filter", "max_control_y": 1350},
+}
 PROJECT_LINKS = (
     "https://hecavex.com/en/research/",
     "https://radar.hecavex.com/",
@@ -106,6 +111,7 @@ try:
             for route in ROUTES:
                 page.goto(base_url + route, wait_until="domcontentloaded")
                 page.wait_for_timeout(100)
+                first_control_y = None
 
                 assert page.locator("h1").count() == 1, f"{route} at {width}px must have one h1"
                 assert page.evaluate("document.documentElement.scrollWidth <= document.documentElement.clientWidth"), f"page overflow: {route} at {width}px"
@@ -113,6 +119,23 @@ try:
                 assert heading_height < HEIGHT * 0.55, f"heading consumes the viewport: {route} at {width}px"
                 containment = page.evaluate(SCROLL_CONTAINMENT_AUDIT)
                 assert not containment, f"wide content is not contained: {route} at {width}px: {containment}"
+
+                if route in WORKSPACE_SUMMARIES and width <= 480:
+                    metric_grid = page.locator(".stat-grid")
+                    metrics = metric_grid.locator(".stat")
+                    assert metrics.count() == 4, f"workspace summary must retain four metrics: {route} at {width}px"
+                    tracks = metric_grid.evaluate("element => getComputedStyle(element).gridTemplateColumns.split(/\\s+/).filter(Boolean)")
+                    assert len(tracks) == 2, f"workspace summary must use two phone columns: {route} at {width}px: {tracks}"
+                    positions = metrics.evaluate_all("elements => elements.map(element => { const box = element.getBoundingClientRect(); return { top: box.top, left: box.left }; })")
+                    assert abs(positions[0]["top"] - positions[1]["top"]) <= 1, f"first metric row is not aligned: {route} at {width}px"
+                    assert abs(positions[2]["top"] - positions[3]["top"]) <= 1, f"second metric row is not aligned: {route} at {width}px"
+                    assert positions[2]["top"] > positions[0]["top"], f"workspace summary is not a 2x2 grid: {route} at {width}px"
+                    summary = WORKSPACE_SUMMARIES[route]
+                    first_control = page.locator(summary["first_control"]).first
+                    first_control.wait_for(state="visible")
+                    assert first_control.is_visible(), f"first operational control is missing: {route} at {width}px"
+                    first_control_y = first_control.bounding_box()["y"]
+                    assert first_control_y <= summary["max_control_y"], f"first operational control is too far below the fold: {route} at {width}px ({first_control_y:.1f}px)"
 
                 assert_focus_visible(page.locator(".skip-link"), f"skip link on {route} at {width}px")
                 page.locator(".skip-link").evaluate("element => element.blur()")
@@ -152,7 +175,7 @@ try:
                     assert page.locator(".menu-toggle").evaluate("element => document.activeElement === element"), f"menu focus was not restored: {route} at {width}px"
                     assert page.locator(".menu-toggle").evaluate(FOCUS_INDICATOR_AUDIT), f"restored menu focus is invisible: {route} at {width}px"
 
-                results.append({"route": route, "width": width, "overflow": False, "scroll_containment": "pass", "keyboard_navigation": "pass", "accessibility_names": "pass", "focus": "pass"})
+                results.append({"route": route, "width": width, "overflow": False, "scroll_containment": "pass", "keyboard_navigation": "pass", "accessibility_names": "pass", "focus": "pass", "compact_metrics": "pass" if route in WORKSPACE_SUMMARIES and width <= 480 else "not-applicable", "first_operational_control_y": round(first_control_y, 1) if first_control_y is not None else None})
 
             assert not page_errors, f"browser errors at {width}px: {page_errors}"
             page.close()
