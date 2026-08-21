@@ -30,6 +30,11 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install browser checks
+        run: |
+          python -m pip install -r requirements-checks.txt
+          python -m playwright install --with-deps chromium
+
       - name: Validate generated content and static site
         shell: bash
         run: |
@@ -37,6 +42,17 @@ jobs:
           git diff --exit-code -- data/attack
           python scripts/validate.py
           for file in assets/*.js; do node --check "$file"; done
+
+      - name: Check responsive layout, navigation and accessibility
+        run: python scripts/test_responsive.py
+
+      - name: Retain responsive and accessibility evidence
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: labs-stage-01-evidence
+          path: test-results/responsive.json
+          if-no-files-found: error
+          retention-days: 30
 
       - name: Configure GitHub Pages
         if: github.event_name != 'pull_request'
@@ -49,8 +65,9 @@ jobs:
         shell: bash
         run: |
           mkdir _site
-          cp index.html CNAME .nojekyll robots.txt sitemap.xml LICENSE.md _site/
-          cp -R .well-known assets attack-map baltic-threat-atlas data osint-workbench pivot-graph _site/
+          cp index.html CNAME .nojekyll robots.txt sitemap.xml LICENSE LICENSE.md DATA-LICENSE.md _site/
+          cp -R .well-known assets attack-map baltic-threat-atlas licence methodology osint-workbench pivot-graph security _site/
+          python scripts/stage_public_data.py _site
           if [ -n "$HECAVEX_ANALYTICS_TOKEN" ]; then
             find _site -name '*.html' -type f -exec sed -i "s/__HECAVEX_ANALYTICS_TOKEN__/$HECAVEX_ANALYTICS_TOKEN/g" {} +
           else

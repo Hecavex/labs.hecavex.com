@@ -2,11 +2,12 @@
 """Dependency-free production validation for HECAVEX Labs."""
 
 from html.parser import HTMLParser
+from datetime import datetime, timezone
 import json
 from pathlib import Path
 import re
 import sys
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 
 
 class DocumentParser(HTMLParser):
@@ -74,6 +75,16 @@ class DocumentParser(HTMLParser):
 
 
 root = Path(__file__).resolve().parent.parent
+ignored_validation_directories = {".git", ".codex-tmp", "_site", "test-results", "__pycache__"}
+
+
+def repository_files(pattern):
+    return [
+        path for path in root.rglob(pattern)
+        if not ignored_validation_directories.intersection(path.relative_to(root).parts)
+    ]
+
+
 required = {
     "index.html",
     "baltic-threat-atlas/index.html",
@@ -81,6 +92,12 @@ required = {
     "attack-map/index.html",
     "attack-map/guide/index.html",
     "osint-workbench/index.html",
+    "data/index.html",
+    "data/catalogue.json",
+    "data/public-manifest.json",
+    "licence/index.html",
+    "methodology/index.html",
+    "security/index.html",
     "assets/styles.css",
     "assets/site.js",
     "assets/atlas.js",
@@ -102,6 +119,8 @@ required = {
     "scripts/build_attack_content.py",
     "scripts/update_attack_catalog.py",
     "scripts/capture_attack_guide.py",
+    "scripts/stage_public_data.py",
+    "scripts/test_responsive.py",
     "assets/img/attack-workbench-guide/01-choose-workflow.png",
     "assets/img/attack-workbench-guide/02-review-evidence-candidates.png",
     "assets/img/attack-workbench-guide/03-assess-coverage.png",
@@ -111,7 +130,9 @@ required = {
     "CNAME",
     "robots.txt",
     "sitemap.xml",
+    "LICENSE",
     "LICENSE.md",
+    "DATA-LICENSE.md",
     ".well-known/security.txt",
 }
 
@@ -121,12 +142,14 @@ if missing:
     errors.append("Missing required files: " + ", ".join(missing))
 
 mojibake_markers = ("â€", "Â", "ï¿½", "�")
-html_files = list(root.rglob("*.html"))
+html_files = repository_files("*.html")
 canonicals = {}
+documents = {}
 for path in html_files:
     text = path.read_text(encoding="utf-8")
     parser = DocumentParser()
     parser.feed(text)
+    documents[path.resolve()] = parser
     duplicates = sorted({value for value in parser.ids if parser.ids.count(value) > 1})
     if duplicates:
         errors.append(f"Duplicate HTML ids in {path.relative_to(root)}: {', '.join(duplicates)}")
@@ -217,7 +240,160 @@ for path in html_files:
         if not target.is_file():
             errors.append(f"Broken local asset in {path.relative_to(root)}: {reference}")
 
-for path in root.rglob("*.json"):
+# Check local links again with fragments and relative-path resolution. The first
+# pass above deliberately remains simple so missing root-relative assets are
+# reported beside the document that references them.
+for path, parser in documents.items():
+    for reference in parser.references:
+        parsed = urlparse(reference)
+        if parsed.scheme or parsed.netloc or reference.startswith("//"):
+            continue
+        raw_path = unquote(parsed.path)
+        if not raw_path:
+            target = path
+        elif raw_path.startswith("/"):
+            target = (root / raw_path.lstrip("/")).resolve()
+        else:
+            target = (path.parent / raw_path).resolve()
+        if raw_path.endswith("/"):
+            target = target / "index.html"
+        if not target.is_file():
+            errors.append(f"Broken local link in {path.relative_to(root)}: {reference}")
+            continue
+        if parsed.fragment and target.suffix.lower() == ".html":
+            target_document = documents.get(target.resolve())
+            if not target_document or unquote(parsed.fragment) not in target_document.ids:
+                errors.append(f"Broken fragment in {path.relative_to(root)}: {reference}")
+
+switcher_targets = [
+    "https://hecavex.com/en/research/",
+    "https://radar.hecavex.com/",
+    "https://apt.hecavex.com/",
+    "https://labs.hecavex.com/",
+    "https://labs.hecavex.com/data/",
+]
+for path in html_files:
+    text = path.read_text(encoding="utf-8")
+    menu = re.search(r'<div class="edition-menu">(.*?)</div>', text, re.DOTALL)
+    if not menu:
+        errors.append(f"Missing project switcher in {path.relative_to(root)}")
+        continue
+    links = re.findall(r'href="([^"]+)"', menu.group(1))
+    normalized = [
+        "https://labs.hecavex.com/" if value == "/" else
+        "https://labs.hecavex.com/data/" if value == "/data/" else value
+        for value in links
+    ]
+    if normalized != switcher_targets:
+        errors.append(f"Project switcher targets or order differ in {path.relative_to(root)}: {normalized}")
+    current_links = re.findall(r'<a[^>]+aria-current="true"[^>]*href="([^"]+)"|<a[^>]+href="([^"]+)"[^>]+aria-current="true"', menu.group(1))
+    current_links = [left or right for left, right in current_links]
+    expected_current = "/data/" if path == (root / "data/index.html").resolve() else "/"
+    if current_links != [expected_current]:
+        errors.append(f"Project switcher current item differs in {path.relative_to(root)}: {current_links}")
+
+security_text = (root / ".well-known/security.txt").read_text(encoding="utf-8")
+for field in ("Contact:", "Canonical:", "Policy:", "Preferred-Languages:", "Expires:"):
+    if field not in security_text:
+        errors.append(f"security.txt is missing {field}")
+if "Canonical: https://labs.hecavex.com/.well-known/security.txt" not in security_text:
+    errors.append("security.txt has an incorrect Canonical field")
+if "Policy: https://labs.hecavex.com/security/" not in security_text:
+    errors.append("security.txt has an incorrect Policy field")
+expiry_match = re.search(r"^Expires:\s*(\S+)\s*$", security_text, re.MULTILINE)
+try:
+    expiry = datetime.fromisoformat(expiry_match.group(1).replace("Z", "+00:00")) if expiry_match else None
+    if not expiry or expiry <= datetime.now(timezone.utc):
+        errors.append("security.txt Expires must be a future timestamp")
+except ValueError:
+    errors.append("security.txt Expires is not a valid ISO timestamp")
+
+catalogue = json.loads((root / "data/catalogue.json").read_text(encoding="utf-8"))
+if catalogue.get("schema_version") != "1.0.0" or not catalogue.get("updated"):
+    errors.append("Public data catalogue requires a version and update date")
+catalogue_records = [*catalogue.get("datasets", []), *catalogue.get("related_datasets", [])]
+required_public_catalogue_fields = {"id", "name", "status", "schema_version", "media_type", "freshness", "update_policy", "licence", "limitation"}
+for record in catalogue_records:
+    missing_fields = required_public_catalogue_fields - record.keys()
+    if missing_fields:
+        errors.append(f"Data catalogue record {record.get('id', '<unknown>')} is missing: {', '.join(sorted(missing_fields))}")
+    if not record.get("updated") and not record.get("freshness_source"):
+        errors.append(f"Data catalogue record {record.get('id', '<unknown>')} needs updated or freshness_source")
+    licence = urlparse(record.get("licence", ""))
+    if licence.scheme != "https":
+        errors.append(f"Data catalogue record {record.get('id', '<unknown>')} needs an HTTPS licence boundary")
+    for value in [record.get("content_url"), *record.get("content_urls", [])]:
+        if not value:
+            continue
+        parsed = urlparse(value)
+        if parsed.hostname == "labs.hecavex.com":
+            target = root / parsed.path.lstrip("/")
+            if not target.is_file():
+                errors.append(f"Data catalogue references missing distribution: {value}")
+
+# The catalogue's structured data must describe the datasets rather than attach
+# a Dataset-only distribution property directly to DataCatalog.
+data_document = documents.get((root / "data/index.html").resolve())
+data_schema = json.loads(data_document.json_ld[0]) if data_document and data_document.json_ld else {}
+data_graph = data_schema.get("@graph", [])
+catalogue_node = next((item for item in data_graph if item.get("@type") == "DataCatalog"), {})
+dataset_nodes = {item.get("@id"): item for item in data_graph if item.get("@type") == "Dataset"}
+expected_dataset_ids = {f"https://labs.hecavex.com/data/#{record['id']}" for record in catalogue_records}
+declared_dataset_ids = {item.get("@id") for item in catalogue_node.get("dataset", [])}
+if declared_dataset_ids != expected_dataset_ids:
+    errors.append(f"DataCatalog dataset references differ from catalogue.json: {declared_dataset_ids ^ expected_dataset_ids}")
+if "distribution" in catalogue_node or not catalogue_node.get("encoding"):
+    errors.append("DataCatalog must expose catalogue.json as an encoding and datasets through dataset")
+for record in catalogue_records:
+    node_id = f"https://labs.hecavex.com/data/#{record['id']}"
+    node = dataset_nodes.get(node_id, {})
+    if not node:
+        errors.append(f"Data catalogue JSON-LD is missing Dataset {record['id']}")
+        continue
+    if node.get("license") != record.get("licence") or not node.get("dateModified"):
+        errors.append(f"Dataset JSON-LD lacks dateModified or precise licence for {record['id']}")
+    distributions = node.get("distribution", [])
+    if isinstance(distributions, dict):
+        distributions = [distributions]
+    structured_urls = {item.get("contentUrl") for item in distributions}
+    catalogue_urls = {value for value in [record.get("content_url"), *record.get("content_urls", [])] if value}
+    if structured_urls != catalogue_urls:
+        errors.append(f"Dataset JSON-LD distributions differ for {record['id']}: {structured_urls ^ catalogue_urls}")
+
+manifest = json.loads((root / "data/public-manifest.json").read_text(encoding="utf-8"))
+if manifest.get("schema_version") != "1.0.0" or manifest.get("default_policy") != "deny":
+    errors.append("Public data manifest must be versioned and default deny")
+manifest_records = manifest.get("files", [])
+manifest_paths = [record.get("path", "") for record in manifest_records]
+if len(manifest_paths) != len(set(manifest_paths)):
+    errors.append("Public data manifest contains duplicate paths")
+actual_data_paths = sorted(path.relative_to(root).as_posix() for path in (root / "data").rglob("*") if path.is_file())
+if sorted(manifest_paths) != actual_data_paths:
+    errors.append(f"Public data manifest is not an exact allowlist; unapproved={sorted(set(actual_data_paths) - set(manifest_paths))}, missing={sorted(set(manifest_paths) - set(actual_data_paths))}")
+catalogue_ids = {record.get("id") for record in catalogue.get("datasets", [])} | {"public-data-catalogue"}
+for record in manifest_records:
+    path_value = record.get("path", "")
+    path_parts = Path(path_value).parts
+    target = (root / path_value).resolve()
+    if not path_parts or path_parts[0] != "data" or not target.is_relative_to((root / "data").resolve()) or not target.is_file():
+        errors.append(f"Unsafe or missing public manifest path: {path_value}")
+    if record.get("catalogue_id") not in catalogue_ids:
+        errors.append(f"Manifest path lacks a supported catalogue mapping: {path_value}")
+    if urlparse(record.get("licence_url", "")).scheme != "https":
+        errors.append(f"Manifest path lacks an HTTPS licence boundary: {path_value}")
+for path in (root / "data").rglob("*"):
+    if path.is_file() and any(marker in path.name.lower() for marker in ("private", "quarantine", "submission", "credential", "secret")):
+        errors.append(f"Potentially sensitive material is present under the public data tree: {path.relative_to(root)}")
+
+license_text = (root / "LICENSE").read_text(encoding="utf-8")
+data_license_text = (root / "DATA-LICENSE.md").read_text(encoding="utf-8")
+if "Permission is hereby granted" not in license_text or "THE SOFTWARE IS PROVIDED \"AS IS\"" not in license_text:
+    errors.append("LICENSE does not contain the complete MIT grant and disclaimer")
+for phrase in ("HECAVEX original data", "MITRE ATT&CK material", "Reviewed evidence and source material", "No warranty"):
+    if phrase not in data_license_text:
+        errors.append(f"DATA-LICENSE.md is missing: {phrase}")
+
+for path in repository_files("*.json"):
     try:
         json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
@@ -417,6 +593,9 @@ if '"@type":"HowTo"' not in attack_guide_html:
 sitemap_text = (root / "sitemap.xml").read_text(encoding="utf-8")
 if "https://labs.hecavex.com/attack-map/guide/" not in sitemap_text:
     errors.append("ATT&CK first-use guide is missing from sitemap.xml")
+for required_public_page in ("data", "methodology", "licence", "security"):
+    if f"https://labs.hecavex.com/{required_public_page}/" not in sitemap_text:
+        errors.append(f"{required_public_page} page is missing from sitemap.xml")
 attack_javascript = (root / "assets/attack-map.js").read_text(encoding="utf-8")
 for forbidden_import_surface in ('type="file"', "import-readiness", "import-incident", "readiness-file", "incident-file"):
     if forbidden_import_surface in attack_html:

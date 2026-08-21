@@ -28,8 +28,8 @@
       <a class="site-title" href="https://hecavex.com/en/">HECAVEX</a>
       <p class="site-subtitle">Cyber Threat Intelligence &amp; Digital Investigations</p>
       <details class="edition-switcher">
-        <summary><i class="fa-solid fa-flask" aria-hidden="true"></i><span class="edition-label">Workspace</span><strong>Labs</strong><i class="fa-solid fa-chevron-down edition-chevron" aria-hidden="true"></i></summary>
-        <div class="edition-menu"><a href="/" aria-current="page"><span>Labs</span><small>TOOLS</small></a><a href="https://radar.hecavex.com/"><span>Radar</span><small>LIVE</small></a><a href="https://apt.hecavex.com/"><span>APT Notes</span><small>TI</small></a><a href="https://hecavex.com/en/"><span>Research</span><small>EN</small></a></div>
+        <summary aria-label="Switch HECAVEX project"><i class="fa-solid fa-layer-group" aria-hidden="true"></i><span class="edition-label">Project</span><strong>Labs</strong><i class="fa-solid fa-chevron-down edition-chevron" aria-hidden="true"></i></summary>
+        <div class="edition-menu"><a href="https://hecavex.com/en/research/"><span>Research</span><small>REPORTS</small></a><a href="https://radar.hecavex.com/"><span>Radar</span><small>PHISH</small></a><a href="https://apt.hecavex.com/"><span>APT Notes</span><small>TI</small></a><a href="/" aria-current="true"><span>Labs</span><small>TOOLS</small></a><a href="/data/"><span>Data</span><small>JSON</small></a></div>
       </details>
     </header>
     <nav aria-label="Primary navigation">
@@ -39,12 +39,13 @@
         <li><a href="/pivot-graph/"><i class="fa-solid fa-diagram-project fa-fw" aria-hidden="true"></i><span>Pivot Workspace</span></a></li>
         <li><a href="/attack-map/"><i class="fa-solid fa-table-cells fa-fw" aria-hidden="true"></i><span>ATT&amp;CK Workbench</span></a></li>
         <li><a href="/osint-workbench/"><i class="fa-solid fa-binoculars fa-fw" aria-hidden="true"></i><span>OSINT Workbench</span></a></li>
+        <li><a href="/data/"><i class="fa-solid fa-code fa-fw" aria-hidden="true"></i><span>Data catalogue</span></a></li>
       </ul>
       <a class="external" href="https://radar.hecavex.com/"><i class="fa-solid fa-satellite-dish fa-fw" aria-hidden="true"></i><span>HECAVEX RADAR</span></a>
       <a class="external" href="https://apt.hecavex.com/"><i class="fa-solid fa-database fa-fw" aria-hidden="true"></i><span>APT NOTES</span></a>
       <a class="external" href="https://hecavex.com/en/"><i class="fa-solid fa-arrow-up-right-from-square fa-fw" aria-hidden="true"></i><span>HECAVEX RESEARCH</span></a>
     </nav>
-    <div class="sidebar-bottom"><button class="icon-button theme-toggle" type="button" aria-label="Change colour theme"><i class="fa-solid fa-display" aria-hidden="true"></i><span>Theme</span></button><a class="icon-button" href="/data/atlas/records.json"><i class="fa-solid fa-code" aria-hidden="true"></i><span>Data</span></a></div>
+    <div class="sidebar-bottom"><button class="icon-button theme-toggle" type="button" aria-label="Change colour theme"><i class="fa-solid fa-display" aria-hidden="true"></i><span>Theme</span></button><a class="icon-button" href="/data/"><i class="fa-solid fa-code" aria-hidden="true"></i><span>Data</span></a></div>
   </aside>
 
   <header class="topbar-wrapper">
@@ -85,6 +86,18 @@
         </div>
       </section>
 
+      <section class="section" id="project-status">
+        <div class="section-head"><div><p class="eyebrow">Project status</p><h2>Maintained, bounded and public by design</h2></div><a href="/methodology/">Methodology →</a></div>
+        <dl class="project-facts" aria-label="HECAVEX Labs project status">
+          <div><dt>Purpose</dt><dd>Turn selected research methods and public evidence into inspectable browser workspaces.</dd></div>
+          <div><dt>Audience</dt><dd>CTI analysts, defenders, investigators, journalists and researchers.</dd></div>
+          <div><dt>Owner</dt><dd><a href="https://hecavex.com/en/about/">Deividas Lis / HECAVEX</a></dd></div>
+          <div><dt>Maintenance</dt><dd><span class="badge current">Maintained</span> Best effort; no monitoring or response SLA.</dd></div>
+          <div><dt>Last meaningful update</dt><dd><time datetime="2026-08-21">21 Aug 2026</time> · ATT&amp;CK governance and detection packages</dd></div>
+          <div><dt>Policies</dt><dd><a href="/methodology/">Methodology and limitations</a> · <a href="/licence/">Licensing</a> · <a href="/security/">Security</a></dd></div>
+        </dl>
+      </section>
+
       <section class="section">
         <div class="section-head"><div><p class="eyebrow">One intelligence system</p><h2>How the HECAVEX properties connect</h2></div></div>
         <div class="flow property-flow">
@@ -95,12 +108,12 @@
         </div>
       </section>
 
-      <section class="section">
-        <div class="notice"><strong>Evidence boundary.</strong> Labs is not a threat feed, automated attribution engine, blocklist or incident-response platform. The Atlas is selected, pivot cases are time-bounded, ATT&amp;CK mappings are source-linked, and the OSINT directory sends no indicator to third parties. Primary sources remain authoritative.</div>
+      <section class="section" id="limitations">
+        <div class="notice"><strong>Evidence boundary.</strong> Labs is not a threat feed, automated attribution engine, blocklist or incident-response platform. The Atlas is selected, pivot cases are time-bounded, ATT&amp;CK mappings are source-linked, and the OSINT directory sends no indicator to third parties. Primary sources remain authoritative. Read the complete <a href="/methodology/">methodology and limitations</a>.</div>
       </section>
     </div>
   </main>
-  <footer class="footer"><span>Part of <a href="https://hecavex.com/en/">HECAVEX</a></span><nav aria-label="Footer"><a href="https://radar.hecavex.com/">Radar</a><a href="https://hecavex.com/en/">Research</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://hecavex.com/en/methodology/">Methodology</a><a href="https://hecavex.com/en/privacy/">Privacy</a><a href="https://hecavex.com/en/contact/">Contact</a></nav></footer>
+  <footer class="footer"><span>Part of <a href="https://hecavex.com/en/">HECAVEX</a></span><nav aria-label="Footer"><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="/">Labs</a><a href="/data/">Data</a><a href="/methodology/">Methodology</a><a href="/licence/">Licence</a><a href="https://hecavex.com/en/privacy/">Privacy</a><a href="/security/">Security</a></nav></footer>
   <script src="/assets/site.js"></script>
 </body>
 </html>

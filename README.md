@@ -2,6 +2,8 @@
 
 [HECAVEX Labs](https://labs.hecavex.com) contains the small tools and datasets that sit next to HECAVEX research. They are intentionally simple, inspectable and usable without an account.
 
+Project status: **maintained on a best-effort basis** by Deividas Lis / HECAVEX. Labs is intended for CTI analysts, defenders, investigators, journalists and researchers; it is not a monitoring service or an operational SLA. The public site carries the current [methodology and limitations](https://labs.hecavex.com/methodology/), [data catalogue](https://labs.hecavex.com/data/) and [security policy](https://labs.hecavex.com/security/).
+
 Current projects:
 
 - **Baltic Threat Atlas** collects source-linked public observations and maps them to APT Notes only when the evidence supports the link.
@@ -25,6 +27,14 @@ python scripts/validate.py
 ```
 
 The validator checks the HTML, local links, metadata, structured data and the expected shape of each dataset.
+
+Deployment also checks every public workspace at 320, 360, 390, 768 and 1024 pixels. The browser suite covers keyboard navigation, focus restoration, scroll containment and page overflow; a successful CI run retains its JSON result as a 30-day workflow artifact. To reproduce the checks locally:
+
+```powershell
+python -m pip install -r requirements-checks.txt
+python -m playwright install chromium
+python scripts/test_responsive.py
+```
 
 The workbench-guide screenshots are reproducible. With the local server running on port 4174 and Playwright installed, refresh them with:
 
@@ -50,6 +60,8 @@ ATT&CK material lives under `data/attack/`:
 
 The other Labs datasets are separated under `data/atlas/`, `data/osint/` and `data/pivots/`.
 
+`data/catalogue.json` is the machine-readable inventory of deliberately public Labs datasets and related HECAVEX APIs. Publication is default-deny: `data/public-manifest.json` is an exact allowlist, validation rejects unlisted files, and deployment stages only paths in that manifest. Private notes, submissions, credentials, malware samples, victim data and quarantined observations do not belong in this repository.
+
 Detection engineering is deliberately separate from ATT&CK reference data:
 
 - One PowerShell package is validation-ready reference material. The remaining packages are explicitly labelled engineering candidates requiring local schema design and testing.
@@ -61,6 +73,10 @@ Detection engineering is deliberately separate from ATT&CK reference data:
 GitHub Pages deploys the site through `.github/workflows/pages.yml`. Keep `CNAME` and use GitHub Actions as the Pages source.
 
 Optional aggregate measurement is enabled with the Actions variable `HECAVEX_ANALYTICS_TOKEN`. Without it, the measurement tag is removed from the deployed files.
+
+## Licensing
+
+HECAVEX-authored software uses the full [MIT License](LICENSE). Original HECAVEX data is CC BY 4.0 only where the [data licensing and attribution notice](DATA-LICENSE.md) identifies it as covered. MITRE ATT&CK records, cited publications, trademarks and external services retain their respective terms; the public [licensing page](https://labs.hecavex.com/licence/) summarizes the boundary.
 
 ## Evidence
 

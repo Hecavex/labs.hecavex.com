@@ -1,3 +1,7 @@
-# Licence
+# Licensing overview
 
-Code in this repository is released under the MIT License. Original editorial text and curated datasets are licensed under CC BY 4.0 unless a file states otherwise. Third-party sources remain subject to their own terms.
+- HECAVEX-authored software is distributed under the full [MIT License](LICENSE).
+- Original HECAVEX editorial text and curated data are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) only where the [data licensing and attribution notice](DATA-LICENSE.md) identifies them as covered.
+- MITRE ATT&CK material, cited publications, trademarks, external resources and other third-party material retain their respective terms and are not relicensed by this repository.
+
+The public, human-readable boundary is also available at [labs.hecavex.com/licence](https://labs.hecavex.com/licence/).
