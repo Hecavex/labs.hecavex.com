@@ -22,6 +22,7 @@ class DocumentParser(HTMLParser):
         self.title = ""
         self.metas = []
         self.canonicals = []
+        self.stylesheets = []
         self.main_count = 0
         self.h1_count = 0
         self.images_without_alt = 0
@@ -41,6 +42,8 @@ class DocumentParser(HTMLParser):
             self.metas.append(attributes)
         if tag == "link" and "canonical" in attributes.get("rel", "").split():
             self.canonicals.append(attributes.get("href", ""))
+        if tag == "link" and "stylesheet" in attributes.get("rel", "").split():
+            self.stylesheets.append(attributes.get("href", ""))
         if tag == "main":
             self.main_count += 1
         if tag == "h1":
@@ -205,7 +208,13 @@ shell_css_contract = {
     "52px local navigation target": r"\.product-navigation a\s*\{[^}]*min-height:\s*3\.25rem\s*;",
     "1160px mobile collapse": r"@media\s*\(max-width:\s*1160px\)",
     "64px mobile header": r"@media\s*\(max-width:\s*1160px\)[\s\S]*?--header-offset:\s*4rem\s*;",
-    "64px display heading ceiling": r"\.brand-hero h1\s*\{[^}]*font-size:\s*clamp\(2\.5rem,\s*5vw,\s*4rem\)\s*;",
+    "1.66 main reading rhythm": r"main\s*\{[^}]*line-height:\s*1\.66\s*;",
+    "2rem section heading ceiling": r"h2\s*\{[^}]*font-size:\s*clamp\(1\.45rem,\s*2\.4vw,\s*2rem\)\s*;",
+    "52px display heading ceiling": r"\.brand-hero h1\s*\{[^}]*font-size:\s*clamp\(2\.4rem,\s*4vw,\s*3\.25rem\)\s*;",
+    "36px search control containment": r"\.header-search input,\s*\.mobile-header-search input\s*\{[^}]*min-height:\s*0\s*;[^}]*line-height:\s*1\.2\s*;",
+    "44px mono call to action": r"\.button\s*\{[^}]*min-height:\s*2\.75rem\s*;[^}]*font:\s*600\s+\.68rem/1\s+var\(--font-mono\)\s*;",
+    "38px mobile hero heading floor": r"\.brand-hero h1,\s*\.page-head h1\s*\{[^}]*font-size:\s*clamp\(2\.4rem,\s*11vw,\s*2\.65rem\)\s*;",
+    "16px mobile hero lead floor": r"\.brand-hero \.lead,\s*\.page-head \.lead\s*\{[^}]*font-size:\s*1rem\s*;",
 }
 for label, pattern in shell_css_contract.items():
     if not re.search(pattern, styles_text):
@@ -259,6 +268,12 @@ for path in html_files:
         errors.append(f"Cold Signal theme colour metadata differs or is missing from {relative}")
     if re.search(r'<link[^>]+rel="stylesheet"[^>]+href="https?://', text, re.IGNORECASE):
         errors.append(f"Remote stylesheet dependency found in {relative}")
+    expected_stylesheet = "/assets/styles.css?v=20260822-2"
+    if parser.stylesheets != [expected_stylesheet]:
+        errors.append(
+            f"Versioned route stylesheet differs in {relative}: "
+            f"expected {[expected_stylesheet]}, found {parser.stylesheets}"
+        )
     if re.search(r'<script[^>]+src="https?://', text, re.IGNORECASE):
         errors.append(f"Remote script dependency found in {relative}")
     duplicates = sorted({value for value in parser.ids if parser.ids.count(value) > 1})

@@ -121,6 +121,12 @@ try:
                 }""")
                 assert fonts_ready["status"] == "loaded" and fonts_ready["inter"] and fonts_ready["mono"], f"self-hosted fonts failed: {route} at {width}px: {fonts_ready}"
                 assert "Inter" in fonts_ready["body"] and "IBM Plex Mono" in fonts_ready["label"], f"Cold Signal font roles differ: {route} at {width}px: {fonts_ready}"
+                reading_rhythm = page.evaluate("""() => ({
+                  bodySize: parseFloat(getComputedStyle(document.body).fontSize),
+                  mainLineHeight: parseFloat(getComputedStyle(document.querySelector('main')).lineHeight),
+                })""")
+                expected_main_line_height = reading_rhythm["bodySize"] * 1.66
+                assert abs(reading_rhythm["mainLineHeight"] - expected_main_line_height) <= 0.1, f"main reading rhythm differs from 1.66: {route} at {width}px: {reading_rhythm}"
 
                 assert page.locator("h1").count() == 1, f"{route} at {width}px must have one h1"
                 theme_colour = page.locator('meta[name="theme-color"]')
@@ -130,7 +136,7 @@ try:
                 heading_height = heading.bounding_box()["height"]
                 assert heading_height < HEIGHT * 0.55, f"heading consumes the viewport: {route} at {width}px"
                 heading_size = heading.evaluate("element => parseFloat(getComputedStyle(element).fontSize)")
-                heading_limit = 64 if heading.locator("xpath=ancestor::*[contains(concat(' ', normalize-space(@class), ' '), ' brand-hero ')]").count() else 56
+                heading_limit = 52 if heading.locator("xpath=ancestor::*[contains(concat(' ', normalize-space(@class), ' '), ' brand-hero ')]").count() else 56
                 assert heading_size <= heading_limit + 0.1, f"heading exceeds the portfolio scale: {route} at {width}px ({heading_size}px > {heading_limit}px)"
                 containment = page.evaluate(SCROLL_CONTAINMENT_AUDIT)
                 assert not containment, f"wide content is not contained: {route} at {width}px: {containment}"
@@ -152,6 +158,9 @@ try:
                     assert abs(product_bar.bounding_box()["height"] - 52) <= 1, f"product row is not 52px: {route} at {width}px"
                     assert 116 <= site_header.bounding_box()["height"] <= 120, f"desktop shell rows plus dividers exceed their geometry: {route} at {width}px"
                     assert page.locator(".portfolio-navigation").is_visible() and page.locator(".mobile-navigation").is_hidden(), f"desktop shell visibility differs: {route} at {width}px"
+                    desktop_utility = page.locator(".header-search, .header-utility")
+                    utility_height = desktop_utility.bounding_box()["height"]
+                    assert abs(utility_height - 36) <= 1, f"desktop search or utility control is not 36px: {route} at {width}px ({utility_height}px)"
 
                 hero = page.locator(".brand-hero, .page-head, .task-hero").first
                 hero_box = hero.bounding_box()
@@ -172,12 +181,23 @@ try:
                     hero_box = hero.bounding_box()
                     assert meta_box and hero_box, f"home hero metadata is not measurable at {width}px"
                     assert meta_box["x"] >= hero_box["x"] and meta_box["x"] + meta_box["width"] <= hero_box["x"] + hero_box["width"] + 1, f"home hero metadata escapes its panel at {width}px"
+                    mobile_heading_size = page.locator(".brand-hero h1").evaluate("element => parseFloat(getComputedStyle(element).fontSize)")
+                    mobile_lead_size = page.locator(".brand-hero .lead").evaluate("element => parseFloat(getComputedStyle(element).fontSize)")
+                    assert mobile_heading_size >= 38, f"mobile hero heading is below 38px at {width}px ({mobile_heading_size}px)"
+                    assert mobile_lead_size >= 16, f"mobile hero lead is below 16px at {width}px ({mobile_lead_size}px)"
                     if width == 390:
                         VISUAL_RESULTS.mkdir(parents=True, exist_ok=True)
                         page.screenshot(path=str(VISUAL_RESULTS / "home-mobile.png"), full_page=True)
                 elif route == "/" and width == 1440:
                     VISUAL_RESULTS.mkdir(parents=True, exist_ok=True)
                     page.screenshot(path=str(VISUAL_RESULTS / "home-desktop.png"), full_page=True)
+
+                if route == "/":
+                    hero_cta = page.locator(".brand-hero .button").first
+                    cta_box = hero_cta.bounding_box()
+                    cta_font = hero_cta.evaluate("element => getComputedStyle(element).fontFamily")
+                    assert cta_box and 43 <= cta_box["height"] <= 45, f"home CTA is not a 44px control at {width}px: {cta_box}"
+                    assert "IBM Plex Mono" in cta_font, f"home CTA does not use the Cold Signal interface face at {width}px: {cta_font}"
 
                 if route in WORKSPACE_SUMMARIES and width <= 480:
                     metric_grid = page.locator(".stat-grid")
