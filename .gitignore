@@ -2,6 +2,8 @@
 Thumbs.db
 *.tmp
 .codex-tmp/
+.venv/
+_site/
 test-results/
 __pycache__/
 *.pyc
