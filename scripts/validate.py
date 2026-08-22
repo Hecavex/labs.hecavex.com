@@ -99,6 +99,7 @@ required = {
     "methodology/index.html",
     "security/index.html",
     "assets/styles.css",
+    "assets/hecavex-mark.svg",
     "assets/site.js",
     "assets/atlas.js",
     "assets/pivot-graph.js",
@@ -164,6 +165,12 @@ missing_fonts = sorted(path for path in font_paths if not (root / path).is_file(
 if missing_fonts:
     errors.append("Missing self-hosted font files: " + ", ".join(missing_fonts))
 styles_text = (root / "assets/styles.css").read_text(encoding="utf-8")
+mark_text = (root / "assets/hecavex-mark.svg").read_text(encoding="utf-8").lower()
+for required_mark_colour in ("#44c7dc", "#f2f8fb"):
+    if required_mark_colour not in mark_text:
+        errors.append(f"HECAVEX identity mark is missing {required_mark_colour}")
+if "#ff6b6b" in mark_text:
+    errors.append("HECAVEX identity mark must reserve danger red for status UI")
 design_contract = {
     "--hx-bg": "#05080b",
     "--hx-surface-1": "#0b1117",

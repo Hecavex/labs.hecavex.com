@@ -41,6 +41,7 @@ jobs:
           python scripts/build_attack_content.py
           git diff --exit-code -- data/attack
           python scripts/validate.py
+          python scripts/audit_performance.py
           for file in assets/*.js; do node --check "$file"; done
 
       - name: Check responsive layout, navigation and accessibility

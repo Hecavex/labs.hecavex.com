@@ -28,7 +28,7 @@ Open `http://localhost:4173/` and run the repository checks with:
 python scripts/validate.py
 ```
 
-The validator checks the HTML, local links, metadata, structured data, self-hosted font inventory, absence of remote font loading and the expected shape of each dataset.
+The validator checks the HTML, local links, metadata, structured data, self-hosted font inventory, absence of remote font loading and the expected shape of each dataset. `python scripts/audit_performance.py` separately enforces deterministic raw and gzip size limits for the page shell, static assets and route-specific data bundles. Thresholds are recorded in that script and should only be raised after reviewing the affected user experience.
 
 Deployment also checks every public workspace at 320, 360, 390, 768, 1024 and 1440 pixels. The browser suite covers actual font loading, keyboard navigation, focus restoration, scroll containment, page overflow and usable navigation without JavaScript; a successful CI run retains its JSON result as a 30-day workflow artifact. To reproduce the checks locally:
 
