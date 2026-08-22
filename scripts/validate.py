@@ -9,6 +9,8 @@ import re
 import sys
 from urllib.parse import unquote, urlparse
 
+from sync_shell import ROUTES as SHELL_ROUTES, transform as render_shell
+
 
 class DocumentParser(HTMLParser):
     def __init__(self):
@@ -121,6 +123,7 @@ required = {
     "scripts/update_attack_catalog.py",
     "scripts/capture_attack_guide.py",
     "scripts/stage_public_data.py",
+    "scripts/sync_shell.py",
     "scripts/test_responsive.py",
     "assets/img/attack-workbench-guide/01-choose-workflow.png",
     "assets/img/attack-workbench-guide/02-review-evidence-candidates.png",
@@ -193,6 +196,20 @@ design_contract = {
 for token, value in design_contract.items():
     if not re.search(rf"{re.escape(token)}:\s*{re.escape(value)}\s*;", styles_text, re.IGNORECASE):
         errors.append(f"Cold Signal design token differs: {token} must be {value}")
+shell_css_contract = {
+    "shell maximum width": r"--shell-max:\s*94rem\s*;",
+    "desktop header offset": r"--header-offset:\s*7\.25rem\s*;",
+    "64px network row": r"\.network-bar\s*\{[^}]*min-height:\s*4rem\s*;",
+    "52px product row": r"\.product-bar\s*\{[^}]*min-height:\s*3\.25rem\s*;",
+    "36px identity mark": r"\.brand img\s*\{[^}]*width:\s*2\.25rem\s*;[^}]*height:\s*2\.25rem\s*;",
+    "52px local navigation target": r"\.product-navigation a\s*\{[^}]*min-height:\s*3\.25rem\s*;",
+    "1160px mobile collapse": r"@media\s*\(max-width:\s*1160px\)",
+    "64px mobile header": r"@media\s*\(max-width:\s*1160px\)[\s\S]*?--header-offset:\s*4rem\s*;",
+    "64px display heading ceiling": r"\.brand-hero h1\s*\{[^}]*font-size:\s*clamp\(2\.5rem,\s*5vw,\s*4rem\)\s*;",
+}
+for label, pattern in shell_css_contract.items():
+    if not re.search(pattern, styles_text):
+        errors.append(f"Portfolio shell CSS contract differs: {label}")
 for font_path in sorted(path for path in font_paths if path.endswith(".woff2")):
     if f'url("/{font_path}")' not in styles_text:
         errors.append(f"Self-hosted font is not referenced by the stylesheet: {font_path}")
@@ -232,8 +249,10 @@ for path in html_files:
     parser.feed(text)
     documents[path.resolve()] = parser
     relative = path.relative_to(root)
-    if '<header class="site-header">' not in text or 'class="site-nav" id="site-nav"' not in text:
+    if '<header class="site-header" data-portfolio-shell="v1">' not in text:
         errors.append(f"Cold Signal site shell is missing from {relative}")
+    if '<footer class="site-footer">' not in text:
+        errors.append(f"Portfolio footer is missing from {relative}")
     if "document.documentElement.classList.add('js')" not in text:
         errors.append(f"Progressive-enhancement marker is missing from {relative}")
     if len(re.findall(r'<meta\s+name="theme-color"\s+content="#05080b"\s*/?>', text, re.IGNORECASE)) != 1:
@@ -374,26 +393,50 @@ for path, parser in documents.items():
                 errors.append(f"Broken fragment in {path.relative_to(root)}: {reference}")
 
 switcher_targets = [
-    "https://hecavex.com/en/",
+    "https://hecavex.com/en/research/",
     "https://radar.hecavex.com/",
     "https://apt.hecavex.com/",
     "https://labs.hecavex.com/",
+    "https://labs.hecavex.com/data/",
 ]
 for path in html_files:
     text = path.read_text(encoding="utf-8")
-    menu = re.search(r'<div class="network-menu">(.*?)</div>', text, re.DOTALL)
-    if not menu:
-        errors.append(f"Missing portfolio network switcher in {path.relative_to(root)}")
-        continue
-    links = re.findall(r'href="([^"]+)"', menu.group(1))
-    normalized = [
-        "https://labs.hecavex.com/" if value == "/" else value
-        for value in links
+    portfolio_blocks = [
+        re.search(r'<nav class="portfolio-navigation"[^>]*>(.*?)</nav>', text, re.DOTALL),
+        re.search(r'<nav class="mobile-portfolio-navigation"[^>]*>(.*?)</nav>', text, re.DOTALL),
     ]
-    if normalized != switcher_targets:
-        errors.append(f"Portfolio network targets or order differ in {path.relative_to(root)}: {normalized}")
-    if not re.search(r'<a\b(?=[^>]*href="/")(?=[^>]*aria-current="true")[^>]*>\s*<span>Labs</span>', menu.group(1)):
-        errors.append(f"Labs is not marked as the current portfolio property in {path.relative_to(root)}")
+    for surface, menu in zip(("desktop", "mobile"), portfolio_blocks, strict=True):
+        if not menu:
+            errors.append(f"Missing {surface} portfolio navigation in {path.relative_to(root)}")
+            continue
+        links = re.findall(r'href="([^"]+)"', menu.group(1))
+        if links != switcher_targets:
+            errors.append(f"{surface.title()} portfolio targets or order differ in {path.relative_to(root)}: {links}")
+        current_links = re.findall(r'<a\b(?=[^>]*aria-current="page")[^>]*href="([^"]+)"', menu.group(1))
+        expected_current = "https://labs.hecavex.com/data/" if path == root / "data/index.html" else "https://labs.hecavex.com/"
+        if current_links != [expected_current]:
+            errors.append(
+                f"{surface.title()} portfolio current state differs in {path.relative_to(root)}: "
+                f"expected {expected_current}, found {current_links}"
+            )
+
+shell_route_paths = {route.path for route in SHELL_ROUTES}
+html_route_paths = {path.relative_to(root).as_posix() for path in html_files}
+if html_route_paths != shell_route_paths:
+    errors.append(
+        "Portfolio shell route inventory differs: "
+        f"missing={sorted(html_route_paths - shell_route_paths)}, stale={sorted(shell_route_paths - html_route_paths)}"
+    )
+for route in SHELL_ROUTES:
+    path = root / route.path
+    text = path.read_text(encoding="utf-8")
+    try:
+        expected = render_shell(text, route)
+    except ValueError as error:
+        errors.append(str(error))
+        continue
+    if expected != text:
+        errors.append(f"Portfolio shell is stale in {route.path}; run python scripts/sync_shell.py --write")
 
 tracking_surfaces = [*html_files, root / "assets/site.js", root / ".github/workflows/pages.yml", root / "README.md"]
 for path in tracking_surfaces:

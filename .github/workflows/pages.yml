@@ -38,6 +38,7 @@ jobs:
       - name: Validate generated content and static site
         shell: bash
         run: |
+          python scripts/sync_shell.py --check
           python scripts/build_attack_content.py
           git diff --exit-code -- data/attack
           python scripts/validate.py

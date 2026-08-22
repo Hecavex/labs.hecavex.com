@@ -4,7 +4,7 @@
 
 Project status: **maintained on a best-effort basis** by Deividas Lis / HECAVEX. Labs is intended for CTI analysts, defenders, investigators, journalists and researchers; it is not a monitoring service or an operational SLA. The public site carries the current [methodology and limitations](https://labs.hecavex.com/methodology/), [data catalogue](https://labs.hecavex.com/data/) and [security policy](https://labs.hecavex.com/security/).
 
-The interface is purpose-built static HTML, CSS and browser JavaScript. Its Cold Signal design system uses a fixed dark analyst palette shared across the HECAVEX portfolio, Inter for interface and reading text, and IBM Plex Mono for labels, states and technical metadata. Both font families are self-hosted under `assets/fonts/`; their OFL notices are stored alongside the files. No remote font or icon service is required.
+The interface is purpose-built static HTML, CSS and browser JavaScript. Its Cold Signal design system uses the same two-row portfolio shell, dimensions and navigation order as the other HECAVEX properties, Inter for interface and reading text, and IBM Plex Mono for labels, states and technical metadata. Both font families are self-hosted under `assets/fonts/`; their OFL notices are stored alongside the files. No remote font or icon service is required.
 
 Current projects:
 
@@ -25,12 +25,13 @@ python -m http.server 4173
 Open `http://localhost:4173/` and run the repository checks with:
 
 ```powershell
+python scripts/sync_shell.py --check
 python scripts/validate.py
 ```
 
-The validator checks the HTML, local links, metadata, structured data, self-hosted font inventory, absence of remote font loading and the expected shape of each dataset. `python scripts/audit_performance.py` separately enforces deterministic raw and gzip size limits for the page shell, static assets and route-specific data bundles. Thresholds are recorded in that script and should only be raised after reviewing the affected user experience.
+The shell synchronizer ensures every static route renders the same versioned header and footer. After intentionally changing the shared Labs shell in `scripts/sync_shell.py`, apply it with `python scripts/sync_shell.py --write` and review the resulting HTML. The validator checks that exact shell, its dimensions and navigation order alongside local links, metadata, structured data, self-hosted fonts, remote-dependency absence and dataset shapes. `python scripts/audit_performance.py` separately enforces deterministic raw and gzip size limits for the page shell, static assets and route-specific data bundles. Thresholds are recorded in that script and should only be raised after reviewing the affected user experience.
 
-Deployment also checks every public workspace at 320, 360, 390, 768, 1024 and 1440 pixels. The browser suite covers actual font loading, keyboard navigation, focus restoration, scroll containment, page overflow and usable navigation without JavaScript; a successful CI run retains its JSON result as a 30-day workflow artifact. To reproduce the checks locally:
+Deployment also checks every public route from 320 through 1600 pixels, including both sides of the 1160-pixel shell breakpoint. The browser suite covers exact header geometry, heading ceilings, actual font loading, keyboard and Escape behavior, footer/network order, scroll containment, page overflow and native navigation without JavaScript; a successful CI run retains its JSON result as a 30-day workflow artifact. To reproduce the checks locally:
 
 ```powershell
 python -m pip install -r requirements-checks.txt

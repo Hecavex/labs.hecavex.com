@@ -13,7 +13,7 @@ from playwright.sync_api import sync_playwright
 ROOT = Path(__file__).resolve().parent.parent
 RESULTS = ROOT / "test-results" / "responsive.json"
 VISUAL_RESULTS = ROOT / "test-results" / "visual"
-WIDTHS = (320, 360, 390, 768, 1024, 1440)
+WIDTHS = (320, 360, 390, 768, 1024, 1160, 1161, 1440, 1600)
 HEIGHT = 900
 ROUTES = (
     "/",
@@ -33,10 +33,11 @@ WORKSPACE_SUMMARIES = {
     "/osint-workbench/": {"first_control": "#section-filter", "max_control_y": 1350},
 }
 NETWORK_LINKS = (
-    "https://hecavex.com/en/",
+    "https://hecavex.com/en/research/",
     "https://radar.hecavex.com/",
     "https://apt.hecavex.com/",
     "https://labs.hecavex.com/",
+    "https://labs.hecavex.com/data/",
 )
 ACCESSIBLE_NAME_AUDIT = """elements => elements.filter(element => {
   const style = getComputedStyle(element);
@@ -82,13 +83,6 @@ class QuietHandler(SimpleHTTPRequestHandler):
         pass
 
 
-def normalise_project_link(value):
-    if value.startswith("http://127.0.0.1:"):
-        path = value.split("/", 3)[-1]
-        return "https://labs.hecavex.com/" + path
-    return value
-
-
 def assert_focus_visible(locator, context):
     locator.focus()
     assert locator.evaluate(FOCUS_INDICATOR_AUDIT), f"focus indicator missing: {context}"
@@ -132,10 +126,43 @@ try:
                 theme_colour = page.locator('meta[name="theme-color"]')
                 assert theme_colour.count() == 1 and theme_colour.get_attribute("content").lower() == "#05080b", f"Cold Signal theme colour metadata differs: {route} at {width}px"
                 assert page.evaluate("document.documentElement.scrollWidth <= document.documentElement.clientWidth"), f"page overflow: {route} at {width}px"
-                heading_height = page.locator("h1").bounding_box()["height"]
+                heading = page.locator("h1")
+                heading_height = heading.bounding_box()["height"]
                 assert heading_height < HEIGHT * 0.55, f"heading consumes the viewport: {route} at {width}px"
+                heading_size = heading.evaluate("element => parseFloat(getComputedStyle(element).fontSize)")
+                heading_limit = 64 if heading.locator("xpath=ancestor::*[contains(concat(' ', normalize-space(@class), ' '), ' brand-hero ')]").count() else 56
+                assert heading_size <= heading_limit + 0.1, f"heading exceeds the portfolio scale: {route} at {width}px ({heading_size}px > {heading_limit}px)"
                 containment = page.evaluate(SCROLL_CONTAINMENT_AUDIT)
                 assert not containment, f"wide content is not contained: {route} at {width}px: {containment}"
+
+                site_header = page.locator('.site-header[data-portfolio-shell="v1"]')
+                network_bar = page.locator(".network-bar")
+                product_bar = page.locator(".product-bar")
+                assert site_header.count() == 1, f"versioned portfolio shell missing: {route} at {width}px"
+                assert abs(network_bar.bounding_box()["height"] - 64) <= 1, f"network row is not 64px: {route} at {width}px"
+                assert network_bar.bounding_box()["width"] <= 1504.5, f"network shell exceeds 94rem: {route} at {width}px"
+                mark_size = page.locator(".brand img").bounding_box()["width"]
+                expected_mark_size = 34 if width <= 480 else 36
+                assert abs(mark_size - expected_mark_size) <= 1, f"identity mark differs: {route} at {width}px ({mark_size}px)"
+                if width <= 1160:
+                    assert abs(site_header.bounding_box()["height"] - 64) <= 1, f"mobile header is not one 64px row: {route} at {width}px"
+                    assert product_bar.is_hidden() and page.locator(".portfolio-navigation").is_hidden(), f"desktop shell remains visible at mobile collapse: {route} at {width}px"
+                    assert page.locator(".mobile-navigation summary").is_visible(), f"mobile menu is unavailable: {route} at {width}px"
+                else:
+                    assert abs(product_bar.bounding_box()["height"] - 52) <= 1, f"product row is not 52px: {route} at {width}px"
+                    assert 116 <= site_header.bounding_box()["height"] <= 120, f"desktop shell rows plus dividers exceed their geometry: {route} at {width}px"
+                    assert page.locator(".portfolio-navigation").is_visible() and page.locator(".mobile-navigation").is_hidden(), f"desktop shell visibility differs: {route} at {width}px"
+
+                hero = page.locator(".brand-hero, .page-head, .task-hero").first
+                hero_box = hero.bounding_box()
+                header_box = site_header.bounding_box()
+                start_gap = hero_box["y"] - (header_box["y"] + header_box["height"])
+                if width <= 1160:
+                    assert 39 <= start_gap <= 57, f"mobile content start differs: {route} at {width}px ({start_gap}px)"
+                else:
+                    assert 63 <= start_gap <= 81, f"desktop content start differs: {route} at {width}px ({start_gap}px)"
+                    if hero.evaluate("element => element.matches('.brand-hero, .page-head')"):
+                        assert hero_box["height"] <= 430, f"hero exceeds 430px: {route} at {width}px ({hero_box['height']}px)"
 
                 if route == "/" and width <= 650:
                     hero = page.locator(".brand-hero")
@@ -148,6 +175,9 @@ try:
                     if width == 390:
                         VISUAL_RESULTS.mkdir(parents=True, exist_ok=True)
                         page.screenshot(path=str(VISUAL_RESULTS / "home-mobile.png"), full_page=True)
+                elif route == "/" and width == 1440:
+                    VISUAL_RESULTS.mkdir(parents=True, exist_ok=True)
+                    page.screenshot(path=str(VISUAL_RESULTS / "home-desktop.png"), full_page=True)
 
                 if route in WORKSPACE_SUMMARIES and width <= 480:
                     metric_grid = page.locator(".stat-grid")
@@ -171,37 +201,37 @@ try:
                 unnamed = page.locator("a[href], button, summary, input:not([type=hidden]), select, textarea").evaluate_all(ACCESSIBLE_NAME_AUDIT)
                 assert not unnamed, f"visible controls without accessible names: {route} at {width}px: {unnamed}"
 
-                if width <= 849:
-                    menu = page.locator(".menu-toggle")
+                if width <= 1160:
+                    menu = page.locator(".mobile-navigation summary")
                     assert menu.is_visible(), f"mobile menu missing: {route} at {width}px"
                     assert_focus_visible(menu, f"menu control on {route} at {width}px")
                     page.keyboard.press("Enter")
-                    assert menu.get_attribute("aria-expanded") == "true", f"mobile menu did not open: {route} at {width}px"
-                    assert page.locator("#site-nav").is_visible(), f"navigation hidden after opening: {route} at {width}px"
+                    assert page.locator(".mobile-navigation").evaluate("element => element.open"), f"mobile menu did not open: {route} at {width}px"
+                    page.wait_for_function("document.querySelector('.mobile-navigation summary')?.getAttribute('aria-label') === 'Close navigation menu'")
+                    assert menu.get_attribute("aria-label") == "Close navigation menu", f"mobile menu state is not announced: {route} at {width}px"
+                    assert page.locator(".mobile-navigation-panel").is_visible(), f"navigation hidden after opening: {route} at {width}px"
                     page.wait_for_timeout(50)
-                    close_button = page.locator(".mobile-nav-close")
-                    assert close_button.evaluate("element => document.activeElement === element"), f"drawer did not receive focus: {route} at {width}px"
-                    assert close_button.evaluate(FOCUS_INDICATOR_AUDIT), f"drawer close focus is invisible: {route} at {width}px"
-                    page.keyboard.press("Shift+Tab")
-                    assert page.evaluate("document.querySelector('#site-nav').contains(document.activeElement)"), f"drawer focus trap failed: {route} at {width}px"
+                    project_navigation = page.locator(".mobile-portfolio-navigation")
+                else:
+                    project_navigation = page.locator(".portfolio-navigation")
 
-                project_summary = page.locator(".network-switcher summary")
-                assert_focus_visible(project_summary, f"network switcher on {route} at {width}px")
-                page.keyboard.press("Enter")
-                assert page.locator(".network-switcher").evaluate("element => element.open"), f"network switcher did not open by keyboard: {route} at {width}px"
-                links = page.locator(".network-menu a").evaluate_all("links => links.map(link => link.href)")
-                links = tuple(normalise_project_link(value) for value in links)
+                links = project_navigation.locator("a").evaluate_all("links => links.map(link => link.href)")
+                links = tuple(links)
                 assert links == NETWORK_LINKS, f"project navigation differs: {route} at {width}px: {links}"
-                assert page.locator('.network-menu a[href="/"]').get_attribute("aria-current") == "true", f"Labs is not identified as the current portfolio property: {route} at {width}px"
-                assert_focus_visible(page.locator(".network-menu a").first, f"project link on {route} at {width}px")
-                unnamed = page.locator("#site-nav a[href], #site-nav button, #site-nav summary").evaluate_all(ACCESSIBLE_NAME_AUDIT)
-                assert not unnamed, f"open navigation controls without accessible names: {route} at {width}px: {unnamed}"
+                expected_current = "https://labs.hecavex.com/data/" if route == "/data/" else "https://labs.hecavex.com/"
+                current_links = tuple(project_navigation.locator('a[aria-current="page"]').evaluate_all("links => links.map(link => link.href)"))
+                assert current_links == (expected_current,), f"portfolio current state differs: {route} at {width}px: {current_links}"
+                assert_focus_visible(project_navigation.locator("a").first, f"project link on {route} at {width}px")
+                footer_links = tuple(page.locator(".site-footer nav a").evaluate_all("links => links.slice(0, 5).map(link => link.href)"))
+                assert footer_links == NETWORK_LINKS, f"footer project order differs: {route} at {width}px: {footer_links}"
 
-                if width <= 849:
+                if width <= 1160:
                     page.keyboard.press("Escape")
-                    assert page.locator(".menu-toggle").get_attribute("aria-expanded") == "false", f"Escape did not close navigation: {route} at {width}px"
-                    assert page.locator(".menu-toggle").evaluate("element => document.activeElement === element"), f"menu focus was not restored: {route} at {width}px"
-                    assert page.locator(".menu-toggle").evaluate(FOCUS_INDICATOR_AUDIT), f"restored menu focus is invisible: {route} at {width}px"
+                    assert not page.locator(".mobile-navigation").evaluate("element => element.open"), f"Escape did not close navigation: {route} at {width}px"
+                    page.wait_for_function("document.querySelector('.mobile-navigation summary')?.getAttribute('aria-label') === 'Open navigation menu'")
+                    assert menu.get_attribute("aria-label") == "Open navigation menu", f"closed mobile menu state is not announced: {route} at {width}px"
+                    assert menu.evaluate("element => document.activeElement === element"), f"menu focus was not restored: {route} at {width}px"
+                    assert menu.evaluate(FOCUS_INDICATOR_AUDIT), f"restored menu focus is invisible: {route} at {width}px"
 
                 results.append({"route": route, "width": width, "overflow": False, "scroll_containment": "pass", "keyboard_navigation": "pass", "accessibility_names": "pass", "focus": "pass", "compact_metrics": "pass" if route in WORKSPACE_SUMMARIES and width <= 480 else "not-applicable", "first_operational_control_y": round(first_control_y, 1) if first_control_y is not None else None})
 
@@ -212,12 +242,12 @@ try:
         no_script_page = no_script_context.new_page()
         for route in ROUTES:
             no_script_page.goto(base_url + route, wait_until="domcontentloaded")
-            assert no_script_page.locator("#site-nav").is_visible(), f"navigation is unavailable without JavaScript: {route}"
-            assert no_script_page.locator(".menu-toggle").is_hidden(), f"inert menu control is exposed without JavaScript: {route}"
-            close_button = no_script_page.locator(".mobile-nav-close")
-            assert close_button.is_hidden(), f"dead mobile close control is exposed without JavaScript: {route}"
-            assert close_button.evaluate("element => { element.focus(); return document.activeElement !== element; }"), f"dead mobile close control accepts focus without JavaScript: {route}"
-            assert no_script_page.locator("#site-nav a[href]").count() >= 10, f"navigation fallback is incomplete: {route}"
+            menu = no_script_page.locator(".mobile-navigation summary")
+            assert menu.is_visible(), f"native navigation control is unavailable without JavaScript: {route}"
+            menu.click()
+            assert no_script_page.locator(".mobile-navigation").evaluate("element => element.open"), f"native navigation cannot open without JavaScript: {route}"
+            assert no_script_page.locator(".mobile-navigation-panel").is_visible(), f"navigation panel is unavailable without JavaScript: {route}"
+            assert no_script_page.locator(".mobile-navigation-panel a[href]").count() >= 11, f"navigation fallback is incomplete: {route}"
             assert no_script_page.evaluate("document.documentElement.scrollWidth <= document.documentElement.clientWidth"), f"no-JavaScript page overflow: {route}"
         no_script_context.close()
         browser.close()

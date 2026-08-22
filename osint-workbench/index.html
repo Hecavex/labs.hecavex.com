@@ -15,9 +15,31 @@
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
-  <header class="site-header">
-    <div class="header-inner"><a class="brand" href="/" aria-label="HECAVEX Labs home"><img src="/assets/hecavex-mark.svg" alt="" width="38" height="38"><span class="brand-copy"><strong>HECAVEX <span>/ LABS</span></strong><small>Open CTI workspaces</small></span></a><button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="site-nav" aria-expanded="false">Menu</button><nav class="site-nav" id="site-nav" aria-label="Primary navigation"><button class="mobile-nav-close" type="button" aria-label="Close navigation">Close</button><div class="nav-primary"><a href="/">Overview</a><a href="/baltic-threat-atlas/">Baltic Atlas</a><a href="/pivot-graph/">Pivots</a><a href="/attack-map/">ATT&amp;CK</a><a href="/osint-workbench/" aria-current="page">OSINT</a><a href="/data/">Data</a></div><div class="nav-network"><details class="network-switcher"><summary>Network</summary><div class="network-menu"><a href="https://hecavex.com/en/"><span>HECAVEX</span><small>Publication</small></a><a href="https://radar.hecavex.com/"><span>Radar</span><small>Phishing signals</small></a><a href="https://apt.hecavex.com/"><span>APT Notes</span><small>Knowledge base</small></a><a href="/" aria-current="true"><span>Labs</span><small>Workspaces</small></a></div></details></div></nav></div>
-    <div class="context-bar"><nav class="breadcrumb" aria-label="Breadcrumb"><span><a href="/">Labs</a></span><span>OSINT Workbench</span></nav><form class="global-search" role="search"><label class="sr-only" for="global-q">Search OSINT sources</label><input id="global-q" type="search" placeholder="Search sources and use cases" autocomplete="off"></form></div>
+  <header class="site-header" data-portfolio-shell="v1">
+    <div class="network-bar">
+      <a class="brand" href="https://hecavex.com/en/" aria-label="HECAVEX Research">
+        <img src="/assets/hecavex-mark.svg" alt="" width="36" height="36">
+        <span class="brand-copy"><strong>HECAVEX</strong><small>Labs / open CTI workspaces</small></span>
+      </a>
+      <nav class="portfolio-navigation" aria-label="HECAVEX projects"><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/" aria-current="page">Labs</a><a href="https://labs.hecavex.com/data/">Data</a></nav>
+      <details class="mobile-navigation" data-mobile-navigation>
+        <summary aria-label="Open navigation menu">
+          <svg class="menu-open-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          <svg class="menu-close-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+          <span>Menu</span>
+        </summary>
+        <div class="mobile-navigation-panel">
+          <nav class="mobile-product-navigation" aria-label="Labs sections"><span class="navigation-label">Labs</span><a href="/">Overview</a><a href="/baltic-threat-atlas/">Baltic Atlas</a><a href="/pivot-graph/">Pivots</a><a href="/attack-map/">ATT&amp;CK</a><a href="/osint-workbench/" aria-current="page">OSINT</a><a href="/data/">Data</a></nav>
+          <div class="mobile-navigation-utility"><form class="mobile-header-search" action="/" role="search"><label class="sr-only" for="global-q-mobile">Search OSINT sources</label><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg><input id="global-q-mobile" name="q" type="search" placeholder="Search" autocomplete="off" data-shell-search></form></div>
+          <nav class="mobile-portfolio-navigation" aria-label="HECAVEX projects"><span class="navigation-label">HECAVEX network</span><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/" aria-current="page">Labs</a><a href="https://labs.hecavex.com/data/">Data</a></nav>
+        </div>
+      </details>
+    </div>
+    <div class="product-bar">
+      <a class="product-identity" href="/"><strong>Labs</strong><span>Open CTI workspaces</span></a>
+      <nav class="product-navigation" aria-label="Labs sections"><a href="/">Overview</a><a href="/baltic-threat-atlas/">Baltic Atlas</a><a href="/pivot-graph/">Pivots</a><a href="/attack-map/">ATT&amp;CK</a><a href="/osint-workbench/" aria-current="page">OSINT</a><a href="/data/">Data</a></nav>
+      <form class="header-search" action="/" role="search"><label class="sr-only" for="global-q-desktop">Search OSINT sources</label><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg><input id="global-q-desktop" name="q" type="search" placeholder="Search" autocomplete="off" data-shell-search></form>
+    </div>
   </header>
 
   <main id="main-content"><div class="shell">
@@ -35,6 +57,7 @@
         <button class="button small" id="clear-filters" type="button">Clear filters</button>
       </div>
       <div id="resource-list"></div>
+      <p class="meta">Canonical source: <a href="/data/osint/resources.json">OSINT resource dataset (JSON)</a></p>
       <div class="empty" id="resource-empty" hidden>No source matches those filters. Broaden the seed type or access model.</div>
     </section>
 
@@ -48,7 +71,12 @@
 
     <section class="section"><div class="section-head"><div><p class="eyebrow">Evidence discipline</p><h2>Three questions before a source enters the report</h2></div></div><div class="flow"><div class="flow-step"><p class="meta">01 · Collection</p><h3>What touched the target?</h3><p>Distinguish passive lookup, provider-collected measurement, public submission and your own direct interaction.</p></div><div class="flow-step"><p class="meta">02 · Time</p><h3>When was it true?</h3><p>Preserve first seen, last seen, scan time, retrieval time and the difference between them.</p></div><div class="flow-step"><p class="meta">03 · Meaning</p><h3>What does it prove?</h3><p>Record the narrow observation before adding capability, clustering or attribution assessments.</p></div></div></section>
   </div></main>
-  <footer class="footer"><span>Dataset 1.0.0 · reviewed 14 Aug 2026</span><nav aria-label="Footer"><a href="https://radar.hecavex.com/">Radar</a><a href="/data/">Data</a><a href="/data/osint/resources.json">Source data</a><a href="/pivot-graph/">Case graphs</a><a href="/methodology/">Methodology</a><a href="https://hecavex.com/en/research/infrastructure-pivoting-101/">Pivoting 101</a><a href="/security/">Security</a><a href="https://hecavex.com/en/contact/">Corrections</a></nav></footer>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand"><strong>HECAVEX LABS</strong><span>Inspectable public CTI workspaces by <a href="https://hecavex.com/en/">HECAVEX</a>.</span></div>
+      <nav aria-label="Footer"><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/">Labs</a><a href="https://labs.hecavex.com/data/">Data</a><a href="/methodology/">Methodology</a><a href="/licence/">Licence</a><a href="https://hecavex.com/en/privacy/">Privacy</a><a href="/security/">Security</a></nav>
+    </div>
+  </footer>
   <script src="/assets/site.js"></script><script src="/assets/osint-workbench.js"></script>
 </body>
 </html>
