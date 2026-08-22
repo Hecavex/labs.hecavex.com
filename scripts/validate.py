@@ -141,6 +141,80 @@ missing = sorted(path for path in required if not (root / path).is_file())
 if missing:
     errors.append("Missing required files: " + ", ".join(missing))
 
+font_paths = {
+    "assets/fonts/README.md",
+    "assets/fonts/INTER-OFL.txt",
+    "assets/fonts/IBM-PLEX-MONO-OFL.txt",
+    *{
+        f"assets/fonts/inter/inter-{subset}-{weight}-normal.woff2"
+        for subset in ("latin", "latin-ext")
+        for weight in (400, 500, 600, 700)
+    },
+    *{
+        f"assets/fonts/inter/inter-{subset}-400-italic.woff2"
+        for subset in ("latin", "latin-ext")
+    },
+    *{
+        f"assets/fonts/ibm-plex-mono/ibm-plex-mono-{subset}-{weight}-normal.woff2"
+        for subset in ("latin", "latin-ext")
+        for weight in (400, 500, 600, 700)
+    },
+}
+missing_fonts = sorted(path for path in font_paths if not (root / path).is_file())
+if missing_fonts:
+    errors.append("Missing self-hosted font files: " + ", ".join(missing_fonts))
+styles_text = (root / "assets/styles.css").read_text(encoding="utf-8")
+design_contract = {
+    "--hx-bg": "#05080b",
+    "--hx-surface-1": "#0b1117",
+    "--hx-surface-2": "#101923",
+    "--hx-border": "#1e3440",
+    "--hx-border-strong": "#1e3440",
+    "--hx-text": "#f2f8fb",
+    "--hx-text-soft": "#b6c6cf",
+    "--hx-text-muted": "#8397a3",
+    "--hx-text-faint": "#8397a3",
+    "--hx-border-subtle": "#1e3440",
+    "--hx-accent": "#44c7dc",
+    "--hx-steel": "#44c7dc",
+    "--hx-steel-hover": "#44c7dc",
+    "--hx-success": "#a2da68",
+    "--hx-bronze": "#ffc857",
+    "--hx-warning": "#ffc857",
+    "--hx-danger": "#ff6b6b",
+}
+for token, value in design_contract.items():
+    if not re.search(rf"{re.escape(token)}:\s*{re.escape(value)}\s*;", styles_text, re.IGNORECASE):
+        errors.append(f"Cold Signal design token differs: {token} must be {value}")
+for font_path in sorted(path for path in font_paths if path.endswith(".woff2")):
+    if f'url("/{font_path}")' not in styles_text:
+        errors.append(f"Self-hosted font is not referenced by the stylesheet: {font_path}")
+if re.search(r"@(?:import|font-face)[^}]*https?://", styles_text, re.IGNORECASE | re.DOTALL):
+    errors.append("Stylesheet must not load fonts from a remote origin")
+font_readme = (root / "assets/fonts/README.md").read_text(encoding="utf-8")
+for provenance_marker in ("Fontsource 5.3.0", "INTER-OFL.txt", "IBM-PLEX-MONO-OFL.txt"):
+    if provenance_marker not in font_readme:
+        errors.append(f"Font provenance note is missing: {provenance_marker}")
+for forbidden_token in ("--hx-surface-3", "--hx-ember", "--hx-action"):
+    if forbidden_token in styles_text:
+        errors.append(f"Obsolete or ambiguous Cold Signal token remains: {forbidden_token}")
+for divergent_colour in ("#14212b", "#294b59", "#3a5966", "#728993", "#7adcea", "#63b3a2", "#63b3ed", "#ff8989"):
+    if divergent_colour in styles_text.lower():
+        errors.append(f"Divergent Cold Signal colour remains: {divergent_colour}")
+if styles_text.lower().count("#ff6b6b") != 1:
+    errors.append("Danger red must be declared once and consumed through --hx-danger")
+danger_selectors = (
+    ".form-error-summary", "field-error", "aria-invalid", ".storage-warning",
+    ".state-no-telemetry", ".dimension-gap", ".capability-progress-summary.is-incomplete",
+    ".case-resilience", ".button.danger", ".status-rejected",
+)
+for line in styles_text.splitlines():
+    if "var(--hx-danger" not in line or line.lstrip().startswith("--hx-danger"):
+        continue
+    selector = line.split("{", 1)[0]
+    if not any(marker in selector for marker in danger_selectors):
+        errors.append(f"Danger colour is applied outside a danger or warning state: {selector.strip()}")
+
 mojibake_markers = ("â€", "Â", "ï¿½", "�")
 html_files = repository_files("*.html")
 canonicals = {}
@@ -150,12 +224,22 @@ for path in html_files:
     parser = DocumentParser()
     parser.feed(text)
     documents[path.resolve()] = parser
+    relative = path.relative_to(root)
+    if '<header class="site-header">' not in text or 'class="site-nav" id="site-nav"' not in text:
+        errors.append(f"Cold Signal site shell is missing from {relative}")
+    if "document.documentElement.classList.add('js')" not in text:
+        errors.append(f"Progressive-enhancement marker is missing from {relative}")
+    if len(re.findall(r'<meta\s+name="theme-color"\s+content="#05080b"\s*/?>', text, re.IGNORECASE)) != 1:
+        errors.append(f"Cold Signal theme colour metadata differs or is missing from {relative}")
+    if re.search(r'<link[^>]+rel="stylesheet"[^>]+href="https?://', text, re.IGNORECASE):
+        errors.append(f"Remote stylesheet dependency found in {relative}")
+    if re.search(r'<script[^>]+src="https?://', text, re.IGNORECASE):
+        errors.append(f"Remote script dependency found in {relative}")
     duplicates = sorted({value for value in parser.ids if parser.ids.count(value) > 1})
     if duplicates:
         errors.append(f"Duplicate HTML ids in {path.relative_to(root)}: {', '.join(duplicates)}")
     if any(marker in text for marker in mojibake_markers):
         errors.append(f"Possible mojibake in {path.relative_to(root)}")
-    relative = path.relative_to(root)
     if not parser.html_lang:
         errors.append(f"Missing html lang in {relative}")
     if not parser.title.strip():
@@ -204,10 +288,27 @@ for path in html_files:
                 "https://hecavex.com/#website",
                 "https://apt.hecavex.com/#website",
                 "https://labs.hecavex.com/#website",
+                "https://radar.hecavex.com/#website",
             }
             missing_ids = expected_ids - graph_ids
             if missing_ids:
                 errors.append(f"JSON-LD is missing shared HECAVEX identities in {relative}: {', '.join(sorted(missing_ids))}")
+
+            portfolio_node = next(
+                (item for item in graph_items if item.get("@id") == "https://hecavex.com/#website"),
+                {},
+            )
+            portfolio_parts = {item.get("@id") for item in portfolio_node.get("hasPart", [])}
+            expected_parts = {
+                "https://apt.hecavex.com/#website",
+                "https://labs.hecavex.com/#website",
+                "https://radar.hecavex.com/#website",
+            }
+            if portfolio_parts != expected_parts:
+                errors.append(
+                    f"JSON-LD portfolio membership differs in {relative}: "
+                    f"{portfolio_parts ^ expected_parts}"
+                )
 
             pending = [schema]
             while pending:
@@ -266,31 +367,33 @@ for path, parser in documents.items():
                 errors.append(f"Broken fragment in {path.relative_to(root)}: {reference}")
 
 switcher_targets = [
-    "https://hecavex.com/en/research/",
+    "https://hecavex.com/en/",
     "https://radar.hecavex.com/",
     "https://apt.hecavex.com/",
     "https://labs.hecavex.com/",
-    "https://labs.hecavex.com/data/",
 ]
 for path in html_files:
     text = path.read_text(encoding="utf-8")
-    menu = re.search(r'<div class="edition-menu">(.*?)</div>', text, re.DOTALL)
+    menu = re.search(r'<div class="network-menu">(.*?)</div>', text, re.DOTALL)
     if not menu:
-        errors.append(f"Missing project switcher in {path.relative_to(root)}")
+        errors.append(f"Missing portfolio network switcher in {path.relative_to(root)}")
         continue
     links = re.findall(r'href="([^"]+)"', menu.group(1))
     normalized = [
-        "https://labs.hecavex.com/" if value == "/" else
-        "https://labs.hecavex.com/data/" if value == "/data/" else value
+        "https://labs.hecavex.com/" if value == "/" else value
         for value in links
     ]
     if normalized != switcher_targets:
-        errors.append(f"Project switcher targets or order differ in {path.relative_to(root)}: {normalized}")
-    current_links = re.findall(r'<a[^>]+aria-current="true"[^>]*href="([^"]+)"|<a[^>]+href="([^"]+)"[^>]+aria-current="true"', menu.group(1))
-    current_links = [left or right for left, right in current_links]
-    expected_current = "/data/" if path == (root / "data/index.html").resolve() else "/"
-    if current_links != [expected_current]:
-        errors.append(f"Project switcher current item differs in {path.relative_to(root)}: {current_links}")
+        errors.append(f"Portfolio network targets or order differ in {path.relative_to(root)}: {normalized}")
+    if not re.search(r'<a\b(?=[^>]*href="/")(?=[^>]*aria-current="true")[^>]*>\s*<span>Labs</span>', menu.group(1)):
+        errors.append(f"Labs is not marked as the current portfolio property in {path.relative_to(root)}")
+
+tracking_surfaces = [*html_files, root / "assets/site.js", root / ".github/workflows/pages.yml", root / "README.md"]
+for path in tracking_surfaces:
+    text = path.read_text(encoding="utf-8")
+    for marker in ("HECAVEX_ANALYTICS_TOKEN", "__HECAVEX_ANALYTICS_TOKEN__", "hecavex-measurement-token", "static.cloudflareinsights.com"):
+        if marker in text:
+            errors.append(f"Tracking integration marker {marker} remains in {path.relative_to(root)}")
 
 security_text = (root / ".well-known/security.txt").read_text(encoding="utf-8")
 for field in ("Contact:", "Canonical:", "Policy:", "Preferred-Languages:", "Expires:"):

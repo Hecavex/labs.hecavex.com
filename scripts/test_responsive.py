@@ -12,7 +12,8 @@ from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parent.parent
 RESULTS = ROOT / "test-results" / "responsive.json"
-WIDTHS = (320, 360, 390, 768, 1024)
+VISUAL_RESULTS = ROOT / "test-results" / "visual"
+WIDTHS = (320, 360, 390, 768, 1024, 1440)
 HEIGHT = 900
 ROUTES = (
     "/",
@@ -31,12 +32,11 @@ WORKSPACE_SUMMARIES = {
     "/pivot-graph/": {"first_control": ".case-card", "max_control_y": 1150},
     "/osint-workbench/": {"first_control": "#section-filter", "max_control_y": 1350},
 }
-PROJECT_LINKS = (
-    "https://hecavex.com/en/research/",
+NETWORK_LINKS = (
+    "https://hecavex.com/en/",
     "https://radar.hecavex.com/",
     "https://apt.hecavex.com/",
     "https://labs.hecavex.com/",
-    "https://labs.hecavex.com/data/",
 )
 ACCESSIBLE_NAME_AUDIT = """elements => elements.filter(element => {
   const style = getComputedStyle(element);
@@ -113,12 +113,41 @@ try:
                 page.wait_for_timeout(100)
                 first_control_y = None
 
+                fonts_ready = page.evaluate("""async () => {
+                  await Promise.all([document.fonts.load('400 16px Inter'), document.fonts.load('400 12px "IBM Plex Mono"')]);
+                  await document.fonts.ready;
+                  const faces = [...document.fonts];
+                  return {
+                    status: document.fonts.status,
+                    inter: faces.some(face => face.family.replace(/[\"']/g, '') === 'Inter' && face.status === 'loaded'),
+                    mono: faces.some(face => face.family.replace(/[\"']/g, '') === 'IBM Plex Mono' && face.status === 'loaded'),
+                    body: getComputedStyle(document.body).fontFamily,
+                    label: getComputedStyle(document.querySelector('.eyebrow')).fontFamily,
+                  };
+                }""")
+                assert fonts_ready["status"] == "loaded" and fonts_ready["inter"] and fonts_ready["mono"], f"self-hosted fonts failed: {route} at {width}px: {fonts_ready}"
+                assert "Inter" in fonts_ready["body"] and "IBM Plex Mono" in fonts_ready["label"], f"Cold Signal font roles differ: {route} at {width}px: {fonts_ready}"
+
                 assert page.locator("h1").count() == 1, f"{route} at {width}px must have one h1"
+                theme_colour = page.locator('meta[name="theme-color"]')
+                assert theme_colour.count() == 1 and theme_colour.get_attribute("content").lower() == "#05080b", f"Cold Signal theme colour metadata differs: {route} at {width}px"
                 assert page.evaluate("document.documentElement.scrollWidth <= document.documentElement.clientWidth"), f"page overflow: {route} at {width}px"
                 heading_height = page.locator("h1").bounding_box()["height"]
                 assert heading_height < HEIGHT * 0.55, f"heading consumes the viewport: {route} at {width}px"
                 containment = page.evaluate(SCROLL_CONTAINMENT_AUDIT)
                 assert not containment, f"wide content is not contained: {route} at {width}px: {containment}"
+
+                if route == "/" and width <= 650:
+                    hero = page.locator(".brand-hero")
+                    marker = hero.evaluate("element => ({ display: getComputedStyle(element, '::after').display, content: getComputedStyle(element, '::after').content })")
+                    assert marker["display"] == "none" and marker["content"] == "none", f"decorative hero marker remains exposed on mobile at {width}px: {marker}"
+                    meta_box = page.locator(".hero-meta").bounding_box()
+                    hero_box = hero.bounding_box()
+                    assert meta_box and hero_box, f"home hero metadata is not measurable at {width}px"
+                    assert meta_box["x"] >= hero_box["x"] and meta_box["x"] + meta_box["width"] <= hero_box["x"] + hero_box["width"] + 1, f"home hero metadata escapes its panel at {width}px"
+                    if width == 390:
+                        VISUAL_RESULTS.mkdir(parents=True, exist_ok=True)
+                        page.screenshot(path=str(VISUAL_RESULTS / "home-mobile.png"), full_page=True)
 
                 if route in WORKSPACE_SUMMARIES and width <= 480:
                     metric_grid = page.locator(".stat-grid")
@@ -156,16 +185,15 @@ try:
                     page.keyboard.press("Shift+Tab")
                     assert page.evaluate("document.querySelector('#site-nav').contains(document.activeElement)"), f"drawer focus trap failed: {route} at {width}px"
 
-                project_summary = page.locator(".edition-switcher summary")
-                assert_focus_visible(project_summary, f"project switcher on {route} at {width}px")
+                project_summary = page.locator(".network-switcher summary")
+                assert_focus_visible(project_summary, f"network switcher on {route} at {width}px")
                 page.keyboard.press("Enter")
-                assert page.locator(".edition-switcher").evaluate("element => element.open"), f"project switcher did not open by keyboard: {route} at {width}px"
-                links = page.locator(".edition-menu a").evaluate_all("links => links.map(link => link.href)")
+                assert page.locator(".network-switcher").evaluate("element => element.open"), f"network switcher did not open by keyboard: {route} at {width}px"
+                links = page.locator(".network-menu a").evaluate_all("links => links.map(link => link.href)")
                 links = tuple(normalise_project_link(value) for value in links)
-                assert links == PROJECT_LINKS, f"project navigation differs: {route} at {width}px: {links}"
-                current = page.locator('.edition-menu a[aria-current="true"]')
-                assert current.count() == 1, f"project switcher must identify one current project: {route} at {width}px"
-                assert_focus_visible(page.locator(".edition-menu a").first, f"project link on {route} at {width}px")
+                assert links == NETWORK_LINKS, f"project navigation differs: {route} at {width}px: {links}"
+                assert page.locator('.network-menu a[href="/"]').get_attribute("aria-current") == "true", f"Labs is not identified as the current portfolio property: {route} at {width}px"
+                assert_focus_visible(page.locator(".network-menu a").first, f"project link on {route} at {width}px")
                 unnamed = page.locator("#site-nav a[href], #site-nav button, #site-nav summary").evaluate_all(ACCESSIBLE_NAME_AUDIT)
                 assert not unnamed, f"open navigation controls without accessible names: {route} at {width}px: {unnamed}"
 
@@ -179,11 +207,24 @@ try:
 
             assert not page_errors, f"browser errors at {width}px: {page_errors}"
             page.close()
+
+        no_script_context = browser.new_context(viewport={"width": 390, "height": HEIGHT}, java_script_enabled=False)
+        no_script_page = no_script_context.new_page()
+        for route in ROUTES:
+            no_script_page.goto(base_url + route, wait_until="domcontentloaded")
+            assert no_script_page.locator("#site-nav").is_visible(), f"navigation is unavailable without JavaScript: {route}"
+            assert no_script_page.locator(".menu-toggle").is_hidden(), f"inert menu control is exposed without JavaScript: {route}"
+            close_button = no_script_page.locator(".mobile-nav-close")
+            assert close_button.is_hidden(), f"dead mobile close control is exposed without JavaScript: {route}"
+            assert close_button.evaluate("element => { element.focus(); return document.activeElement !== element; }"), f"dead mobile close control accepts focus without JavaScript: {route}"
+            assert no_script_page.locator("#site-nav a[href]").count() >= 10, f"navigation fallback is incomplete: {route}"
+            assert no_script_page.evaluate("document.documentElement.scrollWidth <= document.documentElement.clientWidth"), f"no-JavaScript page overflow: {route}"
+        no_script_context.close()
         browser.close()
 finally:
     server.shutdown()
     server.server_close()
 
 RESULTS.parent.mkdir(exist_ok=True)
-RESULTS.write_text(json.dumps({"checked_widths": WIDTHS, "routes": ROUTES, "results": results}, indent=2) + "\n", encoding="utf-8")
-print(f"Responsive checks passed for {len(ROUTES)} routes at {len(WIDTHS)} widths; evidence: {RESULTS.relative_to(ROOT)}")
+RESULTS.write_text(json.dumps({"checked_widths": WIDTHS, "routes": ROUTES, "no_javascript_navigation": "pass", "results": results}, indent=2) + "\n", encoding="utf-8")
+print(f"Responsive checks passed for {len(ROUTES)} routes at {len(WIDTHS)} widths plus no-JavaScript navigation; evidence: {RESULTS.relative_to(ROOT)}")

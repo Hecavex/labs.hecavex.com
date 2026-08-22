@@ -4,6 +4,8 @@
 
 Project status: **maintained on a best-effort basis** by Deividas Lis / HECAVEX. Labs is intended for CTI analysts, defenders, investigators, journalists and researchers; it is not a monitoring service or an operational SLA. The public site carries the current [methodology and limitations](https://labs.hecavex.com/methodology/), [data catalogue](https://labs.hecavex.com/data/) and [security policy](https://labs.hecavex.com/security/).
 
+The interface is purpose-built static HTML, CSS and browser JavaScript. Its Cold Signal design system uses a fixed dark analyst palette shared across the HECAVEX portfolio, Inter for interface and reading text, and IBM Plex Mono for labels, states and technical metadata. Both font families are self-hosted under `assets/fonts/`; their OFL notices are stored alongside the files. No remote font or icon service is required.
+
 Current projects:
 
 - **Baltic Threat Atlas** collects source-linked public observations and maps them to APT Notes only when the evidence supports the link.
@@ -26,9 +28,9 @@ Open `http://localhost:4173/` and run the repository checks with:
 python scripts/validate.py
 ```
 
-The validator checks the HTML, local links, metadata, structured data and the expected shape of each dataset.
+The validator checks the HTML, local links, metadata, structured data, self-hosted font inventory, absence of remote font loading and the expected shape of each dataset.
 
-Deployment also checks every public workspace at 320, 360, 390, 768 and 1024 pixels. The browser suite covers keyboard navigation, focus restoration, scroll containment and page overflow; a successful CI run retains its JSON result as a 30-day workflow artifact. To reproduce the checks locally:
+Deployment also checks every public workspace at 320, 360, 390, 768, 1024 and 1440 pixels. The browser suite covers actual font loading, keyboard navigation, focus restoration, scroll containment, page overflow and usable navigation without JavaScript; a successful CI run retains its JSON result as a 30-day workflow artifact. To reproduce the checks locally:
 
 ```powershell
 python -m pip install -r requirements-checks.txt
@@ -71,8 +73,6 @@ Detection engineering is deliberately separate from ATT&CK reference data:
 ## Publishing
 
 GitHub Pages deploys the site through `.github/workflows/pages.yml`. Keep `CNAME` and use GitHub Actions as the Pages source.
-
-Optional aggregate measurement is enabled with the Actions variable `HECAVEX_ANALYTICS_TOKEN`. Without it, the measurement tag is removed from the deployed files.
 
 ## Licensing
 

@@ -29,10 +29,10 @@ def mark(page, targets):
             style = document.createElement('style');
             style.id = 'capture-guide-style';
             style.textContent = `
-              .capture-target { outline: 3px solid #ff5f55 !important; outline-offset: 4px !important; }
+              .capture-target { outline: 3px solid #44c7dc !important; outline-offset: 4px !important; }
               .capture-marker { position: fixed; z-index: 100000; display: grid; width: 36px; height: 36px;
-                place-items: center; border: 3px solid #fff; border-radius: 50%; background: #e15a4f;
-                color: #fff; font: 800 17px/1 system-ui; box-shadow: 0 5px 18px rgb(0 0 0 / 70%); }
+                place-items: center; border: 3px solid #f2f8fb; border-radius: 50%; background: #44c7dc;
+                color: #05080b; font: 800 17px/1 "IBM Plex Mono", monospace; box-shadow: 0 5px 18px rgb(0 0 0 / 70%); }
             `;
             document.head.append(style);
           }

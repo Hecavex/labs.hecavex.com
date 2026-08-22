@@ -49,7 +49,7 @@ jobs:
       - name: Retain responsive and accessibility evidence
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
-          name: labs-stage-01-evidence
+          name: labs-responsive-evidence
           path: test-results/responsive.json
           if-no-files-found: error
           retention-days: 30
@@ -60,20 +60,12 @@ jobs:
 
       - name: Stage public site
         if: github.event_name != 'pull_request'
-        env:
-          HECAVEX_ANALYTICS_TOKEN: ${{ vars.HECAVEX_ANALYTICS_TOKEN }}
         shell: bash
         run: |
           mkdir _site
-          cp index.html CNAME .nojekyll robots.txt sitemap.xml LICENSE LICENSE.md DATA-LICENSE.md _site/
+          cp index.html CNAME robots.txt sitemap.xml LICENSE LICENSE.md DATA-LICENSE.md _site/
           cp -R .well-known assets attack-map baltic-threat-atlas licence methodology osint-workbench pivot-graph security _site/
           python scripts/stage_public_data.py _site
-          if [ -n "$HECAVEX_ANALYTICS_TOKEN" ]; then
-            find _site -name '*.html' -type f -exec sed -i "s/__HECAVEX_ANALYTICS_TOKEN__/$HECAVEX_ANALYTICS_TOKEN/g" {} +
-          else
-            find _site -name '*.html' -type f -exec sed -i '/<meta name="hecavex-measurement-token"/d' {} +
-          fi
-          ! grep -R "__HECAVEX_ANALYTICS_TOKEN__" _site
 
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
