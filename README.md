@@ -21,6 +21,8 @@ The [methodology and limitations](https://labs.hecavex.com/methodology/), [licen
 
 The site is purpose-built static HTML, CSS and browser JavaScript. It shares the Cold Signal portfolio shell with the other HECAVEX properties, uses self-hosted Inter and IBM Plex Mono fonts, and does not depend on a remote font or icon service.
 
+Production staging enables one Do Not Track-aware Cloudflare Web Analytics loader on each HTML page. The source pages and pull-request checks remain keyless; the Pages gate supplies the public site token and verifies the staged artifact without printing it. Analytics does not read the ATT&amp;CK workbench's browser-local readiness, incident or observation records. The published methodology describes that boundary and links to the portfolio privacy policy.
+
 Files in this repository fall into four operational groups:
 
 | Area | Purpose |

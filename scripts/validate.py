@@ -9,6 +9,7 @@ import re
 import sys
 from urllib.parse import unquote, urlparse
 
+from stage_public_data import ANALYTICS_SOURCE, analytics_loader
 from sync_shell import ROUTES as SHELL_ROUTES, transform as render_shell
 
 
@@ -453,12 +454,28 @@ for route in SHELL_ROUTES:
     if expected != text:
         errors.append(f"Portfolio shell is stale in {route.path}; run python scripts/sync_shell.py --write")
 
-tracking_surfaces = [*html_files, root / "assets/site.js", root / ".github/workflows/pages.yml", root / "README.md"]
-for path in tracking_surfaces:
+analytics_template = analytics_loader("a" * 32)
+for marker in (
+    "data-hecavex-analytics",
+    "navigator.doNotTrack === '1'",
+    "window.doNotTrack === '1'",
+    "beacon.type = 'module'",
+    ANALYTICS_SOURCE,
+):
+    if marker not in analytics_template:
+        errors.append(f"Staged analytics template is missing its {marker!r} contract")
+for forbidden_storage in ("localStorage", "sessionStorage", "indexedDB"):
+    if forbidden_storage in analytics_template:
+        errors.append(f"Staged analytics template must not read {forbidden_storage}")
+for path in html_files:
     text = path.read_text(encoding="utf-8")
-    for marker in ("HECAVEX_ANALYTICS_TOKEN", "__HECAVEX_ANALYTICS_TOKEN__", "hecavex-measurement-token", "static.cloudflareinsights.com"):
-        if marker in text:
-            errors.append(f"Tracking integration marker {marker} remains in {path.relative_to(root)}")
+    if "data-hecavex-analytics" in text or ANALYTICS_SOURCE in text:
+        errors.append(f"Source page must remain keyless before production staging: {path.relative_to(root)}")
+
+pages_workflow = (root / ".github/workflows/pages.yml").read_text(encoding="utf-8")
+for gate in ("HECAVEX_ANALYTICS_TOKEN", "stage_public_data.py _site --require-analytics"):
+    if gate not in pages_workflow:
+        errors.append(f"Pages deployment is missing the analytics gate: {gate}")
 
 security_text = (root / ".well-known/security.txt").read_text(encoding="utf-8")
 for field in ("Contact:", "Canonical:", "Policy:", "Preferred-Languages:", "Expires:"):
