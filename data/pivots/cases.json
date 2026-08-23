@@ -18,13 +18,13 @@
       "id": "adform-clipper-2026",
       "title": "Adform supply-chain crypto clipper",
       "short_title": "Adform clipper",
-      "summary": "A captured JavaScript payload, exact response hashes and passive observations separated from victim, loss and operator claims.",
+      "summary": "Captured JavaScript, exact response hashes and reproduced public-chain paths kept separate from shared-episode, victim, loss and operator claims.",
       "status": "published",
-      "updated": "2026-08-14",
+      "updated": "2026-08-23",
       "graph": "/data/pivots/graphs/adform.json",
       "research": "https://hecavex.com/en/research/adform-supply-chain-crypto-clipper/",
       "evidence_bundle": "https://hecavex.com/assets/data/adform-clipper-2026/README.md",
-      "tags": ["supply chain", "JavaScript", "response hash", "passive DNS"]
+      "tags": ["supply chain", "JavaScript", "blockchain", "cross-chain routing"]
     },
     {
       "id": "github-python-loader-2024",
