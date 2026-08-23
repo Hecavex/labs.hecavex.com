@@ -67,7 +67,7 @@ jobs:
           HECAVEX_ANALYTICS_TOKEN: ${{ vars.HECAVEX_ANALYTICS_TOKEN }}
         run: |
           mkdir _site
-          cp index.html CNAME robots.txt sitemap.xml LICENSE LICENSE.md DATA-LICENSE.md _site/
+          cp index.html CNAME robots.txt llms.txt sitemap.xml LICENSE LICENSE.md DATA-LICENSE.md _site/
           cp -R .well-known assets attack-map baltic-threat-atlas licence methodology osint-workbench pivot-graph security _site/
           python scripts/stage_public_data.py _site --require-analytics
 

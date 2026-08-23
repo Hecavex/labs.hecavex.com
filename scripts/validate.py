@@ -137,6 +137,7 @@ required = {
     "assets/img/attack-workbench-guide/06-use-actor-procedures.png",
     "CNAME",
     "robots.txt",
+    "llms.txt",
     "sitemap.xml",
     "LICENSE",
     "LICENSE.md",
@@ -148,6 +149,19 @@ errors = []
 missing = sorted(path for path in required if not (root / path).is_file())
 if missing:
     errors.append("Missing required files: " + ", ".join(missing))
+
+robots_text = (root / "robots.txt").read_text(encoding="utf-8")
+llms_text = (root / "llms.txt").read_text(encoding="utf-8")
+if "Content-Signal: search=yes, ai-input=yes, ai-train=no" not in robots_text:
+    errors.append("robots.txt is missing the reviewed HECAVEX content-use signal")
+for required_url in (
+    "https://labs.hecavex.com/data/catalogue.json",
+    "https://labs.hecavex.com/data/public-manifest.json",
+    "https://labs.hecavex.com/methodology/",
+    "https://labs.hecavex.com/licence/",
+):
+    if required_url not in llms_text:
+        errors.append(f"llms.txt is missing approved public reference {required_url}")
 
 font_paths = {
     "assets/fonts/README.md",
