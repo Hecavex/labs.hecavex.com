@@ -1,0 +1,202 @@
+{
+  "schema_version": "0.2.0",
+  "updated": "2026-08-14",
+  "publisher": "HECAVEX",
+  "scope": "Selected public-source cyber observations concerning Lithuania, Latvia and Estonia; not an exhaustive incident census or prevalence dataset.",
+  "methodology": "Each record captures one bounded claim from a named public authority. Source terminology and attribution confidence are preserved; nearby events are not merged into campaigns without evidence.",
+  "records": [
+    {
+      "id": "lt-2023-broadcast-disinformation",
+      "date": "2023-07-10",
+      "country": "Lithuania",
+      "type": "incident",
+      "title": "Broadcast content replaced in two incidents",
+      "summary": "Lithuania's NCSC reported two incidents affecting online music streams where original playlists were allegedly replaced with recorded disinformation.",
+      "sector": "Media",
+      "actor": null,
+      "attribution": "None in cited report",
+      "confidence": "reported",
+      "source": "https://www.nksc.lt/doc/rkgc/CTAC_2023_3rd_Quarter_Report.pdf"
+    },
+    {
+      "id": "lt-2024-annual-incidents",
+      "date": "2024",
+      "country": "Lithuania",
+      "type": "annual-statistic",
+      "title": "63% increase in recorded incidents",
+      "summary": "The 2024 CTAC report connected the increase to improved identification and more active reporting; 59% of recorded incidents involved social engineering.",
+      "sector": "Cross-sector",
+      "actor": null,
+      "attribution": "None",
+      "confidence": "reported",
+      "source": "https://www.nksc.lt/doc/rkgc/CTAC_2024_Yearly_Report.pdf"
+    },
+    {
+      "id": "lt-2025-incident-volume",
+      "date": "2025",
+      "country": "Lithuania",
+      "type": "annual-statistic",
+      "title": "2,888 incidents recorded, including 19 major incidents",
+      "summary": "Lithuania's NCSC recorded 19 major incidents, 380 minor incidents and 2,489 near misses in 2025. The lower total than 2024 does not by itself establish lower threat exposure because category and reporting effects matter.",
+      "sector": "Cross-sector",
+      "actor": null,
+      "attribution": "None",
+      "confidence": "reported",
+      "source": "https://www.nksc.lt/doc/rkgc/CTAC_2025_Yearly_Report.pdf"
+    },
+    {
+      "id": "lt-2025-phishing-fraud-shift",
+      "date": "2025",
+      "country": "Lithuania",
+      "type": "annual-statistic",
+      "title": "Phishing remained dominant while fraud reports increased",
+      "summary": "The NCSC recorded 1,551 social-engineering incidents, 49% of the annual total, down from 2,288 in 2024. Illegal activity and fraud increased from 444 to 907 records.",
+      "sector": "Cross-sector",
+      "actor": null,
+      "attribution": "None",
+      "confidence": "reported",
+      "source": "https://www.nksc.lt/doc/rkgc/CTAC_2025_Yearly_Report.pdf"
+    },
+    {
+      "id": "lv-2024-q2-threat-hunt",
+      "date": "2024-Q2",
+      "country": "Latvia",
+      "type": "threat-hunt",
+      "title": "Foreign intruder presence found during threat hunts",
+      "summary": "CERT.LV analysed more than 140,000 installations in 31 organisations and reported high-confidence foreign intruder presence in eight; the public summary did not name the actors.",
+      "sector": "Cross-sector",
+      "actor": null,
+      "attribution": "Foreign intruders; identities undisclosed",
+      "confidence": "reported",
+      "source": "https://cert.lv/en/2024/08/cert-lv-activity-review-q2-2024"
+    },
+    {
+      "id": "lv-2024-q2-ddos",
+      "date": "2024-Q2",
+      "country": "Latvia",
+      "type": "campaign",
+      "title": "Continued politically motivated DDoS waves",
+      "summary": "CERT.LV described DDoS waves against public authorities and selected sectors as Russia and proxy-hacktivist activity; reported impact was limited.",
+      "sector": "Government and selected services",
+      "actor": "Russia and proxy hacktivists (source wording)",
+      "attribution": "CERT.LV reporting",
+      "confidence": "source-attributed",
+      "source": "https://cert.lv/en/2024/08/cert-lv-activity-review-q2-2024"
+    },
+    {
+      "id": "lv-2026-q1-incident-volume",
+      "date": "2026-Q1",
+      "country": "Latvia",
+      "type": "quarterly-statistic",
+      "title": "846 incidents and record device visibility",
+      "summary": "CERT.LV processed 846 incidents and identified 757,286 compromised or weakly configured devices. The authority cautioned that expanded SOC visibility contributes to the observed increase.",
+      "sector": "Cross-sector",
+      "actor": null,
+      "attribution": "None",
+      "confidence": "reported",
+      "source": "https://cert.lv/en/2026/06/cert-lv-activity-review-q1-2026"
+    },
+    {
+      "id": "lv-2026-q1-dns-protection",
+      "date": "2026-Q1",
+      "country": "Latvia",
+      "type": "defensive-observation",
+      "title": "DNS firewall blocked more than 2.5 million malicious-site visits",
+      "summary": "CERT.LV reported a 139% quarter-over-quarter increase in DNS firewall blocks and said automated detection blocked 266 fraudulent campaigns before they became incidents.",
+      "sector": "Cross-sector",
+      "actor": null,
+      "attribution": "None",
+      "confidence": "reported",
+      "source": "https://cert.lv/en/2026/06/cert-lv-activity-review-q1-2026"
+    },
+    {
+      "id": "ee-2023-september-ddos",
+      "date": "2023-09",
+      "country": "Estonia",
+      "type": "campaign",
+      "title": "84 DDoS attacks registered in one month",
+      "summary": "RIA reported a then-record monthly total affecting a wider target set that included government, finance, transport and media; most attacks had limited impact.",
+      "sector": "Government, Finance, Transport and Media",
+      "actor": "Pro-Kremlin groups (source wording)",
+      "attribution": "RIA reporting",
+      "confidence": "source-attributed",
+      "source": "https://www.ria.ee/en/news/information-system-authority-number-cyber-incidents-increased-quarter-year"
+    },
+    {
+      "id": "ee-2024-unit-29155",
+      "date": "2024-09-05",
+      "country": "Estonia",
+      "type": "attribution",
+      "title": "Unit 29155 operations jointly attributed",
+      "summary": "Estonia joined a multinational government advisory attributing espionage, sabotage and reputational operations against global targets to Russian GRU Unit 29155.",
+      "sector": "Government and Critical Infrastructure",
+      "actor": "GRU Unit 29155",
+      "attribution": "Multinational government advisory",
+      "confidence": "official-attribution",
+      "apt_refs": [
+        {
+          "type": "actor",
+          "label": "GRU Unit 29155",
+          "url": "https://apt.hecavex.com/actors/unit-29155/"
+        },
+        {
+          "type": "campaign",
+          "label": "WhisperGate operation",
+          "url": "https://apt.hecavex.com/campaigns/whispergate-operation/"
+        }
+      ],
+      "source": "https://www.cisa.gov/news-events/alerts/2024/09/05/fbi-cisa-nsa-and-us-and-international-partners-release-advisory-russian-military-cyber-actors"
+    },
+    {
+      "id": "ee-2026-laundry-bear-zimbra-advisory",
+      "date": "2026-07-23",
+      "country": "Estonia",
+      "type": "attribution",
+      "title": "Estonia co-sealed Laundry Bear Zimbra advisory",
+      "summary": "Estonia's Foreign Intelligence Service joined a multinational advisory attributing a Zimbra email-collection campaign to Russian state-supported actors primarily tracked as Laundry Bear. The advisory does not report an Estonian victim.",
+      "sector": "Defence, Government, Education, Energy, Law Enforcement, Media, NGOs and Technology",
+      "actor": "Laundry Bear / Void Blizzard",
+      "attribution": "Multinational government advisory",
+      "confidence": "official-attribution",
+      "apt_refs": [
+        {
+          "type": "actor",
+          "label": "Void Blizzard",
+          "url": "https://apt.hecavex.com/actors/void-blizzard/"
+        },
+        {
+          "type": "campaign",
+          "label": "Laundry Bear Zimbra campaign",
+          "url": "https://apt.hecavex.com/campaigns/laundry-bear-zimbra/"
+        }
+      ],
+      "source": "https://www.aivd.nl/documenten/2026/07/23/russian-state-supported-cyber-actors-conduct-phishing-campaign-targeting-users-of-zimbra-collaboration-suite"
+    },
+    {
+      "id": "ee-2025-ddos-resilience",
+      "date": "2025",
+      "country": "Estonia",
+      "type": "annual-statistic",
+      "title": "Record 756 DDoS attacks, fewer than 100 with impact",
+      "summary": "RIA recorded more than one-third growth in DDoS attempts while reporting that fewer than 100 affected target services, indicating improved resilience despite higher volume.",
+      "sector": "Cross-sector",
+      "actor": "Multiple hacktivist ecosystems (source wording)",
+      "attribution": "RIA reporting",
+      "confidence": "reported",
+      "source": "https://www.ria.ee/en/news/cyber-security-estonia-new-records-old-mistakes"
+    },
+    {
+      "id": "ee-2026-june-impact-incidents",
+      "date": "2026-06",
+      "country": "Estonia",
+      "type": "monthly-statistic",
+      "title": "1,232 incidents with impact recorded in June",
+      "summary": "RIA reported high-impact DDoS activity, disruptions affecting national digital services and a customer-data breach in a southern Estonian booking system. These were separate events, not one campaign.",
+      "sector": "Government services and Private sector",
+      "actor": null,
+      "attribution": "No common actor attribution",
+      "confidence": "reported",
+      "source": "https://www.ria.ee/en/situation-cyberspace-june-2026"
+    }
+  ]
+}

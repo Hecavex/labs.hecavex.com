@@ -1,0 +1,107 @@
+{
+  "schema_version": "2.0.0",
+  "case": {
+    "id": "adform-clipper-2026",
+    "title": "Adform supply-chain crypto clipper",
+    "status": "published",
+    "updated": "2026-08-14",
+    "research": "https://hecavex.com/en/research/adform-supply-chain-crypto-clipper/",
+    "evidence_bundle": "https://hecavex.com/assets/data/adform-clipper-2026/README.md",
+    "boundary": "The evidence supports malicious code presence and replacement capability. It does not establish completed theft, operator identity, or knowing participation by observed page owners."
+  },
+  "nodes": [
+    {
+      "id": "capture",
+      "class": "observed",
+      "label": "Captured JavaScript",
+      "short_label": ["Captured", "JavaScript"],
+      "x": 115,
+      "y": 115,
+      "meaning": "A public gist preserved the supplied malicious JavaScript and served as the seed artefact.",
+      "confidence": "direct observation",
+      "evidence_label": "Captured code",
+      "evidence": "https://gist.github.com/malexmave/8ef5eabc7b6866698f1ea8a811c75b57"
+    },
+    {
+      "id": "endpoint",
+      "class": "observed",
+      "label": "Adform script path",
+      "short_label": ["Adform", "script path"],
+      "x": 355,
+      "y": 115,
+      "meaning": "The investigation associated the payload with the trackpoint-async.js delivery path. Archived responses preserve time-bounded variants.",
+      "confidence": "direct observation",
+      "evidence_label": "Payload capability table",
+      "evidence": "https://hecavex.com/assets/data/adform-clipper-2026/payload-capabilities.csv"
+    },
+    {
+      "id": "hashes",
+      "class": "observed",
+      "label": "Four exact response hashes",
+      "short_label": ["4 exact", "SHA-256 responses"],
+      "x": 595,
+      "y": 115,
+      "meaning": "Four distinct SHA-256 response values were grouped from passive observations and archived material. Exact hashes prevent similarity from being treated as identity.",
+      "confidence": "direct observation",
+      "evidence_label": "Payload capability table",
+      "evidence": "https://hecavex.com/assets/data/adform-clipper-2026/payload-capabilities.csv"
+    },
+    {
+      "id": "scans",
+      "class": "observed",
+      "label": "83 passive observations",
+      "short_label": ["83 passive", "observations"],
+      "x": 235,
+      "y": 350,
+      "meaning": "The released CSV contains time-bounded urlscan observations. These rows are not proof of compromise, operator control or loss.",
+      "confidence": "direct observation",
+      "evidence_label": "Observation CSV",
+      "evidence": "https://hecavex.com/assets/data/adform-clipper-2026/urlscan-exact-hash-observations.csv"
+    },
+    {
+      "id": "hosts",
+      "class": "derived",
+      "label": "59 unique page hostnames",
+      "short_label": ["59 unique", "page hostnames"],
+      "x": 500,
+      "y": 350,
+      "meaning": "Deduplicating page_hostname across the released rows produces 59 unique hostnames. This is a reproducible transformation, not a victim count.",
+      "confidence": "reproducible derivation",
+      "evidence_label": "Reproduction notes",
+      "evidence": "https://hecavex.com/assets/data/adform-clipper-2026/reproduction-notes.md"
+    },
+    {
+      "id": "capability",
+      "class": "assessment",
+      "label": "Wallet replacement capability",
+      "short_label": ["Wallet replacement", "capability"],
+      "x": 790,
+      "y": 230,
+      "meaning": "Recovered response variants contained valid BTC and ETH replacement logic. Code capability does not prove that a transfer occurred.",
+      "confidence": "high for capability",
+      "evidence_label": "Payload capability table",
+      "evidence": "https://hecavex.com/assets/data/adform-clipper-2026/payload-capabilities.csv"
+    },
+    {
+      "id": "limit",
+      "class": "limitation",
+      "label": "Operator and loss not established",
+      "short_label": ["Operator and loss", "not established"],
+      "x": 790,
+      "y": 470,
+      "meaning": "The released evidence does not prove a completed replacement, transferred funds, operator identity or knowing participation by observed site owners.",
+      "confidence": "explicit evidence boundary",
+      "evidence_label": "Evidence boundary",
+      "evidence": "https://hecavex.com/assets/data/adform-clipper-2026/README.md"
+    }
+  ],
+  "edges": [
+    { "source": "capture", "target": "endpoint", "relationship": "associated delivery path" },
+    { "source": "capture", "target": "scans", "relationship": "seeded passive pivot" },
+    { "source": "endpoint", "target": "hashes", "relationship": "served variants" },
+    { "source": "scans", "target": "hosts", "relationship": "deduplicated" },
+    { "source": "hashes", "target": "capability", "relationship": "supports capability" },
+    { "source": "hosts", "target": "capability", "relationship": "observation context" },
+    { "source": "capability", "target": "limit", "relationship": "bounded by" }
+  ]
+}

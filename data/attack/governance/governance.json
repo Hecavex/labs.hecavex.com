@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0",
+  "updated": "2026-08-21",
+  "framework": {
+    "name": "MITRE ATT&CK",
+    "domain": "Enterprise",
+    "version": "19.2",
+    "catalogue_generated": "2026-08-20"
+  },
+  "curated_layers": [
+    {
+      "id": "official-catalogue",
+      "label": "Official ATT&CK catalogue",
+      "version": "19.2",
+      "records": 697,
+      "last_reviewed": "Not independently reviewed",
+      "review_due": "On upstream release",
+      "owner": "MITRE ATT&CK / HECAVEX publication build",
+      "scope": "176 active official groups and 697 active Enterprise techniques."
+    },
+    {
+      "id": "official-group-procedures",
+      "label": "Official actor procedure relationships",
+      "version": "19.2",
+      "records": 4628,
+      "last_reviewed": "Not independently reviewed",
+      "review_due": "On upstream release",
+      "owner": "MITRE ATT&CK / HECAVEX publication build",
+      "scope": "Group-to-technique procedure descriptions and available public citations extracted from the official STIX relationships."
+    },
+    {
+      "id": "operational-guides",
+      "label": "Operational guides",
+      "version": "2.0",
+      "records": 20,
+      "last_reviewed": "Not independently reviewed",
+      "review_due": "Set after review",
+      "owner": "HECAVEX",
+      "scope": "Evidence requirements, telemetry, benign overlap, pivots and response considerations."
+    },
+    {
+      "id": "actor-evidence",
+      "label": "HECAVEX-reviewed actor evidence",
+      "version": "1.0",
+      "records": 19,
+      "profiles": 2,
+      "review_gaps": 6,
+      "last_reviewed": "2026-08-15",
+      "review_due": "Re-review required",
+      "owner": "HECAVEX / APT Notes",
+      "scope": "Procedure-level mappings and the phishing model are curated by HECAVEX; 6 tactic relationships require re-review against the current catalogue."
+    },
+    {
+      "id": "detection-packages",
+      "label": "Detection engineering packages",
+      "version": "2.0",
+      "records": 20,
+      "validation_ready": 1,
+      "engineering_candidates": 19,
+      "last_reviewed": "2026-08-20",
+      "review_due": "2026-11-20",
+      "owner": "HECAVEX",
+      "scope": "Independent lifecycle records: 1 validation-ready; the remaining engineering candidates are unreviewed templates and make no production coverage claim."
+    }
+  ],
+  "review_triggers": [
+    "New major or minor Enterprise ATT&CK release",
+    "Technique or detection-strategy modification",
+    "Revoked or deprecated object",
+    "Source correction or retraction",
+    "New contradictory reporting",
+    "Detection validation failure",
+    "Material sensor, field or platform change"
+  ],
+  "mapping_policy": {
+    "statuses": [
+      "observed",
+      "reported",
+      "inferred",
+      "disputed",
+      "rejected"
+    ],
+    "confidence": [
+      "high",
+      "moderate",
+      "low"
+    ],
+    "required_provenance": [
+      "source URL",
+      "publisher and publication date",
+      "procedure-level description",
+      "mapping status",
+      "confidence",
+      "first and last observed dates",
+      "review date"
+    ],
+    "publication_boundary": "A source relationship is not a HECAVEX incident finding. Mappings without adequate procedure context remain unmapped or explicitly uncertain."
+  },
+  "change_history": [
+    {
+      "date": "2026-08-20",
+      "version": "3.0",
+      "summary": "Published 4628 official actor procedure relationships across 176 groups, expanded operational guidance to 20 techniques and materialised 20 detection engineering packages."
+    },
+    {
+      "date": "2026-08-20",
+      "version": "2.0",
+      "summary": "Replaced the matrix-first explorer with three staged analyst workflows: evidence candidates must become a documented assessment, defensive coverage is recorded by capability dimension, and actor research stays inline through sourced context and operational use. Added the complete official Enterprise ATT&CK group directory and portable incident workflows."
+    },
+    {
+      "date": "2026-08-15",
+      "version": "1.0",
+      "summary": "Published the complete Enterprise ATT&CK reference and reviewed APT28/APT44 evidence layer."
+    }
+  ]
+}

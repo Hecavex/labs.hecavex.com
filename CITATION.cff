@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "Cite HECAVEX Labs and the relevant underlying research source."
+title: "HECAVEX Labs"
+version: 0.4.0
+date-released: "2026-08-22"
+type: software
+authors:
+  - family-names: "Lis"
+    given-names: "Deividas"
+    affiliation: "HECAVEX"
+url: "https://labs.hecavex.com/"
+repository-code: "https://github.com/Hecavex/labs.hecavex.com"
+license: "MIT"
+keywords:
+  - cyber threat intelligence
+  - Baltic cyber threats
+  - infrastructure pivoting
+  - MITRE ATT&CK
+  - defensive operations
+  - OSINT workflows

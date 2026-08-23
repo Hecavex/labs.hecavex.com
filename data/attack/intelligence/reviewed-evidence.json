@@ -1,0 +1,407 @@
+{
+  "schema_version": "1.0",
+  "updated": "2026-08-20",
+  "source_system": {
+    "name": "APT Notes by HECAVEX",
+    "url": "https://apt.hecavex.com/",
+    "method": "Source-linked technique evidence selected from reviewed public actor profiles."
+  },
+  "provenance_model": {
+    "evidence_classes": ["observed", "reported", "inferred", "disputed", "rejected"],
+    "confidence_scale": ["high", "moderate", "low"],
+    "mapping_unit": "One actor, campaign and procedure claim mapped to the most specific defensible ATT&CK technique.",
+    "required_context": ["procedure description", "public sources", "mapping status", "confidence", "first and last observed dates", "review date"],
+    "known_limit": "The compact publication layer preserves normalized procedure statements and links, not verbatim source excerpts or private analyst notes. Readers must review the cited source before reusing a claim."
+  },
+  "framework": {
+    "name": "MITRE ATT&CK",
+    "domain": "Enterprise",
+    "version": "19.2",
+    "terms": "https://attack.mitre.org/resources/terms-of-use/",
+    "notice": "© 2026 The MITRE Corporation. This work is reproduced and distributed with the permission of The MITRE Corporation."
+  },
+  "tactics": [
+    "Reconnaissance",
+    "Resource Development",
+    "Initial Access",
+    "Execution",
+    "Persistence",
+    "Privilege Escalation",
+    "Defense Evasion",
+    "Credential Access",
+    "Discovery",
+    "Lateral Movement",
+    "Collection",
+    "Command and Control",
+    "Exfiltration",
+    "Impact"
+  ],
+  "behaviours": [
+    {
+      "id": "phishing",
+      "name": "Phishing",
+      "summary": "A branching educational model for phishing operations that may pursue credentials, access tokens or code execution. It describes plausible relationships, not a mandatory sequence or a claim about a specific incident.",
+      "boundary": "The model intentionally stops after initial credential or payload outcomes. Persistence, discovery, lateral movement and collection depend on the operator, objective and access obtained and must be supported separately.",
+      "branches": [
+        {"id": "preparation", "name": "Preparation", "description": "Infrastructure that may be acquired before delivery. Many campaigns instead use compromised or legitimate services."},
+        {"id": "delivery", "name": "Delivery", "description": "How the lure reaches the target."},
+        {"id": "credential", "name": "Credential and token theft", "description": "The link ends at a collection or authorisation workflow rather than malware execution."},
+        {"id": "payload", "name": "Payload execution", "description": "The user action or client exploit leads to code execution or retrieval of a follow-on payload."}
+      ],
+      "techniques": [
+        {"technique_id":"T1583.001","technique":"Acquire Infrastructure: Domains","tactics":["Resource Development"],"role":"conditional","branch":"preparation","stage":"Infrastructure","notes":"An operator may register a lookalike or campaign domain for a lure, credential portal, redirector or payload host.","caveat":"Phishing can use compromised domains, legitimate services or direct attachments, so domain acquisition is not required.","attack_url":"https://attack.mitre.org/techniques/T1583/001/","sources":[{"title":"Acquire Infrastructure: Domains — T1583.001","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1583/001/"}]},
+        {"technique_id":"T1583.006","technique":"Acquire Infrastructure: Web Services","tactics":["Resource Development"],"role":"conditional","branch":"preparation","stage":"Infrastructure","notes":"Common web services may support lure delivery, redirects, payload staging or later command channels.","caveat":"Use of a public service is not malicious by itself and does not identify an operator.","attack_url":"https://attack.mitre.org/techniques/T1583/006/","sources":[{"title":"Acquire Infrastructure: Web Services — T1583.006","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1583/006/"}]},
+        {"technique_id":"T1566.001","technique":"Phishing: Spearphishing Attachment","tactics":["Initial Access"],"role":"delivery","branch":"delivery","stage":"Lure delivery","notes":"The message carries an attachment intended to produce access, execution or further user interaction.","caveat":"An attachment may be benign-looking and contain only a link; map the actual delivery and execution evidence.","attack_url":"https://attack.mitre.org/techniques/T1566/001/","sources":[{"title":"Phishing: Spearphishing Attachment — T1566.001","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1566/001/"}]},
+        {"technique_id":"T1566.002","technique":"Phishing: Spearphishing Link","tactics":["Initial Access"],"role":"delivery","branch":"delivery","stage":"Lure delivery","notes":"The lure contains a link that may lead to credential theft, token abuse, a malicious download or client exploitation.","caveat":"A clicked link does not establish which downstream branch occurred.","attack_url":"https://attack.mitre.org/techniques/T1566/002/","sources":[{"title":"Phishing: Spearphishing Link — T1566.002","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1566/002/"}]},
+        {"technique_id":"T1566.003","technique":"Phishing: Spearphishing via Service","tactics":["Initial Access"],"role":"delivery","branch":"delivery","stage":"Lure delivery","notes":"The lure is delivered through a third-party service such as personal email, social media or another messaging platform.","caveat":"The service is a delivery channel, not evidence that the service provider or account owner operates the campaign.","attack_url":"https://attack.mitre.org/techniques/T1566/003/","sources":[{"title":"Phishing: Spearphishing via Service — T1566.003","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1566/003/"}]},
+        {"technique_id":"T1056.003","technique":"Input Capture: Web Portal Capture","tactics":["Credential Access"],"role":"outcome","branch":"credential","stage":"Credential collection","notes":"A fraudulent login portal may collect credentials entered by the victim.","caveat":"A cloned login page supports this branch only when form behaviour, collection endpoints or telemetry show input capture.","attack_url":"https://attack.mitre.org/techniques/T1056/003/","sources":[{"title":"Input Capture: Web Portal Capture — T1056.003","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1056/003/"}]},
+        {"technique_id":"T1528","technique":"Steal Application Access Token","tactics":["Credential Access"],"role":"outcome","branch":"credential","stage":"Token acquisition","notes":"Consent or device-code phishing may produce an application token without collecting a reusable password.","caveat":"A phishing URL alone does not prove token issuance; authorisation and identity-provider evidence are needed.","attack_url":"https://attack.mitre.org/techniques/T1528/","sources":[{"title":"Steal Application Access Token — T1528","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1528/"}]},
+        {"technique_id":"T1204.001","technique":"User Execution: Malicious Link","tactics":["Execution"],"role":"conditional","branch":"payload","stage":"User action","notes":"The victim follows a link that contributes to code execution, a download or another execution chain.","caveat":"Credential-only phishing may involve a click without producing code execution on the endpoint.","attack_url":"https://attack.mitre.org/techniques/T1204/001/","sources":[{"title":"User Execution: Malicious Link — T1204.001","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1204/001/"}]},
+        {"technique_id":"T1204.002","technique":"User Execution: Malicious File","tactics":["Execution"],"role":"conditional","branch":"payload","stage":"User action","notes":"The victim opens or executes a malicious attachment or downloaded file.","caveat":"Delivery of a file does not prove it was opened, executed or successful.","attack_url":"https://attack.mitre.org/techniques/T1204/002/","sources":[{"title":"User Execution: Malicious File — T1204.002","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1204/002/"}]},
+        {"technique_id":"T1203","technique":"Exploitation for Client Execution","tactics":["Execution"],"role":"conditional","branch":"payload","stage":"Client exploitation","notes":"A link or attachment may exploit a vulnerability in a browser, document reader or other client application.","caveat":"Most phishing does not require a software vulnerability; do not infer exploitation from a crash or suspicious file alone.","attack_url":"https://attack.mitre.org/techniques/T1203/","sources":[{"title":"Exploitation for Client Execution — T1203","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1203/"}]},
+        {"technique_id":"T1059.001","technique":"Command and Scripting Interpreter: PowerShell","tactics":["Execution"],"role":"conditional","branch":"payload","stage":"Follow-on execution","notes":"A successful payload branch may invoke PowerShell for execution, retrieval or post-compromise actions.","caveat":"PowerShell is one possible interpreter and is neither universal to phishing nor malicious by itself.","attack_url":"https://attack.mitre.org/techniques/T1059/001/","sources":[{"title":"Command and Scripting Interpreter: PowerShell — T1059.001","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1059/001/"}]},
+        {"technique_id":"T1059.005","technique":"Command and Scripting Interpreter: Visual Basic","tactics":["Execution"],"role":"conditional","branch":"payload","stage":"Follow-on execution","notes":"A document, script file or downloaded stage may use Visual Basic or VBA for execution.","caveat":"The file type and code path must be inspected; an Office attachment alone does not establish this technique.","attack_url":"https://attack.mitre.org/techniques/T1059/005/","sources":[{"title":"Command and Scripting Interpreter: Visual Basic — T1059.005","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1059/005/"}]},
+        {"technique_id":"T1059.007","technique":"Command and Scripting Interpreter: JavaScript/JScript","tactics":["Execution"],"role":"conditional","branch":"payload","stage":"Follow-on execution","notes":"A lure or downloaded component may use JavaScript or JScript to execute the next stage.","caveat":"JavaScript on a landing page is normal; evidence must distinguish ordinary web code from an execution mechanism.","attack_url":"https://attack.mitre.org/techniques/T1059/007/","sources":[{"title":"Command and Scripting Interpreter: JavaScript/JScript — T1059.007","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1059/007/"}]},
+        {"technique_id":"T1105","technique":"Ingress Tool Transfer","tactics":["Command and Control"],"role":"conditional","branch":"payload","stage":"Payload retrieval","notes":"An initial script or loader may retrieve an additional payload from external infrastructure.","caveat":"A download following a click is not automatically an adversary tool transfer; preserve process, network and file evidence.","attack_url":"https://attack.mitre.org/techniques/T1105/","sources":[{"title":"Ingress Tool Transfer — T1105","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1105/"}]}
+      ]
+    }
+  ],
+  "actors": [
+    {
+      "id": "apt28",
+      "name": "APT28",
+      "aliases": ["Fancy Bear", "Forest Blizzard", "Sednit", "Sofacy"],
+      "summary": "Russian military intelligence intrusion set associated with GRU Unit 26165 and persistent espionage against governments, defence, logistics, technology, identity systems and organisations supporting Ukraine.",
+      "profile_url": "https://apt.hecavex.com/actors/apt28/",
+      "review": {"owner":"HECAVEX / APT Notes","last_reviewed":"2026-08-15","review_due":"2026-11-15","scope":"Public procedure reporting; no independent attribution claim."},
+      "evidence": [
+        {
+          "technique_id": "T1190",
+          "technique": "Exploit Public-Facing Application",
+          "tactics": ["Initial Access"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "APT28 router and DNS hijacking operations",
+          "campaign_slug": "apt28-dns-hijacking",
+          "first_observed": "2024",
+          "last_observed": "2026",
+          "notes": "Exploitation of internet-facing routers to create operational infrastructure.",
+          "attack_url": "https://attack.mitre.org/techniques/T1190/",
+          "sources": [
+            {"title": "APT28 exploit routers to enable DNS hijacking operations", "publisher": "UK National Cyber Security Centre", "published": "2026-04-07", "url": "https://www.ncsc.gov.uk/news/apt28-exploit-routers-to-enable-dns-hijacking-operations"}
+          ]
+        },
+        {
+          "technique_id": "T1557",
+          "technique": "Adversary-in-the-Middle",
+          "tactics": ["Credential Access"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "APT28 router and DNS hijacking operations",
+          "campaign_slug": "apt28-dns-hijacking",
+          "first_observed": "2024",
+          "last_observed": "2026",
+          "notes": "Selective DNS resolution enabled interception of passwords and OAuth tokens.",
+          "attack_url": "https://attack.mitre.org/techniques/T1557/",
+          "sources": [
+            {"title": "APT28 exploit routers to enable DNS hijacking operations", "publisher": "UK National Cyber Security Centre", "published": "2026-04-07", "url": "https://www.ncsc.gov.uk/news/apt28-exploit-routers-to-enable-dns-hijacking-operations"},
+            {"title": "SOHO router compromise leads to DNS hijacking and adversary-in-the-middle attacks", "publisher": "Microsoft Threat Intelligence", "published": "2026-04-07", "url": "https://www.microsoft.com/en-us/security/blog/2026/04/07/soho-router-compromise-leads-to-dns-hijacking-and-adversary-in-the-middle-attacks/"}
+          ]
+        },
+        {
+          "technique_id": "T1566.001",
+          "technique": "Spearphishing Attachment",
+          "tactics": ["Initial Access"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "Operation Neusploit",
+          "campaign_slug": "operation-neusploit",
+          "first_observed": "2026-01",
+          "last_observed": "2026-02",
+          "notes": "Weaponised RTF documents exploited CVE-2026-21509.",
+          "attack_url": "https://attack.mitre.org/techniques/T1566/001/",
+          "sources": [
+            {"title": "APT28 Leverages CVE-2026-21509 in Operation Neusploit", "publisher": "Zscaler ThreatLabz", "published": "2026-02-02", "url": "https://www.zscaler.com/blogs/security-research/apt28-leverages-cve-2026-21509-operation-neusploit"}
+          ]
+        },
+        {
+          "technique_id": "T1114.002",
+          "technique": "Remote Email Collection",
+          "tactics": ["Collection"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "Western logistics and technology targeting",
+          "campaign_slug": "western-logistics-targeting",
+          "first_observed": "2022",
+          "last_observed": "2025",
+          "notes": "EWS and IMAP supported periodic, long-term collection.",
+          "attack_url": "https://attack.mitre.org/techniques/T1114/002/",
+          "sources": [
+            {"title": "Russian GRU Targeting Western Logistics Entities and Technology Companies", "publisher": "CISA", "published": "2025-05-21", "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-141a"}
+          ]
+        },
+        {
+          "technique_id": "T1528",
+          "technique": "Steal Application Access Token",
+          "tactics": ["Credential Access"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "Outlook identity and token collection",
+          "campaign_slug": "outlook-identity-collection",
+          "first_observed": "2023",
+          "last_observed": "2025",
+          "notes": "AUTHENTIC ANTICS intercepted OAuth authorisation flows from within Outlook.",
+          "attack_url": "https://attack.mitre.org/techniques/T1528/",
+          "sources": [
+            {"title": "AUTHENTIC ANTICS Malware Analysis Report", "publisher": "UK National Cyber Security Centre", "published": "2025-05-06", "url": "https://www.ncsc.gov.uk/sites/default/files/documents/ncsc-mar-authentic_antics.pdf"}
+          ]
+        },
+        {
+          "technique_id": "T1125",
+          "technique": "Video Capture",
+          "tactics": ["Collection"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "Western logistics and technology targeting",
+          "campaign_slug": "western-logistics-targeting",
+          "first_observed": "2022",
+          "last_observed": "2025",
+          "notes": "RTSP-accessible cameras were targeted around logistics and military locations.",
+          "attack_url": "https://attack.mitre.org/techniques/T1125/",
+          "sources": [
+            {"title": "Russian GRU Targeting Western Logistics Entities and Technology Companies", "publisher": "CISA", "published": "2025-05-21", "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-141a"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apt44",
+      "name": "APT44",
+      "aliases": ["Sandworm Team", "Seashell Blizzard", "FROZENBARENTS", "Voodoo Bear"],
+      "summary": "Russian military intelligence intrusion set associated with GRU Unit 74455 and a full-spectrum mission spanning strategic access, espionage, destructive attacks, operational-technology disruption and influence activity.",
+      "profile_url": "https://apt.hecavex.com/actors/apt44/",
+      "review": {"owner":"HECAVEX / APT Notes","last_reviewed":"2026-08-15","review_due":"2026-11-15","scope":"Public procedure reporting; no independent attribution claim."},
+      "evidence": [
+        {
+          "technique_id": "T1190",
+          "technique": "Exploit Public-Facing Application",
+          "tactics": ["Initial Access"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "BadPilot",
+          "campaign_slug": "badpilot",
+          "first_observed": "2021",
+          "last_observed": "2025 reporting",
+          "notes": "Seven named CVEs and one JBoss exploitation pattern are recorded in the public report.",
+          "attack_url": "https://attack.mitre.org/techniques/T1190/",
+          "sources": [
+            {"title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation", "publisher": "Microsoft Threat Intelligence", "published": "2025-02-12", "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/"}
+          ]
+        },
+        {
+          "technique_id": "T1505.003",
+          "technique": "Server Software Component: Web Shell",
+          "tactics": ["Persistence"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "BadPilot",
+          "campaign_slug": "badpilot",
+          "first_observed": "2021",
+          "last_observed": "2025 reporting",
+          "notes": "Web shells remained the subgroup's predominant persistence method when reported.",
+          "attack_url": "https://attack.mitre.org/techniques/T1505/003/",
+          "sources": [
+            {"title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation", "publisher": "Microsoft Threat Intelligence", "published": "2025-02-12", "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/"}
+          ]
+        },
+        {
+          "technique_id": "T1133",
+          "technique": "External Remote Services",
+          "tactics": ["Initial Access", "Persistence"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "BadPilot",
+          "campaign_slug": "badpilot",
+          "first_observed": "2021",
+          "last_observed": "2025 reporting",
+          "notes": "Evidence includes OpenSSH, Tor-based access and network-device infrastructure.",
+          "attack_url": "https://attack.mitre.org/techniques/T1133/",
+          "sources": [
+            {"title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation", "publisher": "Microsoft Threat Intelligence", "published": "2025-02-12", "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/"},
+            {"title": "New Sandworm malware Cyclops Blink replaces VPNFilter", "publisher": "UK National Cyber Security Centre", "published": "2022-02-23", "url": "https://www.ncsc.gov.uk/news/joint-advisory-shows-new-sandworm-malware-cyclops-blink-replaces-vpnfilter"}
+          ]
+        },
+        {
+          "technique_id": "T1219",
+          "technique": "Remote Access Software",
+          "tactics": ["Command and Control"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "BadPilot",
+          "campaign_slug": "badpilot",
+          "first_observed": "2024",
+          "last_observed": "2025 reporting",
+          "notes": "Atera Agent and Splashtop were used as legitimate-looking persistence and command channels.",
+          "attack_url": "https://attack.mitre.org/techniques/T1219/",
+          "sources": [
+            {"title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation", "publisher": "Microsoft Threat Intelligence", "published": "2025-02-12", "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/"}
+          ]
+        },
+        {
+          "technique_id": "T1003.001",
+          "technique": "OS Credential Dumping: LSASS Memory",
+          "tactics": ["Credential Access"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "BadPilot",
+          "campaign_slug": "badpilot",
+          "first_observed": "2024",
+          "last_observed": "2025 reporting",
+          "notes": "Evidence includes renamed ProcDump and interactive access compatible with Task Manager dumping.",
+          "attack_url": "https://attack.mitre.org/techniques/T1003/001/",
+          "sources": [
+            {"title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation", "publisher": "Microsoft Threat Intelligence", "published": "2025-02-12", "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/"}
+          ]
+        },
+        {
+          "technique_id": "T1078",
+          "technique": "Valid Accounts",
+          "tactics": ["Defense Evasion", "Persistence", "Privilege Escalation", "Initial Access"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "Prestige ransomware-style attacks",
+          "campaign_slug": "prestige-ransomware",
+          "first_observed": "2022",
+          "last_observed": "2025 reporting",
+          "notes": "Credential access and retained identities support durable follow-on operations.",
+          "attack_url": "https://attack.mitre.org/techniques/T1078/",
+          "sources": [
+            {"title": "New Prestige ransomware impacts organizations in Ukraine and Poland", "publisher": "Microsoft Threat Intelligence", "published": "2022-10-14", "url": "https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/"},
+            {"title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation", "publisher": "Microsoft Threat Intelligence", "published": "2025-02-12", "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/"}
+          ]
+        },
+        {
+          "technique_id": "T1005",
+          "technique": "Data from Local System",
+          "tactics": ["Collection"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "Actor-level reporting",
+          "campaign_slug": "",
+          "first_observed": "2023",
+          "last_observed": "2026 reporting",
+          "notes": "WAVESIGN collected Signal Desktop data; public reporting also describes attempts to obtain Telegram and Signal information from devices.",
+          "attack_url": "https://attack.mitre.org/techniques/T1005/",
+          "sources": [
+            {"title": "Beyond the Battlefield: Threats to the Defense Industrial Base", "publisher": "Google Threat Intelligence Group", "published": "2026-02-10", "url": "https://cloud.google.com/blog/topics/threat-intelligence/threats-to-defense-industrial-base"}
+          ]
+        },
+        {
+          "technique_id": "T1059.001",
+          "technique": "PowerShell",
+          "tactics": ["Execution"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "2022 Ukraine electric power attack",
+          "campaign_slug": "ukraine-electric-power-2022",
+          "first_observed": "2022",
+          "last_observed": "2022",
+          "notes": "TANKTRAP used PowerShell and Group Policy to distribute a wiper.",
+          "attack_url": "https://attack.mitre.org/techniques/T1059/001/",
+          "sources": [
+            {"title": "Sandworm Disrupts Power in Ukraine Using a Novel Attack Against Operational Technology", "publisher": "Mandiant", "published": "2023-11-09", "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology"},
+            {"title": "Sandworm Team - Group G0034", "publisher": "MITRE ATT&CK", "published": "2017-05-31", "url": "https://attack.mitre.org/groups/G0034/"}
+          ]
+        },
+        {
+          "technique_id": "T1053.005",
+          "technique": "Scheduled Task",
+          "tactics": ["Execution", "Persistence"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "2022 Ukraine electric power attack",
+          "campaign_slug": "ukraine-electric-power-2022",
+          "first_observed": "2022",
+          "last_observed": "2022",
+          "notes": "Scheduled execution appears in separate destructive deployment chains.",
+          "attack_url": "https://attack.mitre.org/techniques/T1053/005/",
+          "sources": [
+            {"title": "Sandworm Disrupts Power in Ukraine Using a Novel Attack Against Operational Technology", "publisher": "Mandiant", "published": "2023-11-09", "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology"},
+            {"title": "New Prestige ransomware impacts organizations in Ukraine and Poland", "publisher": "Microsoft Threat Intelligence", "published": "2022-10-14", "url": "https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/"}
+          ]
+        },
+        {
+          "technique_id": "T1485",
+          "technique": "Data Destruction",
+          "tactics": ["Impact"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "2022 Ukraine electric power attack",
+          "campaign_slug": "ukraine-electric-power-2022",
+          "first_observed": "2015",
+          "last_observed": "2022",
+          "notes": "The profile separates destructive payload deployment from the mechanism that caused each operational outage.",
+          "attack_url": "https://attack.mitre.org/techniques/T1485/",
+          "sources": [
+            {"title": "Six Russian GRU Officers Charged in Connection with Worldwide Deployment of Destructive Malware", "publisher": "United States Department of Justice", "published": "2020-10-19", "url": "https://www.justice.gov/archives/opa/pr/six-russian-gru-officers-charged-connection-worldwide-deployment-destructive-malware-and"},
+            {"title": "Sandworm Disrupts Power in Ukraine Using a Novel Attack Against Operational Technology", "publisher": "Mandiant", "published": "2023-11-09", "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology"},
+            {"title": "New Prestige ransomware impacts organizations in Ukraine and Poland", "publisher": "Microsoft Threat Intelligence", "published": "2022-10-14", "url": "https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/"}
+          ]
+        },
+        {
+          "technique_id": "T1570",
+          "technique": "Lateral Tool Transfer",
+          "tactics": ["Command and Control"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "Prestige ransomware-style attacks",
+          "campaign_slug": "prestige-ransomware",
+          "first_observed": "2015",
+          "last_observed": "2022",
+          "notes": "Includes Group Policy, network shares and transfer between IT and OT systems.",
+          "attack_url": "https://attack.mitre.org/techniques/T1570/",
+          "sources": [
+            {"title": "New Prestige ransomware impacts organizations in Ukraine and Poland", "publisher": "Microsoft Threat Intelligence", "published": "2022-10-14", "url": "https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/"},
+            {"title": "Sandworm Disrupts Power in Ukraine Using a Novel Attack Against Operational Technology", "publisher": "Mandiant", "published": "2023-11-09", "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology"},
+            {"title": "Sandworm Team - Group G0034", "publisher": "MITRE ATT&CK", "published": "2017-05-31", "url": "https://attack.mitre.org/groups/G0034/"}
+          ]
+        },
+        {
+          "technique_id": "T1543.002",
+          "technique": "Create or Modify System Process: Systemd Service",
+          "tactics": ["Persistence"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "2022 Ukraine electric power attack",
+          "campaign_slug": "ukraine-electric-power-2022",
+          "first_observed": "2022",
+          "last_observed": "2022",
+          "notes": "GOGETTER used service units that masqueraded as legitimate Linux services.",
+          "attack_url": "https://attack.mitre.org/techniques/T1543/002/",
+          "sources": [
+            {"title": "Sandworm Disrupts Power in Ukraine Using a Novel Attack Against Operational Technology", "publisher": "Mandiant", "published": "2023-11-09", "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology"},
+            {"title": "Sandworm Team - Group G0034", "publisher": "MITRE ATT&CK", "published": "2017-05-31", "url": "https://attack.mitre.org/groups/G0034/"}
+          ]
+        },
+        {
+          "technique_id": "T1195.002",
+          "technique": "Compromise Software Supply Chain",
+          "tactics": ["Initial Access"],
+          "status": "reported",
+          "confidence": "high",
+          "campaign": "NotPetya destructive operation",
+          "campaign_slug": "notpetya-operation",
+          "first_observed": "2017",
+          "last_observed": "2017",
+          "notes": "The trusted update mechanism enabled initial distribution before broader propagation.",
+          "attack_url": "https://attack.mitre.org/techniques/T1195/002/",
+          "sources": [
+            {"title": "Six Russian GRU Officers Charged in Connection with Worldwide Deployment of Destructive Malware", "publisher": "United States Department of Justice", "published": "2020-10-19", "url": "https://www.justice.gov/archives/opa/pr/six-russian-gru-officers-charged-connection-worldwide-deployment-destructive-malware-and"},
+            {"title": "Unearthing APT44: Russia's Notorious Cyber Sabotage Unit Sandworm", "publisher": "Google Threat Intelligence Group", "published": "2024-04-17", "url": "https://cloud.google.com/blog/topics/threat-intelligence/apt44-unearthing-sandworm"},
+            {"title": "Sandworm Team - Group G0034", "publisher": "MITRE ATT&CK", "published": "2017-05-31", "url": "https://attack.mitre.org/groups/G0034/"}
+          ]
+        }
+      ]
+    }
+  ]
+}

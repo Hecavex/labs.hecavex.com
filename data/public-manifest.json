@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "updated": "2026-08-21",
+  "default_policy": "deny",
+  "description": "Exact allowlist of files intentionally published below /data/. A new file is not deployed until it is reviewed and added here.",
+  "files": [
+    {
+      "path": "data/index.html",
+      "catalogue_id": "public-data-catalogue",
+      "role": "landing-page",
+      "licence_url": "https://labs.hecavex.com/licence/#original-data"
+    },
+    {
+      "path": "data/catalogue.json",
+      "catalogue_id": "public-data-catalogue",
+      "role": "catalogue-metadata",
+      "licence_url": "https://labs.hecavex.com/licence/#original-data"
+    },
+    {
+      "path": "data/public-manifest.json",
+      "catalogue_id": "public-data-catalogue",
+      "role": "publication-manifest",
+      "licence_url": "https://labs.hecavex.com/licence/#original-data"
+    },
+    {
+      "path": "data/atlas/records.json",
+      "catalogue_id": "baltic-threat-atlas",
+      "role": "distribution",
+      "licence_url": "https://labs.hecavex.com/licence/#original-data"
+    },
+    {
+      "path": "data/pivots/cases.json",
+      "catalogue_id": "pivot-case-library",
+      "role": "distribution-index",
+      "licence_url": "https://labs.hecavex.com/licence/#original-data"
+    },
+    {
+      "path": "data/pivots/graphs/adform.json",
+      "catalogue_id": "pivot-case-library",
+      "role": "distribution",
+      "licence_url": "https://labs.hecavex.com/licence/#original-data"
+    },
+    {
+      "path": "data/pivots/graphs/github-python.json",
+      "catalogue_id": "pivot-case-library",
+      "role": "distribution",
+      "licence_url": "https://labs.hecavex.com/licence/#original-data"
+    },
+    {
+      "path": "data/pivots/graphs/unipark.json",
+      "catalogue_id": "pivot-case-library",
+      "role": "distribution",
+      "licence_url": "https://labs.hecavex.com/licence/#original-data"
+    },
+    {
+      "path": "data/attack/catalogue/enterprise.json",
+      "catalogue_id": "attack-reference",
+      "role": "distribution",
+      "licence_url": "https://attack.mitre.org/resources/terms-of-use/"
+    },
+    {
+      "path": "data/attack/intelligence/official-actor-procedures.json",
+      "catalogue_id": "attack-reference",
+      "role": "distribution",
+      "licence_url": "https://attack.mitre.org/resources/terms-of-use/"
+    },
+    {
+      "path": "data/attack/intelligence/reviewed-evidence.json",
+      "catalogue_id": "attack-reviewed-evidence",
+      "role": "distribution",
+      "licence_url": "https://labs.hecavex.com/licence/#reviewed-evidence"
+    },
+    {
+      "path": "data/attack/operations/guides.json",
+      "catalogue_id": "attack-operational-material",
+      "role": "distribution",
+      "licence_url": "https://labs.hecavex.com/licence/#original-data"
+    },
+    {
+      "path": "data/attack/detections/packages.json",
+      "catalogue_id": "attack-operational-material",
+      "role": "distribution",
+      "licence_url": "https://labs.hecavex.com/licence/#original-data"
+    },
+    {
+      "path": "data/attack/governance/governance.json",
+      "catalogue_id": "attack-operational-material",
+      "role": "distribution",
+      "licence_url": "https://labs.hecavex.com/licence/#original-data"
+    },
+    {
+      "path": "data/osint/resources.json",
+      "catalogue_id": "osint-resources",
+      "role": "distribution",
+      "licence_url": "https://labs.hecavex.com/licence/#original-data"
+    }
+  ]
+}
