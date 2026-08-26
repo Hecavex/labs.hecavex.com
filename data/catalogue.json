@@ -3,7 +3,7 @@
   "updated": "2026-08-26",
   "publisher": "HECAVEX",
   "owner": "Deividas Lis",
-  "catalogue_url": "https://labs.hecavex.com/data/",
+  "catalogue_url": "https://hecavex.com/data/",
   "manifest_url": "https://labs.hecavex.com/data/public-manifest.json",
   "licence_url": "https://labs.hecavex.com/licence/",
   "scope": "Deliberately public, source-linked datasets and static APIs published by HECAVEX. Private notes, submissions, credentials, malware samples and quarantined observations are excluded.",

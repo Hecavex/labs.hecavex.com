@@ -59,4 +59,39 @@
     });
     filter(initialQuery);
   }
+
+  const documentToc = document.querySelector('.document-toc');
+  const documentTocLinks = [...(documentToc?.querySelectorAll('a[href^="#"]') || [])];
+  const documentSections = documentTocLinks
+    .map((link) => ({ link, target: document.querySelector(link.getAttribute('href')) }))
+    .filter(({ target }) => target);
+
+  if (documentSections.length) {
+    let tocFrame;
+    const updateDocumentToc = () => {
+      if (tocFrame) return;
+      tocFrame = requestAnimationFrame(() => {
+        tocFrame = undefined;
+        const headerHeight = document.querySelector('.site-header')?.getBoundingClientRect().height || 0;
+        const activationLine = headerHeight + Math.min(72, window.innerHeight * .12);
+        let currentIndex = 0;
+        documentSections.forEach(({ target }, index) => {
+          if (target.getBoundingClientRect().top <= activationLine) currentIndex = index;
+        });
+        if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4) {
+          currentIndex = documentSections.length - 1;
+        }
+        documentSections.forEach(({ link }, index) => {
+          if (index === currentIndex) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        });
+      });
+    };
+
+    window.addEventListener('scroll', updateDocumentToc, { passive: true });
+    window.addEventListener('resize', updateDocumentToc, { passive: true });
+    window.addEventListener('hashchange', updateDocumentToc);
+    window.addEventListener('pageshow', updateDocumentToc);
+    updateDocumentToc();
+  }
 })();

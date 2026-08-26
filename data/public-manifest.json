@@ -7,7 +7,7 @@
     {
       "path": "data/index.html",
       "catalogue_id": "public-data-catalogue",
-      "role": "landing-page",
+      "role": "legacy-redirect",
       "licence_url": "https://labs.hecavex.com/licence/#original-data"
     },
     {

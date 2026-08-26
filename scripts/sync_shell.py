@@ -31,7 +31,7 @@ ROUTES = (
     Route("pivot-graph/index.html", "pivots", "search", "Search case claims", "Search"),
     Route("attack-map/index.html", "attack", "search", "Search actors or techniques", "Search"),
     Route("osint-workbench/index.html", None, "search", "Search archived OSINT resources", "Search"),
-    Route("data/index.html", "data", "link", utility_href="/data/catalogue.json", utility_text="Catalogue JSON"),
+    Route("data/index.html", None, "link", utility_href="/data/catalogue.json", utility_text="Catalogue JSON"),
     Route("changes/index.html", "changes", "link", utility_href="/changes/feed.json", utility_text="JSON feed"),
     Route("methodology/index.html", "methodology", "link", utility_href="https://github.com/Hecavex/labs.hecavex.com", utility_text="Source"),
     Route("about/index.html", "about", "link", utility_href="https://github.com/Hecavex/labs.hecavex.com", utility_text="Source"),
@@ -44,7 +44,7 @@ LOCAL_NAVIGATION = (
     ("atlas", "Baltic Atlas", "/baltic-threat-atlas/"),
     ("pivots", "Pivots", "/pivot-graph/"),
     ("attack", "ATT&amp;CK Evidence", "/attack-map/"),
-    ("data", "Data", "/data/"),
+    ("data", "Data", "https://hecavex.com/data/"),
     ("changes", "Changes", "/changes/"),
     ("methodology", "Methodology", "/methodology/"),
     ("about", "About", "/about/"),
@@ -140,7 +140,7 @@ def render_footer() -> str:
     return '''<footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-brand"><strong>HECAVEX LABS</strong><span>Inspectable public CTI workspaces by <a href="https://hecavex.com/en/">HECAVEX</a>.</span></div>
-      <nav aria-label="Footer"><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/">Labs</a><a href="/data/">Data</a><a href="/changes/">Changes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a><a href="/licence/">Licence</a><a href="https://hecavex.com/en/privacy/">Privacy</a><a href="/security/">Security</a></nav>
+      <nav aria-label="Footer"><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/">Labs</a><a href="https://hecavex.com/data/">Data</a><a href="/changes/">Changes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a><a href="/licence/">Licence</a><a href="https://hecavex.com/en/privacy/">Privacy</a><a href="/security/">Security</a></nav>
     </div>
   </footer>'''
 

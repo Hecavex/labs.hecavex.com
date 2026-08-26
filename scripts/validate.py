@@ -304,10 +304,10 @@ for path in html_files:
             errors.append(f"Shared identity declaration differs or is missing from {relative}: {declaration}")
     if re.search(r'<link[^>]+rel="stylesheet"[^>]+href="https?://', text, re.IGNORECASE):
         errors.append(f"Remote stylesheet dependency found in {relative}")
-    expected_stylesheet = "/assets/styles.css?v=20260826-1"
+    expected_stylesheet = "/assets/styles.css?v=20260826-2"
     expected_stylesheets = [expected_stylesheet]
     if relative == Path("attack-map/index.html"):
-        expected_stylesheets.append("/assets/attack-evidence.css?v=20260826-1")
+        expected_stylesheets.append("/assets/attack-evidence.css?v=20260826-2")
     if parser.stylesheets != expected_stylesheets:
         errors.append(
             f"Versioned route stylesheet differs in {relative}: "
@@ -535,6 +535,8 @@ except ValueError:
 catalogue = json.loads((root / "data/catalogue.json").read_text(encoding="utf-8"))
 if catalogue.get("schema_version") != "1.0.0" or not catalogue.get("updated"):
     errors.append("Public data catalogue requires a version and update date")
+if catalogue.get("catalogue_url") != "https://hecavex.com/data/":
+    errors.append("Human-readable portfolio data must use the canonical hecavex.com/data location")
 required_lifecycle_states = {"maintained", "generated from upstream", "frozen", "archived"}
 lifecycle_policy = catalogue.get("lifecycle_policy", {})
 if not required_lifecycle_states.issubset(lifecycle_policy):
@@ -585,40 +587,28 @@ for distinction in ("radar.json", "collection-health.json", "separate", "continu
         errors.append(f"Radar catalogue freshness does not distinguish {distinction}")
 
 data_html = (root / "data/index.html").read_text(encoding="utf-8")
-for distribution in expected_radar_distributions:
-    if f'href="{distribution}"' not in data_html:
-        errors.append(f"Human data catalogue does not link Radar distribution: {distribution}")
-if "generatedAt</code> and coverage metadata" in data_html:
-    errors.append("Human data catalogue still attributes collection health to radar.json")
-
-# The catalogue's structured data must describe the datasets rather than attach
-# a Dataset-only distribution property directly to DataCatalog.
-data_document = documents.get((root / "data/index.html").resolve())
-data_schema = json.loads(data_document.json_ld[0]) if data_document and data_document.json_ld else {}
-data_graph = data_schema.get("@graph", [])
-catalogue_node = next((item for item in data_graph if item.get("@type") == "DataCatalog"), {})
-dataset_nodes = {item.get("@id"): item for item in data_graph if item.get("@type") == "Dataset"}
-expected_dataset_ids = {f"https://labs.hecavex.com/data/#{record['id']}" for record in catalogue_records}
-declared_dataset_ids = {item.get("@id") for item in catalogue_node.get("dataset", [])}
-if declared_dataset_ids != expected_dataset_ids:
-    errors.append(f"DataCatalog dataset references differ from catalogue.json: {declared_dataset_ids ^ expected_dataset_ids}")
-if "distribution" in catalogue_node or not catalogue_node.get("encoding"):
-    errors.append("DataCatalog must expose catalogue.json as an encoding and datasets through dataset")
-for record in catalogue_records:
-    node_id = f"https://labs.hecavex.com/data/#{record['id']}"
-    node = dataset_nodes.get(node_id, {})
-    if not node:
-        errors.append(f"Data catalogue JSON-LD is missing Dataset {record['id']}")
-        continue
-    if node.get("license") != record.get("licence") or not node.get("dateModified"):
-        errors.append(f"Dataset JSON-LD lacks dateModified or precise licence for {record['id']}")
-    distributions = node.get("distribution", [])
-    if isinstance(distributions, dict):
-        distributions = [distributions]
-    structured_urls = {item.get("contentUrl") for item in distributions}
-    catalogue_urls = {value for value in [record.get("content_url"), *record.get("content_urls", [])] if value}
-    if structured_urls != catalogue_urls:
-        errors.append(f"Dataset JSON-LD distributions differ for {record['id']}: {structured_urls ^ catalogue_urls}")
+for redirect_contract in (
+    '<meta http-equiv="refresh" content="0; url=https://hecavex.com/data/">',
+    '<link rel="canonical" href="https://hecavex.com/data/">',
+):
+    if redirect_contract not in data_html:
+        errors.append(f"Legacy Labs data route is missing its redirect contract: {redirect_contract}")
+for route in SHELL_ROUTES:
+    shell_html = (root / route.path).read_text(encoding="utf-8")
+    if 'href="/data/"' in shell_html or 'href="https://hecavex.com/data/">Data</a>' not in shell_html:
+        errors.append(f"Labs Data navigation is stale in {route.path}")
+if "DataCatalog" in data_html or "Dataset" in data_html:
+    errors.append("Legacy Labs data route must not claim canonical DataCatalog or Dataset ownership")
+for legacy_copy in ("Public data catalogue", "Dataset register", "Distribution access"):
+    if legacy_copy in data_html:
+        errors.append(f"Legacy Labs data route still contains stale catalogue copy: {legacy_copy}")
+for move_contract in (
+    "HECAVEX Data has moved",
+    "https://hecavex.com/data/",
+    "remain stable",
+):
+    if move_contract not in data_html:
+        errors.append(f"Legacy Labs data route is missing its move notice: {move_contract}")
 
 manifest = json.loads((root / "data/public-manifest.json").read_text(encoding="utf-8"))
 if manifest.get("schema_version") != "1.0.0" or manifest.get("default_policy") != "deny":
@@ -863,13 +853,19 @@ if missing_explorer_ids or "/assets/attack-map.js" not in attack_html or "/asset
 sitemap_text = (root / "sitemap.xml").read_text(encoding="utf-8")
 if "https://labs.hecavex.com/attack-map/guide/" in sitemap_text:
     errors.append("Retired ATT&CK workbench guide remains in sitemap.xml")
-for required_public_page in ("data", "changes", "methodology", "about", "licence", "security"):
+for required_public_page in ("changes", "methodology", "about", "licence", "security"):
     if f"https://labs.hecavex.com/{required_public_page}/" not in sitemap_text:
         errors.append(f"{required_public_page} page is missing from sitemap.xml")
 attack_javascript = (root / "assets/attack-map.js").read_text(encoding="utf-8")
-for required_explorer_contract in ("/data/attack/intelligence/reviewed-evidence.json", "showModal", "textContent", "exportNavigator", "MAX_COMPARISON"):
+for required_explorer_contract in (
+    "/data/attack/intelligence/reviewed-evidence.json", "showModal", "textContent",
+    "exportNavigator", "MAX_COMPARISON", "reconcileDependentControls", "matchesFacet",
+):
     if required_explorer_contract not in attack_javascript:
         errors.append(f"ATT&CK Evidence Explorer is missing its client contract: {required_explorer_contract}")
+attack_styles = (root / "assets/attack-evidence.css").read_text(encoding="utf-8")
+if not re.search(r"\.evidence-controls \.button\s*\{[^}]*grid-column:\s*1\s*/\s*-1\s*;", attack_styles):
+    errors.append("ATT&CK filter reset control must span the complete grid without an exposed filler row")
 for forbidden_surface in (
     "Assess defensive coverage", "Incident timeline mapper", "Phishing investigation model",
     "Detection engineering package", "Technique reference catalogue", "localStorage", "FileReader",

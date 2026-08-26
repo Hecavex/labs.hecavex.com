@@ -12,7 +12,7 @@ Labs publishes selected, inspectable research interfaces. It is not a live incid
 
 ## Data and governance
 
-- [Data catalogue](https://labs.hecavex.com/data/): Human-readable public dataset index.
+- [HECAVEX Data](https://hecavex.com/data/): Human-readable portfolio-wide public dataset index.
 - [Machine-readable catalogue](https://labs.hecavex.com/data/catalogue.json): Dataset URLs, owners, schemas, review dates, and limitations.
 - [Public manifest](https://labs.hecavex.com/data/public-manifest.json): Default-deny list of files approved for publication.
 - [Changes](https://labs.hecavex.com/changes/): Meaningful dataset, schema, correction, archive, and publication-boundary changes.

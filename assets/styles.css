@@ -172,12 +172,21 @@ a.panel:hover { transform: translateY(-2px); border-left-color: var(--hx-steel);
 .document-prose { max-width: 76rem; }
 .document-prose > h2, .document-prose > p, .document-prose > ul, .document-prose > dl { max-width: 76ch; }
 .document-prose > p { text-align: justify; text-align-last: left; text-justify: inter-word; hyphens: auto; }
-.document-prose > h2 { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--hx-border-subtle); scroll-margin-top: 5rem; }
-.document-prose > h3 { max-width: 76ch; margin: 1.5rem 0 .35rem; scroll-margin-top: 5rem; }
+.document-prose > h2 { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--hx-border-subtle); scroll-margin-top: calc(var(--header-offset) + 1rem); }
+.document-prose > h3 { max-width: 76ch; margin: 1.5rem 0 .35rem; scroll-margin-top: calc(var(--header-offset) + 1rem); }
+.document-prose--wide { max-width: var(--shell-max); }
+.document-prose--wide > h2,
+.document-prose--wide > h3,
+.document-prose--wide > p,
+.document-prose--wide > ul,
+.document-prose--wide > dl { max-width: none; }
+.document-prose--wide .definition-list dd { text-align: justify; text-align-last: left; text-justify: inter-word; hyphens: auto; }
 .document-toc { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem 1rem; margin: 0 0 2rem; padding: .8rem 0; border-top: 1px solid var(--hx-border-subtle); border-bottom: 1px solid var(--hx-border-subtle); }
 .document-toc span { margin-right: auto; color: var(--hx-text-faint); font: 700 .62rem var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
 .document-toc a { color: var(--hx-text-soft); font: 600 .66rem var(--font-mono); text-decoration: none; text-transform: uppercase; }
-.document-toc a:hover { color: var(--hx-steel); }
+.document-toc a:hover,
+.document-toc a[aria-current="location"] { color: var(--hx-steel); }
+.document-toc a[aria-current="location"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .45rem; }
 .data-registry { width: 100%; min-width: 52rem; border-collapse: collapse; font-size: .82rem; }
 .data-registry th, .data-registry td { padding: .75rem .8rem; border-right: 1px solid var(--hx-border-subtle); border-bottom: 1px solid var(--hx-border-subtle); text-align: left; vertical-align: top; }
 .data-registry th:last-child, .data-registry td:last-child { border-right: 0; }

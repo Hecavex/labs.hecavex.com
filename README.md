@@ -11,7 +11,7 @@ HECAVEX Labs is maintained on a best-effort basis by Deividas Lis / HECAVEX. It 
 - [Baltic Threat Atlas](https://labs.hecavex.com/baltic-threat-atlas/) presents selected, source-linked public observations concerning Lithuania, Latvia and Estonia. Links to APT Notes appear only where the evidence supports them.
 - [Pivot Workspace](https://labs.hecavex.com/pivot-graph/) separates observations, reproducible derivations, analytical assessments and limitations across selected HECAVEX investigations.
 - [ATT&CK Evidence](https://labs.hecavex.com/attack-map/) exposes source-backed behavior mappings generated from reviewed APT Notes evidence. It supports filters, bounded comparisons and selected exports without claiming defensive coverage.
-- [Data catalogue](https://labs.hecavex.com/data/) records the public datasets, update state, provenance and reuse boundary.
+- [HECAVEX Data](https://hecavex.com/data/) records portfolio-wide public datasets, update state, provenance and reuse boundaries. Labs continues to host its established machine-readable distributions under `/data/`.
 
 The former generic [OSINT directory](https://labs.hecavex.com/osint-workbench/) is retained as a dated archive, not advertised as a maintained product. The [changes journal](https://labs.hecavex.com/changes/), [methodology and limitations](https://labs.hecavex.com/methodology/), [about page](https://labs.hecavex.com/about/), [licensing boundary](https://labs.hecavex.com/licence/) and [security policy](https://labs.hecavex.com/security/) are part of the published service.
 

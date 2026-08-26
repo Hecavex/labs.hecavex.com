@@ -114,6 +114,70 @@
     values.forEach(({ value, label }) => select.append(option(value, label)));
   }
 
+  function labelForValue(value) {
+    return value ? value[0].toUpperCase() + value.slice(1) : value;
+  }
+
+  function uniqueOptions(rows, facet) {
+    if (facet === 'campaign') {
+      const campaigns = new Map();
+      rows.forEach((row) => {
+        if (row.campaign.id) campaigns.set(row.campaign.id, row.campaign.name);
+      });
+      return [...campaigns]
+        .sort((left, right) => left[1].localeCompare(right[1]))
+        .map(([value, label]) => ({ value, label }));
+    }
+
+    if (facet === 'tactic') {
+      return [...new Set(rows.flatMap((row) => row.tactics))]
+        .sort()
+        .map((value) => ({ value, label: value }));
+    }
+
+    const preferredOrder = facet === 'confidence'
+      ? ['high', 'moderate', 'low']
+      : ['observed', 'reported', 'assessed', 'inferred', 'disputed', 'rejected'];
+    const available = new Set(rows.map((row) => facet === 'status' ? row.mapping_status : row.confidence));
+    return [
+      ...preferredOrder.filter((value) => available.has(value)),
+      ...[...available].filter((value) => !preferredOrder.includes(value)).sort()
+    ].map((value) => ({ value, label: labelForValue(value) }));
+  }
+
+  function matchesFacet(row, facet, value) {
+    if (value === 'all') return true;
+    if (facet === 'actor') return row.actor.id === value;
+    if (facet === 'campaign') return row.campaign.id === value;
+    if (facet === 'tactic') return row.tactics.includes(value);
+    if (facet === 'confidence') return row.confidence === value;
+    return row.mapping_status === value;
+  }
+
+  function replaceDependentOptions(select, values, allLabel) {
+    const requested = select.value;
+    fillSelect(select, values, allLabel);
+    select.value = values.some(({ value }) => value === requested) ? requested : 'all';
+  }
+
+  function reconcileDependentControls() {
+    // Actor is the parent facet. Each following facet is built only from rows
+    // compatible with the selections to its left, so stale combinations reset
+    // to "all" in a predictable campaign -> tactic -> confidence -> status order.
+    let compatibleRows = state.rows.filter((row) => matchesFacet(row, 'actor', elements.actor.value));
+    const facets = [
+      ['campaign', elements.campaign, 'All campaigns'],
+      ['tactic', elements.tactic, 'All tactics'],
+      ['confidence', elements.confidence, 'All confidence levels'],
+      ['status', elements.status, 'All statuses']
+    ];
+
+    facets.forEach(([facet, select, allLabel]) => {
+      replaceDependentOptions(select, uniqueOptions(compatibleRows, facet), allLabel);
+      compatibleRows = compatibleRows.filter((row) => matchesFacet(row, facet, select.value));
+    });
+  }
+
   function configureControls() {
     fillSelect(
       elements.actor,
@@ -122,30 +186,7 @@
         .map((actor) => ({ value: actor.id, label: actor.name })),
       'All reviewed actors'
     );
-
-    const campaigns = new Map();
-    const tactics = new Set();
-    const statuses = new Set();
-    state.rows.forEach((row) => {
-      if (row.campaign.id) campaigns.set(row.campaign.id, row.campaign.name);
-      row.tactics.forEach((tactic) => tactics.add(tactic));
-      statuses.add(row.mapping_status);
-    });
-    fillSelect(
-      elements.campaign,
-      [...campaigns].sort((a, b) => a[1].localeCompare(b[1])).map(([value, label]) => ({ value, label })),
-      'All campaigns'
-    );
-    fillSelect(
-      elements.tactic,
-      [...tactics].sort().map((value) => ({ value, label: value })),
-      'All tactics'
-    );
-    fillSelect(
-      elements.status,
-      [...statuses].sort().map((value) => ({ value, label: value[0].toUpperCase() + value.slice(1) })),
-      'All statuses'
-    );
+    reconcileDependentControls();
   }
 
   function setDatasetSummary() {
@@ -170,15 +211,12 @@
   }
 
   function applyFilters() {
+    reconcileDependentControls();
     const filters = currentFilters();
     state.filtered = state.rows.filter((row) => {
       if (filters.query && !row.searchText.includes(filters.query)) return false;
-      if (filters.actor !== 'all' && row.actor.id !== filters.actor) return false;
-      if (filters.campaign !== 'all' && row.campaign.id !== filters.campaign) return false;
-      if (filters.tactic !== 'all' && !row.tactics.includes(filters.tactic)) return false;
-      if (filters.confidence !== 'all' && row.confidence !== filters.confidence) return false;
-      if (filters.status !== 'all' && row.mapping_status !== filters.status) return false;
-      return true;
+      return ['actor', 'campaign', 'tactic', 'confidence', 'status']
+        .every((facet) => matchesFacet(row, facet, filters[facet]));
     });
     renderRows();
   }
@@ -489,7 +527,7 @@
   }
 
   function bindEvents() {
-    elements.controls.addEventListener('input', applyFilters);
+    elements.search.addEventListener('input', applyFilters);
     elements.controls.addEventListener('change', applyFilters);
     elements.controls.addEventListener('reset', () => requestAnimationFrame(applyFilters));
     elements.results.addEventListener('click', (event) => {
