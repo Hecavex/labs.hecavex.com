@@ -183,6 +183,7 @@
       const response = await fetch('/data/pivots/cases.json', { credentials: 'same-origin' });
       if (!response.ok) throw new Error(`Case catalogue request failed with ${response.status}`);
       catalogue = await response.json();
+      if (!catalogue.cases.length) throw new Error('No approved public cases are available');
       document.querySelector('#case-total').textContent = String(catalogue.cases.length);
       await loadCase(new URL(window.location.href).searchParams.get('case'), false);
     } catch (error) {

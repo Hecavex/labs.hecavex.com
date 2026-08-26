@@ -2,6 +2,7 @@
 """Stage only the Labs data files explicitly approved in the public manifest."""
 
 import argparse
+from datetime import date
 import json
 import os
 from pathlib import Path
@@ -12,6 +13,7 @@ import shutil
 ROOT = Path(__file__).resolve().parent.parent
 DATA_ROOT = (ROOT / "data").resolve()
 MANIFEST_PATH = DATA_ROOT / "public-manifest.json"
+PIVOT_CASES_PATH = DATA_ROOT / "pivots" / "cases.json"
 ANALYTICS_ENVIRONMENT = "HECAVEX_ANALYTICS_TOKEN"
 ANALYTICS_SOURCE = "https://static.cloudflareinsights.com/beacon.min.js"
 
@@ -62,6 +64,46 @@ def stage_analytics(destination: Path, token: str, *, required: bool) -> int:
     return len(html_files)
 
 
+def validate_pivot_publication(listed_paths: set[str]) -> None:
+    """Require an explicit approval record for every publicly staged case graph."""
+
+    catalogue = json.loads(PIVOT_CASES_PATH.read_text(encoding="utf-8"))
+    cases = catalogue.get("cases", [])
+    if not cases:
+        raise SystemExit("The public pivot catalogue must contain at least one approved case")
+
+    approved_graphs: set[str] = set()
+    case_ids: set[str] = set()
+    for case in cases:
+        case_id = str(case.get("id", "")).strip()
+        if not case_id or case_id in case_ids:
+            raise SystemExit("Public pivot cases require unique non-empty ids")
+        case_ids.add(case_id)
+
+        if case.get("publication_approved") is not True:
+            raise SystemExit(f"Pivot case is not explicitly approved for publication: {case_id}")
+        approved_at = str(case.get("publication_approved_at", ""))
+        try:
+            date.fromisoformat(approved_at)
+        except ValueError as error:
+            raise SystemExit(f"Pivot case has no valid publication approval date: {case_id}") from error
+
+        graph = str(case.get("graph", "")).lstrip("/")
+        if not graph.startswith("data/pivots/graphs/") or graph not in listed_paths:
+            raise SystemExit(f"Approved pivot graph is not in the public manifest: {case_id} -> {graph}")
+        approved_graphs.add(graph)
+
+    staged_graphs = {
+        path for path in listed_paths if path.startswith("data/pivots/graphs/") and path.endswith(".json")
+    }
+    if approved_graphs != staged_graphs:
+        raise SystemExit(
+            "Public pivot graph approval mismatch; "
+            f"unapproved={sorted(staged_graphs - approved_graphs)}, "
+            f"missing={sorted(approved_graphs - staged_graphs)}"
+        )
+
+
 def manifest_paths():
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
     if manifest.get("default_policy") != "deny":
@@ -85,6 +127,7 @@ def manifest_paths():
         missing = sorted(set(actual) - set(listed))
         stale = sorted(set(listed) - set(actual))
         raise SystemExit(f"Public data manifest mismatch; unapproved={missing}, missing={stale}")
+    validate_pivot_publication(set(listed))
     return paths
 
 

@@ -3,7 +3,9 @@ Thumbs.db
 *.tmp
 .codex-tmp/
 .venv/
+.env
+.env.*
+!.env.example
 _site/
-test-results/
 __pycache__/
 *.pyc

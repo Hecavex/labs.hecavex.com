@@ -81,7 +81,7 @@ class DocumentParser(HTMLParser):
 
 
 root = Path(__file__).resolve().parent.parent
-ignored_validation_directories = {".git", ".codex-tmp", "_site", "test-results", "__pycache__"}
+ignored_validation_directories = {".git", ".codex-tmp", "_site", "__pycache__"}
 
 
 def repository_files(pattern):
@@ -96,21 +96,23 @@ required = {
     "baltic-threat-atlas/index.html",
     "pivot-graph/index.html",
     "attack-map/index.html",
-    "attack-map/guide/index.html",
     "osint-workbench/index.html",
     "data/index.html",
+    "changes/index.html",
+    "changes/feed.json",
+    "about/index.html",
     "data/catalogue.json",
     "data/public-manifest.json",
     "licence/index.html",
     "methodology/index.html",
     "security/index.html",
     "assets/styles.css",
+    "assets/attack-evidence.css",
     "assets/hecavex-mark.svg",
     "assets/site.js",
     "assets/atlas.js",
     "assets/pivot-graph.js",
     "assets/attack-map.js",
-    "assets/osint-workbench.js",
     "data/atlas/records.json",
     "data/osint/resources.json",
     "data/pivots/cases.json",
@@ -118,23 +120,9 @@ required = {
     "data/pivots/graphs/unipark.json",
     "data/pivots/graphs/github-python.json",
     "data/attack/intelligence/reviewed-evidence.json",
-    "data/attack/intelligence/official-actor-procedures.json",
-    "data/attack/operations/guides.json",
-    "data/attack/detections/packages.json",
-    "data/attack/governance/governance.json",
-    "data/attack/catalogue/enterprise.json",
-    "scripts/build_attack_content.py",
-    "scripts/update_attack_catalog.py",
-    "scripts/capture_attack_guide.py",
+    "scripts/build_reviewed_attack_evidence.py",
     "scripts/stage_public_data.py",
     "scripts/sync_shell.py",
-    "scripts/test_responsive.py",
-    "assets/img/attack-workbench-guide/01-choose-workflow.png",
-    "assets/img/attack-workbench-guide/02-review-evidence-candidates.png",
-    "assets/img/attack-workbench-guide/03-assess-coverage.png",
-    "assets/img/attack-workbench-guide/04-record-capability.png",
-    "assets/img/attack-workbench-guide/05-find-threat-actor.png",
-    "assets/img/attack-workbench-guide/06-use-actor-procedures.png",
     "CNAME",
     "robots.txt",
     "llms.txt",
@@ -142,6 +130,12 @@ required = {
     "LICENSE",
     "LICENSE.md",
     "DATA-LICENSE.md",
+    "favicon.svg",
+    "favicon.ico",
+    "apple-touch-icon.png",
+    "icon-192.png",
+    "icon-512.png",
+    "site.webmanifest",
     ".well-known/security.txt",
 }
 
@@ -152,12 +146,30 @@ if missing:
 
 robots_text = (root / "robots.txt").read_text(encoding="utf-8")
 llms_text = (root / "llms.txt").read_text(encoding="utf-8")
+manifest_data = json.loads((root / "site.webmanifest").read_text(encoding="utf-8"))
 if "Content-Signal: search=yes, ai-input=yes, ai-train=no" not in robots_text:
     errors.append("robots.txt is missing the reviewed HECAVEX content-use signal")
+for manifest_key in ("id", "start_url", "scope"):
+    if manifest_data.get(manifest_key) != "/":
+        errors.append(f"site.webmanifest {manifest_key} must be /")
+if manifest_data.get("name") != "HECAVEX Labs":
+    errors.append("site.webmanifest must carry the Labs origin identity")
+manifest_icons = {
+    (item.get("src"), item.get("sizes"), item.get("type"))
+    for item in manifest_data.get("icons", [])
+}
+for expected_icon in (
+    ("/icon-192.png", "192x192", "image/png"),
+    ("/icon-512.png", "512x512", "image/png"),
+):
+    if expected_icon not in manifest_icons:
+        errors.append(f"site.webmanifest is missing identity icon {expected_icon[0]}")
 for required_url in (
     "https://labs.hecavex.com/data/catalogue.json",
     "https://labs.hecavex.com/data/public-manifest.json",
+    "https://labs.hecavex.com/changes/",
     "https://labs.hecavex.com/methodology/",
+    "https://labs.hecavex.com/about/",
     "https://labs.hecavex.com/licence/",
 ):
     if required_url not in llms_text:
@@ -264,6 +276,12 @@ for line in styles_text.splitlines():
         errors.append(f"Danger colour is applied outside a danger or warning state: {selector.strip()}")
 
 mojibake_markers = ("â€", "Â", "ï¿½", "�")
+identity_head_contract = (
+    '<link rel="icon" href="/favicon.svg" type="image/svg+xml">',
+    '<link rel="icon" href="/favicon.ico" sizes="any">',
+    '<link rel="apple-touch-icon" href="/apple-touch-icon.png">',
+    '<link rel="manifest" href="/site.webmanifest">',
+)
 html_files = repository_files("*.html")
 canonicals = {}
 documents = {}
@@ -281,13 +299,19 @@ for path in html_files:
         errors.append(f"Progressive-enhancement marker is missing from {relative}")
     if len(re.findall(r'<meta\s+name="theme-color"\s+content="#05080b"\s*/?>', text, re.IGNORECASE)) != 1:
         errors.append(f"Cold Signal theme colour metadata differs or is missing from {relative}")
+    for declaration in identity_head_contract:
+        if text.count(declaration) != 1:
+            errors.append(f"Shared identity declaration differs or is missing from {relative}: {declaration}")
     if re.search(r'<link[^>]+rel="stylesheet"[^>]+href="https?://', text, re.IGNORECASE):
         errors.append(f"Remote stylesheet dependency found in {relative}")
-    expected_stylesheet = "/assets/styles.css?v=20260822-2"
-    if parser.stylesheets != [expected_stylesheet]:
+    expected_stylesheet = "/assets/styles.css?v=20260826-1"
+    expected_stylesheets = [expected_stylesheet]
+    if relative == Path("attack-map/index.html"):
+        expected_stylesheets.append("/assets/attack-evidence.css?v=20260826-1")
+    if parser.stylesheets != expected_stylesheets:
         errors.append(
             f"Versioned route stylesheet differs in {relative}: "
-            f"expected {[expected_stylesheet]}, found {parser.stylesheets}"
+            f"expected {expected_stylesheets}, found {parser.stylesheets}"
         )
     if re.search(r'<script[^>]+src="https?://', text, re.IGNORECASE):
         errors.append(f"Remote script dependency found in {relative}")
@@ -427,7 +451,6 @@ switcher_targets = [
     "https://radar.hecavex.com/",
     "https://apt.hecavex.com/",
     "https://labs.hecavex.com/",
-    "https://labs.hecavex.com/data/",
 ]
 for path in html_files:
     text = path.read_text(encoding="utf-8")
@@ -443,7 +466,7 @@ for path in html_files:
         if links != switcher_targets:
             errors.append(f"{surface.title()} portfolio targets or order differ in {path.relative_to(root)}: {links}")
         current_links = re.findall(r'<a\b(?=[^>]*aria-current="page")[^>]*href="([^"]+)"', menu.group(1))
-        expected_current = "https://labs.hecavex.com/data/" if path == root / "data/index.html" else "https://labs.hecavex.com/"
+        expected_current = "https://labs.hecavex.com/"
         if current_links != [expected_current]:
             errors.append(
                 f"{surface.title()} portfolio current state differs in {path.relative_to(root)}: "
@@ -459,6 +482,8 @@ if html_route_paths != shell_route_paths:
     )
 for route in SHELL_ROUTES:
     path = root / route.path
+    if not path.is_file():
+        continue
     text = path.read_text(encoding="utf-8")
     try:
         expected = render_shell(text, route)
@@ -624,7 +649,7 @@ license_text = (root / "LICENSE").read_text(encoding="utf-8")
 data_license_text = (root / "DATA-LICENSE.md").read_text(encoding="utf-8")
 if "Permission is hereby granted" not in license_text or "THE SOFTWARE IS PROVIDED \"AS IS\"" not in license_text:
     errors.append("LICENSE does not contain the complete MIT grant and disclaimer")
-for phrase in ("HECAVEX original data", "MITRE ATT&CK material", "Reviewed evidence and source material", "No warranty"):
+for phrase in ("HECAVEX original data", "MITRE ATT&CK references", "Reviewed evidence and source material", "No warranty"):
     if phrase not in data_license_text:
         errors.append(f"DATA-LICENSE.md is missing: {phrase}")
 
@@ -680,6 +705,8 @@ if any(record["title"] in atlas_html for record in records):
 case_catalogue = json.loads((root / "data/pivots/cases.json").read_text(encoding="utf-8"))
 cases = case_catalogue.get("cases", [])
 case_ids = [case.get("id") for case in cases]
+if case_catalogue.get("schema_version") != "1.1.0":
+    errors.append("Pivot case catalogue must use the publication-approval schema 1.1.0")
 if not cases:
     errors.append("Pivot case catalogue must contain at least one case")
 if len(case_ids) != len(set(case_ids)) or None in case_ids:
@@ -690,12 +717,18 @@ catalogued_graphs = set()
 total_nodes = 0
 total_edges = 0
 for case in cases:
-    missing_case_fields = {"id", "title", "short_title", "summary", "status", "updated", "graph", "research", "tags"} - case.keys()
+    missing_case_fields = {"id", "title", "short_title", "summary", "status", "publication_approved", "publication_approved_at", "updated", "graph", "research", "tags"} - case.keys()
     if missing_case_fields:
         errors.append(f"Pivot case {case.get('id', '<unknown>')} is missing: {', '.join(sorted(missing_case_fields))}")
         continue
     if urlparse(case["research"]).scheme != "https":
         errors.append(f"Pivot case research URL must use HTTPS in {case['id']}")
+    if case.get("publication_approved") is not True:
+        errors.append(f"Pivot case is not explicitly approved for publication: {case['id']}")
+    try:
+        datetime.strptime(str(case.get("publication_approved_at", "")), "%Y-%m-%d")
+    except ValueError:
+        errors.append(f"Pivot case publication approval date is invalid: {case['id']}")
     graph_path = case["graph"].lstrip("/")
     catalogued_graphs.add(graph_path)
     if not (root / graph_path).is_file():
@@ -733,6 +766,12 @@ for case in cases:
 graph_files = {str(path.relative_to(root)).replace("\\", "/") for path in (root / "data/pivots/graphs").glob("*.json")}
 if graph_files != catalogued_graphs:
     errors.append(f"Pivot catalogue mismatch. Catalogued: {sorted(catalogued_graphs)}; present: {sorted(graph_files)}")
+manifest_graphs = {path for path in manifest_paths if path.startswith("data/pivots/graphs/")}
+if manifest_graphs != catalogued_graphs:
+    errors.append(
+        "Approved pivot cases and public manifest graphs differ: "
+        f"cases={sorted(catalogued_graphs)}, manifest={sorted(manifest_graphs)}"
+    )
 
 pivot_html = (root / "pivot-graph/index.html").read_text(encoding="utf-8")
 if 'id="case-selector"' not in pivot_html or "/data/pivots/cases.json" not in pivot_html:
@@ -740,27 +779,50 @@ if 'id="case-selector"' not in pivot_html or "/data/pivots/cases.json" not in pi
 
 attack = json.loads((root / "data/attack/intelligence/reviewed-evidence.json").read_text(encoding="utf-8"))
 attack_actors = attack.get("actors", [])
-attack_behaviours = attack.get("behaviours", [])
-attack_tactics = attack.get("tactics", [])
 attack_records = [record for actor in attack_actors for record in actor.get("evidence", [])]
 provenance_model = attack.get("provenance_model", {})
-if not {"evidence_classes", "confidence_scale", "mapping_unit", "required_context", "known_limit"}.issubset(provenance_model):
+source_system = attack.get("source_system", {})
+attack_summary = attack.get("summary", {})
+if attack.get("schema_version") != "2.0.0":
+    errors.append("ATT&CK Evidence Explorer requires reviewed-evidence schema 2.0.0")
+if not {"release_id", "dataset_version", "released_at", "method"}.issubset(source_system):
+    errors.append("ATT&CK evidence is missing its APT Notes source release contract")
+if urlparse(source_system.get("url", "")).hostname != "apt.hecavex.com":
+    errors.append("ATT&CK evidence source system must link to APT Notes")
+if not {"default_mapping_status", "status_values", "confidence_values", "mapping_unit", "known_limit"}.issubset(provenance_model):
     errors.append("ATT&CK evidence is missing its publication provenance model")
+if len(attack_actors) < 2 or not attack_records:
+    errors.append("ATT&CK Evidence Explorer requires reviewed actors and explicit technique evidence")
+actor_ids = [actor.get("id") for actor in attack_actors]
+if len(actor_ids) != len(set(actor_ids)) or None in actor_ids:
+    errors.append("ATT&CK actor ids must be present and unique")
+if attack_summary.get("actors") != len(attack_actors) or attack_summary.get("mappings") != len(attack_records):
+    errors.append("ATT&CK evidence summary counts do not match the published records")
+expected_technique_count = len({record.get("technique_id") for record in attack_records})
+expected_campaign_count = len({record.get("campaign", {}).get("id") for record in attack_records if record.get("campaign", {}).get("id")})
+if attack_summary.get("techniques") != expected_technique_count or attack_summary.get("campaigns") != expected_campaign_count:
+    errors.append("ATT&CK technique or campaign summary counts do not match the evidence")
+
+valid_attack_tactics = {
+    "Reconnaissance", "Resource Development", "Initial Access", "Execution", "Persistence",
+    "Privilege Escalation", "Defense Evasion", "Credential Access", "Discovery", "Lateral Movement",
+    "Collection", "Command and Control", "Exfiltration", "Impact",
+}
+required_actor_fields = {"id", "name", "slug", "summary", "status", "confidence", "last_reviewed", "aliases", "url", "json_url", "evidence"}
+required_attack_fields = {
+    "id", "technique_id", "technique", "technique_slug", "tactics", "mapping_status", "confidence",
+    "campaign", "first_observed", "last_observed", "notes", "uncertainty", "attack_url",
+    "apt_notes_url", "sources",
+}
+evidence_ids = []
 for actor in attack_actors:
-    if not {"owner", "last_reviewed", "review_due", "scope"}.issubset(actor.get("review", {})):
-        errors.append(f"ATT&CK actor {actor.get('id', '<unknown>')} is missing review governance")
-behaviour_records = [record for behaviour in attack_behaviours for record in behaviour.get("techniques", [])]
-if {actor.get("id") for actor in attack_actors} != {"apt28", "apt44"}:
-    errors.append("ATT&CK Workbench must contain the reviewed APT28 and APT44 records")
-if len(attack_tactics) != 14 or len(set(attack_tactics)) != 14:
-    errors.append("ATT&CK Workbench must contain the 14 unique Enterprise tactics")
-if len(attack_records) != 19:
-    errors.append(f"ATT&CK Workbench expected 19 evidence records, found {len(attack_records)}")
-required_attack_fields = {"technique_id", "technique", "tactics", "status", "confidence", "campaign", "first_observed", "last_observed", "notes", "attack_url", "sources"}
-for actor in attack_actors:
-    if urlparse(actor.get("profile_url", "")).hostname != "apt.hecavex.com":
+    missing_actor_fields = required_actor_fields - actor.keys()
+    if missing_actor_fields:
+        errors.append(f"ATT&CK actor {actor.get('id', '<unknown>')} is missing: {', '.join(sorted(missing_actor_fields))}")
+    if urlparse(actor.get("url", "")).hostname != "apt.hecavex.com":
         errors.append(f"ATT&CK actor profile must link to APT Notes: {actor.get('id')}")
     for record in actor.get("evidence", []):
+        evidence_ids.append(record.get("id"))
         record_name = f"{actor.get('id')}/{record.get('technique_id', '<unknown>')}"
         missing_attack_fields = required_attack_fields - record.keys()
         if missing_attack_fields:
@@ -768,10 +830,10 @@ for actor in attack_actors:
         technique_id = record.get("technique_id", "")
         if not technique_id.startswith("T") or not technique_id[1:].replace(".", "").isdigit():
             errors.append(f"Invalid ATT&CK technique id in {record_name}")
-        if not record.get("tactics") or not set(record.get("tactics", [])).issubset(set(attack_tactics)):
+        if not record.get("tactics") or not set(record.get("tactics", [])).issubset(valid_attack_tactics):
             errors.append(f"Invalid tactic mapping in {record_name}: {record.get('tactics')}")
-        if record.get("status") not in {"reported", "observed", "assessed"}:
-            errors.append(f"Invalid evidence status in {record_name}: {record.get('status')}")
+        if record.get("mapping_status") not in {"reported", "observed", "assessed", "inferred", "disputed", "rejected"}:
+            errors.append(f"Invalid evidence status in {record_name}: {record.get('mapping_status')}")
         if record.get("confidence") not in {"high", "moderate", "low"}:
             errors.append(f"Invalid ATT&CK confidence in {record_name}: {record.get('confidence')}")
         if urlparse(record.get("attack_url", "")).hostname != "attack.mitre.org":
@@ -779,255 +841,64 @@ for actor in attack_actors:
         if not record.get("sources"):
             errors.append(f"ATT&CK record has no public source: {record_name}")
         for source in record.get("sources", []):
-            if not {"title", "publisher", "published", "url"}.issubset(source):
+            if not {"id", "title", "publisher", "published", "source_type", "url", "apt_notes_url"}.issubset(source):
                 errors.append(f"Incomplete ATT&CK source in {record_name}")
             if urlparse(source.get("url", "")).scheme != "https":
                 errors.append(f"ATT&CK source must use HTTPS in {record_name}: {source.get('url')}")
-
-if {behaviour.get("id") for behaviour in attack_behaviours} != {"phishing"}:
-    errors.append("ATT&CK Behaviour Explorer must contain the bounded phishing model")
-required_behaviour_fields = {"technique_id", "technique", "tactics", "role", "branch", "stage", "notes", "caveat", "attack_url", "sources"}
-for behaviour in attack_behaviours:
-    behaviour_id = behaviour.get("id", "<unknown>")
-    branch_ids = {branch.get("id") for branch in behaviour.get("branches", [])}
-    if len(branch_ids) < 4 or None in branch_ids:
-        errors.append(f"ATT&CK behaviour {behaviour_id} must define its analytical branches")
-    if not behaviour.get("boundary"):
-        errors.append(f"ATT&CK behaviour {behaviour_id} has no explicit analytical boundary")
-    for record in behaviour.get("techniques", []):
-        record_name = f"{behaviour_id}/{record.get('technique_id', '<unknown>')}"
-        missing_fields = required_behaviour_fields - record.keys()
-        if missing_fields:
-            errors.append(f"ATT&CK behaviour record {record_name} is missing: {', '.join(sorted(missing_fields))}")
-        if record.get("role") not in {"delivery", "conditional", "outcome"}:
-            errors.append(f"Invalid behaviour role in {record_name}: {record.get('role')}")
-        if record.get("branch") not in branch_ids:
-            errors.append(f"Unknown behaviour branch in {record_name}: {record.get('branch')}")
-        if not record.get("tactics") or not set(record.get("tactics", [])).issubset(set(attack_tactics)):
-            errors.append(f"Invalid behaviour tactic mapping in {record_name}: {record.get('tactics')}")
-        if urlparse(record.get("attack_url", "")).hostname != "attack.mitre.org":
-            errors.append(f"Invalid MITRE ATT&CK URL in behaviour record {record_name}")
-        if not record.get("sources"):
-            errors.append(f"ATT&CK behaviour record has no public source: {record_name}")
-        for source in record.get("sources", []):
-            if not {"title", "publisher", "published", "url"}.issubset(source):
-                errors.append(f"Incomplete ATT&CK behaviour source in {record_name}")
-            if urlparse(source.get("url", "")).scheme != "https":
-                errors.append(f"ATT&CK behaviour source must use HTTPS in {record_name}: {source.get('url')}")
+            if urlparse(source.get("apt_notes_url", "")).hostname != "apt.hecavex.com":
+                errors.append(f"ATT&CK source must preserve its APT Notes record in {record_name}")
+if len(evidence_ids) != len(set(evidence_ids)) or None in evidence_ids:
+    errors.append("ATT&CK evidence record ids must be present and unique")
 
 attack_html = (root / "attack-map/index.html").read_text(encoding="utf-8")
-required_workbench_ids = {"workbench", "workspace-mode", "journey-steps", "procedure-total", "package-total", "observation-results", "observation-errors", "mapping-validation-form", "mapping-errors", "mapping-output", "group-results", "group-workspace", "intel-results", "readiness-body", "capability-editor", "capability-progress", "capability-errors", "detection-package", "incident-errors", "incident-timeline", "phishing-flow", "reference-results", "governance-summary", "capability-dialog"}
-missing_workbench_ids = {item for item in required_workbench_ids if f'id="{item}"' not in attack_html}
-if missing_workbench_ids or "/assets/attack-map.js" not in attack_html:
-    errors.append(f"ATT&CK Operations Workbench is incomplete: {', '.join(sorted(missing_workbench_ids))}")
-if 'href="/attack-map/guide/"' not in attack_html or 'class="workbench-help"' not in attack_html:
-    errors.append("ATT&CK Operations Workbench has no visible first-use guide entry point")
-attack_guide_html = (root / "attack-map/guide/index.html").read_text(encoding="utf-8")
-expected_guide_images = {
-    f'/assets/img/attack-workbench-guide/{name}.png'
-    for name in (
-        "01-choose-workflow",
-        "02-review-evidence-candidates",
-        "03-assess-coverage",
-        "04-record-capability",
-        "05-find-threat-actor",
-        "06-use-actor-procedures",
-    )
+required_explorer_ids = {
+    "evidence-index", "evidence-controls", "evidence-results", "result-count", "actor-filter",
+    "campaign-filter", "tactic-filter", "confidence-filter", "status-filter", "comparison",
+    "comparison-grid", "mapping-dialog", "mapping-dialog-body", "export-json", "export-csv",
+    "export-navigator",
 }
-missing_guide_images = sorted(path for path in expected_guide_images if path not in attack_guide_html)
-if missing_guide_images:
-    errors.append("ATT&CK first-use guide is missing marked screenshots: " + ", ".join(missing_guide_images))
-if '"@type":"HowTo"' not in attack_guide_html:
-    errors.append("ATT&CK first-use guide has no HowTo structured data")
+missing_explorer_ids = {item for item in required_explorer_ids if f'id="{item}"' not in attack_html}
+if missing_explorer_ids or "/assets/attack-map.js" not in attack_html or "/assets/attack-evidence.css" not in attack_html:
+    errors.append(f"ATT&CK Evidence Explorer is incomplete: {', '.join(sorted(missing_explorer_ids))}")
 sitemap_text = (root / "sitemap.xml").read_text(encoding="utf-8")
-if "https://labs.hecavex.com/attack-map/guide/" not in sitemap_text:
-    errors.append("ATT&CK first-use guide is missing from sitemap.xml")
-for required_public_page in ("data", "methodology", "licence", "security"):
+if "https://labs.hecavex.com/attack-map/guide/" in sitemap_text:
+    errors.append("Retired ATT&CK workbench guide remains in sitemap.xml")
+for required_public_page in ("data", "changes", "methodology", "about", "licence", "security"):
     if f"https://labs.hecavex.com/{required_public_page}/" not in sitemap_text:
         errors.append(f"{required_public_page} page is missing from sitemap.xml")
 attack_javascript = (root / "assets/attack-map.js").read_text(encoding="utf-8")
-for forbidden_import_surface in ('type="file"', "import-readiness", "import-incident", "readiness-file", "incident-file"):
-    if forbidden_import_surface in attack_html:
-        errors.append(f"ATT&CK Workbench exposes a disabled user-import surface: {forbidden_import_surface}")
-for forbidden_import_handler in ("FileReader", "showOpenFilePicker", "readJsonFile"):
-    if forbidden_import_handler in attack_javascript:
-        errors.append(f"ATT&CK Workbench contains a disabled user-import handler: {forbidden_import_handler}")
-for validation_contract in ("showFormErrors", "validateCapabilityClaims", "aria-invalid", "field-error-message"):
-    if validation_contract not in attack_javascript and validation_contract not in attack_html:
-        errors.append(f"ATT&CK Workbench is missing its inline validation contract: {validation_contract}")
+for required_explorer_contract in ("/data/attack/intelligence/reviewed-evidence.json", "showModal", "textContent", "exportNavigator", "MAX_COMPARISON"):
+    if required_explorer_contract not in attack_javascript:
+        errors.append(f"ATT&CK Evidence Explorer is missing its client contract: {required_explorer_contract}")
+for forbidden_surface in (
+    "Assess defensive coverage", "Incident timeline mapper", "Phishing investigation model",
+    "Detection engineering package", "Technique reference catalogue", "localStorage", "FileReader",
+    "/data/attack/catalogue/enterprise.json", "/data/attack/operations/guides.json",
+    "/data/attack/detections/packages.json",
+):
+    if forbidden_surface in attack_html or forbidden_surface in attack_javascript:
+        errors.append(f"Retired ATT&CK workbench surface remains public: {forbidden_surface}")
 
-attack_catalogue = json.loads((root / "data/attack/catalogue/enterprise.json").read_text(encoding="utf-8"))
-catalogue_tactics = attack_catalogue.get("tactics", [])
-catalogue_groups = attack_catalogue.get("groups", [])
-catalogue_techniques = attack_catalogue.get("techniques", [])
-if len(catalogue_tactics) != 15:
-    errors.append(f"Enterprise ATT&CK catalogue expected 15 tactics, found {len(catalogue_tactics)}")
-if len(catalogue_techniques) < 650:
-    errors.append(f"Enterprise ATT&CK catalogue appears incomplete: {len(catalogue_techniques)} techniques")
-if len(catalogue_groups) < 170:
-    errors.append(f"Enterprise ATT&CK group catalogue appears incomplete: {len(catalogue_groups)} groups")
-catalogue_ids = [record.get("id") for record in catalogue_techniques]
-if len(catalogue_ids) != len(set(catalogue_ids)) or None in catalogue_ids:
-    errors.append("Enterprise ATT&CK technique ids must be present and unique")
-catalogue_tactic_names = {tactic.get("name") for tactic in catalogue_tactics}
-catalogue_group_ids = [record.get("id") for record in catalogue_groups]
-if len(catalogue_group_ids) != len(set(catalogue_group_ids)) or None in catalogue_group_ids:
-    errors.append("Enterprise ATT&CK group ids must be present and unique")
-required_group_fields = {"id", "name", "aliases", "url", "description", "created", "modified", "version", "techniques", "sources"}
-for record in catalogue_groups:
-    group_name = record.get("id", "<unknown>")
-    missing_fields = required_group_fields - record.keys()
-    if missing_fields:
-        errors.append(f"Enterprise ATT&CK group {group_name} is missing: {', '.join(sorted(missing_fields))}")
-    if not re.fullmatch(r"G\d{4}", record.get("id", "")):
-        errors.append(f"Invalid Enterprise ATT&CK group id: {group_name}")
-    if urlparse(record.get("url", "")).hostname != "attack.mitre.org":
-        errors.append(f"Invalid official ATT&CK URL for group {group_name}")
-    for technique_id in record.get("techniques", []):
-        if technique_id not in catalogue_ids:
-            errors.append(f"Unknown technique {technique_id} in group {group_name}")
-    for source in record.get("sources", []):
-        if urlparse(source.get("url", "")).scheme != "https":
-            errors.append(f"Non-HTTPS public reference in group {group_name}")
-official_actor_procedures = json.loads((root / "data/attack/intelligence/official-actor-procedures.json").read_text(encoding="utf-8"))
-procedure_groups = official_actor_procedures.get("groups", [])
-if {group.get("id") for group in procedure_groups} != set(catalogue_group_ids):
-    errors.append("Official actor procedure groups do not match the Enterprise group catalogue")
-official_procedure_count = 0
-for procedure_group in procedure_groups:
-    group_name = procedure_group.get("id", "<unknown>")
-    for procedure in procedure_group.get("procedures", []):
-        official_procedure_count += 1
-        if procedure.get("technique_id") not in catalogue_ids:
-            errors.append(f"Unknown procedure technique {procedure.get('technique_id')} in group {group_name}")
-        if not procedure.get("description", "").strip():
-            errors.append(f"Official procedure has no description in group {group_name}/{procedure.get('technique_id')}")
-        for source in procedure.get("sources", []):
-            if urlparse(source.get("url", "")).scheme != "https":
-                errors.append(f"Non-HTTPS procedure source in group {group_name}/{procedure.get('technique_id')}")
-required_catalogue_fields = {"id", "name", "url", "description", "tactics", "platforms", "subtechnique", "parent", "modified", "version", "groups", "campaigns", "software", "mitigations", "detections"}
-for record in catalogue_techniques:
-    record_name = record.get("id", "<unknown>")
-    missing_fields = required_catalogue_fields - record.keys()
-    if missing_fields:
-        errors.append(f"Enterprise ATT&CK record {record_name} is missing: {', '.join(sorted(missing_fields))}")
-    if urlparse(record.get("url", "")).hostname != "attack.mitre.org":
-        errors.append(f"Invalid official ATT&CK URL in catalogue record {record_name}")
-    if not set(record.get("tactics", [])).issubset(catalogue_tactic_names):
-        errors.append(f"Unknown tactic in catalogue record {record_name}: {record.get('tactics')}")
-
-attack_operations = json.loads((root / "data/attack/operations/guides.json").read_text(encoding="utf-8"))
-operational_guides = attack_operations.get("guides", [])
-if len(operational_guides) < 20:
-    errors.append(f"ATT&CK Operations Workbench expected at least 20 curated guides, found {len(operational_guides)}")
-guide_ids = [guide.get("technique_id") for guide in operational_guides]
-if len(guide_ids) != len(set(guide_ids)) or None in guide_ids:
-    errors.append("ATT&CK operational guide technique ids must be present and unique")
-required_guide_fields = {"technique_id", "triggers", "analyst_summary", "minimum_evidence", "telemetry", "benign_overlap", "pivots", "response"}
-for guide in operational_guides:
-    guide_id = guide.get("technique_id", "<unknown>")
-    missing_fields = required_guide_fields - guide.keys()
-    if missing_fields:
-        errors.append(f"ATT&CK operational guide {guide_id} is missing: {', '.join(sorted(missing_fields))}")
-    if guide_id not in catalogue_ids:
-        errors.append(f"ATT&CK operational guide references unknown technique: {guide_id}")
-    for field in required_guide_fields - {"technique_id", "analyst_summary"}:
-        if not guide.get(field):
-            errors.append(f"ATT&CK operational guide {guide_id} has an empty {field}")
-readiness_states = attack_operations.get("readiness_states", [])
-required_readiness_states = {"not-assessed", "no-telemetry", "telemetry", "analytic", "validated", "operational", "not-applicable"}
-if {state.get("id") for state in readiness_states} != required_readiness_states:
-    errors.append("ATT&CK readiness states do not match the operational capability model")
-phishing_flow = attack_operations.get("phishing_flow", {})
-flow_nodes = phishing_flow.get("nodes", [])
-flow_node_ids = {node.get("id") for node in flow_nodes}
-if len(flow_nodes) < 8 or None in flow_node_ids:
-    errors.append("ATT&CK phishing flow must contain its branching investigation nodes")
-for node in flow_nodes:
-    if not {"id", "label", "stage", "techniques", "question", "collect", "next"}.issubset(node):
-        errors.append(f"ATT&CK phishing node is incomplete: {node.get('id', '<unknown>')}")
-    for technique_id in node.get("techniques", []):
-        if technique_id not in catalogue_ids:
-            errors.append(f"ATT&CK phishing node {node.get('id')} references unknown technique: {technique_id}")
-    if not set(node.get("next", [])).issubset(flow_node_ids):
-        errors.append(f"ATT&CK phishing node {node.get('id')} references an unknown next node")
-for edge in phishing_flow.get("edges", []):
-    if edge.get("from") not in flow_node_ids or edge.get("to") not in flow_node_ids or not edge.get("label"):
-        errors.append(f"Invalid ATT&CK phishing-flow edge: {edge}")
-for source in attack_operations.get("sources", []):
-    if urlparse(source.get("url", "")).scheme != "https":
-        errors.append(f"ATT&CK operations source must use HTTPS: {source}")
-
-detection_packages = json.loads((root / "data/attack/detections/packages.json").read_text(encoding="utf-8"))
-packages = detection_packages.get("packages", [])
-if len(packages) != len(operational_guides):
-    errors.append(f"Each operational guide must have a materialised detection package: {len(packages)} packages for {len(operational_guides)} guides")
-required_package_fields = {"id", "technique_id", "title", "status", "scope", "hypothesis", "official_detection", "data_requirements", "analytic_logic", "benign_baseline", "known_blind_spots", "safe_validation_cases", "acceptance_criteria", "triage", "response", "lifecycle", "references"}
-package_ids = []
-for package in packages:
-    package_id = package.get("id", "<unknown>")
-    package_ids.append(package.get("id"))
-    missing = required_package_fields - package.keys()
-    if missing:
-        errors.append(f"Detection package {package_id} is missing: {', '.join(sorted(missing))}")
-    if package.get("technique_id") not in catalogue_ids:
-        errors.append(f"Detection package {package_id} references an unknown ATT&CK technique")
-    official = package.get("official_detection", {})
-    if not {"strategy_id", "strategy_name", "url", "analytic_id", "description", "platforms", "log_sources", "mutable_elements"}.issubset(official):
-        errors.append(f"Detection package {package_id} has incomplete official detection lineage")
-    if urlparse(official.get("url", "")).hostname != "attack.mitre.org":
-        errors.append(f"Detection package {package_id} has an invalid ATT&CK detection URL")
-    if len(official.get("log_sources", [])) < 3:
-        errors.append(f"Detection package {package_id} requires concrete log-source mappings")
-    if len(package.get("data_requirements", [])) < 3 or any(not {"source", "acceptable_sensors", "required_fields", "quality_checks"}.issubset(item) for item in package.get("data_requirements", [])):
-        errors.append(f"Detection package {package_id} has an incomplete data contract")
-    case_classes = {case.get("class") for case in package.get("safe_validation_cases", [])}
-    if not {"positive", "negative", "resilience"}.issubset(case_classes):
-        errors.append(f"Detection package {package_id} must contain positive, negative and resilience tests")
-    if not {"package_owner", "package_status", "created", "last_reviewed", "review_due", "attack_version", "technique_version", "change_policy"}.issubset(package.get("lifecycle", {})):
-        errors.append(f"Detection package {package_id} has incomplete lifecycle governance")
-    for reference in package.get("references", []):
-        if urlparse(reference.get("url", "")).scheme != "https":
-            errors.append(f"Detection package {package_id} reference must use HTTPS")
-if len(package_ids) != len(set(package_ids)) or None in package_ids:
-    errors.append("Detection package ids must be present and unique")
-
-attack_governance = json.loads((root / "data/attack/governance/governance.json").read_text(encoding="utf-8"))
-governance_layers = attack_governance.get("curated_layers", [])
-if {layer.get("id") for layer in governance_layers} != {"official-catalogue", "official-group-procedures", "operational-guides", "actor-evidence", "detection-packages"}:
-    errors.append("ATT&CK lifecycle governance is missing a curated publication layer")
-for layer in governance_layers:
-    if not {"id", "label", "version", "records", "last_reviewed", "review_due", "owner", "scope"}.issubset(layer):
-        errors.append(f"ATT&CK governance layer is incomplete: {layer.get('id', '<unknown>')}")
-catalogue_tactics = {record.get("id"): set(record.get("tactics", [])) for record in catalogue_techniques}
-review_gap_count = sum(
-    set(record.get("tactics", [])) != catalogue_tactics.get(record.get("technique_id"), set())
-    for record in [*attack_records, *behaviour_records]
-)
-actor_evidence_layer = next((layer for layer in governance_layers if layer.get("id") == "actor-evidence"), {})
-if actor_evidence_layer.get("review_gaps") != review_gap_count:
-    errors.append("ATT&CK governance does not expose the current tactic re-review gap count")
-if review_gap_count and actor_evidence_layer.get("review_due") != "Re-review required":
-    errors.append("ATT&CK governance must mark unresolved tactic drift for re-review")
-for package in packages:
-    if package.get("starter") and package.get("lifecycle", {}).get("last_reviewed") != "Not independently reviewed":
-        errors.append(f"Detection candidate {package.get('id', '<unknown>')} must not claim a review date")
-governance_records = {layer.get("id"): layer.get("records") for layer in governance_layers}
-expected_governance_records = {
-    "official-catalogue": len(catalogue_techniques),
-    "official-group-procedures": official_procedure_count,
-    "operational-guides": len(operational_guides),
-    "actor-evidence": len(attack_records),
-    "detection-packages": len(packages),
+retired_attack_paths = {
+    "attack-map/guide/index.html",
+    "data/attack/catalogue/enterprise.json",
+    "data/attack/intelligence/official-actor-procedures.json",
+    "data/attack/operations/guides.json",
+    "data/attack/detections/packages.json",
+    "data/attack/governance/governance.json",
 }
-if governance_records != expected_governance_records:
-    errors.append(f"ATT&CK governance counts do not match their publication layers: {governance_records}")
-if len(attack_governance.get("change_history", [])) < 2 or not attack_governance.get("review_triggers"):
-    errors.append("ATT&CK lifecycle governance requires review triggers and visible history")
+remaining_retired_paths = sorted(path for path in retired_attack_paths if (root / path).exists())
+if remaining_retired_paths:
+    errors.append("Retired ATT&CK public payload remains: " + ", ".join(remaining_retired_paths))
+
+attack_generator = (root / "scripts/build_reviewed_attack_evidence.py").read_text(encoding="utf-8")
+for generator_contract in ("technique_evidence", "--check", "APT_NOTES_DIST", "validate_payload"):
+    if generator_contract not in attack_generator:
+        errors.append(f"ATT&CK evidence generator is missing its drift contract: {generator_contract}")
 for path in html_files:
     if path.name == "index.html" and path.parent in {root, root / "baltic-threat-atlas", root / "pivot-graph", root / "osint-workbench", root / "attack-map"}:
         if "/attack-map/" not in path.read_text(encoding="utf-8"):
-            errors.append(f"ATT&CK Workbench is missing from navigation in {path.relative_to(root)}")
+            errors.append(f"ATT&CK Evidence Explorer is missing from navigation in {path.relative_to(root)}")
 
 osint = json.loads((root / "data/osint/resources.json").read_text(encoding="utf-8"))
 osint_sections = osint.get("sections", [])
@@ -1070,7 +941,6 @@ if errors:
 print(
     f"Validated {len(html_files)} HTML pages, {len(records)} Atlas records, "
     f"{len(cases)} pivot cases, {total_nodes} pivot nodes, {total_edges} typed edges, "
-    f"{len(catalogue_techniques)} Enterprise ATT&CK techniques, {len(catalogue_groups)} official groups, {official_procedure_count} official actor procedures, {len(attack_records)} actor evidence records, "
-    f"{len(behaviour_records)} behaviour mappings, {len(operational_guides)} operational guides, {len(packages)} detection packages and {len(tool_ids)} OSINT tools "
+    f"{len(attack_actors)} reviewed ATT&CK actors, {len(attack_records)} source-backed evidence mappings and {len(tool_ids)} OSINT tools "
     f"across {len(osint_sections)} sections."
 )

@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.0.0",
-  "updated": "2026-08-14",
+  "schema_version": "1.1.0",
+  "updated": "2026-08-26",
   "cases": [
     {
       "id": "unipark-smishing-2026",
@@ -8,6 +8,8 @@
       "short_title": "UNIPARK smishing",
       "summary": "From one SMS and a newly registered domain to exact-hash kit reuse, 126 related hostnames and a carefully bounded infrastructure assessment.",
       "status": "published",
+      "publication_approved": true,
+      "publication_approved_at": "2026-08-14",
       "updated": "2026-08-14",
       "graph": "/data/pivots/graphs/unipark.json",
       "research": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/",
@@ -20,6 +22,8 @@
       "short_title": "Adform clipper",
       "summary": "Captured JavaScript, exact response hashes and reproduced public-chain paths kept separate from shared-episode, victim, loss and operator claims.",
       "status": "published",
+      "publication_approved": true,
+      "publication_approved_at": "2026-08-23",
       "updated": "2026-08-23",
       "graph": "/data/pivots/graphs/adform.json",
       "research": "https://hecavex.com/en/research/adform-supply-chain-crypto-clipper/",
@@ -32,6 +36,8 @@
       "short_title": "GitHub Python loader",
       "summary": "Static reconstruction of a deceptive repository, embedded-key decryption, encoded retrieval infrastructure and a missing final stage.",
       "status": "updated",
+      "publication_approved": true,
+      "publication_approved_at": "2026-08-14",
       "updated": "2026-08-14",
       "graph": "/data/pivots/graphs/github-python.json",
       "research": "https://hecavex.com/en/research/github-and-malware/",

@@ -10,18 +10,16 @@ HECAVEX Labs is maintained on a best-effort basis by Deividas Lis / HECAVEX. It 
 
 - [Baltic Threat Atlas](https://labs.hecavex.com/baltic-threat-atlas/) presents selected, source-linked public observations concerning Lithuania, Latvia and Estonia. Links to APT Notes appear only where the evidence supports them.
 - [Pivot Workspace](https://labs.hecavex.com/pivot-graph/) separates observations, reproducible derivations, analytical assessments and limitations across selected HECAVEX investigations.
-- [ATT&CK Operations Workbench](https://labs.hecavex.com/attack-map/) supports evidence triage, defensive-capability assessment and source-aware actor research. Browser-local workspaces are not uploaded to HECAVEX.
-- [ATT&CK first-use guide](https://labs.hecavex.com/attack-map/guide/) documents the workbench's status model and analytical boundaries using captures from the published interface.
-- [OSINT Workbench](https://labs.hecavex.com/osint-workbench/) is an annotated selection of public tools with use cases and evidential cautions.
+- [ATT&CK Evidence](https://labs.hecavex.com/attack-map/) exposes source-backed behavior mappings generated from reviewed APT Notes evidence. It supports filters, bounded comparisons and selected exports without claiming defensive coverage.
 - [Data catalogue](https://labs.hecavex.com/data/) records the public datasets, update state, provenance and reuse boundary.
 
-The [methodology and limitations](https://labs.hecavex.com/methodology/), [licensing boundary](https://labs.hecavex.com/licence/) and [security policy](https://labs.hecavex.com/security/) are part of the published service and should be read alongside the interfaces.
+The former generic [OSINT directory](https://labs.hecavex.com/osint-workbench/) is retained as a dated archive, not advertised as a maintained product. The [changes journal](https://labs.hecavex.com/changes/), [methodology and limitations](https://labs.hecavex.com/methodology/), [about page](https://labs.hecavex.com/about/), [licensing boundary](https://labs.hecavex.com/licence/) and [security policy](https://labs.hecavex.com/security/) are part of the published service.
 
 ## Repository role
 
 The site is purpose-built static HTML, CSS and browser JavaScript. It shares the Cold Signal portfolio shell with the other HECAVEX properties, uses self-hosted Inter and IBM Plex Mono fonts, and does not depend on a remote font or icon service.
 
-Production staging enables one Do Not Track-aware Cloudflare Web Analytics loader on each HTML page. The source pages and pull-request checks remain keyless; the Pages gate supplies the public site token and verifies the staged artifact without printing it. Analytics does not read the ATT&amp;CK workbench's browser-local readiness, incident or observation records. The published methodology describes that boundary and links to the portfolio privacy policy.
+Production staging enables one Do Not Track-aware Cloudflare Web Analytics loader on each HTML page. Source pages and pull-request checks remain keyless; the Pages gate supplies the public site token and verifies the staged artifact without printing it. The published methodology describes that boundary and links to the portfolio privacy policy.
 
 Files in this repository fall into four operational groups:
 
@@ -42,27 +40,22 @@ The principal maintained data areas are:
 
 - `data/atlas/` for selected Baltic observations;
 - `data/pivots/` for HECAVEX case graphs;
-- `data/osint/` for the annotated resource catalogue;
-- `data/attack/catalogue/` and `data/attack/intelligence/official-actor-procedures.json` for generated MITRE ATT&CK reference material;
-- `data/attack/intelligence/reviewed-evidence.json` for the smaller HECAVEX-reviewed evidence layer;
-- `data/attack/operations/`, `data/attack/detections/` and `data/attack/governance/` for curated operational guidance, engineering packages and lifecycle metadata.
+- `data/attack/intelligence/reviewed-evidence.json` for source-linked HECAVEX evidence generated from APT Notes;
+- `data/osint/` for the frozen resource snapshot retained by the archived compatibility page.
 
-`scripts/update_attack_catalog.py` refreshes the compact official catalogue from MITRE's Enterprise ATT&CK STIX bundle. `scripts/build_attack_content.py` materialises the dependent public layers, and CI fails if running that build changes committed ATT&CK output. Guide captures are maintained through `scripts/capture_attack_guide.py`; their source images remain part of the published guide and are not decorative repository screenshots.
-
-Detection packages are reference material, not claims of deployed coverage. Candidate packages still require local schemas, testing, tuning, ownership and lifecycle controls before operational use.
+`scripts/build_reviewed_attack_evidence.py` rebuilds the public ATT&CK evidence layer from the APT Notes release when that checkout is available and validates the frozen public copy in isolated CI. Generic ATT&CK mirrors, browser-local coverage scoring, detection packages, incident authoring and the old guide are not part of the public product.
 
 ## Validation and deployment
 
 Every pull request and push to `main` runs the publication checks in `.github/workflows/pages.yml`. The workflow:
 
 1. verifies that the shared portfolio shell is synchronized across every route;
-2. rebuilds ATT&CK-derived content and rejects uncommitted generated changes;
+2. validates the APT Notes-derived ATT&CK evidence contract and rejects uncommitted generated changes;
 3. validates links, metadata, structured data, dataset schemas, font provenance and the public-data allowlist;
 4. enforces deterministic raw and compressed performance budgets;
-5. checks browser layout, keyboard operation, focus visibility, no-JavaScript navigation and overflow from 320 through 1600 pixels;
-6. stages only the approved public site and deploys it to GitHub Pages after a successful build.
+5. stages only the approved public site and deploys it to GitHub Pages after a successful build.
 
-The validation entry points are `scripts/sync_shell.py`, `scripts/validate.py`, `scripts/audit_performance.py` and `scripts/test_responsive.py`. `requirements-checks.txt` is limited to the browser tooling required by that CI gate. Generated validation evidence is retained by GitHub Actions and is intentionally excluded from the repository.
+The validation entry points are `scripts/sync_shell.py`, `scripts/validate.py` and `scripts/audit_performance.py`.
 
 Production is served through the custom domain declared in `CNAME`. GitHub Pages must remain configured to use GitHub Actions as its source; direct branch publishing would bypass the staging allowlist.
 

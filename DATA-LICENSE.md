@@ -10,16 +10,13 @@ Original HECAVEX summaries, classifications, evidence labels, case-graph structu
 - `data/pivots/`
 - `data/osint/`
 - `data/attack/intelligence/reviewed-evidence.json`
-- `data/attack/operations/`
-- `data/attack/detections/`
-- `data/attack/governance/`
 - `data/catalogue.json` and `data/public-manifest.json`
 
 Reuse should credit “HECAVEX Labs”, link to `https://labs.hecavex.com/`, identify material changes and retain source, review-date and limitation fields.
 
-## MITRE ATT&CK material
+## MITRE ATT&CK references
 
-`data/attack/catalogue/enterprise.json` and `data/attack/intelligence/official-actor-procedures.json` are generated from MITRE ATT&CK. MITRE remains authoritative, and those records remain subject to the [MITRE ATT&CK Terms of Use](https://attack.mitre.org/resources/terms-of-use/). HECAVEX does not relicense them as original HECAVEX data.
+The reviewed evidence layer uses ATT&CK identifiers, names and links to describe source-backed behavior. MITRE remains authoritative for the framework, and its material remains subject to the [MITRE ATT&CK Terms of Use](https://attack.mitre.org/resources/terms-of-use/). Labs does not distribute or relicense a generic ATT&CK mirror.
 
 ## Reviewed evidence and source material
 

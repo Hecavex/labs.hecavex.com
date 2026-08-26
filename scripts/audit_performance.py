@@ -15,10 +15,8 @@ IGNORED_PARTS = {
     ".git",
     ".codex-tmp",
     ".mypy_cache",
-    ".pytest_cache",
     ".venv",
     "_site",
-    "test-results",
     "__pycache__",
     "node_modules",
 }
@@ -39,15 +37,8 @@ FILE_BUDGETS = {
 PAGE_SHELL_GZIP_BUDGET = 64 * KIB
 ROUTE_DATA_GZIP_BUDGETS = {
     "attack-map": (
-        1024 * KIB,
-        (
-            "data/attack/catalogue/enterprise.json",
-            "data/attack/intelligence/official-actor-procedures.json",
-            "data/attack/intelligence/reviewed-evidence.json",
-            "data/attack/operations/guides.json",
-            "data/attack/detections/packages.json",
-            "data/attack/governance/governance.json",
-        ),
+        128 * KIB,
+        ("data/attack/intelligence/reviewed-evidence.json",),
     ),
     "baltic-threat-atlas": (32 * KIB, ("data/atlas/records.json",)),
     "osint-workbench": (32 * KIB, ("data/osint/resources.json",)),

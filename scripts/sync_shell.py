@@ -30,10 +30,11 @@ ROUTES = (
     Route("baltic-threat-atlas/index.html", "atlas", "search", "Search Baltic Threat Atlas", "Search"),
     Route("pivot-graph/index.html", "pivots", "search", "Search case claims", "Search"),
     Route("attack-map/index.html", "attack", "search", "Search actors or techniques", "Search"),
-    Route("attack-map/guide/index.html", "attack", "link", utility_href="/attack-map/", utility_text="Workbench"),
-    Route("osint-workbench/index.html", "osint", "search", "Search OSINT sources", "Search"),
-    Route("data/index.html", "data", "link", utility_href="/data/catalogue.json", utility_text="Catalogue JSON", portfolio_active="data"),
-    Route("methodology/index.html", None, "link", utility_href="https://github.com/Hecavex/labs.hecavex.com", utility_text="Source"),
+    Route("osint-workbench/index.html", None, "search", "Search archived OSINT resources", "Search"),
+    Route("data/index.html", "data", "link", utility_href="/data/catalogue.json", utility_text="Catalogue JSON"),
+    Route("changes/index.html", "changes", "link", utility_href="/changes/feed.json", utility_text="JSON feed"),
+    Route("methodology/index.html", "methodology", "link", utility_href="https://github.com/Hecavex/labs.hecavex.com", utility_text="Source"),
+    Route("about/index.html", "about", "link", utility_href="https://github.com/Hecavex/labs.hecavex.com", utility_text="Source"),
     Route("licence/index.html", None, "link", utility_href="/methodology/", utility_text="Methodology"),
     Route("security/index.html", None, "link", utility_href="/.well-known/security.txt", utility_text="security.txt"),
 )
@@ -42,9 +43,11 @@ LOCAL_NAVIGATION = (
     ("overview", "Overview", "/"),
     ("atlas", "Baltic Atlas", "/baltic-threat-atlas/"),
     ("pivots", "Pivots", "/pivot-graph/"),
-    ("attack", "ATT&amp;CK", "/attack-map/"),
-    ("osint", "OSINT", "/osint-workbench/"),
+    ("attack", "ATT&amp;CK Evidence", "/attack-map/"),
     ("data", "Data", "/data/"),
+    ("changes", "Changes", "/changes/"),
+    ("methodology", "Methodology", "/methodology/"),
+    ("about", "About", "/about/"),
 )
 
 PORTFOLIO_NAVIGATION = (
@@ -52,7 +55,6 @@ PORTFOLIO_NAVIGATION = (
     ("radar", "Radar", "https://radar.hecavex.com/"),
     ("apt", "APT Notes", "https://apt.hecavex.com/"),
     ("labs", "Labs", "https://labs.hecavex.com/"),
-    ("data", "Data", "https://labs.hecavex.com/data/"),
 )
 
 HEADER_RE = re.compile(r'<header class="site-header"(?:\s[^>]*)?>.*?</header>', re.DOTALL)
@@ -138,7 +140,7 @@ def render_footer() -> str:
     return '''<footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-brand"><strong>HECAVEX LABS</strong><span>Inspectable public CTI workspaces by <a href="https://hecavex.com/en/">HECAVEX</a>.</span></div>
-      <nav aria-label="Footer"><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/">Labs</a><a href="https://labs.hecavex.com/data/">Data</a><a href="/methodology/">Methodology</a><a href="/licence/">Licence</a><a href="https://hecavex.com/en/privacy/">Privacy</a><a href="/security/">Security</a></nav>
+      <nav aria-label="Footer"><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/">Labs</a><a href="/data/">Data</a><a href="/changes/">Changes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a><a href="/licence/">Licence</a><a href="https://hecavex.com/en/privacy/">Privacy</a><a href="/security/">Security</a></nav>
     </div>
   </footer>'''
 

@@ -4,14 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>HECAVEX Labs | Threat intelligence workspaces</title>
-  <meta name="description" content="Evidence-led cyber threat intelligence workspaces from HECAVEX: Baltic observations, provenance-aware case graphs, ATT&amp;CK evidence mappings and a curated OSINT workbench.">
+  <meta name="description" content="Evidence-led cyber threat intelligence workspaces from HECAVEX: Baltic observations, provenance-aware case graphs and source-linked ATT&amp;CK evidence.">
   <link rel="canonical" href="https://labs.hecavex.com/">
-  <link rel="icon" href="/assets/hecavex-mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/styles.css?v=20260822-2">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="/assets/styles.css?v=20260826-1">
   <meta property="og:site_name" content="HECAVEX Labs">
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="HECAVEX Labs">
-  <meta property="og:description" content="Operational CTI interfaces for sourced observations, investigation graphs, ATT&amp;CK evidence and OSINT source selection.">
+  <meta property="og:description" content="Operational CTI interfaces for sourced observations, investigation graphs and source-linked ATT&amp;CK evidence.">
   <meta property="og:url" content="https://labs.hecavex.com/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://hecavex.com/assets/img/og/hecavex-default-en.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="HECAVEX Labs threat intelligence workspaces"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="HECAVEX Labs"><meta name="twitter:description" content="Operational, evidence-led interfaces for cyber threat intelligence research."><meta name="twitter:image" content="https://hecavex.com/assets/img/og/hecavex-default-en.png"><meta name="twitter:image:alt" content="HECAVEX Labs threat intelligence workspaces">
@@ -27,7 +30,7 @@
         <img src="/assets/hecavex-mark.svg" alt="" width="36" height="36">
         <span class="brand-copy"><strong>HECAVEX</strong><small>Labs / open CTI workspaces</small></span>
       </a>
-      <nav class="portfolio-navigation" aria-label="HECAVEX projects"><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/" aria-current="page">Labs</a><a href="https://labs.hecavex.com/data/">Data</a></nav>
+      <nav class="portfolio-navigation" aria-label="HECAVEX projects"><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/" aria-current="page">Labs</a></nav>
       <details class="mobile-navigation" data-mobile-navigation>
         <summary aria-label="Open navigation menu">
           <svg class="menu-open-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -35,15 +38,15 @@
           <span>Menu</span>
         </summary>
         <div class="mobile-navigation-panel">
-          <nav class="mobile-product-navigation" aria-label="Labs sections"><span class="navigation-label">Labs</span><a href="/" aria-current="page">Overview</a><a href="/baltic-threat-atlas/">Baltic Atlas</a><a href="/pivot-graph/">Pivots</a><a href="/attack-map/">ATT&amp;CK</a><a href="/osint-workbench/">OSINT</a><a href="/data/">Data</a></nav>
+          <nav class="mobile-product-navigation" aria-label="Labs sections"><span class="navigation-label">Labs</span><a href="/" aria-current="page">Overview</a><a href="/baltic-threat-atlas/">Baltic Atlas</a><a href="/pivot-graph/">Pivots</a><a href="/attack-map/">ATT&amp;CK Evidence</a><a href="/data/">Data</a><a href="/changes/">Changes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></nav>
           <div class="mobile-navigation-utility"><form class="mobile-header-search" action="/" role="search"><label class="sr-only" for="global-q-mobile">Filter Labs workspaces</label><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg><input id="global-q-mobile" name="q" type="search" placeholder="Filter" autocomplete="off" data-shell-search></form></div>
-          <nav class="mobile-portfolio-navigation" aria-label="HECAVEX projects"><span class="navigation-label">HECAVEX network</span><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/" aria-current="page">Labs</a><a href="https://labs.hecavex.com/data/">Data</a></nav>
+          <nav class="mobile-portfolio-navigation" aria-label="HECAVEX projects"><span class="navigation-label">HECAVEX network</span><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/" aria-current="page">Labs</a></nav>
         </div>
       </details>
     </div>
     <div class="product-bar">
       <a class="product-identity" href="/"><strong>Labs</strong><span>Open CTI workspaces</span></a>
-      <nav class="product-navigation" aria-label="Labs sections"><a href="/" aria-current="page">Overview</a><a href="/baltic-threat-atlas/">Baltic Atlas</a><a href="/pivot-graph/">Pivots</a><a href="/attack-map/">ATT&amp;CK</a><a href="/osint-workbench/">OSINT</a><a href="/data/">Data</a></nav>
+      <nav class="product-navigation" aria-label="Labs sections"><a href="/" aria-current="page">Overview</a><a href="/baltic-threat-atlas/">Baltic Atlas</a><a href="/pivot-graph/">Pivots</a><a href="/attack-map/">ATT&amp;CK Evidence</a><a href="/data/">Data</a><a href="/changes/">Changes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></nav>
       <form class="header-search" action="/" role="search"><label class="sr-only" for="global-q-desktop">Filter Labs workspaces</label><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg><input id="global-q-desktop" name="q" type="search" placeholder="Filter" autocomplete="off" data-shell-search></form>
     </div>
   </header>
@@ -59,20 +62,20 @@
       </header>
 
       <div class="stat-grid" aria-label="Labs statistics">
-        <div class="stat"><strong>4</strong><span>public workspaces</span></div>
+        <div class="stat"><strong>3</strong><span>focused public workspaces</span></div>
         <div class="stat"><strong>13</strong><span>sourced Baltic observations</span></div>
-        <div class="stat"><strong>3</strong><span>reproducible pivot cases</span></div>
-        <div class="stat"><strong>697</strong><span>ATT&amp;CK techniques</span></div>
+        <div class="stat"><strong>3</strong><span>approved pivot cases</span></div>
+        <div class="stat"><strong>Reviewed</strong><span>ATT&amp;CK evidence layer</span></div>
       </div>
 
       <section class="section" id="workspaces">
-        <div class="section-head"><div><p class="eyebrow">Operational interfaces</p><h2>Four deliberately bounded workspaces</h2></div><p>Each lab states what it knows, how it knows it and where the evidence stops.</p></div>
+        <div class="section-head"><div><p class="eyebrow">Operational interfaces</p><h2>Three deliberately bounded workspaces</h2></div><p>Each lab states what it knows, how it knows it and where the evidence stops.</p></div>
         <div class="grid" data-search-scope>
           <a class="panel" href="/baltic-threat-atlas/" data-search-item><span class="badge official">source linked</span><h3>Baltic Threat Atlas</h3><p>Query public cyber observations concerning Lithuania, Latvia and Estonia, then follow supported actor mappings into APT Notes.</p><span class="panel-link">Explore 13 observations →</span></a>
-          <a class="panel" href="/pivot-graph/" data-search-item><span class="badge derived">3 case graphs</span><h3>Pivot Workspace</h3><p>Compare phishing infrastructure, malicious JavaScript and Python loader investigations from seed artefact through explicit analytical limits.</p><span class="panel-link">Explore the case library →</span></a>
-          <a class="panel" href="/attack-map/" data-search-item><span class="badge official">20 operational guides</span><h3>ATT&amp;CK Operations Workbench</h3><p>Develop candidate mappings from observations, operationalise actor reporting, assess detection readiness and preserve a browser-local incident timeline.</p><span class="panel-link">Open the analyst workbench →</span></a>
-          <a class="panel" href="/osint-workbench/" data-search-item><span class="badge current">39 selected tools</span><h3>OSINT Workbench</h3><p>Find free and free-tier OSINT tools by practical section, with clear guidance on when, why and how to use each source responsibly.</p><span class="panel-link">Browse the source directory →</span></a>
+          <a class="panel" href="/pivot-graph/" data-search-item><span class="badge derived">3 approved case graphs</span><h3>Pivot Workspace</h3><p>Compare released smishing, supply-chain JavaScript and Python loader investigations from seed artefact through explicit analytical limits.</p><span class="panel-link">Explore the case library →</span></a>
+          <a class="panel" href="/attack-map/" data-search-item><span class="badge official">source linked</span><h3>ATT&amp;CK Evidence Explorer</h3><p>Inspect procedure-level mappings drawn from reviewed APT Notes records, with source, confidence and uncertainty kept beside every claim.</p><span class="panel-link">Explore reviewed evidence →</span></a>
         </div>
+        <aside class="latest-change" aria-labelledby="latest-change-title"><div><p class="eyebrow">Latest meaningful change</p><h3 id="latest-change-title">Labs narrowed to three first-class workspaces</h3><p>Generic catalogue functions moved to visible archive state, while ATT&amp;CK now focuses on HECAVEX-reviewed evidence.</p></div><div><time datetime="2026-08-26">26 Aug 2026</time><a href="/changes/#change-2026-08-26-scope">Read the change record →</a></div></aside>
       </section>
 
       <section class="section" id="project-status">
@@ -82,8 +85,8 @@
           <div><dt>Audience</dt><dd>CTI analysts, defenders, investigators, journalists and researchers.</dd></div>
           <div><dt>Owner</dt><dd><a href="https://hecavex.com/en/about/">Deividas Lis / HECAVEX</a></dd></div>
           <div><dt>Maintenance</dt><dd><span class="badge current">Maintained</span> Best effort; no monitoring or response SLA.</dd></div>
-          <div><dt>Last meaningful update</dt><dd><time datetime="2026-08-21">21 Aug 2026</time> · ATT&amp;CK governance and detection packages</dd></div>
-          <div><dt>Policies</dt><dd><a href="/methodology/">Methodology and limitations</a> · <a href="/licence/">Licensing</a> · <a href="/security/">Security</a></dd></div>
+          <div><dt>Last meaningful update</dt><dd><time datetime="2026-08-26">26 Aug 2026</time> · product scope and evidence boundaries simplified</dd></div>
+          <div><dt>Trust</dt><dd><a href="/changes/">Changes</a> · <a href="/methodology/">Methodology</a> · <a href="/about/">About</a> · <a href="/licence/">Licensing</a> · <a href="/security/">Security</a></dd></div>
         </dl>
       </section>
 
@@ -98,14 +101,14 @@
       </section>
 
       <section class="section" id="limitations">
-        <div class="notice"><strong>Evidence boundary.</strong> Labs is not a threat feed, automated attribution engine, blocklist or incident-response platform. The Atlas is selected, pivot cases are time-bounded, ATT&amp;CK mappings are source-linked, and the OSINT directory sends no indicator to third parties. Primary sources remain authoritative. Read the complete <a href="/methodology/">methodology and limitations</a>.</div>
+        <div class="notice"><strong>Evidence boundary.</strong> Labs is not a threat feed, automated attribution engine, blocklist or incident-response platform. The Atlas is selected, pivot cases are time-bounded and ATT&amp;CK mappings are source-linked. Primary sources remain authoritative. Read the complete <a href="/methodology/">methodology and limitations</a>.</div>
       </section>
     </div>
   </main>
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-brand"><strong>HECAVEX LABS</strong><span>Inspectable public CTI workspaces by <a href="https://hecavex.com/en/">HECAVEX</a>.</span></div>
-      <nav aria-label="Footer"><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/">Labs</a><a href="https://labs.hecavex.com/data/">Data</a><a href="/methodology/">Methodology</a><a href="/licence/">Licence</a><a href="https://hecavex.com/en/privacy/">Privacy</a><a href="/security/">Security</a></nav>
+      <nav aria-label="Footer"><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/">Labs</a><a href="/data/">Data</a><a href="/changes/">Changes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a><a href="/licence/">Licence</a><a href="https://hecavex.com/en/privacy/">Privacy</a><a href="/security/">Security</a></nav>
     </div>
   </footer>
   <script src="/assets/site.js"></script>

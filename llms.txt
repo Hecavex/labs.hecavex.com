@@ -8,14 +8,19 @@ Labs publishes selected, inspectable research interfaces. It is not a live incid
 
 - [Baltic Threat Atlas](https://labs.hecavex.com/baltic-threat-atlas/): Selected public-source observations concerning Lithuania, Latvia, and Estonia.
 - [Evidence Pivot](https://labs.hecavex.com/pivot-graph/): Case graphs separating observations, derivations, assessments, and limits.
-- [ATT&CK Workbench](https://labs.hecavex.com/attack-map/): Reference, evidence-mapping, and operational material with explicit lifecycle state.
-- [OSINT Workbench](https://labs.hecavex.com/osint-workbench/): Curated public research resources and usage cautions.
+- [ATT&CK Evidence](https://labs.hecavex.com/attack-map/): HECAVEX-reviewed, source-linked behavior mappings generated from published APT Notes evidence.
 
 ## Data and governance
 
 - [Data catalogue](https://labs.hecavex.com/data/): Human-readable public dataset index.
 - [Machine-readable catalogue](https://labs.hecavex.com/data/catalogue.json): Dataset URLs, owners, schemas, review dates, and limitations.
 - [Public manifest](https://labs.hecavex.com/data/public-manifest.json): Default-deny list of files approved for publication.
+- [Changes](https://labs.hecavex.com/changes/): Meaningful dataset, schema, correction, archive, and publication-boundary changes.
 - [Methodology](https://labs.hecavex.com/methodology/): Evidence, transformation, confidence, and publication boundaries.
+- [About](https://labs.hecavex.com/about/): Product purpose, ownership, audience, maintenance, privacy, and limitations.
 - [Licence](https://labs.hecavex.com/licence/): HECAVEX and third-party rights boundaries.
 - [Sitemap](https://labs.hecavex.com/sitemap.xml): Canonical workspace routes.
+
+## Archived resources
+
+- [OSINT Workbench archive](https://labs.hecavex.com/osint-workbench/): A dated compatibility page and historical resource snapshot. It is not maintained as a current tools directory.

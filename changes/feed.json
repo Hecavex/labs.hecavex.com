@@ -1,0 +1,33 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "HECAVEX Labs changes",
+  "home_page_url": "https://labs.hecavex.com/changes/",
+  "feed_url": "https://labs.hecavex.com/changes/feed.json",
+  "description": "Meaningful dataset additions, corrections, schema changes and workspace lifecycle changes.",
+  "items": [
+    {
+      "id": "labs-scope-2026-08-26",
+      "url": "https://labs.hecavex.com/changes/#change-2026-08-26-scope",
+      "title": "Labs narrowed to three first-class workspaces",
+      "date_published": "2026-08-26T00:00:00Z",
+      "content_text": "Baltic Threat Atlas and Evidence Pivot remain primary. ATT&CK is refocused on reviewed evidence. Generic OSINT and earlier operational ATT&CK material are retained as archived records.",
+      "tags": ["workspace-lifecycle", "non-breaking"]
+    },
+    {
+      "id": "adform-case-2026-08-23",
+      "url": "https://labs.hecavex.com/changes/#change-2026-08-23-adform",
+      "title": "Adform supply-chain clipper case graph published",
+      "date_published": "2026-08-23T00:00:00Z",
+      "content_text": "A versioned evidence graph separates captured JavaScript, reproducible transformations, public-chain observations and bounded assessments.",
+      "tags": ["dataset-added", "pivot-case", "non-breaking"]
+    },
+    {
+      "id": "catalogue-governance-2026-08-21",
+      "url": "https://labs.hecavex.com/changes/#change-2026-08-21-governance",
+      "title": "Dataset lifecycle fields made public",
+      "date_published": "2026-08-21T00:00:00Z",
+      "content_text": "Catalogue records gained ownership, review triggers, archive conditions and explicit lifecycle states.",
+      "tags": ["schema-change", "governance", "non-breaking"]
+    }
+  ]
+}

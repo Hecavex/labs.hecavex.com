@@ -1,175 +1,402 @@
 {
-  "schema_version": "1.0",
-  "updated": "2026-08-20",
+  "schema_version": "2.0.0",
+  "generated_at": "2026-08-26T08:14:22.790Z",
   "source_system": {
     "name": "APT Notes by HECAVEX",
     "url": "https://apt.hecavex.com/",
-    "method": "Source-linked technique evidence selected from reviewed public actor profiles."
-  },
-  "provenance_model": {
-    "evidence_classes": ["observed", "reported", "inferred", "disputed", "rejected"],
-    "confidence_scale": ["high", "moderate", "low"],
-    "mapping_unit": "One actor, campaign and procedure claim mapped to the most specific defensible ATT&CK technique.",
-    "required_context": ["procedure description", "public sources", "mapping status", "confidence", "first and last observed dates", "review date"],
-    "known_limit": "The compact publication layer preserves normalized procedure statements and links, not verbatim source excerpts or private analyst notes. Readers must review the cited source before reusing a claim."
+    "api_url": "https://apt.hecavex.com/api/actors.json",
+    "release_id": "apt-notes-2026-08-26-european-actor-expansion",
+    "dataset_version": "2.1.0",
+    "released_at": "2026-08-26T08:14:22.790Z",
+    "method": "Generated only from explicit technique_evidence records in published APT Notes actor dossiers."
   },
   "framework": {
     "name": "MITRE ATT&CK",
     "domain": "Enterprise",
-    "version": "19.2",
     "terms": "https://attack.mitre.org/resources/terms-of-use/",
-    "notice": "© 2026 The MITRE Corporation. This work is reproduced and distributed with the permission of The MITRE Corporation."
+    "notice": "MITRE ATT&CK technique identifiers and links are used for reference. HECAVEX procedure summaries and analytical boundaries remain separately attributed."
   },
-  "tactics": [
-    "Reconnaissance",
-    "Resource Development",
-    "Initial Access",
-    "Execution",
-    "Persistence",
-    "Privilege Escalation",
-    "Defense Evasion",
-    "Credential Access",
-    "Discovery",
-    "Lateral Movement",
-    "Collection",
-    "Command and Control",
-    "Exfiltration",
-    "Impact"
-  ],
-  "behaviours": [
-    {
-      "id": "phishing",
-      "name": "Phishing",
-      "summary": "A branching educational model for phishing operations that may pursue credentials, access tokens or code execution. It describes plausible relationships, not a mandatory sequence or a claim about a specific incident.",
-      "boundary": "The model intentionally stops after initial credential or payload outcomes. Persistence, discovery, lateral movement and collection depend on the operator, objective and access obtained and must be supported separately.",
-      "branches": [
-        {"id": "preparation", "name": "Preparation", "description": "Infrastructure that may be acquired before delivery. Many campaigns instead use compromised or legitimate services."},
-        {"id": "delivery", "name": "Delivery", "description": "How the lure reaches the target."},
-        {"id": "credential", "name": "Credential and token theft", "description": "The link ends at a collection or authorisation workflow rather than malware execution."},
-        {"id": "payload", "name": "Payload execution", "description": "The user action or client exploit leads to code execution or retrieval of a follow-on payload."}
-      ],
-      "techniques": [
-        {"technique_id":"T1583.001","technique":"Acquire Infrastructure: Domains","tactics":["Resource Development"],"role":"conditional","branch":"preparation","stage":"Infrastructure","notes":"An operator may register a lookalike or campaign domain for a lure, credential portal, redirector or payload host.","caveat":"Phishing can use compromised domains, legitimate services or direct attachments, so domain acquisition is not required.","attack_url":"https://attack.mitre.org/techniques/T1583/001/","sources":[{"title":"Acquire Infrastructure: Domains — T1583.001","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1583/001/"}]},
-        {"technique_id":"T1583.006","technique":"Acquire Infrastructure: Web Services","tactics":["Resource Development"],"role":"conditional","branch":"preparation","stage":"Infrastructure","notes":"Common web services may support lure delivery, redirects, payload staging or later command channels.","caveat":"Use of a public service is not malicious by itself and does not identify an operator.","attack_url":"https://attack.mitre.org/techniques/T1583/006/","sources":[{"title":"Acquire Infrastructure: Web Services — T1583.006","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1583/006/"}]},
-        {"technique_id":"T1566.001","technique":"Phishing: Spearphishing Attachment","tactics":["Initial Access"],"role":"delivery","branch":"delivery","stage":"Lure delivery","notes":"The message carries an attachment intended to produce access, execution or further user interaction.","caveat":"An attachment may be benign-looking and contain only a link; map the actual delivery and execution evidence.","attack_url":"https://attack.mitre.org/techniques/T1566/001/","sources":[{"title":"Phishing: Spearphishing Attachment — T1566.001","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1566/001/"}]},
-        {"technique_id":"T1566.002","technique":"Phishing: Spearphishing Link","tactics":["Initial Access"],"role":"delivery","branch":"delivery","stage":"Lure delivery","notes":"The lure contains a link that may lead to credential theft, token abuse, a malicious download or client exploitation.","caveat":"A clicked link does not establish which downstream branch occurred.","attack_url":"https://attack.mitre.org/techniques/T1566/002/","sources":[{"title":"Phishing: Spearphishing Link — T1566.002","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1566/002/"}]},
-        {"technique_id":"T1566.003","technique":"Phishing: Spearphishing via Service","tactics":["Initial Access"],"role":"delivery","branch":"delivery","stage":"Lure delivery","notes":"The lure is delivered through a third-party service such as personal email, social media or another messaging platform.","caveat":"The service is a delivery channel, not evidence that the service provider or account owner operates the campaign.","attack_url":"https://attack.mitre.org/techniques/T1566/003/","sources":[{"title":"Phishing: Spearphishing via Service — T1566.003","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1566/003/"}]},
-        {"technique_id":"T1056.003","technique":"Input Capture: Web Portal Capture","tactics":["Credential Access"],"role":"outcome","branch":"credential","stage":"Credential collection","notes":"A fraudulent login portal may collect credentials entered by the victim.","caveat":"A cloned login page supports this branch only when form behaviour, collection endpoints or telemetry show input capture.","attack_url":"https://attack.mitre.org/techniques/T1056/003/","sources":[{"title":"Input Capture: Web Portal Capture — T1056.003","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1056/003/"}]},
-        {"technique_id":"T1528","technique":"Steal Application Access Token","tactics":["Credential Access"],"role":"outcome","branch":"credential","stage":"Token acquisition","notes":"Consent or device-code phishing may produce an application token without collecting a reusable password.","caveat":"A phishing URL alone does not prove token issuance; authorisation and identity-provider evidence are needed.","attack_url":"https://attack.mitre.org/techniques/T1528/","sources":[{"title":"Steal Application Access Token — T1528","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1528/"}]},
-        {"technique_id":"T1204.001","technique":"User Execution: Malicious Link","tactics":["Execution"],"role":"conditional","branch":"payload","stage":"User action","notes":"The victim follows a link that contributes to code execution, a download or another execution chain.","caveat":"Credential-only phishing may involve a click without producing code execution on the endpoint.","attack_url":"https://attack.mitre.org/techniques/T1204/001/","sources":[{"title":"User Execution: Malicious Link — T1204.001","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1204/001/"}]},
-        {"technique_id":"T1204.002","technique":"User Execution: Malicious File","tactics":["Execution"],"role":"conditional","branch":"payload","stage":"User action","notes":"The victim opens or executes a malicious attachment or downloaded file.","caveat":"Delivery of a file does not prove it was opened, executed or successful.","attack_url":"https://attack.mitre.org/techniques/T1204/002/","sources":[{"title":"User Execution: Malicious File — T1204.002","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1204/002/"}]},
-        {"technique_id":"T1203","technique":"Exploitation for Client Execution","tactics":["Execution"],"role":"conditional","branch":"payload","stage":"Client exploitation","notes":"A link or attachment may exploit a vulnerability in a browser, document reader or other client application.","caveat":"Most phishing does not require a software vulnerability; do not infer exploitation from a crash or suspicious file alone.","attack_url":"https://attack.mitre.org/techniques/T1203/","sources":[{"title":"Exploitation for Client Execution — T1203","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1203/"}]},
-        {"technique_id":"T1059.001","technique":"Command and Scripting Interpreter: PowerShell","tactics":["Execution"],"role":"conditional","branch":"payload","stage":"Follow-on execution","notes":"A successful payload branch may invoke PowerShell for execution, retrieval or post-compromise actions.","caveat":"PowerShell is one possible interpreter and is neither universal to phishing nor malicious by itself.","attack_url":"https://attack.mitre.org/techniques/T1059/001/","sources":[{"title":"Command and Scripting Interpreter: PowerShell — T1059.001","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1059/001/"}]},
-        {"technique_id":"T1059.005","technique":"Command and Scripting Interpreter: Visual Basic","tactics":["Execution"],"role":"conditional","branch":"payload","stage":"Follow-on execution","notes":"A document, script file or downloaded stage may use Visual Basic or VBA for execution.","caveat":"The file type and code path must be inspected; an Office attachment alone does not establish this technique.","attack_url":"https://attack.mitre.org/techniques/T1059/005/","sources":[{"title":"Command and Scripting Interpreter: Visual Basic — T1059.005","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1059/005/"}]},
-        {"technique_id":"T1059.007","technique":"Command and Scripting Interpreter: JavaScript/JScript","tactics":["Execution"],"role":"conditional","branch":"payload","stage":"Follow-on execution","notes":"A lure or downloaded component may use JavaScript or JScript to execute the next stage.","caveat":"JavaScript on a landing page is normal; evidence must distinguish ordinary web code from an execution mechanism.","attack_url":"https://attack.mitre.org/techniques/T1059/007/","sources":[{"title":"Command and Scripting Interpreter: JavaScript/JScript — T1059.007","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1059/007/"}]},
-        {"technique_id":"T1105","technique":"Ingress Tool Transfer","tactics":["Command and Control"],"role":"conditional","branch":"payload","stage":"Payload retrieval","notes":"An initial script or loader may retrieve an additional payload from external infrastructure.","caveat":"A download following a click is not automatically an adversary tool transfer; preserve process, network and file evidence.","attack_url":"https://attack.mitre.org/techniques/T1105/","sources":[{"title":"Ingress Tool Transfer — T1105","publisher":"MITRE ATT&CK","published":"2026-05-12","url":"https://attack.mitre.org/techniques/T1105/"}]}
-      ]
-    }
-  ],
+  "provenance_model": {
+    "default_mapping_status": "reported",
+    "status_values": [
+      "assessed",
+      "disputed",
+      "inferred",
+      "observed",
+      "rejected",
+      "reported"
+    ],
+    "confidence_values": [
+      "high",
+      "moderate",
+      "low"
+    ],
+    "mapping_unit": "One actor, campaign and procedure claim mapped to the most specific technique explicitly published by APT Notes.",
+    "known_limit": "The dataset is a reviewed evidence index, not an exhaustive ATT&CK catalogue, threat prevalence measure, automated attribution system or defensive coverage score."
+  },
+  "summary": {
+    "actors": 9,
+    "mappings": 48,
+    "techniques": 28,
+    "campaigns": 19,
+    "tactics": [
+      {
+        "name": "Collection",
+        "mappings": 8
+      },
+      {
+        "name": "Command and Control",
+        "mappings": 2
+      },
+      {
+        "name": "Credential Access",
+        "mappings": 9
+      },
+      {
+        "name": "Defense Evasion",
+        "mappings": 5
+      },
+      {
+        "name": "Discovery",
+        "mappings": 1
+      },
+      {
+        "name": "Execution",
+        "mappings": 4
+      },
+      {
+        "name": "Exfiltration",
+        "mappings": 1
+      },
+      {
+        "name": "Impact",
+        "mappings": 5
+      },
+      {
+        "name": "Initial Access",
+        "mappings": 11
+      },
+      {
+        "name": "Lateral Movement",
+        "mappings": 2
+      },
+      {
+        "name": "Persistence",
+        "mappings": 4
+      }
+    ]
+  },
   "actors": [
     {
       "id": "apt28",
       "name": "APT28",
-      "aliases": ["Fancy Bear", "Forest Blizzard", "Sednit", "Sofacy"],
-      "summary": "Russian military intelligence intrusion set associated with GRU Unit 26165 and persistent espionage against governments, defence, logistics, technology, identity systems and organisations supporting Ukraine.",
-      "profile_url": "https://apt.hecavex.com/actors/apt28/",
-      "review": {"owner":"HECAVEX / APT Notes","last_reviewed":"2026-08-15","review_due":"2026-11-15","scope":"Public procedure reporting; no independent attribution claim."},
+      "slug": "apt28",
+      "summary": "A Russian military intelligence intrusion set associated with GRU Unit 26165 and persistent espionage against governments, defence, logistics, technology, identity systems and organisations supporting Ukraine.",
+      "status": "active",
+      "confidence": "high",
+      "last_reviewed": "2026-08-26",
+      "aliases": [
+        "Fancy Bear",
+        "Forest Blizzard",
+        "Sednit",
+        "Sofacy",
+        "STRONTIUM",
+        "Pawn Storm",
+        "FROZENLAKE",
+        "BlueDelta",
+        "GruesomeLarch"
+      ],
+      "url": "https://apt.hecavex.com/actors/apt28/",
+      "json_url": "https://apt.hecavex.com/api/actors/apt28.json",
       "evidence": [
         {
-          "technique_id": "T1190",
-          "technique": "Exploit Public-Facing Application",
-          "tactics": ["Initial Access"],
-          "status": "reported",
-          "confidence": "high",
-          "campaign": "APT28 router and DNS hijacking operations",
-          "campaign_slug": "apt28-dns-hijacking",
-          "first_observed": "2024",
-          "last_observed": "2026",
-          "notes": "Exploitation of internet-facing routers to create operational infrastructure.",
-          "attack_url": "https://attack.mitre.org/techniques/T1190/",
-          "sources": [
-            {"title": "APT28 exploit routers to enable DNS hijacking operations", "publisher": "UK National Cyber Security Centre", "published": "2026-04-07", "url": "https://www.ncsc.gov.uk/news/apt28-exploit-routers-to-enable-dns-hijacking-operations"}
-          ]
-        },
-        {
-          "technique_id": "T1557",
-          "technique": "Adversary-in-the-Middle",
-          "tactics": ["Credential Access"],
-          "status": "reported",
-          "confidence": "high",
-          "campaign": "APT28 router and DNS hijacking operations",
-          "campaign_slug": "apt28-dns-hijacking",
-          "first_observed": "2024",
-          "last_observed": "2026",
-          "notes": "Selective DNS resolution enabled interception of passwords and OAuth tokens.",
-          "attack_url": "https://attack.mitre.org/techniques/T1557/",
-          "sources": [
-            {"title": "APT28 exploit routers to enable DNS hijacking operations", "publisher": "UK National Cyber Security Centre", "published": "2026-04-07", "url": "https://www.ncsc.gov.uk/news/apt28-exploit-routers-to-enable-dns-hijacking-operations"},
-            {"title": "SOHO router compromise leads to DNS hijacking and adversary-in-the-middle attacks", "publisher": "Microsoft Threat Intelligence", "published": "2026-04-07", "url": "https://www.microsoft.com/en-us/security/blog/2026/04/07/soho-router-compromise-leads-to-dns-hijacking-and-adversary-in-the-middle-attacks/"}
-          ]
-        },
-        {
-          "technique_id": "T1566.001",
-          "technique": "Spearphishing Attachment",
-          "tactics": ["Initial Access"],
-          "status": "reported",
-          "confidence": "high",
-          "campaign": "Operation Neusploit",
-          "campaign_slug": "operation-neusploit",
-          "first_observed": "2026-01",
-          "last_observed": "2026-02",
-          "notes": "Weaponised RTF documents exploited CVE-2026-21509.",
-          "attack_url": "https://attack.mitre.org/techniques/T1566/001/",
-          "sources": [
-            {"title": "APT28 Leverages CVE-2026-21509 in Operation Neusploit", "publisher": "Zscaler ThreatLabz", "published": "2026-02-02", "url": "https://www.zscaler.com/blogs/security-research/apt28-leverages-cve-2026-21509-operation-neusploit"}
-          ]
-        },
-        {
+          "id": "apt28:T1114.002:western-logistics-targeting",
           "technique_id": "T1114.002",
           "technique": "Remote Email Collection",
-          "tactics": ["Collection"],
-          "status": "reported",
+          "technique_slug": "remote-email-collection",
+          "tactics": [
+            "Collection"
+          ],
+          "mapping_status": "reported",
           "confidence": "high",
-          "campaign": "Western logistics and technology targeting",
-          "campaign_slug": "western-logistics-targeting",
+          "campaign": {
+            "id": "western-logistics-targeting",
+            "name": "Western logistics and technology targeting",
+            "url": "https://apt.hecavex.com/campaigns/western-logistics-targeting/"
+          },
           "first_observed": "2022",
           "last_observed": "2025",
           "notes": "EWS and IMAP supported periodic, long-term collection.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
           "attack_url": "https://attack.mitre.org/techniques/T1114/002/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/remote-email-collection/",
           "sources": [
-            {"title": "Russian GRU Targeting Western Logistics Entities and Technology Companies", "publisher": "CISA", "published": "2025-05-21", "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-141a"}
+            {
+              "id": "cisa-aa25-141a",
+              "title": "Russian GRU Targeting Western Logistics Entities and Technology Companies",
+              "publisher": "CISA",
+              "published": "2025-05-21",
+              "source_type": "government",
+              "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-141a",
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa25-141a/"
+            }
           ]
         },
         {
-          "technique_id": "T1528",
-          "technique": "Steal Application Access Token",
-          "tactics": ["Credential Access"],
-          "status": "reported",
-          "confidence": "high",
-          "campaign": "Outlook identity and token collection",
-          "campaign_slug": "outlook-identity-collection",
-          "first_observed": "2023",
-          "last_observed": "2025",
-          "notes": "AUTHENTIC ANTICS intercepted OAuth authorisation flows from within Outlook.",
-          "attack_url": "https://attack.mitre.org/techniques/T1528/",
-          "sources": [
-            {"title": "AUTHENTIC ANTICS Malware Analysis Report", "publisher": "UK National Cyber Security Centre", "published": "2025-05-06", "url": "https://www.ncsc.gov.uk/sites/default/files/documents/ncsc-mar-authentic_antics.pdf"}
-          ]
-        },
-        {
+          "id": "apt28:T1125:western-logistics-targeting",
           "technique_id": "T1125",
           "technique": "Video Capture",
-          "tactics": ["Collection"],
-          "status": "reported",
+          "technique_slug": "video-capture",
+          "tactics": [
+            "Collection"
+          ],
+          "mapping_status": "reported",
           "confidence": "high",
-          "campaign": "Western logistics and technology targeting",
-          "campaign_slug": "western-logistics-targeting",
+          "campaign": {
+            "id": "western-logistics-targeting",
+            "name": "Western logistics and technology targeting",
+            "url": "https://apt.hecavex.com/campaigns/western-logistics-targeting/"
+          },
           "first_observed": "2022",
           "last_observed": "2025",
           "notes": "RTSP-accessible cameras were targeted around logistics and military locations.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
           "attack_url": "https://attack.mitre.org/techniques/T1125/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/video-capture/",
           "sources": [
-            {"title": "Russian GRU Targeting Western Logistics Entities and Technology Companies", "publisher": "CISA", "published": "2025-05-21", "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-141a"}
+            {
+              "id": "cisa-aa25-141a",
+              "title": "Russian GRU Targeting Western Logistics Entities and Technology Companies",
+              "publisher": "CISA",
+              "published": "2025-05-21",
+              "source_type": "government",
+              "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-141a",
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa25-141a/"
+            }
+          ]
+        },
+        {
+          "id": "apt28:T1190:apt28-dns-hijacking",
+          "technique_id": "T1190",
+          "technique": "Exploit Public-Facing Application",
+          "technique_slug": "exploit-public-facing-application",
+          "tactics": [
+            "Initial Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "apt28-dns-hijacking",
+            "name": "APT28 router and DNS hijacking operations",
+            "url": "https://apt.hecavex.com/campaigns/apt28-dns-hijacking/"
+          },
+          "first_observed": "2024",
+          "last_observed": "2026",
+          "notes": "Exploitation of internet-facing routers to create operational infrastructure.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1190/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/exploit-public-facing-application/",
+          "sources": [
+            {
+              "id": "ncsc-apt28-dns-2026",
+              "title": "APT28 exploit routers to enable DNS hijacking operations",
+              "publisher": "UK National Cyber Security Centre",
+              "published": "2026-04-07",
+              "source_type": "government",
+              "url": "https://www.ncsc.gov.uk/news/apt28-exploit-routers-to-enable-dns-hijacking-operations",
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-apt28-dns-2026/"
+            }
+          ]
+        },
+        {
+          "id": "apt28:T1528:outlook-identity-collection",
+          "technique_id": "T1528",
+          "technique": "Steal Application Access Token",
+          "technique_slug": "steal-application-access-token",
+          "tactics": [
+            "Credential Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "outlook-identity-collection",
+            "name": "Outlook identity and token collection",
+            "url": "https://apt.hecavex.com/campaigns/outlook-identity-collection/"
+          },
+          "first_observed": "2023",
+          "last_observed": "2025",
+          "notes": "AUTHENTIC ANTICS intercepted OAuth authorization flows from within Outlook.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1528/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/steal-application-access-token/",
+          "sources": [
+            {
+              "id": "ncsc-authentic-antics-2025",
+              "title": "AUTHENTIC ANTICS Malware Analysis Report",
+              "publisher": "UK National Cyber Security Centre",
+              "published": "2025-05-06",
+              "source_type": "government",
+              "url": "https://www.ncsc.gov.uk/sites/default/files/documents/ncsc-mar-authentic_antics.pdf",
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-authentic-antics-2025/"
+            }
+          ]
+        },
+        {
+          "id": "apt28:T1557:apt28-dns-hijacking",
+          "technique_id": "T1557",
+          "technique": "Adversary-in-the-Middle",
+          "technique_slug": "adversary-in-the-middle",
+          "tactics": [
+            "Credential Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "apt28-dns-hijacking",
+            "name": "APT28 router and DNS hijacking operations",
+            "url": "https://apt.hecavex.com/campaigns/apt28-dns-hijacking/"
+          },
+          "first_observed": "2024",
+          "last_observed": "2026",
+          "notes": "Selective DNS resolution enabled interception of passwords and OAuth tokens.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1557/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/adversary-in-the-middle/",
+          "sources": [
+            {
+              "id": "ncsc-apt28-dns-2026",
+              "title": "APT28 exploit routers to enable DNS hijacking operations",
+              "publisher": "UK National Cyber Security Centre",
+              "published": "2026-04-07",
+              "source_type": "government",
+              "url": "https://www.ncsc.gov.uk/news/apt28-exploit-routers-to-enable-dns-hijacking-operations",
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-apt28-dns-2026/"
+            },
+            {
+              "id": "microsoft-soho-dns-2026",
+              "title": "SOHO router compromise leads to DNS hijacking and adversary-in-the-middle attacks",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2026-04-07",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2026/04/07/soho-router-compromise-leads-to-dns-hijacking-and-adversary-in-the-middle-attacks/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-soho-dns-2026/"
+            }
+          ]
+        },
+        {
+          "id": "apt28:T1566.001:operation-neusploit",
+          "technique_id": "T1566.001",
+          "technique": "Spearphishing Attachment",
+          "technique_slug": "spearphishing-attachment",
+          "tactics": [
+            "Initial Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "operation-neusploit",
+            "name": "Operation Neusploit",
+            "url": "https://apt.hecavex.com/campaigns/operation-neusploit/"
+          },
+          "first_observed": "2026-01",
+          "last_observed": "2026-02",
+          "notes": "Weaponised RTF documents exploited CVE-2026-21509.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1566/001/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/spearphishing-attachment/",
+          "sources": [
+            {
+              "id": "zscaler-operation-neusploit",
+              "title": "APT28 Leverages CVE-2026-21509 in Operation Neusploit",
+              "publisher": "Zscaler ThreatLabz",
+              "published": "2026-02-02",
+              "source_type": "vendor-research",
+              "url": "https://www.zscaler.com/blogs/security-research/apt28-leverages-cve-2026-21509-operation-neusploit",
+              "apt_notes_url": "https://apt.hecavex.com/sources/zscaler-operation-neusploit/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apt31",
+      "name": "APT31",
+      "slug": "apt31",
+      "summary": "A China state-affiliated cyberespionage actor associated in government and legal reporting with the Ministry of State Security and long-running targeting of political, government and strategically important commercial networks.",
+      "status": "active",
+      "confidence": "high",
+      "last_reviewed": "2026-08-26",
+      "aliases": [
+        "Zirconium",
+        "Judgment Panda"
+      ],
+      "url": "https://apt.hecavex.com/actors/apt31/",
+      "json_url": "https://apt.hecavex.com/api/actors/apt31.json",
+      "evidence": [
+        {
+          "id": "apt31:T1114.002:apt31-global-intrusion-program",
+          "technique_id": "T1114.002",
+          "technique": "Remote Email Collection",
+          "technique_slug": "remote-email-collection",
+          "tactics": [
+            "Collection"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "apt31-global-intrusion-program",
+            "name": "APT31 global intrusion programme",
+            "url": "https://apt.hecavex.com/campaigns/apt31-global-intrusion-program/"
+          },
+          "first_observed": "2010 or later",
+          "last_observed": "2024 reporting",
+          "notes": "US legal reporting alleges successful access to email and cloud accounts, with surveillance of some compromised mailboxes continuing for years.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1114/002/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/remote-email-collection/",
+          "sources": [
+            {
+              "id": "doj-apt31-2024",
+              "title": "Seven Hackers Associated with Chinese Government Charged with Computer Intrusions Targeting Perceived Critics of China and U.S. Businesses and Politicians",
+              "publisher": "United States Department of Justice, Office of Public Affairs",
+              "published": "2024-03-25",
+              "source_type": "legal",
+              "url": "https://www.justice.gov/archives/opa/pr/seven-hackers-associated-chinese-government-charged-computer-intrusions-targeting-perceived",
+              "apt_notes_url": "https://apt.hecavex.com/sources/doj-apt31-2024/"
+            }
+          ]
+        },
+        {
+          "id": "apt31:T1566:apt31-global-intrusion-program",
+          "technique_id": "T1566",
+          "technique": "Phishing",
+          "technique_slug": "phishing",
+          "tactics": [
+            "Initial Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "apt31-global-intrusion-program",
+            "name": "APT31 global intrusion programme",
+            "url": "https://apt.hecavex.com/campaigns/apt31-global-intrusion-program/"
+          },
+          "first_observed": "2010 or later",
+          "last_observed": "2024 reporting",
+          "notes": "The indictment announcement alleges that more than 10,000 targeted emails contained hidden tracking links which disclosed recipient, device and network information when messages were opened.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1566/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/phishing/",
+          "sources": [
+            {
+              "id": "doj-apt31-2024",
+              "title": "Seven Hackers Associated with Chinese Government Charged with Computer Intrusions Targeting Perceived Critics of China and U.S. Businesses and Politicians",
+              "publisher": "United States Department of Justice, Office of Public Affairs",
+              "published": "2024-03-25",
+              "source_type": "legal",
+              "url": "https://www.justice.gov/archives/opa/pr/seven-hackers-associated-chinese-government-charged-computer-intrusions-targeting-perceived",
+              "apt_notes_url": "https://apt.hecavex.com/sources/doj-apt31-2024/"
+            }
           ]
         }
       ]
@@ -177,228 +404,1685 @@
     {
       "id": "apt44",
       "name": "APT44",
-      "aliases": ["Sandworm Team", "Seashell Blizzard", "FROZENBARENTS", "Voodoo Bear"],
-      "summary": "Russian military intelligence intrusion set associated with GRU Unit 74455 and a full-spectrum mission spanning strategic access, espionage, destructive attacks, operational-technology disruption and influence activity.",
-      "profile_url": "https://apt.hecavex.com/actors/apt44/",
-      "review": {"owner":"HECAVEX / APT Notes","last_reviewed":"2026-08-15","review_due":"2026-11-15","scope":"Public procedure reporting; no independent attribution claim."},
+      "slug": "apt44",
+      "summary": "A Russian military intelligence intrusion set associated with GRU Unit 74455 and a full-spectrum mission spanning strategic access, espionage, destructive attacks, operational-technology disruption and influence activity.",
+      "status": "active",
+      "confidence": "high",
+      "last_reviewed": "2026-08-26",
+      "aliases": [
+        "Sandworm Team",
+        "Seashell Blizzard",
+        "FROZENBARENTS",
+        "IRIDIUM",
+        "Voodoo Bear",
+        "TeleBots",
+        "BlackEnergy Group",
+        "ELECTRUM"
+      ],
+      "url": "https://apt.hecavex.com/actors/apt44/",
+      "json_url": "https://apt.hecavex.com/api/actors/apt44.json",
       "evidence": [
         {
-          "technique_id": "T1190",
-          "technique": "Exploit Public-Facing Application",
-          "tactics": ["Initial Access"],
-          "status": "reported",
-          "confidence": "high",
-          "campaign": "BadPilot",
-          "campaign_slug": "badpilot",
-          "first_observed": "2021",
-          "last_observed": "2025 reporting",
-          "notes": "Seven named CVEs and one JBoss exploitation pattern are recorded in the public report.",
-          "attack_url": "https://attack.mitre.org/techniques/T1190/",
-          "sources": [
-            {"title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation", "publisher": "Microsoft Threat Intelligence", "published": "2025-02-12", "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/"}
-          ]
-        },
-        {
-          "technique_id": "T1505.003",
-          "technique": "Server Software Component: Web Shell",
-          "tactics": ["Persistence"],
-          "status": "reported",
-          "confidence": "high",
-          "campaign": "BadPilot",
-          "campaign_slug": "badpilot",
-          "first_observed": "2021",
-          "last_observed": "2025 reporting",
-          "notes": "Web shells remained the subgroup's predominant persistence method when reported.",
-          "attack_url": "https://attack.mitre.org/techniques/T1505/003/",
-          "sources": [
-            {"title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation", "publisher": "Microsoft Threat Intelligence", "published": "2025-02-12", "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/"}
-          ]
-        },
-        {
-          "technique_id": "T1133",
-          "technique": "External Remote Services",
-          "tactics": ["Initial Access", "Persistence"],
-          "status": "reported",
-          "confidence": "high",
-          "campaign": "BadPilot",
-          "campaign_slug": "badpilot",
-          "first_observed": "2021",
-          "last_observed": "2025 reporting",
-          "notes": "Evidence includes OpenSSH, Tor-based access and network-device infrastructure.",
-          "attack_url": "https://attack.mitre.org/techniques/T1133/",
-          "sources": [
-            {"title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation", "publisher": "Microsoft Threat Intelligence", "published": "2025-02-12", "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/"},
-            {"title": "New Sandworm malware Cyclops Blink replaces VPNFilter", "publisher": "UK National Cyber Security Centre", "published": "2022-02-23", "url": "https://www.ncsc.gov.uk/news/joint-advisory-shows-new-sandworm-malware-cyclops-blink-replaces-vpnfilter"}
-          ]
-        },
-        {
-          "technique_id": "T1219",
-          "technique": "Remote Access Software",
-          "tactics": ["Command and Control"],
-          "status": "reported",
-          "confidence": "high",
-          "campaign": "BadPilot",
-          "campaign_slug": "badpilot",
-          "first_observed": "2024",
-          "last_observed": "2025 reporting",
-          "notes": "Atera Agent and Splashtop were used as legitimate-looking persistence and command channels.",
-          "attack_url": "https://attack.mitre.org/techniques/T1219/",
-          "sources": [
-            {"title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation", "publisher": "Microsoft Threat Intelligence", "published": "2025-02-12", "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/"}
-          ]
-        },
-        {
+          "id": "apt44:T1003.001:badpilot",
           "technique_id": "T1003.001",
           "technique": "OS Credential Dumping: LSASS Memory",
-          "tactics": ["Credential Access"],
-          "status": "reported",
+          "technique_slug": "os-credential-dumping-lsass",
+          "tactics": [
+            "Credential Access"
+          ],
+          "mapping_status": "reported",
           "confidence": "high",
-          "campaign": "BadPilot",
-          "campaign_slug": "badpilot",
+          "campaign": {
+            "id": "badpilot",
+            "name": "BadPilot",
+            "url": "https://apt.hecavex.com/campaigns/badpilot/"
+          },
           "first_observed": "2024",
           "last_observed": "2025 reporting",
           "notes": "Evidence includes renamed ProcDump and interactive access compatible with Task Manager dumping.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
           "attack_url": "https://attack.mitre.org/techniques/T1003/001/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/os-credential-dumping-lsass/",
           "sources": [
-            {"title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation", "publisher": "Microsoft Threat Intelligence", "published": "2025-02-12", "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/"}
+            {
+              "id": "microsoft-badpilot-2025",
+              "title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2025-02-12",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/"
+            }
           ]
         },
         {
-          "technique_id": "T1078",
-          "technique": "Valid Accounts",
-          "tactics": ["Defense Evasion", "Persistence", "Privilege Escalation", "Initial Access"],
-          "status": "reported",
-          "confidence": "high",
-          "campaign": "Prestige ransomware-style attacks",
-          "campaign_slug": "prestige-ransomware",
-          "first_observed": "2022",
-          "last_observed": "2025 reporting",
-          "notes": "Credential access and retained identities support durable follow-on operations.",
-          "attack_url": "https://attack.mitre.org/techniques/T1078/",
-          "sources": [
-            {"title": "New Prestige ransomware impacts organizations in Ukraine and Poland", "publisher": "Microsoft Threat Intelligence", "published": "2022-10-14", "url": "https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/"},
-            {"title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation", "publisher": "Microsoft Threat Intelligence", "published": "2025-02-12", "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/"}
-          ]
-        },
-        {
+          "id": "apt44:T1005:uncampaigned",
           "technique_id": "T1005",
           "technique": "Data from Local System",
-          "tactics": ["Collection"],
-          "status": "reported",
+          "technique_slug": "data-from-local-system",
+          "tactics": [
+            "Collection"
+          ],
+          "mapping_status": "reported",
           "confidence": "high",
-          "campaign": "Actor-level reporting",
-          "campaign_slug": "",
+          "campaign": {
+            "id": "",
+            "name": "Not assigned",
+            "url": ""
+          },
           "first_observed": "2023",
           "last_observed": "2026 reporting",
-          "notes": "WAVESIGN collected Signal Desktop data; public reporting also describes attempts to obtain Telegram and Signal information from devices.",
+          "notes": "WAVESIGN collected Signal Desktop data; the public report also describes attempts to obtain Telegram and Signal information from devices.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
           "attack_url": "https://attack.mitre.org/techniques/T1005/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/data-from-local-system/",
           "sources": [
-            {"title": "Beyond the Battlefield: Threats to the Defense Industrial Base", "publisher": "Google Threat Intelligence Group", "published": "2026-02-10", "url": "https://cloud.google.com/blog/topics/threat-intelligence/threats-to-defense-industrial-base"}
+            {
+              "id": "gtig-defense-industrial-base-2026",
+              "title": "Beyond the Battlefield: Threats to the Defense Industrial Base",
+              "publisher": "Google Threat Intelligence Group",
+              "published": "2026-02-10",
+              "source_type": "vendor-research",
+              "url": "https://cloud.google.com/blog/topics/threat-intelligence/threats-to-defense-industrial-base",
+              "apt_notes_url": "https://apt.hecavex.com/sources/gtig-defense-industrial-base-2026/"
+            }
           ]
         },
         {
-          "technique_id": "T1059.001",
-          "technique": "PowerShell",
-          "tactics": ["Execution"],
-          "status": "reported",
-          "confidence": "high",
-          "campaign": "2022 Ukraine electric power attack",
-          "campaign_slug": "ukraine-electric-power-2022",
-          "first_observed": "2022",
-          "last_observed": "2022",
-          "notes": "TANKTRAP used PowerShell and Group Policy to distribute a wiper.",
-          "attack_url": "https://attack.mitre.org/techniques/T1059/001/",
-          "sources": [
-            {"title": "Sandworm Disrupts Power in Ukraine Using a Novel Attack Against Operational Technology", "publisher": "Mandiant", "published": "2023-11-09", "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology"},
-            {"title": "Sandworm Team - Group G0034", "publisher": "MITRE ATT&CK", "published": "2017-05-31", "url": "https://attack.mitre.org/groups/G0034/"}
-          ]
-        },
-        {
+          "id": "apt44:T1053.005:ukraine-electric-power-2022",
           "technique_id": "T1053.005",
           "technique": "Scheduled Task",
-          "tactics": ["Execution", "Persistence"],
-          "status": "reported",
+          "technique_slug": "scheduled-task",
+          "tactics": [
+            "Execution",
+            "Persistence"
+          ],
+          "mapping_status": "reported",
           "confidence": "high",
-          "campaign": "2022 Ukraine electric power attack",
-          "campaign_slug": "ukraine-electric-power-2022",
+          "campaign": {
+            "id": "ukraine-electric-power-2022",
+            "name": "2022 Ukraine electric power attack",
+            "url": "https://apt.hecavex.com/campaigns/ukraine-electric-power-2022/"
+          },
           "first_observed": "2022",
           "last_observed": "2022",
           "notes": "Scheduled execution appears in separate destructive deployment chains.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
           "attack_url": "https://attack.mitre.org/techniques/T1053/005/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/scheduled-task/",
           "sources": [
-            {"title": "Sandworm Disrupts Power in Ukraine Using a Novel Attack Against Operational Technology", "publisher": "Mandiant", "published": "2023-11-09", "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology"},
-            {"title": "New Prestige ransomware impacts organizations in Ukraine and Poland", "publisher": "Microsoft Threat Intelligence", "published": "2022-10-14", "url": "https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/"}
+            {
+              "id": "mandiant-ukraine-power-2023",
+              "title": "Sandworm Disrupts Power in Ukraine Using a Novel Attack Against Operational Technology",
+              "publisher": "Mandiant",
+              "published": "2023-11-09",
+              "source_type": "vendor-research",
+              "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology",
+              "apt_notes_url": "https://apt.hecavex.com/sources/mandiant-ukraine-power-2023/"
+            },
+            {
+              "id": "microsoft-prestige-2022",
+              "title": "New Prestige ransomware impacts organizations in Ukraine and Poland",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2022-10-14",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-prestige-2022/"
+            }
           ]
         },
         {
-          "technique_id": "T1485",
-          "technique": "Data Destruction",
-          "tactics": ["Impact"],
-          "status": "reported",
+          "id": "apt44:T1059.001:ukraine-electric-power-2022",
+          "technique_id": "T1059.001",
+          "technique": "PowerShell",
+          "technique_slug": "powershell",
+          "tactics": [
+            "Execution"
+          ],
+          "mapping_status": "reported",
           "confidence": "high",
-          "campaign": "2022 Ukraine electric power attack",
-          "campaign_slug": "ukraine-electric-power-2022",
-          "first_observed": "2015",
-          "last_observed": "2022",
-          "notes": "The profile separates destructive payload deployment from the mechanism that caused each operational outage.",
-          "attack_url": "https://attack.mitre.org/techniques/T1485/",
-          "sources": [
-            {"title": "Six Russian GRU Officers Charged in Connection with Worldwide Deployment of Destructive Malware", "publisher": "United States Department of Justice", "published": "2020-10-19", "url": "https://www.justice.gov/archives/opa/pr/six-russian-gru-officers-charged-connection-worldwide-deployment-destructive-malware-and"},
-            {"title": "Sandworm Disrupts Power in Ukraine Using a Novel Attack Against Operational Technology", "publisher": "Mandiant", "published": "2023-11-09", "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology"},
-            {"title": "New Prestige ransomware impacts organizations in Ukraine and Poland", "publisher": "Microsoft Threat Intelligence", "published": "2022-10-14", "url": "https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/"}
-          ]
-        },
-        {
-          "technique_id": "T1570",
-          "technique": "Lateral Tool Transfer",
-          "tactics": ["Command and Control"],
-          "status": "reported",
-          "confidence": "high",
-          "campaign": "Prestige ransomware-style attacks",
-          "campaign_slug": "prestige-ransomware",
-          "first_observed": "2015",
-          "last_observed": "2022",
-          "notes": "Includes Group Policy, network shares and transfer between IT and OT systems.",
-          "attack_url": "https://attack.mitre.org/techniques/T1570/",
-          "sources": [
-            {"title": "New Prestige ransomware impacts organizations in Ukraine and Poland", "publisher": "Microsoft Threat Intelligence", "published": "2022-10-14", "url": "https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/"},
-            {"title": "Sandworm Disrupts Power in Ukraine Using a Novel Attack Against Operational Technology", "publisher": "Mandiant", "published": "2023-11-09", "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology"},
-            {"title": "Sandworm Team - Group G0034", "publisher": "MITRE ATT&CK", "published": "2017-05-31", "url": "https://attack.mitre.org/groups/G0034/"}
-          ]
-        },
-        {
-          "technique_id": "T1543.002",
-          "technique": "Create or Modify System Process: Systemd Service",
-          "tactics": ["Persistence"],
-          "status": "reported",
-          "confidence": "high",
-          "campaign": "2022 Ukraine electric power attack",
-          "campaign_slug": "ukraine-electric-power-2022",
+          "campaign": {
+            "id": "ukraine-electric-power-2022",
+            "name": "2022 Ukraine electric power attack",
+            "url": "https://apt.hecavex.com/campaigns/ukraine-electric-power-2022/"
+          },
           "first_observed": "2022",
           "last_observed": "2022",
-          "notes": "GOGETTER used service units that masqueraded as legitimate Linux services.",
-          "attack_url": "https://attack.mitre.org/techniques/T1543/002/",
+          "notes": "TANKTRAP used PowerShell and Group Policy to distribute a wiper.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1059/001/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/powershell/",
           "sources": [
-            {"title": "Sandworm Disrupts Power in Ukraine Using a Novel Attack Against Operational Technology", "publisher": "Mandiant", "published": "2023-11-09", "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology"},
-            {"title": "Sandworm Team - Group G0034", "publisher": "MITRE ATT&CK", "published": "2017-05-31", "url": "https://attack.mitre.org/groups/G0034/"}
+            {
+              "id": "mandiant-ukraine-power-2023",
+              "title": "Sandworm Disrupts Power in Ukraine Using a Novel Attack Against Operational Technology",
+              "publisher": "Mandiant",
+              "published": "2023-11-09",
+              "source_type": "vendor-research",
+              "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology",
+              "apt_notes_url": "https://apt.hecavex.com/sources/mandiant-ukraine-power-2023/"
+            },
+            {
+              "id": "mitre-g0034",
+              "title": "Sandworm Team - Group G0034",
+              "publisher": "MITRE ATT&CK",
+              "published": "2017-05-31",
+              "source_type": "nonprofit",
+              "url": "https://attack.mitre.org/groups/G0034/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g0034/"
+            }
           ]
         },
         {
+          "id": "apt44:T1078:prestige-ransomware",
+          "technique_id": "T1078",
+          "technique": "Valid Accounts",
+          "technique_slug": "valid-accounts",
+          "tactics": [
+            "Defense Evasion"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "prestige-ransomware",
+            "name": "Prestige ransomware-style attacks",
+            "url": "https://apt.hecavex.com/campaigns/prestige-ransomware/"
+          },
+          "first_observed": "2022",
+          "last_observed": "2025 reporting",
+          "notes": "Credential access and retained identities support durable follow-on operations.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1078/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/valid-accounts/",
+          "sources": [
+            {
+              "id": "microsoft-prestige-2022",
+              "title": "New Prestige ransomware impacts organizations in Ukraine and Poland",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2022-10-14",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-prestige-2022/"
+            },
+            {
+              "id": "microsoft-badpilot-2025",
+              "title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2025-02-12",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/"
+            }
+          ]
+        },
+        {
+          "id": "apt44:T1133:badpilot",
+          "technique_id": "T1133",
+          "technique": "External Remote Services",
+          "technique_slug": "external-remote-services",
+          "tactics": [
+            "Initial Access",
+            "Persistence"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "badpilot",
+            "name": "BadPilot",
+            "url": "https://apt.hecavex.com/campaigns/badpilot/"
+          },
+          "first_observed": "2021",
+          "last_observed": "2025 reporting",
+          "notes": "Evidence includes OpenSSH, Tor-based access and network-device infrastructure.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1133/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/external-remote-services/",
+          "sources": [
+            {
+              "id": "microsoft-badpilot-2025",
+              "title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2025-02-12",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/"
+            },
+            {
+              "id": "ncsc-cyclops-blink-2022",
+              "title": "New Sandworm malware Cyclops Blink replaces VPNFilter",
+              "publisher": "UK National Cyber Security Centre",
+              "published": "2022-02-23",
+              "source_type": "government",
+              "url": "https://www.ncsc.gov.uk/news/joint-advisory-shows-new-sandworm-malware-cyclops-blink-replaces-vpnfilter",
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-cyclops-blink-2022/"
+            }
+          ]
+        },
+        {
+          "id": "apt44:T1190:badpilot",
+          "technique_id": "T1190",
+          "technique": "Exploit Public-Facing Application",
+          "technique_slug": "exploit-public-facing-application",
+          "tactics": [
+            "Initial Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "badpilot",
+            "name": "BadPilot",
+            "url": "https://apt.hecavex.com/campaigns/badpilot/"
+          },
+          "first_observed": "2021",
+          "last_observed": "2025 reporting",
+          "notes": "Seven named CVEs and one JBoss exploitation pattern are recorded in the public report.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1190/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/exploit-public-facing-application/",
+          "sources": [
+            {
+              "id": "microsoft-badpilot-2025",
+              "title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2025-02-12",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/"
+            }
+          ]
+        },
+        {
+          "id": "apt44:T1195.002:notpetya-operation",
           "technique_id": "T1195.002",
           "technique": "Compromise Software Supply Chain",
-          "tactics": ["Initial Access"],
-          "status": "reported",
+          "technique_slug": "supply-chain-compromise",
+          "tactics": [
+            "Initial Access"
+          ],
+          "mapping_status": "reported",
           "confidence": "high",
-          "campaign": "NotPetya destructive operation",
-          "campaign_slug": "notpetya-operation",
+          "campaign": {
+            "id": "notpetya-operation",
+            "name": "NotPetya destructive operation",
+            "url": "https://apt.hecavex.com/campaigns/notpetya-operation/"
+          },
           "first_observed": "2017",
           "last_observed": "2017",
           "notes": "The trusted update mechanism enabled initial distribution before broader propagation.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
           "attack_url": "https://attack.mitre.org/techniques/T1195/002/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/supply-chain-compromise/",
           "sources": [
-            {"title": "Six Russian GRU Officers Charged in Connection with Worldwide Deployment of Destructive Malware", "publisher": "United States Department of Justice", "published": "2020-10-19", "url": "https://www.justice.gov/archives/opa/pr/six-russian-gru-officers-charged-connection-worldwide-deployment-destructive-malware-and"},
-            {"title": "Unearthing APT44: Russia's Notorious Cyber Sabotage Unit Sandworm", "publisher": "Google Threat Intelligence Group", "published": "2024-04-17", "url": "https://cloud.google.com/blog/topics/threat-intelligence/apt44-unearthing-sandworm"},
-            {"title": "Sandworm Team - Group G0034", "publisher": "MITRE ATT&CK", "published": "2017-05-31", "url": "https://attack.mitre.org/groups/G0034/"}
+            {
+              "id": "doj-sandworm-indictment-2020",
+              "title": "Six Russian GRU Officers Charged in Connection with Worldwide Deployment of Destructive Malware and Other Disruptive Actions in Cyberspace",
+              "publisher": "United States Department of Justice",
+              "published": "2020-10-19",
+              "source_type": "legal",
+              "url": "https://www.justice.gov/archives/opa/pr/six-russian-gru-officers-charged-connection-worldwide-deployment-destructive-malware-and",
+              "apt_notes_url": "https://apt.hecavex.com/sources/doj-sandworm-indictment-2020/"
+            },
+            {
+              "id": "gtig-apt44-2024",
+              "title": "Unearthing APT44: Russia's Notorious Cyber Sabotage Unit Sandworm",
+              "publisher": "Google Threat Intelligence Group",
+              "published": "2024-04-17",
+              "source_type": "vendor-research",
+              "url": "https://cloud.google.com/blog/topics/threat-intelligence/apt44-unearthing-sandworm",
+              "apt_notes_url": "https://apt.hecavex.com/sources/gtig-apt44-2024/"
+            },
+            {
+              "id": "mitre-g0034",
+              "title": "Sandworm Team - Group G0034",
+              "publisher": "MITRE ATT&CK",
+              "published": "2017-05-31",
+              "source_type": "nonprofit",
+              "url": "https://attack.mitre.org/groups/G0034/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g0034/"
+            }
+          ]
+        },
+        {
+          "id": "apt44:T1203:uncampaigned",
+          "technique_id": "T1203",
+          "technique": "Exploitation for Client Execution",
+          "technique_slug": "exploit-client-execution",
+          "tactics": [
+            "Execution"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "",
+            "name": "Not assigned",
+            "url": ""
+          },
+          "first_observed": "2025 reporting window",
+          "last_observed": "2026 reporting",
+          "notes": "APT44 used a malicious RAR archive exploiting CVE-2025-8088 to drop a Ukrainian-named decoy and an LNK that attempted further downloads.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1203/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/exploit-client-execution/",
+          "sources": [
+            {
+              "id": "gtig-winrar-cve-2025-8088-2026",
+              "title": "Diverse Threat Actors Exploiting Critical WinRAR Vulnerability CVE-2025-8088",
+              "publisher": "Google Threat Intelligence Group",
+              "published": "2026-01-27",
+              "source_type": "vendor-research",
+              "url": "https://cloud.google.com/blog/topics/threat-intelligence/exploiting-critical-winrar-vulnerability",
+              "apt_notes_url": "https://apt.hecavex.com/sources/gtig-winrar-cve-2025-8088-2026/"
+            }
+          ]
+        },
+        {
+          "id": "apt44:T1219:badpilot",
+          "technique_id": "T1219",
+          "technique": "Remote Access Software",
+          "technique_slug": "remote-access-software",
+          "tactics": [
+            "Command and Control"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "badpilot",
+            "name": "BadPilot",
+            "url": "https://apt.hecavex.com/campaigns/badpilot/"
+          },
+          "first_observed": "2024",
+          "last_observed": "2025 reporting",
+          "notes": "Atera Agent and Splashtop were used as legitimate-looking persistence and command channels.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1219/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/remote-access-software/",
+          "sources": [
+            {
+              "id": "microsoft-badpilot-2025",
+              "title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2025-02-12",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/"
+            }
+          ]
+        },
+        {
+          "id": "apt44:T1485:ukraine-electric-power-2022",
+          "technique_id": "T1485",
+          "technique": "Data Destruction",
+          "technique_slug": "data-destruction",
+          "tactics": [
+            "Impact"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "ukraine-electric-power-2022",
+            "name": "2022 Ukraine electric power attack",
+            "url": "https://apt.hecavex.com/campaigns/ukraine-electric-power-2022/"
+          },
+          "first_observed": "2015",
+          "last_observed": "2022",
+          "notes": "The profile separates destructive payload deployment from the mechanism that caused each operational outage.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1485/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/data-destruction/",
+          "sources": [
+            {
+              "id": "doj-sandworm-indictment-2020",
+              "title": "Six Russian GRU Officers Charged in Connection with Worldwide Deployment of Destructive Malware and Other Disruptive Actions in Cyberspace",
+              "publisher": "United States Department of Justice",
+              "published": "2020-10-19",
+              "source_type": "legal",
+              "url": "https://www.justice.gov/archives/opa/pr/six-russian-gru-officers-charged-connection-worldwide-deployment-destructive-malware-and",
+              "apt_notes_url": "https://apt.hecavex.com/sources/doj-sandworm-indictment-2020/"
+            },
+            {
+              "id": "mandiant-ukraine-power-2023",
+              "title": "Sandworm Disrupts Power in Ukraine Using a Novel Attack Against Operational Technology",
+              "publisher": "Mandiant",
+              "published": "2023-11-09",
+              "source_type": "vendor-research",
+              "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology",
+              "apt_notes_url": "https://apt.hecavex.com/sources/mandiant-ukraine-power-2023/"
+            },
+            {
+              "id": "microsoft-prestige-2022",
+              "title": "New Prestige ransomware impacts organizations in Ukraine and Poland",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2022-10-14",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-prestige-2022/"
+            }
+          ]
+        },
+        {
+          "id": "apt44:T1505.003:badpilot",
+          "technique_id": "T1505.003",
+          "technique": "Server Software Component: Web Shell",
+          "technique_slug": "server-software-component-web-shell",
+          "tactics": [
+            "Persistence"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "badpilot",
+            "name": "BadPilot",
+            "url": "https://apt.hecavex.com/campaigns/badpilot/"
+          },
+          "first_observed": "2021",
+          "last_observed": "2025 reporting",
+          "notes": "Web shells remained the subgroup's predominant persistence method when reported.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1505/003/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/server-software-component-web-shell/",
+          "sources": [
+            {
+              "id": "microsoft-badpilot-2025",
+              "title": "The BadPilot campaign: Seashell Blizzard subgroup conducts multiyear global access operation",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2025-02-12",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/"
+            }
+          ]
+        },
+        {
+          "id": "apt44:T1543.002:ukraine-electric-power-2022",
+          "technique_id": "T1543.002",
+          "technique": "Create or Modify System Process: Systemd Service",
+          "technique_slug": "systemd-service",
+          "tactics": [
+            "Persistence"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "ukraine-electric-power-2022",
+            "name": "2022 Ukraine electric power attack",
+            "url": "https://apt.hecavex.com/campaigns/ukraine-electric-power-2022/"
+          },
+          "first_observed": "2022",
+          "last_observed": "2022",
+          "notes": "GOGETTER used service units that masqueraded as legitimate Linux services.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1543/002/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/systemd-service/",
+          "sources": [
+            {
+              "id": "mandiant-ukraine-power-2023",
+              "title": "Sandworm Disrupts Power in Ukraine Using a Novel Attack Against Operational Technology",
+              "publisher": "Mandiant",
+              "published": "2023-11-09",
+              "source_type": "vendor-research",
+              "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology",
+              "apt_notes_url": "https://apt.hecavex.com/sources/mandiant-ukraine-power-2023/"
+            },
+            {
+              "id": "mitre-g0034",
+              "title": "Sandworm Team - Group G0034",
+              "publisher": "MITRE ATT&CK",
+              "published": "2017-05-31",
+              "source_type": "nonprofit",
+              "url": "https://attack.mitre.org/groups/G0034/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g0034/"
+            }
+          ]
+        },
+        {
+          "id": "apt44:T1570:prestige-ransomware",
+          "technique_id": "T1570",
+          "technique": "Lateral Tool Transfer",
+          "technique_slug": "lateral-tool-transfer",
+          "tactics": [
+            "Command and Control"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "prestige-ransomware",
+            "name": "Prestige ransomware-style attacks",
+            "url": "https://apt.hecavex.com/campaigns/prestige-ransomware/"
+          },
+          "first_observed": "2015",
+          "last_observed": "2022",
+          "notes": "Includes Group Policy, network shares and transfer between IT and OT systems.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1570/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/lateral-tool-transfer/",
+          "sources": [
+            {
+              "id": "microsoft-prestige-2022",
+              "title": "New Prestige ransomware impacts organizations in Ukraine and Poland",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2022-10-14",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-prestige-2022/"
+            },
+            {
+              "id": "mandiant-ukraine-power-2023",
+              "title": "Sandworm Disrupts Power in Ukraine Using a Novel Attack Against Operational Technology",
+              "publisher": "Mandiant",
+              "published": "2023-11-09",
+              "source_type": "vendor-research",
+              "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology",
+              "apt_notes_url": "https://apt.hecavex.com/sources/mandiant-ukraine-power-2023/"
+            },
+            {
+              "id": "mitre-g0034",
+              "title": "Sandworm Team - Group G0034",
+              "publisher": "MITRE ATT&CK",
+              "published": "2017-05-31",
+              "source_type": "nonprofit",
+              "url": "https://attack.mitre.org/groups/G0034/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g0034/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cyber-army-russia-reborn",
+      "name": "Cyber Army of Russia Reborn",
+      "slug": "cyber-army-russia-reborn",
+      "summary": "A Russian government-aligned hacktivist group associated with DDoS campaigns and low-sophistication industrial-control-system intrusions against Ukraine-supporting states and critical infrastructure.",
+      "status": "uncertain",
+      "confidence": "high",
+      "last_reviewed": "2026-08-26",
+      "aliases": [
+        "CARR",
+        "Cyber Army of Russia",
+        "The People's Cyber Army of Russia"
+      ],
+      "url": "https://apt.hecavex.com/actors/cyber-army-russia-reborn/",
+      "json_url": "https://apt.hecavex.com/api/actors/cyber-army-russia-reborn.json",
+      "evidence": [
+        {
+          "id": "cyber-army-russia-reborn:T1498:carr-european-ddos",
+          "technique_id": "T1498",
+          "technique": "Network Denial of Service",
+          "technique_slug": "network-denial-of-service",
+          "tactics": [
+            "Impact"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "carr-european-ddos",
+            "name": "CARR Ukraine-supporter DDoS campaign",
+            "url": "https://apt.hecavex.com/campaigns/carr-european-ddos/"
+          },
+          "first_observed": "2022",
+          "last_observed": "2024",
+          "notes": "US and EU sanctions reporting describes sustained, low-impact DDoS campaigns against Ukraine and governments, companies and public services in countries supporting Ukraine.",
+          "uncertainty": "The relationship records the official assessment of a sustained DDoS campaign. It does not convert each self-published CARR target claim into a confirmed victim event.",
+          "attack_url": "https://attack.mitre.org/techniques/T1498/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/network-denial-of-service/",
+          "sources": [
+            {
+              "id": "treasury-carr-2024",
+              "title": "Treasury Sanctions Leader and Primary Member of the Cyber Army of Russia Reborn",
+              "publisher": "US Department of the Treasury",
+              "published": "2024-07-19",
+              "source_type": "government",
+              "url": "https://home.treasury.gov/news/press-releases/jy2473",
+              "apt_notes_url": "https://apt.hecavex.com/sources/treasury-carr-2024/"
+            },
+            {
+              "id": "eu-russian-cyber-sanctions-2026",
+              "title": "Russian cyber-attacks and destabilising activities: Council sanctions nine individuals and four entities",
+              "publisher": "Council of the European Union",
+              "published": "2026-07-13",
+              "source_type": "government",
+              "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/07/13/russian-cyber-attacks-and-destabilising-activities-council-sanctions-nine-individuals-and-four-entities/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/eu-russian-cyber-sanctions-2026/"
+            },
+            {
+              "id": "joint-csa-pro-russia-hacktivists-2025",
+              "title": "Pro-Russia Hacktivists Conduct Opportunistic Attacks Against US and Global Critical Infrastructure",
+              "publisher": "CISA, FBI, NSA and international partners",
+              "published": "2025-12-09",
+              "source_type": "government",
+              "url": "https://media.defense.gov/2025/Dec/09/2003840175/-1/-1/0/Joint_CSA_Pro-Russia_Hacktivists_Conduct_Attacks_against_Critical_Infrastructure.PDF",
+              "apt_notes_url": "https://apt.hecavex.com/sources/joint-csa-pro-russia-hacktivists-2025/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-29155",
+      "name": "GRU Unit 29155",
+      "slug": "unit-29155",
+      "summary": "A Russian military intelligence unit associated with espionage, sabotage, reputational harm and the destructive WhisperGate operation against Ukraine.",
+      "status": "active",
+      "confidence": "high",
+      "last_reviewed": "2026-08-26",
+      "aliases": [
+        "Ember Bear",
+        "Cadet Blizzard",
+        "UNC2589",
+        "Bleeding Bear",
+        "UAC-0056"
+      ],
+      "url": "https://apt.hecavex.com/actors/unit-29155/",
+      "json_url": "https://apt.hecavex.com/api/actors/unit-29155.json",
+      "evidence": [
+        {
+          "id": "unit-29155:T1110.003:uncampaigned",
+          "technique_id": "T1110.003",
+          "technique": "Password Spraying",
+          "technique_slug": "password-spraying",
+          "tactics": [
+            "Credential Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "",
+            "name": "Not assigned",
+            "url": ""
+          },
+          "first_observed": "2020",
+          "last_observed": "2024 reporting",
+          "notes": "Password spraying against webmail and other externally accessible identity surfaces supported account access.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1110/003/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/password-spraying/",
+          "sources": [
+            {
+              "id": "cisa-aa24-249a",
+              "title": "Russian Military Cyber Actors Target U.S. and Global Critical Infrastructure",
+              "publisher": "CISA",
+              "published": "2024-09-05",
+              "source_type": "government",
+              "url": "https://www.cisa.gov/sites/default/files/2024-09/aa24-249a-russian-military-cyber-actors-target-us-and-global-critical-infrastructure.pdf",
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa24-249a/"
+            },
+            {
+              "id": "mitre-g1003",
+              "title": "Ember Bear",
+              "publisher": "MITRE ATT&CK",
+              "published": "2022-06-09",
+              "source_type": "nonprofit",
+              "url": "https://attack.mitre.org/groups/G1003/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g1003/"
+            }
+          ]
+        },
+        {
+          "id": "unit-29155:T1190:uncampaigned",
+          "technique_id": "T1190",
+          "technique": "Exploit Public-Facing Application",
+          "technique_slug": "exploit-public-facing-application",
+          "tactics": [
+            "Initial Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "",
+            "name": "Not assigned",
+            "url": ""
+          },
+          "first_observed": "2020",
+          "last_observed": "2024 reporting",
+          "notes": "Public reporting describes broad reconnaissance followed by exploitation of exposed services and devices.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1190/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/exploit-public-facing-application/",
+          "sources": [
+            {
+              "id": "cisa-aa24-249a",
+              "title": "Russian Military Cyber Actors Target U.S. and Global Critical Infrastructure",
+              "publisher": "CISA",
+              "published": "2024-09-05",
+              "source_type": "government",
+              "url": "https://www.cisa.gov/sites/default/files/2024-09/aa24-249a-russian-military-cyber-actors-target-us-and-global-critical-infrastructure.pdf",
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa24-249a/"
+            }
+          ]
+        },
+        {
+          "id": "unit-29155:T1561.002:whispergate-operation",
+          "technique_id": "T1561.002",
+          "technique": "Disk Structure Wipe",
+          "technique_slug": "disk-structure-wipe",
+          "tactics": [
+            "Impact"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "whispergate-operation",
+            "name": "WhisperGate operation",
+            "url": "https://apt.hecavex.com/campaigns/whispergate-operation/"
+          },
+          "first_observed": "2022-01",
+          "last_observed": "2022",
+          "notes": "WhisperGate masqueraded as ransomware while destroying disk structures and data.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1561/002/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/disk-structure-wipe/",
+          "sources": [
+            {
+              "id": "cisa-aa24-249a",
+              "title": "Russian Military Cyber Actors Target U.S. and Global Critical Infrastructure",
+              "publisher": "CISA",
+              "published": "2024-09-05",
+              "source_type": "government",
+              "url": "https://www.cisa.gov/sites/default/files/2024-09/aa24-249a-russian-military-cyber-actors-target-us-and-global-critical-infrastructure.pdf",
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa24-249a/"
+            },
+            {
+              "id": "doj-unit-29155-2024",
+              "title": "Five Russian GRU Officers and One Civilian Charged for Conspiring to Hack Ukrainian Government",
+              "publisher": "United States Department of Justice",
+              "published": "2024-09-05",
+              "source_type": "legal",
+              "url": "https://www.justice.gov/archives/opa/pr/five-russian-gru-officers-and-one-civilian-charged-conspiring-hack-ukrainian-government",
+              "apt_notes_url": "https://apt.hecavex.com/sources/doj-unit-29155-2024/"
+            },
+            {
+              "id": "mitre-g1003",
+              "title": "Ember Bear",
+              "publisher": "MITRE ATT&CK",
+              "published": "2022-06-09",
+              "source_type": "nonprofit",
+              "url": "https://attack.mitre.org/groups/G1003/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g1003/"
+            }
+          ]
+        },
+        {
+          "id": "unit-29155:T1567.002:uncampaigned",
+          "technique_id": "T1567.002",
+          "technique": "Exfiltration to Cloud Storage",
+          "technique_slug": "exfiltration-cloud-storage",
+          "tactics": [
+            "Exfiltration"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "",
+            "name": "Not assigned",
+            "url": ""
+          },
+          "first_observed": "2020",
+          "last_observed": "2024 reporting",
+          "notes": "Rclone and cloud storage appear in public descriptions of data transfer.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1567/002/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/exfiltration-cloud-storage/",
+          "sources": [
+            {
+              "id": "cisa-aa24-249a",
+              "title": "Russian Military Cyber Actors Target U.S. and Global Critical Infrastructure",
+              "publisher": "CISA",
+              "published": "2024-09-05",
+              "source_type": "government",
+              "url": "https://www.cisa.gov/sites/default/files/2024-09/aa24-249a-russian-military-cyber-actors-target-us-and-global-critical-infrastructure.pdf",
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa24-249a/"
+            },
+            {
+              "id": "mitre-g1003",
+              "title": "Ember Bear",
+              "publisher": "MITRE ATT&CK",
+              "published": "2022-06-09",
+              "source_type": "nonprofit",
+              "url": "https://attack.mitre.org/groups/G1003/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g1003/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "midnight-blizzard",
+      "name": "Midnight Blizzard",
+      "slug": "midnight-blizzard",
+      "summary": "A Russian SVR-linked espionage actor using cloud identity abuse, credential attacks, supply-chain access and targeted phishing against government, diplomatic, technology and civil-society targets.",
+      "status": "uncertain",
+      "confidence": "high",
+      "last_reviewed": "2026-08-26",
+      "aliases": [
+        "APT29",
+        "The Dukes",
+        "Cozy Bear",
+        "NOBELIUM",
+        "UNC2452"
+      ],
+      "url": "https://apt.hecavex.com/actors/midnight-blizzard/",
+      "json_url": "https://apt.hecavex.com/api/actors/midnight-blizzard.json",
+      "evidence": [
+        {
+          "id": "midnight-blizzard:T1005:midnight-blizzard-rdp-spearphishing",
+          "technique_id": "T1005",
+          "technique": "Data from Local System",
+          "technique_slug": "data-from-local-system",
+          "tactics": [
+            "Collection"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "midnight-blizzard-rdp-spearphishing",
+            "name": "Midnight Blizzard RDP-file spearphishing",
+            "url": "https://apt.hecavex.com/campaigns/midnight-blizzard-rdp-spearphishing/"
+          },
+          "first_observed": "2024-10-22",
+          "last_observed": "ongoing when reported 2024-10-29",
+          "notes": "The malicious RDP configuration exposed mapped local files, drives, clipboard data, peripherals and authentication capabilities to an actor-controlled server; this records configured exposure, not proof every item was retrieved.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1005/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/data-from-local-system/",
+          "sources": [
+            {
+              "id": "microsoft-apt29-rdp-2024",
+              "title": "Midnight Blizzard conducts large-scale spear-phishing campaign using RDP files",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2024-10-29",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2024/10/29/midnight-blizzard-conducts-large-scale-spear-phishing-campaign-using-rdp-files/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-apt29-rdp-2024/"
+            }
+          ]
+        },
+        {
+          "id": "midnight-blizzard:T1078:midnight-blizzard-cloud-access",
+          "technique_id": "T1078",
+          "technique": "Valid Accounts",
+          "technique_slug": "valid-accounts",
+          "tactics": [
+            "Defense Evasion"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "midnight-blizzard-cloud-access",
+            "name": "Midnight Blizzard cloud initial access",
+            "url": "https://apt.hecavex.com/campaigns/midnight-blizzard-cloud-access/"
+          },
+          "first_observed": "observed within 12 months before 2024-02-26",
+          "last_observed": "2024-02-26 reporting",
+          "notes": "The actor used compromised cloud credentials, including service and dormant accounts, and could regain access through inactive accounts after incident-response resets.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1078/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/valid-accounts/",
+          "sources": [
+            {
+              "id": "ncsc-apt29-cloud-2024",
+              "title": "SVR cyber actors adapt tactics for initial cloud access",
+              "publisher": "UK National Cyber Security Centre",
+              "published": "2024-02-26",
+              "source_type": "government",
+              "url": "https://www.ncsc.gov.uk/news/svr-cyber-actors-adapt-tactics-for-initial-cloud-access",
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-apt29-cloud-2024/"
+            }
+          ]
+        },
+        {
+          "id": "midnight-blizzard:T1110.003:midnight-blizzard-cloud-access",
+          "technique_id": "T1110.003",
+          "technique": "Password Spraying",
+          "technique_slug": "password-spraying",
+          "tactics": [
+            "Credential Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "midnight-blizzard-cloud-access",
+            "name": "Midnight Blizzard cloud initial access",
+            "url": "https://apt.hecavex.com/campaigns/midnight-blizzard-cloud-access/"
+          },
+          "first_observed": "observed within 12 months before 2024-02-26",
+          "last_observed": "2024-02-26 reporting",
+          "notes": "The NCSC and partners describe password spraying and brute force against service and personal accounts as cloud initial-access procedures.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1110/003/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/password-spraying/",
+          "sources": [
+            {
+              "id": "ncsc-apt29-cloud-2024",
+              "title": "SVR cyber actors adapt tactics for initial cloud access",
+              "publisher": "UK National Cyber Security Centre",
+              "published": "2024-02-26",
+              "source_type": "government",
+              "url": "https://www.ncsc.gov.uk/news/svr-cyber-actors-adapt-tactics-for-initial-cloud-access",
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-apt29-cloud-2024/"
+            }
+          ]
+        },
+        {
+          "id": "midnight-blizzard:T1528:midnight-blizzard-cloud-access",
+          "technique_id": "T1528",
+          "technique": "Steal Application Access Token",
+          "technique_slug": "steal-application-access-token",
+          "tactics": [
+            "Credential Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "midnight-blizzard-cloud-access",
+            "name": "Midnight Blizzard cloud initial access",
+            "url": "https://apt.hecavex.com/campaigns/midnight-blizzard-cloud-access/"
+          },
+          "first_observed": "observed within 12 months before 2024-02-26",
+          "last_observed": "2024-02-26 reporting",
+          "notes": "The multinational advisory explicitly reports stolen system-issued access tokens being used without the account password.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1528/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/steal-application-access-token/",
+          "sources": [
+            {
+              "id": "ncsc-apt29-cloud-2024",
+              "title": "SVR cyber actors adapt tactics for initial cloud access",
+              "publisher": "UK National Cyber Security Centre",
+              "published": "2024-02-26",
+              "source_type": "government",
+              "url": "https://www.ncsc.gov.uk/news/svr-cyber-actors-adapt-tactics-for-initial-cloud-access",
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-apt29-cloud-2024/"
+            }
+          ]
+        },
+        {
+          "id": "midnight-blizzard:T1566.001:midnight-blizzard-rdp-spearphishing",
+          "technique_id": "T1566.001",
+          "technique": "Spearphishing Attachment",
+          "technique_slug": "spearphishing-attachment",
+          "tactics": [
+            "Initial Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "midnight-blizzard-rdp-spearphishing",
+            "name": "Midnight Blizzard RDP-file spearphishing",
+            "url": "https://apt.hecavex.com/campaigns/midnight-blizzard-rdp-spearphishing/"
+          },
+          "first_observed": "2024-10-22",
+          "last_observed": "ongoing when reported 2024-10-29",
+          "notes": "Thousands of recipients across more than 100 organisations received targeted lures carrying signed RDP configuration files.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1566/001/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/spearphishing-attachment/",
+          "sources": [
+            {
+              "id": "microsoft-apt29-rdp-2024",
+              "title": "Midnight Blizzard conducts large-scale spear-phishing campaign using RDP files",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2024-10-29",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2024/10/29/midnight-blizzard-conducts-large-scale-spear-phishing-campaign-using-rdp-files/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-apt29-rdp-2024/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "noname057-16",
+      "name": "NoName057(16)",
+      "slug": "noname057-16",
+      "summary": "A pro-Russia DDoS network that recruits participants around an automated attack tool and repeatedly targets Ukraine-supporting governments, public services and critical sectors in Europe.",
+      "status": "intermittently-active",
+      "confidence": "high",
+      "last_reviewed": "2026-08-26",
+      "aliases": [
+        "NoName05716",
+        "NoName"
+      ],
+      "url": "https://apt.hecavex.com/actors/noname057-16/",
+      "json_url": "https://apt.hecavex.com/api/actors/noname057-16.json",
+      "evidence": [
+        {
+          "id": "noname057-16:T1498:noname057-european-ddos",
+          "technique_id": "T1498",
+          "technique": "Network Denial of Service",
+          "technique_slug": "network-denial-of-service",
+          "tactics": [
+            "Impact"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "noname057-european-ddos",
+            "name": "NoName057(16) European DDoS campaign",
+            "url": "https://apt.hecavex.com/campaigns/noname057-european-ddos/"
+          },
+          "first_observed": "2022-03",
+          "last_observed": "2025-11",
+          "notes": "Law-enforcement reporting documents a participant network, an automated DDoS tool and a distributed server infrastructure used against European targets; later CERT-EU reporting preserves post-disruption claims and bounded observed effects.",
+          "uncertainty": "The relationship records the demonstrated DDoS operating model. It does not treat every Telegram target claim or screenshot as independent proof of disruption.",
+          "attack_url": "https://attack.mitre.org/techniques/T1498/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/network-denial-of-service/",
+          "sources": [
+            {
+              "id": "europol-noname057-eastwood-2025",
+              "title": "Global operation targets NoName057(16) pro-Russian cybercrime network",
+              "publisher": "Europol",
+              "published": "2025-07-16",
+              "source_type": "government",
+              "url": "https://www.europol.europa.eu/media-press/newsroom/news/global-operation-targets-noname05716-pro-russian-cybercrime-network",
+              "apt_notes_url": "https://apt.hecavex.com/sources/europol-noname057-eastwood-2025/"
+            },
+            {
+              "id": "bka-noname057-eastwood-2025",
+              "title": "Internationally coordinated action against the hacktivist group NoName057(16)",
+              "publisher": "German Federal Criminal Police Office and Frankfurt General Prosecutor's Office",
+              "published": "2025-07-16",
+              "source_type": "legal",
+              "url": "https://www.bka.de/SharedDocs/Pressemitteilungen/DE/Presse_2025/pm250716_noname.pdf?__blob=publicationFile&v=4",
+              "apt_notes_url": "https://apt.hecavex.com/sources/bka-noname057-eastwood-2025/"
+            },
+            {
+              "id": "cert-eu-noname057-baltics-2023",
+              "title": "Cyber Security Brief 23-03 - February 2023",
+              "publisher": "CERT-EU",
+              "published": "2023-03-01",
+              "source_type": "government",
+              "url": "https://cert.europa.eu/publications/threat-intelligence/cb23-03/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/cert-eu-noname057-baltics-2023/"
+            },
+            {
+              "id": "cert-eu-noname057-november-2025",
+              "title": "Cyber Brief 25-12 - November 2025",
+              "publisher": "CERT-EU",
+              "published": "2025-12-02",
+              "source_type": "government",
+              "url": "https://cert.europa.eu/publications/threat-intelligence/cb25-12/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/cert-eu-noname057-november-2025/"
+            },
+            {
+              "id": "joint-csa-pro-russia-hacktivists-2025",
+              "title": "Pro-Russia Hacktivists Conduct Opportunistic Attacks Against US and Global Critical Infrastructure",
+              "publisher": "CISA, FBI, NSA and international partners",
+              "published": "2025-12-09",
+              "source_type": "government",
+              "url": "https://media.defense.gov/2025/Dec/09/2003840175/-1/-1/0/Joint_CSA_Pro-Russia_Hacktivists_Conduct_Attacks_against_Critical_Infrastructure.PDF",
+              "apt_notes_url": "https://apt.hecavex.com/sources/joint-csa-pro-russia-hacktivists-2025/"
+            }
+          ]
+        },
+        {
+          "id": "noname057-16:T1498:noname057-nato-summit-2025",
+          "technique_id": "T1498",
+          "technique": "Network Denial of Service",
+          "technique_slug": "network-denial-of-service",
+          "tactics": [
+            "Impact"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "noname057-nato-summit-2025",
+            "name": "NoName057(16) NATO Summit DDoS activity",
+            "url": "https://apt.hecavex.com/campaigns/noname057-nato-summit-2025/"
+          },
+          "first_observed": "2025-06",
+          "last_observed": "2025-06",
+          "notes": "CERT-EU and Europol record DDoS activity against Dutch and NATO-related websites around the June 2025 NATO Summit.",
+          "uncertainty": "The DDoS evidence is kept separate from an unproven suggestion about physical rail sabotage made in the same reporting period.",
+          "attack_url": "https://attack.mitre.org/techniques/T1498/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/network-denial-of-service/",
+          "sources": [
+            {
+              "id": "cert-eu-noname057-june-2025",
+              "title": "Cyber Brief 25-07 - June 2025",
+              "publisher": "CERT-EU",
+              "published": "2025-07-01",
+              "source_type": "government",
+              "url": "https://cert.europa.eu/publications/threat-intelligence/cb25-07/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/cert-eu-noname057-june-2025/"
+            },
+            {
+              "id": "europol-noname057-eastwood-2025",
+              "title": "Global operation targets NoName057(16) pro-Russian cybercrime network",
+              "publisher": "Europol",
+              "published": "2025-07-16",
+              "source_type": "government",
+              "url": "https://www.europol.europa.eu/media-press/newsroom/news/global-operation-targets-noname05716-pro-russian-cybercrime-network",
+              "apt_notes_url": "https://apt.hecavex.com/sources/europol-noname057-eastwood-2025/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "star-blizzard",
+      "name": "Star Blizzard",
+      "slug": "star-blizzard",
+      "summary": "An FSB Centre 18-linked espionage cluster using researched impersonation, credential phishing and account access against government, defence, civil-society and Ukraine-related targets.",
+      "status": "uncertain",
+      "confidence": "high",
+      "last_reviewed": "2026-08-26",
+      "aliases": [
+        "SEABORGIUM",
+        "Callisto Group",
+        "COLDRIVER",
+        "TA446",
+        "TAG-53",
+        "BlueCharlie"
+      ],
+      "url": "https://apt.hecavex.com/actors/star-blizzard/",
+      "json_url": "https://apt.hecavex.com/api/actors/star-blizzard.json",
+      "evidence": [
+        {
+          "id": "star-blizzard:T1078:star-blizzard-credential-spearphishing",
+          "technique_id": "T1078",
+          "technique": "Valid Accounts",
+          "technique_slug": "valid-accounts",
+          "tactics": [
+            "Defense Evasion"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "star-blizzard-credential-spearphishing",
+            "name": "Star Blizzard credential-theft spearphishing",
+            "url": "https://apt.hecavex.com/campaigns/star-blizzard-credential-spearphishing/"
+          },
+          "first_observed": "2016 alleged activity",
+          "last_observed": "documented through 2023-12-07 advisory",
+          "notes": "Government reporting describes use of stolen credentials to access victim email accounts; DOJ's 2016-2022 procedure claims remain allegations.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1078/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/valid-accounts/",
+          "sources": [
+            {
+              "id": "ncsc-star-blizzard-2023",
+              "title": "Russian FSB cyber actor Star Blizzard continues worldwide spear-phishing campaigns",
+              "publisher": "UK National Cyber Security Centre",
+              "published": "2023-12-07",
+              "source_type": "government",
+              "url": "https://www.ncsc.gov.uk/news/star-blizzard-continues-spear-phishing-campaigns",
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/"
+            },
+            {
+              "id": "doj-star-blizzard-2023",
+              "title": "Two Russian Nationals Working with Russia's Federal Security Service Charged with Global Computer Intrusion Campaign",
+              "publisher": "US Department of Justice",
+              "published": "2023-12-07",
+              "source_type": "legal",
+              "url": "https://www.justice.gov/archives/opa/pr/two-russian-nationals-working-russias-federal-security-service-charged-global-computer",
+              "apt_notes_url": "https://apt.hecavex.com/sources/doj-star-blizzard-2023/"
+            }
+          ]
+        },
+        {
+          "id": "star-blizzard:T1114.002:star-blizzard-credential-spearphishing",
+          "technique_id": "T1114.002",
+          "technique": "Remote Email Collection",
+          "technique_slug": "remote-email-collection",
+          "tactics": [
+            "Collection"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "star-blizzard-credential-spearphishing",
+            "name": "Star Blizzard credential-theft spearphishing",
+            "url": "https://apt.hecavex.com/campaigns/star-blizzard-credential-spearphishing/"
+          },
+          "first_observed": "documented by 2023-12-07",
+          "last_observed": "2023-12-07 reporting",
+          "notes": "The actor accessed email and attachments and established forwarding rules after account compromise.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1114/002/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/remote-email-collection/",
+          "sources": [
+            {
+              "id": "ncsc-star-blizzard-2023",
+              "title": "Russian FSB cyber actor Star Blizzard continues worldwide spear-phishing campaigns",
+              "publisher": "UK National Cyber Security Centre",
+              "published": "2023-12-07",
+              "source_type": "government",
+              "url": "https://www.ncsc.gov.uk/news/star-blizzard-continues-spear-phishing-campaigns",
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/"
+            }
+          ]
+        },
+        {
+          "id": "star-blizzard:T1550.004:star-blizzard-credential-spearphishing",
+          "technique_id": "T1550.004",
+          "technique": "Use Alternate Authentication Material — Web Session Cookie",
+          "technique_slug": "web-session-cookie",
+          "tactics": [
+            "Defense Evasion",
+            "Lateral Movement"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "star-blizzard-credential-spearphishing",
+            "name": "Star Blizzard credential-theft spearphishing",
+            "url": "https://apt.hecavex.com/campaigns/star-blizzard-credential-spearphishing/"
+          },
+          "first_observed": "documented by 2023-12-07",
+          "last_observed": "2023-12-07 reporting",
+          "notes": "Evilginx supported session-cookie theft capable of bypassing conventional two-factor authentication after successful phishing.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1550/004/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/web-session-cookie/",
+          "sources": [
+            {
+              "id": "ncsc-star-blizzard-2023",
+              "title": "Russian FSB cyber actor Star Blizzard continues worldwide spear-phishing campaigns",
+              "publisher": "UK National Cyber Security Centre",
+              "published": "2023-12-07",
+              "source_type": "government",
+              "url": "https://www.ncsc.gov.uk/news/star-blizzard-continues-spear-phishing-campaigns",
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/"
+            }
+          ]
+        },
+        {
+          "id": "star-blizzard:T1557:star-blizzard-credential-spearphishing",
+          "technique_id": "T1557",
+          "technique": "Adversary-in-the-Middle",
+          "technique_slug": "adversary-in-the-middle",
+          "tactics": [
+            "Credential Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "star-blizzard-credential-spearphishing",
+            "name": "Star Blizzard credential-theft spearphishing",
+            "url": "https://apt.hecavex.com/campaigns/star-blizzard-credential-spearphishing/"
+          },
+          "first_observed": "documented by 2023-12-07",
+          "last_observed": "2023-12-07 reporting",
+          "notes": "Star Blizzard used Evilginx to proxy authentication flows and capture credentials and session material.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1557/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/adversary-in-the-middle/",
+          "sources": [
+            {
+              "id": "ncsc-star-blizzard-2023",
+              "title": "Russian FSB cyber actor Star Blizzard continues worldwide spear-phishing campaigns",
+              "publisher": "UK National Cyber Security Centre",
+              "published": "2023-12-07",
+              "source_type": "government",
+              "url": "https://www.ncsc.gov.uk/news/star-blizzard-continues-spear-phishing-campaigns",
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/"
+            }
+          ]
+        },
+        {
+          "id": "star-blizzard:T1566.001:star-blizzard-credential-spearphishing",
+          "technique_id": "T1566.001",
+          "technique": "Spearphishing Attachment",
+          "technique_slug": "spearphishing-attachment",
+          "tactics": [
+            "Initial Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "star-blizzard-credential-spearphishing",
+            "name": "Star Blizzard credential-theft spearphishing",
+            "url": "https://apt.hecavex.com/campaigns/star-blizzard-credential-spearphishing/"
+          },
+          "first_observed": "documented by 2023-12-07",
+          "last_observed": "2023-12-07 reporting",
+          "notes": "The multinational advisory describes links embedded in documents shared through cloud file-hosting services.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1566/001/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/spearphishing-attachment/",
+          "sources": [
+            {
+              "id": "ncsc-star-blizzard-2023",
+              "title": "Russian FSB cyber actor Star Blizzard continues worldwide spear-phishing campaigns",
+              "publisher": "UK National Cyber Security Centre",
+              "published": "2023-12-07",
+              "source_type": "government",
+              "url": "https://www.ncsc.gov.uk/news/star-blizzard-continues-spear-phishing-campaigns",
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/"
+            }
+          ]
+        },
+        {
+          "id": "star-blizzard:T1566.002:star-blizzard-credential-spearphishing",
+          "technique_id": "T1566.002",
+          "technique": "Spearphishing Link",
+          "technique_slug": "spearphishing-link",
+          "tactics": [
+            "Initial Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "star-blizzard-credential-spearphishing",
+            "name": "Star Blizzard credential-theft spearphishing",
+            "url": "https://apt.hecavex.com/campaigns/star-blizzard-credential-spearphishing/"
+          },
+          "first_observed": "documented by 2023-12-07",
+          "last_observed": "2023-12-07 reporting",
+          "notes": "After researched rapport-building, the actor sent links to actor-controlled infrastructure that prompted targets for account credentials.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1566/002/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/spearphishing-link/",
+          "sources": [
+            {
+              "id": "ncsc-star-blizzard-2023",
+              "title": "Russian FSB cyber actor Star Blizzard continues worldwide spear-phishing campaigns",
+              "publisher": "UK National Cyber Security Centre",
+              "published": "2023-12-07",
+              "source_type": "government",
+              "url": "https://www.ncsc.gov.uk/news/star-blizzard-continues-spear-phishing-campaigns",
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/"
+            }
+          ]
+        },
+        {
+          "id": "star-blizzard:T1566.002:star-blizzard-whatsapp-device-linking",
+          "technique_id": "T1566.002",
+          "technique": "Spearphishing Link",
+          "technique_slug": "spearphishing-link",
+          "tactics": [
+            "Initial Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "star-blizzard-whatsapp-device-linking",
+            "name": "Star Blizzard WhatsApp device-linking campaign",
+            "url": "https://apt.hecavex.com/campaigns/star-blizzard-whatsapp-device-linking/"
+          },
+          "first_observed": "2024-11",
+          "last_observed": "2024-11",
+          "notes": "A follow-up email used a shortened link leading to a QR code that linked the victim's WhatsApp account to an actor-controlled device.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1566/002/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/spearphishing-link/",
+          "sources": [
+            {
+              "id": "microsoft-star-blizzard-whatsapp-2025",
+              "title": "New Star Blizzard spear-phishing campaign targets WhatsApp accounts",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2025-01-16",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2025/01/16/new-star-blizzard-spear-phishing-campaign-targets-whatsapp-accounts/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-star-blizzard-whatsapp-2025/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "void-blizzard",
+      "name": "Void Blizzard",
+      "slug": "void-blizzard",
+      "summary": "A Russia-affiliated espionage cluster using commodity credentials, stolen session cookies and cloud-native collection against NATO, EU and Ukraine-related targets.",
+      "status": "active",
+      "confidence": "high",
+      "last_reviewed": "2026-08-26",
+      "aliases": [
+        "Laundry Bear",
+        "CL-STA-1114",
+        "TA488"
+      ],
+      "url": "https://apt.hecavex.com/actors/void-blizzard/",
+      "json_url": "https://apt.hecavex.com/api/actors/void-blizzard.json",
+      "evidence": [
+        {
+          "id": "void-blizzard:T1087.004:laundry-bear-cloud-espionage",
+          "technique_id": "T1087.004",
+          "technique": "Cloud Account Discovery",
+          "technique_slug": "cloud-account-discovery",
+          "tactics": [
+            "Discovery"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "laundry-bear-cloud-espionage",
+            "name": "Laundry Bear cloud espionage",
+            "url": "https://apt.hecavex.com/campaigns/laundry-bear-cloud-espionage/"
+          },
+          "first_observed": "2024",
+          "last_observed": "2025 reporting",
+          "notes": "AzureHound appeared in a subset of compromises to enumerate users, roles, groups, applications and devices.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1087/004/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/cloud-account-discovery/",
+          "sources": [
+            {
+              "id": "microsoft-void-blizzard-2025",
+              "title": "New Russia-affiliated actor Void Blizzard targets critical sectors for espionage",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2025-05-27",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2025/05/27/new-russia-affiliated-actor-void-blizzard-targets-critical-sectors-for-espionage/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-void-blizzard-2025/"
+            }
+          ]
+        },
+        {
+          "id": "void-blizzard:T1110.003:laundry-bear-cloud-espionage",
+          "technique_id": "T1110.003",
+          "technique": "Password Spraying",
+          "technique_slug": "password-spraying",
+          "tactics": [
+            "Credential Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "laundry-bear-cloud-espionage",
+            "name": "Laundry Bear cloud espionage",
+            "url": "https://apt.hecavex.com/campaigns/laundry-bear-cloud-espionage/"
+          },
+          "first_observed": "2024",
+          "last_observed": "2025",
+          "notes": "Microsoft describes high-volume but strategically focused identity attacks.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1110/003/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/password-spraying/",
+          "sources": [
+            {
+              "id": "microsoft-void-blizzard-2025",
+              "title": "New Russia-affiliated actor Void Blizzard targets critical sectors for espionage",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2025-05-27",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2025/05/27/new-russia-affiliated-actor-void-blizzard-targets-critical-sectors-for-espionage/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-void-blizzard-2025/"
+            }
+          ]
+        },
+        {
+          "id": "void-blizzard:T1114:laundry-bear-zimbra",
+          "technique_id": "T1114",
+          "technique": "Email Collection",
+          "technique_slug": "email-collection",
+          "tactics": [
+            "Collection"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "laundry-bear-zimbra",
+            "name": "Laundry Bear Zimbra campaign",
+            "url": "https://apt.hecavex.com/campaigns/laundry-bear-zimbra/"
+          },
+          "first_observed": "2025-07",
+          "last_observed": "2026-07 reporting",
+          "notes": "Ulej attempted to collect the last 90 days of email and related account, directory and authentication data.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1114/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/email-collection/",
+          "sources": [
+            {
+              "id": "joint-laundry-bear-zimbra-2026",
+              "title": "Russian State-Supported Cyber Actors Conduct Phishing Campaign Targeting Users of Zimbra Collaboration Suite",
+              "publisher": "NSA and international partners",
+              "published": "2026-07-23",
+              "source_type": "government",
+              "url": "https://www.aivd.nl/documenten/2026/07/23/russian-state-supported-cyber-actors-conduct-phishing-campaign-targeting-users-of-zimbra-collaboration-suite",
+              "apt_notes_url": "https://apt.hecavex.com/sources/joint-laundry-bear-zimbra-2026/"
+            }
+          ]
+        },
+        {
+          "id": "void-blizzard:T1114.002:laundry-bear-cloud-espionage",
+          "technique_id": "T1114.002",
+          "technique": "Remote Email Collection",
+          "technique_slug": "remote-email-collection",
+          "tactics": [
+            "Collection"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "laundry-bear-cloud-espionage",
+            "name": "Laundry Bear cloud espionage",
+            "url": "https://apt.hecavex.com/campaigns/laundry-bear-cloud-espionage/"
+          },
+          "first_observed": "2024",
+          "last_observed": "2025 reporting",
+          "notes": "Sources describe rapid bulk collection from Exchange and accessible shared mailboxes.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1114/002/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/remote-email-collection/",
+          "sources": [
+            {
+              "id": "microsoft-void-blizzard-2025",
+              "title": "New Russia-affiliated actor Void Blizzard targets critical sectors for espionage",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2025-05-27",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2025/05/27/new-russia-affiliated-actor-void-blizzard-targets-critical-sectors-for-espionage/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-void-blizzard-2025/"
+            },
+            {
+              "id": "aivd-mivd-laundry-bear-2025",
+              "title": "AIVD and MIVD identify new Russian cyber threat actor",
+              "publisher": "AIVD and MIVD",
+              "published": "2025-05-27",
+              "source_type": "government",
+              "url": "https://www.aivd.nl/documenten/2025/05/27/aivd-en-mivd-onderkennen-nieuwe-russische-cyberactor",
+              "apt_notes_url": "https://apt.hecavex.com/sources/aivd-mivd-laundry-bear-2025/"
+            }
+          ]
+        },
+        {
+          "id": "void-blizzard:T1203:laundry-bear-zimbra",
+          "technique_id": "T1203",
+          "technique": "Exploitation for Client Execution",
+          "technique_slug": "exploit-client-execution",
+          "tactics": [
+            "Execution"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "laundry-bear-zimbra",
+            "name": "Laundry Bear Zimbra campaign",
+            "url": "https://apt.hecavex.com/campaigns/laundry-bear-zimbra/"
+          },
+          "first_observed": "2025-07",
+          "last_observed": "2026-07 reporting",
+          "notes": "Viewing a malicious email in a vulnerable Zimbra web client executed the embedded JavaScript without requiring a link click or attachment open.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1203/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/exploit-client-execution/",
+          "sources": [
+            {
+              "id": "joint-laundry-bear-zimbra-2026",
+              "title": "Russian State-Supported Cyber Actors Conduct Phishing Campaign Targeting Users of Zimbra Collaboration Suite",
+              "publisher": "NSA and international partners",
+              "published": "2026-07-23",
+              "source_type": "government",
+              "url": "https://www.aivd.nl/documenten/2026/07/23/russian-state-supported-cyber-actors-conduct-phishing-campaign-targeting-users-of-zimbra-collaboration-suite",
+              "apt_notes_url": "https://apt.hecavex.com/sources/joint-laundry-bear-zimbra-2026/"
+            }
+          ]
+        },
+        {
+          "id": "void-blizzard:T1550.004:laundry-bear-cloud-espionage",
+          "technique_id": "T1550.004",
+          "technique": "Use Alternate Authentication Material — Web Session Cookie",
+          "technique_slug": "web-session-cookie",
+          "tactics": [
+            "Defense Evasion",
+            "Lateral Movement"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "laundry-bear-cloud-espionage",
+            "name": "Laundry Bear cloud espionage",
+            "url": "https://apt.hecavex.com/campaigns/laundry-bear-cloud-espionage/"
+          },
+          "first_observed": "2024-09",
+          "last_observed": "2025 reporting",
+          "notes": "The Dutch police compromise was assessed as pass-the-cookie activity using session material likely obtained through a commodity infostealer ecosystem.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1550/004/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/web-session-cookie/",
+          "sources": [
+            {
+              "id": "aivd-mivd-laundry-bear-2025",
+              "title": "AIVD and MIVD identify new Russian cyber threat actor",
+              "publisher": "AIVD and MIVD",
+              "published": "2025-05-27",
+              "source_type": "government",
+              "url": "https://www.aivd.nl/documenten/2025/05/27/aivd-en-mivd-onderkennen-nieuwe-russische-cyberactor",
+              "apt_notes_url": "https://apt.hecavex.com/sources/aivd-mivd-laundry-bear-2025/"
+            },
+            {
+              "id": "microsoft-void-blizzard-2025",
+              "title": "New Russia-affiliated actor Void Blizzard targets critical sectors for espionage",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2025-05-27",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2025/05/27/new-russia-affiliated-actor-void-blizzard-targets-critical-sectors-for-espionage/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-void-blizzard-2025/"
+            }
+          ]
+        },
+        {
+          "id": "void-blizzard:T1557:laundry-bear-cloud-espionage",
+          "technique_id": "T1557",
+          "technique": "Adversary-in-the-Middle",
+          "technique_slug": "adversary-in-the-middle",
+          "tactics": [
+            "Credential Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "laundry-bear-cloud-espionage",
+            "name": "Laundry Bear cloud espionage",
+            "url": "https://apt.hecavex.com/campaigns/laundry-bear-cloud-espionage/"
+          },
+          "first_observed": "2025-04",
+          "last_observed": "2025-04",
+          "notes": "A QR-bearing PDF and typosquatted Microsoft Entra sign-in page were used in a targeted campaign against more than 20 NGOs.",
+          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "attack_url": "https://attack.mitre.org/techniques/T1557/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/adversary-in-the-middle/",
+          "sources": [
+            {
+              "id": "microsoft-void-blizzard-2025",
+              "title": "New Russia-affiliated actor Void Blizzard targets critical sectors for espionage",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2025-05-27",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2025/05/27/new-russia-affiliated-actor-void-blizzard-targets-critical-sectors-for-espionage/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-void-blizzard-2025/"
+            }
           ]
         }
       ]
