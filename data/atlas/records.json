@@ -1,9 +1,9 @@
 {
-  "schema_version": "0.2.0",
-  "updated": "2026-08-14",
+  "schema_version": "0.3.0",
+  "updated": "2026-08-27",
   "publisher": "HECAVEX",
   "scope": "Selected public-source cyber observations concerning Lithuania, Latvia and Estonia; not an exhaustive incident census or prevalence dataset.",
-  "methodology": "Each record captures one bounded claim from a named public authority. Source terminology and attribution confidence are preserved; nearby events are not merged into campaigns without evidence.",
+  "methodology": "Each observation captures one bounded claim from a named public authority. Source terminology and attribution confidence are preserved; nearby events are not merged into campaigns without evidence. Europe-context actors are sourced from APT Notes and do not imply Baltic activity unless an explicit observation id is attached.",
   "records": [
     {
       "id": "lt-2023-broadcast-disinformation",
@@ -197,6 +197,129 @@
       "attribution": "No common actor attribution",
       "confidence": "reported",
       "source": "https://www.ria.ee/en/situation-cyberspace-june-2026"
+    }
+  ],
+  "actor_context": [
+    {
+      "id": "gamaredon",
+      "name": "UAC-0010 / Gamaredon",
+      "category": "state-sponsored",
+      "status": "active",
+      "confidence": "high",
+      "summary": "Russian state-sponsored espionage actor associated with FSB Centre 18 and sustained targeting of Ukrainian government and defence organisations.",
+      "europe_relevance": "Ukraine-focused activity and an EU sanctions record make the actor relevant to the wider European threat picture.",
+      "baltic_observation_ids": [],
+      "apt_url": "https://apt.hecavex.com/actors/gamaredon/"
+    },
+    {
+      "id": "secret-blizzard",
+      "name": "Secret Blizzard",
+      "category": "state-sponsored",
+      "status": "active",
+      "confidence": "high",
+      "summary": "Russian espionage cluster overlapping Turla and associated with FSB Centre 16.",
+      "europe_relevance": "Public reporting covers activity against Ukraine and European diplomatic and government targets.",
+      "baltic_observation_ids": [],
+      "apt_url": "https://apt.hecavex.com/actors/secret-blizzard/"
+    },
+    {
+      "id": "unc1151",
+      "name": "UNC1151",
+      "category": "state-aligned",
+      "status": "active",
+      "confidence": "high",
+      "summary": "Belarus-linked intrusion cluster associated with credential theft and account compromise.",
+      "europe_relevance": "The reviewed record concerns government, political, media and civil-society targeting in Central and Eastern Europe.",
+      "baltic_observation_ids": [],
+      "apt_url": "https://apt.hecavex.com/actors/unc1151/"
+    },
+    {
+      "id": "mustang-panda",
+      "name": "Mustang Panda",
+      "category": "state-aligned",
+      "status": "active",
+      "confidence": "high",
+      "summary": "China-aligned espionage actor using spearphishing and removable-media operations.",
+      "europe_relevance": "Reviewed reporting includes diplomatic, government and maritime organisations in Europe.",
+      "baltic_observation_ids": [],
+      "apt_url": "https://apt.hecavex.com/actors/mustang-panda/"
+    },
+    {
+      "id": "romcom",
+      "name": "TA829 / RomCom",
+      "category": "hybrid",
+      "status": "active",
+      "confidence": "high",
+      "summary": "Russia-aligned hybrid cybercrime and espionage cluster using phishing, trojanised software and rapid exploitation.",
+      "europe_relevance": "The reviewed dossier covers European government, defence, energy, logistics and industrial targeting.",
+      "baltic_observation_ids": [],
+      "apt_url": "https://apt.hecavex.com/actors/romcom/"
+    },
+    {
+      "id": "lockbit",
+      "name": "LockBit",
+      "category": "cybercrime",
+      "status": "disrupted",
+      "confidence": "high",
+      "summary": "Ransomware-as-a-service ecosystem whose administrators supplied malware and infrastructure to affiliates.",
+      "europe_relevance": "Official disruption reporting documents extensive European victimisation, but affiliate activity is not one centrally attributed campaign.",
+      "baltic_observation_ids": [],
+      "apt_url": "https://apt.hecavex.com/actors/lockbit/"
+    },
+    {
+      "id": "clop",
+      "name": "CL0P",
+      "category": "cybercrime",
+      "status": "active",
+      "confidence": "high",
+      "summary": "Extortion and ransomware brand associated with mass exploitation of managed file-transfer and enterprise applications.",
+      "europe_relevance": "Reviewed campaigns affected organisations across Europe and beyond.",
+      "baltic_observation_ids": [],
+      "apt_url": "https://apt.hecavex.com/actors/clop/"
+    },
+    {
+      "id": "evil-corp",
+      "name": "Evil Corp",
+      "category": "cybercrime",
+      "status": "intermittently-active",
+      "confidence": "high",
+      "summary": "Russian cybercriminal organisation linked by authorities to Dridex-enabled theft and ransomware operations.",
+      "europe_relevance": "The public record includes extensive harm in the United Kingdom and Europe.",
+      "baltic_observation_ids": [],
+      "apt_url": "https://apt.hecavex.com/actors/evil-corp/"
+    },
+    {
+      "id": "scattered-spider",
+      "name": "Scattered Spider",
+      "category": "cybercrime",
+      "status": "disrupted",
+      "confidence": "high",
+      "summary": "Loose English-speaking cybercriminal collective known for help-desk social engineering, identity compromise and data theft.",
+      "europe_relevance": "The reviewed dossier includes the 2024 Transport for London intrusion; unrelated European incidents are not silently attributed to the group.",
+      "baltic_observation_ids": [],
+      "apt_url": "https://apt.hecavex.com/actors/scattered-spider/"
+    },
+    {
+      "id": "black-basta",
+      "name": "Black Basta",
+      "category": "cybercrime",
+      "status": "uncertain",
+      "confidence": "high",
+      "summary": "Ransomware-as-a-service operation active since 2022 and associated with hundreds of affected organisations.",
+      "europe_relevance": "Joint government reporting documents affected organisations across Europe, North America and Australia.",
+      "baltic_observation_ids": [],
+      "apt_url": "https://apt.hecavex.com/actors/black-basta/"
+    },
+    {
+      "id": "z-pentest",
+      "name": "Z-Pentest",
+      "category": "hacktivist",
+      "status": "intermittently-active",
+      "confidence": "high",
+      "summary": "State-aligned pro-Russia hacktivist group associated with opportunistic operational-technology access.",
+      "europe_relevance": "Danish intelligence attributed a destructive 2024 water-utility incident to the group.",
+      "baltic_observation_ids": [],
+      "apt_url": "https://apt.hecavex.com/actors/z-pentest/"
     }
   ]
 }

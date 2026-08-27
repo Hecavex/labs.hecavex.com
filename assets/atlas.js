@@ -8,6 +8,8 @@
   const type = document.querySelector('#atlas-type');
   const year = document.querySelector('#atlas-year');
   const mappingList = document.querySelector('#atlas-mapping-list');
+  const actorContextList = document.querySelector('#atlas-actor-context');
+  const actorContextCount = document.querySelector('#atlas-context-count');
   let records = [];
 
   const element = (name, className, text) => {
@@ -132,6 +134,39 @@
     document.querySelector('#atlas-mappings').textContent = String(mappings.size);
   }
 
+  function renderActorContext(actors) {
+    const sortedActors = [...actors].sort((left, right) => left.name.localeCompare(right.name));
+    actorContextList.replaceChildren(...sortedActors.map((actor) => {
+      const card = element('article', 'card');
+      const top = element('div', 'atlas-tags');
+      top.append(
+        element('span', 'badge derived', actor.category.replaceAll('-', ' ')),
+        element('span', 'atlas-tag', actor.status.replaceAll('-', ' ')),
+      );
+
+      const heading = element('h3');
+      const link = element('a', '', `${actor.name} ↗`);
+      link.href = actor.apt_url;
+      heading.append(link);
+
+      const mappingIds = actor.baltic_observation_ids || [];
+      const boundary = mappingIds.length
+        ? `${mappingIds.length} explicit Baltic observation${mappingIds.length === 1 ? '' : 's'} mapped`
+        : 'No Baltic observation mapped';
+
+      card.append(
+        top,
+        heading,
+        element('p', '', actor.summary),
+        element('p', '', actor.europe_relevance),
+        element('p', 'meta', `${actor.confidence} confidence · ${boundary}`),
+      );
+      return card;
+    }));
+    actorContextCount.textContent = `${sortedActors.length} Europe-context actors`;
+    document.querySelector('#atlas-context-total').textContent = String(sortedActors.length);
+  }
+
   async function initialise() {
     try {
       const response = await fetch('/data/atlas/records.json', { credentials: 'same-origin' });
@@ -145,6 +180,7 @@
       document.querySelector('#atlas-attributions').textContent = String(records.filter((record) => record.confidence === 'official-attribution').length);
       ['lithuania', 'latvia', 'estonia'].forEach((name) => { document.querySelector(`#count-${name}`).textContent = String(records.filter((record) => normalise(record.country) === name).length); });
       renderMappings();
+      renderActorContext(data.actor_context || []);
       update();
     } catch (error) {
       list.replaceChildren(element('div', 'empty', 'The Atlas dataset could not be loaded. Download the JSON or report the problem.'));

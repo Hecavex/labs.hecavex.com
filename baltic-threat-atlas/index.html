@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Baltic Threat Atlas | HECAVEX Labs</title>
-  <meta name="description" content="A source-linked, queryable dataset of selected public cyber threat observations concerning Lithuania, Latvia and Estonia, mapped to supported APT Notes entities.">
+  <meta name="description" content="A source-linked dataset of selected Baltic cyber observations and a bounded Europe-facing actor context layer from APT Notes.">
   <link rel="canonical" href="https://labs.hecavex.com/baltic-threat-atlas/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.ico" sizes="any">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/assets/styles.css?v=20260826-2">
   <meta property="og:site_name" content="HECAVEX Labs"><meta property="og:locale" content="en_US"><meta property="og:title" content="Baltic Threat Atlas | HECAVEX Labs"><meta property="og:description" content="Selected Baltic cyber observations with primary sources and supported APT Notes mappings."><meta property="og:url" content="https://labs.hecavex.com/baltic-threat-atlas/"><meta property="og:type" content="website"><meta property="og:image" content="https://hecavex.com/assets/img/og/hecavex-default-en.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Baltic Threat Atlas by HECAVEX Labs"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Baltic Threat Atlas | HECAVEX Labs"><meta name="twitter:description" content="Selected Baltic cyber observations with primary sources and supported APT Notes mappings."><meta name="twitter:image" content="https://hecavex.com/assets/img/og/hecavex-default-en.png"><meta name="twitter:image:alt" content="Baltic Threat Atlas by HECAVEX Labs">
   <meta name="theme-color" content="#05080b">
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://hecavex.com/#organization","name":"HECAVEX","url":"https://hecavex.com/","founder":{"@id":"https://hecavex.com/#deividas-lis"}},{"@type":"Person","@id":"https://hecavex.com/#deividas-lis","name":"Deividas Lis","url":"https://hecavex.com/en/about/"},{"@type":"WebSite","@id":"https://hecavex.com/#website","name":"HECAVEX","url":"https://hecavex.com/","hasPart":[{"@id":"https://apt.hecavex.com/#website"},{"@id":"https://labs.hecavex.com/#website"},{"@id":"https://radar.hecavex.com/#website"}]},{"@type":"WebSite","@id":"https://apt.hecavex.com/#website","name":"APT Notes by HECAVEX","url":"https://apt.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"WebSite","@id":"https://radar.hecavex.com/#website","name":"HECAVEX Radar","url":"https://radar.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"WebSite","@id":"https://labs.hecavex.com/#website","name":"HECAVEX Labs","url":"https://labs.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"Dataset","@id":"https://labs.hecavex.com/baltic-threat-atlas/#dataset","name":"Baltic Threat Atlas","url":"https://labs.hecavex.com/baltic-threat-atlas/","description":"Selected public-source cyber observations concerning Lithuania, Latvia and Estonia.","dateModified":"2026-08-14","license":"https://labs.hecavex.com/LICENSE.md","creator":{"@id":"https://hecavex.com/#deividas-lis"},"publisher":{"@id":"https://hecavex.com/#organization"},"isPartOf":{"@id":"https://labs.hecavex.com/#website"},"distribution":{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://labs.hecavex.com/data/atlas/records.json"}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://hecavex.com/#organization","name":"HECAVEX","url":"https://hecavex.com/","founder":{"@id":"https://hecavex.com/#deividas-lis"}},{"@type":"Person","@id":"https://hecavex.com/#deividas-lis","name":"Deividas Lis","url":"https://hecavex.com/en/about/"},{"@type":"WebSite","@id":"https://hecavex.com/#website","name":"HECAVEX","url":"https://hecavex.com/","hasPart":[{"@id":"https://apt.hecavex.com/#website"},{"@id":"https://labs.hecavex.com/#website"},{"@id":"https://radar.hecavex.com/#website"}]},{"@type":"WebSite","@id":"https://apt.hecavex.com/#website","name":"APT Notes by HECAVEX","url":"https://apt.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"WebSite","@id":"https://radar.hecavex.com/#website","name":"HECAVEX Radar","url":"https://radar.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"WebSite","@id":"https://labs.hecavex.com/#website","name":"HECAVEX Labs","url":"https://labs.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"Dataset","@id":"https://labs.hecavex.com/baltic-threat-atlas/#dataset","name":"Baltic Threat Atlas","url":"https://labs.hecavex.com/baltic-threat-atlas/","description":"Selected Baltic cyber observations with a separate Europe-facing actor context layer.","dateModified":"2026-08-27","license":"https://labs.hecavex.com/LICENSE.md","creator":{"@id":"https://hecavex.com/#deividas-lis"},"publisher":{"@id":"https://hecavex.com/#organization"},"isPartOf":{"@id":"https://labs.hecavex.com/#website"},"distribution":{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://labs.hecavex.com/data/atlas/records.json"}}]}</script>
   <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
@@ -32,7 +32,7 @@
           <span>Menu</span>
         </summary>
         <div class="mobile-navigation-panel">
-          <nav class="mobile-product-navigation" aria-label="Labs sections"><span class="navigation-label">Labs</span><a href="/">Overview</a><a href="/baltic-threat-atlas/" aria-current="page">Baltic Atlas</a><a href="/pivot-graph/">Pivots</a><a href="/attack-map/">ATT&amp;CK Evidence</a><a href="https://hecavex.com/data/">Data</a><a href="/changes/">Changes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></nav>
+          <nav class="mobile-product-navigation" aria-label="Labs sections"><span class="navigation-label">Labs</span><a href="/">Overview</a><a href="/baltic-threat-atlas/" aria-current="page">Baltic Atlas</a><a href="/pivot-graph/">Pivots</a><a href="/attack-map/">ATT&amp;CK Evidence</a><a href="/changes/">Changes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></nav>
           <div class="mobile-navigation-utility"><form class="mobile-header-search" action="/" role="search"><label class="sr-only" for="global-q-mobile">Search Baltic Threat Atlas</label><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg><input id="global-q-mobile" name="q" type="search" placeholder="Search" autocomplete="off" data-shell-search></form></div>
           <nav class="mobile-portfolio-navigation" aria-label="HECAVEX projects"><span class="navigation-label">HECAVEX network</span><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/" aria-current="page">Labs</a></nav>
         </div>
@@ -40,7 +40,7 @@
     </div>
     <div class="product-bar">
       <a class="product-identity" href="/"><strong>Labs</strong><span>Open CTI workspaces</span></a>
-      <nav class="product-navigation" aria-label="Labs sections"><a href="/">Overview</a><a href="/baltic-threat-atlas/" aria-current="page">Baltic Atlas</a><a href="/pivot-graph/">Pivots</a><a href="/attack-map/">ATT&amp;CK Evidence</a><a href="https://hecavex.com/data/">Data</a><a href="/changes/">Changes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></nav>
+      <nav class="product-navigation" aria-label="Labs sections"><a href="/">Overview</a><a href="/baltic-threat-atlas/" aria-current="page">Baltic Atlas</a><a href="/pivot-graph/">Pivots</a><a href="/attack-map/">ATT&amp;CK Evidence</a><a href="/changes/">Changes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a></nav>
       <form class="header-search" action="/" role="search"><label class="sr-only" for="global-q-desktop">Search Baltic Threat Atlas</label><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg><input id="global-q-desktop" name="q" type="search" placeholder="Search" autocomplete="off" data-shell-search></form>
     </div>
   </header>
@@ -50,16 +50,16 @@
       <header class="brand-hero">
         <p class="eyebrow">Lab 01 · regional observation layer</p>
         <h1>Baltic Threat Atlas</h1>
-        <p class="lead">A queryable set of bounded public-source claims concerning Lithuania, Latvia and Estonia, with supported entity mappings into APT Notes.</p>
+        <p class="lead">A queryable set of bounded public-source claims concerning Lithuania, Latvia and Estonia, with supported entity mappings and a separate Europe-facing actor context layer from APT Notes.</p>
         <a class="button primary" href="/data/atlas/records.json">Download JSON →</a>
-        <p class="hero-meta">SCHEMA 0.2.0 · UPDATED 2026-08-14 · SELECTED COVERAGE</p>
+        <p class="hero-meta">SCHEMA 0.3.0 · UPDATED 2026-08-27 · SELECTED COVERAGE</p>
       </header>
 
       <div class="stat-grid" aria-label="Dataset statistics">
         <div class="stat"><strong id="atlas-total">13</strong><span>bounded observations</span></div>
         <div class="stat"><strong>3</strong><span>Baltic states</span></div>
         <div class="stat"><strong id="atlas-attributions">2</strong><span>official attributions</span></div>
-        <div class="stat"><strong id="atlas-mappings">4</strong><span>APT Notes mappings</span></div>
+        <div class="stat"><strong id="atlas-context-total">11</strong><span>Europe context actors · <span id="atlas-mappings">4</span> observed mappings</span></div>
       </div>
 
       <div class="notice"><strong>Not a prevalence map.</strong> Reporting visibility, classification and publication practices differ between authorities. A record is a bounded claim, not one unit of comparable national risk. Actor links appear only where the cited reporting supports the mapping.</div>
@@ -85,6 +85,12 @@
             <div class="mapping-card"><h3>No link is also data</h3><p>When public reporting does not identify an actor, the Atlas leaves the actor field empty. It does not guess.</p><a href="https://apt.hecavex.com/methodology/">Attribution methodology ↗</a></div>
           </aside>
         </div>
+      </section>
+
+      <section class="section" aria-labelledby="actor-context-title">
+        <div class="section-head"><div><p class="eyebrow">Europe context layer</p><h2 id="actor-context-title">Actors relevant to the wider region</h2></div><p id="atlas-context-count" aria-live="polite">Loading actors…</p></div>
+        <div class="notice"><strong>Context, not Baltic attribution.</strong> These source-backed APT Notes dossiers concern actors targeting Europe. A card states “No Baltic observation mapped” until a Lithuania, Latvia or Estonia record explicitly supports that link.</div>
+        <div class="grid" id="atlas-actor-context"><div class="empty">Loading actor context…</div></div>
       </section>
 
       <section class="section"><div class="section-head"><div><p class="eyebrow">Method</p><h2>How to read the dataset</h2></div></div><div class="grid"><div class="card"><span class="badge observed">reported</span><h3>One record, one claim</h3><p>Each row captures a bounded public statement. Separate incidents are not merged into a campaign merely because they occurred nearby.</p></div><div class="card"><span class="badge official">source attributed</span><h3>Attribution stays attributed</h3><p>Government or vendor language remains attached to its source. HECAVEX does not silently upgrade it into independent certainty.</p></div><div class="card"><span class="badge derived">coverage limit</span><h3>Absence is not prevalence</h3><p>The dataset favours public authorities and selected material. Missing records describe coverage, not threat absence.</p></div></div></section>

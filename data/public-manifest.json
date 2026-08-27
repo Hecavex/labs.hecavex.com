@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "updated": "2026-08-26",
+  "updated": "2026-08-27",
   "default_policy": "deny",
   "description": "Exact allowlist of files intentionally published below /data/. A new file is not deployed until it is reviewed and added here.",
   "files": [
@@ -42,6 +42,12 @@
     },
     {
       "path": "data/pivots/graphs/github-python.json",
+      "catalogue_id": "pivot-case-library",
+      "role": "distribution",
+      "licence_url": "https://labs.hecavex.com/licence/#original-data"
+    },
+    {
+      "path": "data/pivots/graphs/hostinger.json",
       "catalogue_id": "pivot-case-library",
       "role": "distribution",
       "licence_url": "https://labs.hecavex.com/licence/#original-data"

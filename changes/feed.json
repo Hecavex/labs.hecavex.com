@@ -6,6 +6,14 @@
   "description": "Meaningful dataset additions, corrections, schema changes and workspace lifecycle changes.",
   "items": [
     {
+      "id": "actors-hostinger-2026-08-27",
+      "url": "https://labs.hecavex.com/changes/#change-2026-08-27-actors-hostinger",
+      "title": "Europe actor context and Hostinger pivot published",
+      "date_published": "2026-08-27T00:00:00Z",
+      "content_text": "The Atlas gained an explicitly bounded Europe-context actor layer, ATT&CK Evidence was rebuilt from APT Notes 2.2.0, and the Pivot Workspace gained a Hostinger-themed Pages phishing graph.",
+      "tags": ["dataset-expanded", "actor-context", "pivot-case", "non-breaking"]
+    },
+    {
       "id": "labs-scope-2026-08-26",
       "url": "https://labs.hecavex.com/changes/#change-2026-08-26-scope",
       "title": "Labs narrowed to three first-class workspaces",

@@ -117,6 +117,7 @@ required = {
     "data/osint/resources.json",
     "data/pivots/cases.json",
     "data/pivots/graphs/adform.json",
+    "data/pivots/graphs/hostinger.json",
     "data/pivots/graphs/unipark.json",
     "data/pivots/graphs/github-python.json",
     "data/attack/intelligence/reviewed-evidence.json",
@@ -651,8 +652,11 @@ for path in repository_files("*.json"):
 
 atlas = json.loads((root / "data/atlas/records.json").read_text(encoding="utf-8"))
 records = atlas.get("records", [])
+actor_context = atlas.get("actor_context", [])
 if not records:
     errors.append("Baltic Threat Atlas contains no records")
+if not actor_context:
+    errors.append("Baltic Threat Atlas contains no Europe-context actors")
 
 required_record_fields = {"id", "date", "country", "type", "title", "summary", "sector", "attribution", "confidence", "source"}
 record_ids = set()
@@ -686,8 +690,34 @@ for record in records:
         if urlparse(reference.get("url", "")).hostname != "apt.hecavex.com":
             errors.append(f"Invalid APT Notes mapping in {record_id}: {reference.get('url')}")
 
+required_context_fields = {
+    "id", "name", "category", "status", "confidence", "summary",
+    "europe_relevance", "baltic_observation_ids", "apt_url",
+}
+context_ids = set()
+allowed_context_categories = {"state-sponsored", "state-aligned", "hybrid", "cybercrime", "hacktivist"}
+for actor in actor_context:
+    actor_id = actor.get("id", "<unknown>")
+    missing_fields = sorted(required_context_fields - actor.keys())
+    if missing_fields:
+        errors.append(f"Atlas context actor {actor_id} is missing: {', '.join(missing_fields)}")
+    if actor_id in context_ids:
+        errors.append(f"Duplicate Atlas context actor id: {actor_id}")
+    context_ids.add(actor_id)
+    if actor.get("category") not in allowed_context_categories:
+        errors.append(f"Unsupported Atlas context category in {actor_id}: {actor.get('category')}")
+    if urlparse(actor.get("apt_url", "")).hostname != "apt.hecavex.com":
+        errors.append(f"Atlas context actor must link to APT Notes: {actor_id}")
+    mapping_ids = actor.get("baltic_observation_ids", [])
+    if not isinstance(mapping_ids, list):
+        errors.append(f"Atlas context actor mappings must be a list: {actor_id}")
+    else:
+        unknown_mappings = sorted(set(mapping_ids) - record_ids)
+        if unknown_mappings:
+            errors.append(f"Atlas context actor {actor_id} maps unknown observations: {', '.join(unknown_mappings)}")
+
 atlas_html = (root / "baltic-threat-atlas/index.html").read_text(encoding="utf-8")
-if 'id="atlas-records"' not in atlas_html or '/assets/atlas.js' not in atlas_html:
+if 'id="atlas-records"' not in atlas_html or 'id="atlas-actor-context"' not in atlas_html or '/assets/atlas.js' not in atlas_html:
     errors.append("Atlas page is not wired to the canonical JSON renderer")
 if any(record["title"] in atlas_html for record in records):
     errors.append("Atlas records must not be duplicated in HTML")

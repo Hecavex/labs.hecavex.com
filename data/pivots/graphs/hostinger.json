@@ -1,0 +1,121 @@
+{
+  "schema_version": "2.0.0",
+  "case": {
+    "id": "hostinger-pages-phishing-2026",
+    "title": "Hostinger-themed Pages phishing infrastructure",
+    "status": "published",
+    "updated": "2026-08-27",
+    "research": "https://hecavex.com/en/research/hostinger-pages-phishing-infrastructure/",
+    "evidence_bundle": "https://hecavex.com/assets/data/hostinger-pages-phishing-2026/README.md",
+    "boundary": "Exact response hashes, stable code flow and repeated deployment naming support one maintained Hostinger-themed kit family. They do not establish victim count, successful credential submission, one operator, provider compromise or common ownership of every account and service."
+  },
+  "nodes": [
+    {
+      "id": "pages-family",
+      "class": "observed",
+      "label": "298 task-query Pages names",
+      "short_label": ["298 task-query", "Pages names"],
+      "x": 105,
+      "y": 105,
+      "meaning": "The exact URLScan task-hostname search returned 298 fixed-prefix Pages names. One more matching name appeared only through another pivot, producing a 299-name local union.",
+      "confidence": "reproducible public-data observation",
+      "evidence_label": "Deployment-name analysis",
+      "evidence": "https://hecavex.com/en/research/hostinger-pages-phishing-infrastructure/#not-a-classic-dga-but-an-automated-pages-project-name-generator"
+    },
+    {
+      "id": "cloned-document",
+      "class": "observed",
+      "label": "Cloned Hostinger login document",
+      "short_label": ["Cloned Hostinger", "login document"],
+      "x": 335,
+      "y": 105,
+      "meaning": "Archived HTML and screenshots preserved a localized Hostinger Mail clone with username and password fields. Five known hosts later served the same document bytes.",
+      "confidence": "direct and hash-corroborated observation",
+      "evidence_label": "Evidence chain",
+      "evidence": "https://hecavex.com/en/research/hostinger-pages-phishing-infrastructure/#evidence-chain"
+    },
+    {
+      "id": "credential-core",
+      "class": "observed",
+      "label": "Exact credential-harvester core",
+      "short_label": ["Exact credential", "harvester core"],
+      "x": 565,
+      "y": 105,
+      "meaning": "The retained core reads email and password fields, Base64-encodes them, prepares a POST and presents the same fake error before redirecting to legitimate Hostinger Mail.",
+      "confidence": "direct static-code observation",
+      "evidence_label": "Credential flow reconstruction",
+      "evidence": "https://hecavex.com/en/research/hostinger-pages-phishing-infrastructure/#credential-collection-flow"
+    },
+    {
+      "id": "credential-receiver",
+      "class": "observed",
+      "label": "Separate Render credential receiver",
+      "short_label": ["Separate Render", "credential receiver"],
+      "x": 795,
+      "y": 105,
+      "meaning": "The archived code names a separate Render service for fields ai, pr and pg. The investigation did not submit the form or contact the receiver.",
+      "confidence": "direct code reference; receiver not contacted",
+      "evidence_label": "Request structure",
+      "evidence": "https://hecavex.com/en/research/hostinger-pages-phishing-infrastructure/#credential-collection-flow"
+    },
+    {
+      "id": "tracker-lineage",
+      "class": "derived",
+      "label": "Two versioned tracker modules",
+      "short_label": ["Two versioned", "tracker modules"],
+      "x": 230,
+      "y": 350,
+      "meaning": "Legacy and current tracker hashes preserve nearly identical structure while changing their Render destination, supporting module lineage without identifying an operator.",
+      "confidence": "reproducible hash and structure comparison",
+      "evidence_label": "Tracker module comparison",
+      "evidence": "https://hecavex.com/en/research/hostinger-pages-phishing-infrastructure/#tracking-is-a-separate-module"
+    },
+    {
+      "id": "historical-cluster",
+      "class": "derived",
+      "label": "467 exact-core observations",
+      "short_label": ["467 exact-core", "observations"],
+      "x": 500,
+      "y": 350,
+      "meaning": "The exact credential-core hash appeared in 467 URLScan observations across 262 task domains from December 2025 through August 2026. These are scan observations, not victims.",
+      "confidence": "reproducible URLScan aggregation",
+      "evidence_label": "Historical observation analysis",
+      "evidence": "https://hecavex.com/en/research/hostinger-pages-phishing-infrastructure/#historical-view-across-562-observations"
+    },
+    {
+      "id": "kit-assessment",
+      "class": "assessment",
+      "label": "Maintained reusable phishing kit family",
+      "short_label": ["Maintained reusable", "phishing kit family"],
+      "x": 790,
+      "y": 350,
+      "meaning": "Stable credential code, cloned UI assets, versioned tracking, repeated query grammar and automated project naming support a maintained reusable kit-family assessment.",
+      "confidence": "high for capability and code lineage",
+      "evidence_label": "Assessment and hypotheses",
+      "evidence": "https://hecavex.com/en/research/hostinger-pages-phishing-infrastructure/#alternative-hypotheses"
+    },
+    {
+      "id": "limits",
+      "class": "limitation",
+      "label": "Victims, operator and provider accounts unknown",
+      "short_label": ["Victims/operator", "not established"],
+      "x": 650,
+      "y": 515,
+      "meaning": "Public observations do not reveal successful submissions, victim count, provider-account ownership or whether one operator controlled every deployment. Hostinger is the impersonated brand; Cloudflare and Render are service platforms.",
+      "confidence": "explicit evidence boundary",
+      "evidence_label": "Research boundaries",
+      "evidence": "https://hecavex.com/en/research/hostinger-pages-phishing-infrastructure/#what-this-investigation-does-not-prove"
+    }
+  ],
+  "edges": [
+    { "source": "pages-family", "target": "cloned-document", "relationship": "served repeated document" },
+    { "source": "cloned-document", "target": "credential-core", "relationship": "loaded active script" },
+    { "source": "credential-core", "target": "credential-receiver", "relationship": "prepared POST" },
+    { "source": "cloned-document", "target": "tracker-lineage", "relationship": "loaded tracker module" },
+    { "source": "credential-core", "target": "historical-cluster", "relationship": "seeded exact-hash pivot" },
+    { "source": "tracker-lineage", "target": "kit-assessment", "relationship": "supports version lineage" },
+    { "source": "historical-cluster", "target": "kit-assessment", "relationship": "shows repeated deployment" },
+    { "source": "credential-receiver", "target": "kit-assessment", "relationship": "supports collection flow" },
+    { "source": "kit-assessment", "target": "limits", "relationship": "bounded by" }
+  ]
+}

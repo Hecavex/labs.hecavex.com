@@ -44,7 +44,6 @@ LOCAL_NAVIGATION = (
     ("atlas", "Baltic Atlas", "/baltic-threat-atlas/"),
     ("pivots", "Pivots", "/pivot-graph/"),
     ("attack", "ATT&amp;CK Evidence", "/attack-map/"),
-    ("data", "Data", "https://hecavex.com/data/"),
     ("changes", "Changes", "/changes/"),
     ("methodology", "Methodology", "/methodology/"),
     ("about", "About", "/about/"),

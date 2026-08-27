@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "updated": "2026-08-26",
+  "updated": "2026-08-27",
   "cases": [
     {
       "id": "unipark-smishing-2026",
@@ -29,6 +29,20 @@
       "research": "https://hecavex.com/en/research/adform-supply-chain-crypto-clipper/",
       "evidence_bundle": "https://hecavex.com/assets/data/adform-clipper-2026/README.md",
       "tags": ["supply chain", "JavaScript", "blockchain", "cross-chain routing"]
+    },
+    {
+      "id": "hostinger-pages-phishing-2026",
+      "title": "Hostinger-themed Pages phishing infrastructure",
+      "short_title": "Hostinger Pages phishing",
+      "summary": "From 298 fixed-pattern Pages task names to exact credential-core reuse, versioned tracker modules, separate Render functions and an explicitly bounded kit-family assessment.",
+      "status": "published",
+      "publication_approved": true,
+      "publication_approved_at": "2026-08-27",
+      "updated": "2026-08-27",
+      "graph": "/data/pivots/graphs/hostinger.json",
+      "research": "https://hecavex.com/en/research/hostinger-pages-phishing-infrastructure/",
+      "evidence_bundle": "https://hecavex.com/assets/data/hostinger-pages-phishing-2026/README.md",
+      "tags": ["credential phishing", "Cloudflare Pages", "Render", "exact hash"]
     },
     {
       "id": "github-python-loader-2024",

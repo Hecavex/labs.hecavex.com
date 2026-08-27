@@ -47,6 +47,7 @@ ROUTE_DATA_GZIP_BUDGETS = {
         (
             "data/pivots/cases.json",
             "data/pivots/graphs/adform.json",
+            "data/pivots/graphs/hostinger.json",
             "data/pivots/graphs/unipark.json",
             "data/pivots/graphs/github-python.json",
         ),

@@ -1,13 +1,13 @@
 {
   "schema_version": "2.0.0",
-  "generated_at": "2026-08-26T08:14:22.790Z",
+  "generated_at": "2026-08-27T09:10:00.000Z",
   "source_system": {
     "name": "APT Notes by HECAVEX",
     "url": "https://apt.hecavex.com/",
     "api_url": "https://apt.hecavex.com/api/actors.json",
-    "release_id": "apt-notes-2026-08-26-european-actor-expansion",
-    "dataset_version": "2.1.0",
-    "released_at": "2026-08-26T08:14:22.790Z",
+    "release_id": "apt-notes-2026-08-27-europe-targeting-expansion",
+    "dataset_version": "2.2.0",
+    "released_at": "2026-08-27T09:10:00.000Z",
     "method": "Generated only from explicit technique_evidence records in published APT Notes actor dossiers."
   },
   "framework": {
@@ -35,10 +35,10 @@
     "known_limit": "The dataset is a reviewed evidence index, not an exhaustive ATT&CK catalogue, threat prevalence measure, automated attribution system or defensive coverage score."
   },
   "summary": {
-    "actors": 9,
-    "mappings": 48,
+    "actors": 20,
+    "mappings": 59,
     "techniques": 28,
-    "campaigns": 19,
+    "campaigns": 30,
     "tactics": [
       {
         "name": "Collection",
@@ -46,7 +46,7 @@
       },
       {
         "name": "Command and Control",
-        "mappings": 2
+        "mappings": 3
       },
       {
         "name": "Credential Access",
@@ -54,7 +54,7 @@
       },
       {
         "name": "Defense Evasion",
-        "mappings": 5
+        "mappings": 6
       },
       {
         "name": "Discovery",
@@ -62,7 +62,7 @@
       },
       {
         "name": "Execution",
-        "mappings": 4
+        "mappings": 6
       },
       {
         "name": "Exfiltration",
@@ -74,7 +74,7 @@
       },
       {
         "name": "Initial Access",
-        "mappings": 11
+        "mappings": 18
       },
       {
         "name": "Lateral Movement",
@@ -82,7 +82,7 @@
       },
       {
         "name": "Persistence",
-        "mappings": 4
+        "mappings": 5
       }
     ]
   },
@@ -988,6 +988,124 @@
       ]
     },
     {
+      "id": "black-basta",
+      "name": "Black Basta",
+      "slug": "black-basta",
+      "summary": "A ransomware-as-a-service operation active since 2022 that affected more than 500 organisations across North America, Europe and Australia by May 2024.",
+      "status": "uncertain",
+      "confidence": "high",
+      "last_reviewed": "2026-08-27",
+      "aliases": [
+        "BlackBasta"
+      ],
+      "url": "https://apt.hecavex.com/actors/black-basta/",
+      "json_url": "https://apt.hecavex.com/api/actors/black-basta.json",
+      "evidence": [
+        {
+          "id": "black-basta:T1219:black-basta-raas-operations",
+          "technique_id": "T1219",
+          "technique": "Remote Access Software",
+          "technique_slug": "remote-access-software",
+          "tactics": [
+            "Command and Control"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "black-basta-raas-operations",
+            "name": "Black Basta ransomware-as-a-service operations",
+            "url": "https://apt.hecavex.com/campaigns/black-basta-raas-operations/"
+          },
+          "first_observed": "2022-04",
+          "last_observed": "2025-03",
+          "notes": "Joint and European reporting document remote-management and social-engineering paths used to establish or maintain access before exfiltration and ransomware deployment.",
+          "uncertainty": "This is an ecosystem procedure; a specific remote tool alone is not sufficient to attribute an intrusion to Black Basta.",
+          "attack_url": "https://attack.mitre.org/techniques/T1219/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/remote-access-software/",
+          "sources": [
+            {
+              "id": "cisa-black-basta-2024",
+              "title": "StopRansomware: Black Basta",
+              "publisher": "CISA, FBI, HHS and MS-ISAC",
+              "published": "2024-05-10",
+              "source_type": "government",
+              "url": "https://www.cisa.gov/sites/default/files/2024-05/aa24-131a-joint-csa-stopransomware-black-basta_1.pdf",
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-black-basta-2024/"
+            },
+            {
+              "id": "cert-eu-black-basta-2025",
+              "title": "Cyber Brief 25-04",
+              "publisher": "CERT-EU",
+              "published": "2025-03-31",
+              "source_type": "government",
+              "url": "https://cert.europa.eu/publications/threat-intelligence/cb25-04/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/cert-eu-black-basta-2025/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clop",
+      "name": "CL0P",
+      "slug": "clop",
+      "summary": "A financially motivated extortion and ransomware brand associated with repeated mass exploitation of managed file-transfer and enterprise applications affecting organisations across Europe and beyond.",
+      "status": "active",
+      "confidence": "high",
+      "last_reviewed": "2026-08-27",
+      "aliases": [
+        "Clop",
+        "TA505",
+        "FIN11"
+      ],
+      "url": "https://apt.hecavex.com/actors/clop/",
+      "json_url": "https://apt.hecavex.com/api/actors/clop.json",
+      "evidence": [
+        {
+          "id": "clop:T1190:clop-moveit-2023",
+          "technique_id": "T1190",
+          "technique": "Exploit Public-Facing Application",
+          "technique_slug": "exploit-public-facing-application",
+          "tactics": [
+            "Initial Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "clop-moveit-2023",
+            "name": "CL0P MOVEit mass exploitation campaign",
+            "url": "https://apt.hecavex.com/campaigns/clop-moveit-2023/"
+          },
+          "first_observed": "2023-05",
+          "last_observed": "2023-06",
+          "notes": "The campaign exploited internet-facing MOVEit Transfer systems to deploy LEMURLOOT and steal data for extortion.",
+          "uncertainty": "The relationship is limited to the cited campaign and does not assign every MOVEit compromise or all TA505 activity to one operator.",
+          "attack_url": "https://attack.mitre.org/techniques/T1190/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/exploit-public-facing-application/",
+          "sources": [
+            {
+              "id": "cisa-clop-moveit-2023",
+              "title": "CL0P Ransomware Gang Exploits MOVEit Vulnerability",
+              "publisher": "CISA and FBI",
+              "published": "2023-06-07",
+              "source_type": "government",
+              "url": "https://www.cisa.gov/sites/default/files/2023-06/aa23-158a-stopransomware-cl0p-ransomware-gang-exploits-moveit-vulnerability_7.pdf",
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-clop-moveit-2023/"
+            },
+            {
+              "id": "enisa-finance-threat-landscape-2025",
+              "title": "ENISA Threat Landscape Finance Sector 2024",
+              "publisher": "European Union Agency for Cybersecurity",
+              "published": "2025-02-24",
+              "source_type": "government",
+              "url": "https://www.enisa.europa.eu/sites/default/files/2025-02/Finance%20TL%202024_Final.pdf",
+              "apt_notes_url": "https://apt.hecavex.com/sources/enisa-finance-threat-landscape-2025/"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "cyber-army-russia-reborn",
       "name": "Cyber Army of Russia Reborn",
       "slug": "cyber-army-russia-reborn",
@@ -1051,6 +1169,65 @@
               "source_type": "government",
               "url": "https://media.defense.gov/2025/Dec/09/2003840175/-1/-1/0/Joint_CSA_Pro-Russia_Hacktivists_Conduct_Attacks_against_Critical_Infrastructure.PDF",
               "apt_notes_url": "https://apt.hecavex.com/sources/joint-csa-pro-russia-hacktivists-2025/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evil-corp",
+      "name": "Evil Corp",
+      "slug": "evil-corp",
+      "summary": "A Russian financially motivated cybercriminal organisation linked by UK and US authorities to Dridex-enabled theft, ransomware operations and extensive harm in the United Kingdom and Europe.",
+      "status": "intermittently-active",
+      "confidence": "high",
+      "last_reviewed": "2026-08-27",
+      "aliases": [
+        "Indrik Spider",
+        "Dridex gang"
+      ],
+      "url": "https://apt.hecavex.com/actors/evil-corp/",
+      "json_url": "https://apt.hecavex.com/api/actors/evil-corp.json",
+      "evidence": [
+        {
+          "id": "evil-corp:T1566.001:evil-corp-dridex-uk",
+          "technique_id": "T1566.001",
+          "technique": "Spearphishing Attachment",
+          "technique_slug": "spearphishing-attachment",
+          "tactics": [
+            "Initial Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "evil-corp-dridex-uk",
+            "name": "Evil Corp Dridex financial theft operations",
+            "url": "https://apt.hecavex.com/campaigns/evil-corp-dridex-uk/"
+          },
+          "first_observed": "2014",
+          "last_observed": "2019",
+          "notes": "UK reporting documents malicious email and attachment delivery in Dridex-enabled credential theft and financial fraud operations.",
+          "uncertainty": "Dridex is treated as campaign tooling, and later ransomware or affiliate operations are not inferred from this relationship.",
+          "attack_url": "https://attack.mitre.org/techniques/T1566/001/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/spearphishing-attachment/",
+          "sources": [
+            {
+              "id": "ncsc-evil-corp-2019",
+              "title": "UK and US investigations into harmful international cyber campaigns",
+              "publisher": "UK National Cyber Security Centre",
+              "published": "2019-12-05",
+              "source_type": "government",
+              "url": "https://www.ncsc.gov.uk/news/uk-and-us-investigation-into-harmful-international-cyber-campaigns",
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-evil-corp-2019/"
+            },
+            {
+              "id": "uk-evil-corp-sanctions-2024",
+              "title": "UK sanctions members of notorious Evil Corp cyber-crime gang",
+              "publisher": "UK Government and National Crime Agency",
+              "published": "2024-10-01",
+              "source_type": "government",
+              "url": "https://www.gov.uk/government/news/uk-sanctions-members-of-notorious-evil-corp-cyber-crime-gang-after-lammy-calls-out-putins-mafia-state",
+              "apt_notes_url": "https://apt.hecavex.com/sources/uk-evil-corp-sanctions-2024/"
             }
           ]
         }
@@ -1245,6 +1422,65 @@
       ]
     },
     {
+      "id": "lockbit",
+      "name": "LockBit",
+      "slug": "lockbit",
+      "summary": "A ransomware-as-a-service ecosystem whose administrators supplied malware and infrastructure to affiliates responsible for thousands of intrusions, including extensive European targeting.",
+      "status": "disrupted",
+      "confidence": "high",
+      "last_reviewed": "2026-08-27",
+      "aliases": [
+        "LockBitSupp",
+        "Bitwise Spider"
+      ],
+      "url": "https://apt.hecavex.com/actors/lockbit/",
+      "json_url": "https://apt.hecavex.com/api/actors/lockbit.json",
+      "evidence": [
+        {
+          "id": "lockbit:T1190:lockbit-raas-operations",
+          "technique_id": "T1190",
+          "technique": "Exploit Public-Facing Application",
+          "technique_slug": "exploit-public-facing-application",
+          "tactics": [
+            "Initial Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "lockbit-raas-operations",
+            "name": "LockBit ransomware-as-a-service operations",
+            "url": "https://apt.hecavex.com/campaigns/lockbit-raas-operations/"
+          },
+          "first_observed": "2020",
+          "last_observed": "2024-02",
+          "notes": "The joint advisory documents LockBit affiliates exploiting public-facing services among several initial-access paths used across the RaaS operation.",
+          "uncertainty": "This is a shared ecosystem procedure, not proof that the core administrator personally executed a specific intrusion.",
+          "attack_url": "https://attack.mitre.org/techniques/T1190/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/exploit-public-facing-application/",
+          "sources": [
+            {
+              "id": "cisa-lockbit-advisory-2023",
+              "title": "Understanding Ransomware Threat Actors: LockBit",
+              "publisher": "CISA, FBI and MS-ISAC",
+              "published": "2023-06-14",
+              "source_type": "government",
+              "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-165a",
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-lockbit-advisory-2023/"
+            },
+            {
+              "id": "nca-lockbit-disruption-2024",
+              "title": "International investigation disrupts the world's most harmful cyber crime group",
+              "publisher": "UK National Crime Agency",
+              "published": "2024-02-20",
+              "source_type": "legal",
+              "url": "https://www.nationalcrimeagency.gov.uk/news/nca-leads-international-investigation-targeting-worlds-most-harmful-ransomware-group",
+              "apt_notes_url": "https://apt.hecavex.com/sources/nca-lockbit-disruption-2024/"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "midnight-blizzard",
       "name": "Midnight Blizzard",
       "slug": "midnight-blizzard",
@@ -1430,6 +1666,57 @@
       ]
     },
     {
+      "id": "mustang-panda",
+      "name": "Mustang Panda",
+      "slug": "mustang-panda",
+      "summary": "A China-aligned espionage actor conducting sustained spearphishing and removable-media operations against diplomatic, government and maritime targets, including organisations in Europe.",
+      "status": "active",
+      "confidence": "high",
+      "last_reviewed": "2026-08-27",
+      "aliases": [
+        "RedDelta",
+        "TA416",
+        "Twill Typhoon"
+      ],
+      "url": "https://apt.hecavex.com/actors/mustang-panda/",
+      "json_url": "https://apt.hecavex.com/api/actors/mustang-panda.json",
+      "evidence": [
+        {
+          "id": "mustang-panda:T1566.001:mustang-panda-hodur-europe",
+          "technique_id": "T1566.001",
+          "technique": "Spearphishing Attachment",
+          "technique_slug": "spearphishing-attachment",
+          "tactics": [
+            "Initial Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "mustang-panda-hodur-europe",
+            "name": "Mustang Panda Hodur European campaign",
+            "url": "https://apt.hecavex.com/campaigns/mustang-panda-hodur-europe/"
+          },
+          "first_observed": "2021-08",
+          "last_observed": "2022-03",
+          "notes": "ESET documented European diplomatic lures and malicious-document delivery of the Hodur Korplug variant.",
+          "uncertainty": "MQsTTang is excluded because ESET later reattributed that malware and campaign to CeranaKeeper.",
+          "attack_url": "https://attack.mitre.org/techniques/T1566/001/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/spearphishing-attachment/",
+          "sources": [
+            {
+              "id": "eset-mustang-panda-hodur-2022",
+              "title": "Mustang Panda's Hodur: Old tricks, new Korplug variant",
+              "publisher": "ESET Research",
+              "published": "2022-03-23",
+              "source_type": "vendor-research",
+              "url": "https://www.welivesecurity.com/2022/03/23/mustang-panda-hodur-old-tricks-new-korplug-variant/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/eset-mustang-panda-hodur-2022/"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "noname057-16",
       "name": "NoName057(16)",
       "slug": "noname057-16",
@@ -1552,6 +1839,117 @@
               "source_type": "government",
               "url": "https://www.europol.europa.eu/media-press/newsroom/news/global-operation-targets-noname05716-pro-russian-cybercrime-network",
               "apt_notes_url": "https://apt.hecavex.com/sources/europol-noname057-eastwood-2025/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "scattered-spider",
+      "name": "Scattered Spider",
+      "slug": "scattered-spider",
+      "summary": "A loose English-speaking cybercriminal collective known for help-desk social engineering, identity compromise, data theft and selected ransomware partnerships, including the 2024 Transport for London intrusion.",
+      "status": "disrupted",
+      "confidence": "high",
+      "last_reviewed": "2026-08-27",
+      "aliases": [
+        "UNC3944",
+        "Octo Tempest",
+        "The Com"
+      ],
+      "url": "https://apt.hecavex.com/actors/scattered-spider/",
+      "json_url": "https://apt.hecavex.com/api/actors/scattered-spider.json",
+      "evidence": [
+        {
+          "id": "scattered-spider:T1078:scattered-spider-tfl-2024",
+          "technique_id": "T1078",
+          "technique": "Valid Accounts",
+          "technique_slug": "valid-accounts",
+          "tactics": [
+            "Defense Evasion"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "scattered-spider-tfl-2024",
+            "name": "Scattered Spider Transport for London intrusion",
+            "url": "https://apt.hecavex.com/campaigns/scattered-spider-tfl-2024/"
+          },
+          "first_observed": "2024-08",
+          "last_observed": "2024-09",
+          "notes": "Law-enforcement reporting and the joint advisory support an identity-focused intrusion model built around social engineering and compromised enterprise accounts.",
+          "uncertainty": "The 2025 UK retail incidents are excluded because the NCSC described Scattered Spider attribution as media speculation.",
+          "attack_url": "https://attack.mitre.org/techniques/T1078/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/valid-accounts/",
+          "sources": [
+            {
+              "id": "nca-scattered-spider-tfl-2026",
+              "title": "Two sentenced for hacking Transport for London in UK's biggest ever cyber crime case",
+              "publisher": "UK National Crime Agency",
+              "published": "2026-07-16",
+              "source_type": "legal",
+              "url": "https://www.nationalcrimeagency.gov.uk/news/two-sentenced-for-hacking-transport-for-london-in-uk-s-biggest-ever-cyber-crime-case",
+              "apt_notes_url": "https://apt.hecavex.com/sources/nca-scattered-spider-tfl-2026/"
+            },
+            {
+              "id": "cisa-scattered-spider-2025",
+              "title": "Scattered Spider",
+              "publisher": "CISA and FBI",
+              "published": "2025-07-29",
+              "source_type": "government",
+              "url": "https://www.cisa.gov/sites/default/files/2025-08/aa23-320a-scattered-spider-508c.pdf",
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-scattered-spider-2025/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "secret-blizzard",
+      "name": "Secret Blizzard",
+      "slug": "secret-blizzard",
+      "summary": "A Russian state-sponsored espionage cluster overlapping Turla and associated with FSB Centre 16, active against Ukraine and European diplomatic and government targets.",
+      "status": "active",
+      "confidence": "high",
+      "last_reviewed": "2026-08-27",
+      "aliases": [
+        "Turla",
+        "Waterbug",
+        "Venomous Bear"
+      ],
+      "url": "https://apt.hecavex.com/actors/secret-blizzard/",
+      "json_url": "https://apt.hecavex.com/api/actors/secret-blizzard.json",
+      "evidence": [
+        {
+          "id": "secret-blizzard:T1059.001:secret-blizzard-amadey-access-2024",
+          "technique_id": "T1059.001",
+          "technique": "PowerShell",
+          "technique_slug": "powershell",
+          "tactics": [
+            "Execution"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "secret-blizzard-amadey-access-2024",
+            "name": "Secret Blizzard Amadey access-brokering operation",
+            "url": "https://apt.hecavex.com/campaigns/secret-blizzard-amadey-access-2024/"
+          },
+          "first_observed": "2024-03",
+          "last_observed": "2024-04",
+          "notes": "Microsoft documented PowerShell-based command and payload activity after Secret Blizzard selected systems from existing Amadey infections associated with another actor.",
+          "uncertainty": "This evidence describes the observed post-access procedure. It does not attribute the upstream Amadey operation or every infected device to Secret Blizzard.",
+          "attack_url": "https://attack.mitre.org/techniques/T1059/001/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/powershell/",
+          "sources": [
+            {
+              "id": "microsoft-secret-blizzard-freeloader-2024",
+              "title": "Frequent freeloader part II: Russian actor Secret Blizzard using tools of other groups to attack Ukraine",
+              "publisher": "Microsoft Threat Intelligence",
+              "published": "2024-12-11",
+              "source_type": "vendor-research",
+              "url": "https://www.microsoft.com/en-us/security/blog/2024/12/11/frequent-freeloader-part-ii-russian-actor-secret-blizzard-using-tools-of-other-groups-to-attack-ukraine/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-secret-blizzard-freeloader-2024/"
             }
           ]
         }
@@ -1820,6 +2218,157 @@
       ]
     },
     {
+      "id": "romcom",
+      "name": "TA829 / RomCom",
+      "slug": "romcom",
+      "summary": "A Russia-aligned hybrid cybercrime and espionage cluster targeting European government, defence, energy, logistics and industry through phishing, trojanised software and rapid exploitation.",
+      "status": "active",
+      "confidence": "high",
+      "last_reviewed": "2026-08-27",
+      "aliases": [
+        "Storm-0978",
+        "Void Rabisu",
+        "Tropical Scorpius"
+      ],
+      "url": "https://apt.hecavex.com/actors/romcom/",
+      "json_url": "https://apt.hecavex.com/api/actors/romcom.json",
+      "evidence": [
+        {
+          "id": "romcom:T1203:romcom-europe-zero-day-2024",
+          "technique_id": "T1203",
+          "technique": "Exploitation for Client Execution",
+          "technique_slug": "exploit-client-execution",
+          "tactics": [
+            "Execution"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "romcom-europe-zero-day-2024",
+            "name": "RomCom Firefox and Windows zero-day campaign",
+            "url": "https://apt.hecavex.com/campaigns/romcom-europe-zero-day-2024/"
+          },
+          "first_observed": "2024-10",
+          "last_observed": "2024-11",
+          "notes": "ESET documented exploitation of Firefox and Windows zero days against selected targets in Europe and North America.",
+          "uncertainty": "The relationship is limited to the observed campaign and does not attribute unrelated exploitation of the vulnerabilities to RomCom.",
+          "attack_url": "https://attack.mitre.org/techniques/T1203/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/exploit-client-execution/",
+          "sources": [
+            {
+              "id": "eset-romcom-zero-days-2024",
+              "title": "RomCom exploits Firefox and Windows zero days in the wild",
+              "publisher": "ESET Research",
+              "published": "2024-11-26",
+              "source_type": "vendor-research",
+              "url": "https://www.welivesecurity.com/en/eset-research/romcom-exploits-firefox-and-windows-zero-days-in-the-wild/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/eset-romcom-zero-days-2024/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gamaredon",
+      "name": "UAC-0010 / Gamaredon",
+      "slug": "gamaredon",
+      "summary": "A Russian state-sponsored espionage actor associated with FSB Centre 18 and sustained, high-volume targeting of Ukrainian government and defence organisations.",
+      "status": "active",
+      "confidence": "high",
+      "last_reviewed": "2026-08-27",
+      "aliases": [
+        "UAC-0010",
+        "Armageddon",
+        "Aqua Blizzard"
+      ],
+      "url": "https://apt.hecavex.com/actors/gamaredon/",
+      "json_url": "https://apt.hecavex.com/api/actors/gamaredon.json",
+      "evidence": [
+        {
+          "id": "gamaredon:T1566.001:gamaredon-ukraine-spearphishing-2024",
+          "technique_id": "T1566.001",
+          "technique": "Spearphishing Attachment",
+          "technique_slug": "spearphishing-attachment",
+          "tactics": [
+            "Initial Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "gamaredon-ukraine-spearphishing-2024",
+            "name": "Gamaredon Ukraine spearphishing operations",
+            "url": "https://apt.hecavex.com/campaigns/gamaredon-ukraine-spearphishing-2024/"
+          },
+          "first_observed": "2024-01",
+          "last_observed": "2024-12",
+          "notes": "ESET documented repeated malicious archive, HTML, HTA and shortcut delivery chains sent to Ukrainian government targets throughout 2024.",
+          "uncertainty": "The relationship represents the observed campaign and does not imply that every Gamaredon intrusion begins with the same attachment chain.",
+          "attack_url": "https://attack.mitre.org/techniques/T1566/001/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/spearphishing-attachment/",
+          "sources": [
+            {
+              "id": "eset-gamaredon-2024-2025",
+              "title": "Gamaredon in 2024: Cranking out spearphishing campaigns against Ukraine with an evolved toolset",
+              "publisher": "ESET Research",
+              "published": "2025-07-02",
+              "source_type": "vendor-research",
+              "url": "https://www.welivesecurity.com/en/eset-research/gamaredon-2024-cranking-out-spearphishing-campaigns-ukraine-evolved-toolset/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/eset-gamaredon-2024-2025/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unc1151",
+      "name": "UNC1151",
+      "slug": "unc1151",
+      "summary": "A Belarus-linked state-aligned intrusion cluster conducting credential theft and account compromise against government, political, media and civil-society targets in Central and Eastern Europe.",
+      "status": "active",
+      "confidence": "high",
+      "last_reviewed": "2026-08-27",
+      "aliases": [
+        "Ghostwriter technical cluster"
+      ],
+      "url": "https://apt.hecavex.com/actors/unc1151/",
+      "json_url": "https://apt.hecavex.com/api/actors/unc1151.json",
+      "evidence": [
+        {
+          "id": "unc1151:T1566.002:unc1151-poland-credential-phishing-2026",
+          "technique_id": "T1566.002",
+          "technique": "Spearphishing Link",
+          "technique_slug": "spearphishing-link",
+          "tactics": [
+            "Initial Access"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "unc1151-poland-credential-phishing-2026",
+            "name": "UNC1151 Poland credential phishing campaign",
+            "url": "https://apt.hecavex.com/campaigns/unc1151-poland-credential-phishing-2026/"
+          },
+          "first_observed": "2026-03",
+          "last_observed": "2026-06",
+          "notes": "CERT Polska documented targeted links leading to credential and two-factor-code collection against Polish public-life targets.",
+          "uncertainty": "The relationship covers the documented phishing campaign and does not attribute every Ghostwriter influence product to UNC1151.",
+          "attack_url": "https://attack.mitre.org/techniques/T1566/002/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/spearphishing-link/",
+          "sources": [
+            {
+              "id": "certpl-unc1151-gmail-2026",
+              "title": "UNC1151/Ghostwriter phishing campaign targeting Gmail accounts",
+              "publisher": "CERT Polska",
+              "published": "2026-06-12",
+              "source_type": "government",
+              "url": "https://cert.pl/en/posts/2026/06/UNC1151-gmail-campaign/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/certpl-unc1151-gmail-2026/"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "void-blizzard",
       "name": "Void Blizzard",
       "slug": "void-blizzard",
@@ -2082,6 +2631,74 @@
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2025/05/27/new-russia-affiliated-actor-void-blizzard-targets-critical-sectors-for-espionage/",
               "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-void-blizzard-2025/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "z-pentest",
+      "name": "Z-Pentest",
+      "slug": "z-pentest",
+      "summary": "A state-aligned pro-Russia hacktivist group associated with opportunistic operational-technology access and a destructive 2024 attack against a Danish water utility.",
+      "status": "intermittently-active",
+      "confidence": "high",
+      "last_reviewed": "2026-08-27",
+      "aliases": [
+        "Z-Pentest Alliance"
+      ],
+      "url": "https://apt.hecavex.com/actors/z-pentest/",
+      "json_url": "https://apt.hecavex.com/api/actors/z-pentest.json",
+      "evidence": [
+        {
+          "id": "z-pentest:T1133:z-pentest-danish-water-2024",
+          "technique_id": "T1133",
+          "technique": "External Remote Services",
+          "technique_slug": "external-remote-services",
+          "tactics": [
+            "Initial Access",
+            "Persistence"
+          ],
+          "mapping_status": "reported",
+          "confidence": "high",
+          "campaign": {
+            "id": "z-pentest-danish-water-2024",
+            "name": "Z-Pentest Danish water-utility attack",
+            "url": "https://apt.hecavex.com/campaigns/z-pentest-danish-water-2024/"
+          },
+          "first_observed": "2024-12",
+          "last_observed": "2025 reporting",
+          "notes": "Official reporting links the group and related pro-Russia cohort to opportunistic access through exposed remote interfaces and documents destructive manipulation at a Danish water utility.",
+          "uncertainty": "Cohort-wide VNC procedure evidence is used with the actor-specific Danish attribution; unsupported precision about the affected controller or protocol is not added.",
+          "attack_url": "https://attack.mitre.org/techniques/T1133/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/external-remote-services/",
+          "sources": [
+            {
+              "id": "joint-csa-pro-russia-hacktivists-2025",
+              "title": "Pro-Russia Hacktivists Conduct Opportunistic Attacks Against US and Global Critical Infrastructure",
+              "publisher": "CISA, FBI, NSA and international partners",
+              "published": "2025-12-09",
+              "source_type": "government",
+              "url": "https://media.defense.gov/2025/Dec/09/2003840175/-1/-1/0/Joint_CSA_Pro-Russia_Hacktivists_Conduct_Attacks_against_Critical_Infrastructure.PDF",
+              "apt_notes_url": "https://apt.hecavex.com/sources/joint-csa-pro-russia-hacktivists-2025/"
+            },
+            {
+              "id": "nukib-prorussia-ot-2025",
+              "title": "NUKIB joins international warning about pro-Russian hacktivist groups attacking critical infrastructure entities",
+              "publisher": "Czech National Cyber and Information Security Agency",
+              "published": "2025-12-11",
+              "source_type": "government",
+              "url": "https://nukib.gov.cz/en/infoservis-en/news/2357-the-nukib-has-joined-an-international-warning-about-pro-russian-hacktivist-groups-attacking-critical-infrastructure-entities/",
+              "apt_notes_url": "https://apt.hecavex.com/sources/nukib-prorussia-ot-2025/"
+            },
+            {
+              "id": "ddis-z-pentest-denmark-2025",
+              "title": "Russia is responsible for destructive and disruptive cyber-attacks against Denmark",
+              "publisher": "Danish Defence Intelligence Service",
+              "published": "2025-12-18",
+              "source_type": "government",
+              "url": "https://www.fe-ddis.dk/globalassets/fe/dokumenter/2025/-russia-responsible-for-cyber-attacks-.pdf",
+              "apt_notes_url": "https://apt.hecavex.com/sources/ddis-z-pentest-denmark-2025/"
             }
           ]
         }

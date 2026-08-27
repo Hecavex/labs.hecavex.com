@@ -8,7 +8,7 @@ HECAVEX Labs is maintained on a best-effort basis by Deividas Lis / HECAVEX. It 
 
 ## Published workspaces
 
-- [Baltic Threat Atlas](https://labs.hecavex.com/baltic-threat-atlas/) presents selected, source-linked public observations concerning Lithuania, Latvia and Estonia. Links to APT Notes appear only where the evidence supports them.
+- [Baltic Threat Atlas](https://labs.hecavex.com/baltic-threat-atlas/) presents selected, source-linked public observations concerning Lithuania, Latvia and Estonia alongside a separately labelled Europe-context actor index. Baltic links appear only where an explicit observation supports them.
 - [Pivot Workspace](https://labs.hecavex.com/pivot-graph/) separates observations, reproducible derivations, analytical assessments and limitations across selected HECAVEX investigations.
 - [ATT&CK Evidence](https://labs.hecavex.com/attack-map/) exposes source-backed behavior mappings generated from reviewed APT Notes evidence. It supports filters, bounded comparisons and selected exports without claiming defensive coverage.
 - [HECAVEX Data](https://hecavex.com/data/) records portfolio-wide public datasets, update state, provenance and reuse boundaries. Labs continues to host its established machine-readable distributions under `/data/`.
@@ -38,7 +38,7 @@ Curated changes should preserve source URLs, dates, review state, confidence or 
 
 The principal maintained data areas are:
 
-- `data/atlas/` for selected Baltic observations;
+- `data/atlas/` for selected Baltic observations and explicitly bounded Europe-context actors;
 - `data/pivots/` for HECAVEX case graphs;
 - `data/attack/intelligence/reviewed-evidence.json` for source-linked HECAVEX evidence generated from APT Notes;
 - `data/osint/` for the frozen resource snapshot retained by the archived compatibility page.
