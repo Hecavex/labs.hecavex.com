@@ -305,10 +305,10 @@ for path in html_files:
             errors.append(f"Shared identity declaration differs or is missing from {relative}: {declaration}")
     if re.search(r'<link[^>]+rel="stylesheet"[^>]+href="https?://', text, re.IGNORECASE):
         errors.append(f"Remote stylesheet dependency found in {relative}")
-    expected_stylesheet = "/assets/styles.css?v=20260826-2"
+    expected_stylesheet = "/assets/styles.css?v=20260827-1"
     expected_stylesheets = [expected_stylesheet]
     if relative == Path("attack-map/index.html"):
-        expected_stylesheets.append("/assets/attack-evidence.css?v=20260826-2")
+        expected_stylesheets.append("/assets/attack-evidence.css?v=20260827-1")
     if parser.stylesheets != expected_stylesheets:
         errors.append(
             f"Versioned route stylesheet differs in {relative}: "
