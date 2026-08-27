@@ -7,6 +7,11 @@
   let catalogue;
   let selectedCase;
   let data;
+  const graphWidth = 1100;
+  const graphLeft = 105;
+  const graphRight = graphWidth - 105;
+  const nodeWidth = 170;
+  const nodeHeight = 66;
 
   const createSvg = (name, attrs = {}) => {
     const node = document.createElementNS(NS, name);
@@ -24,9 +29,56 @@
   function edgePoints(source, target) {
     const dx = target.x - source.x;
     const dy = target.y - source.y;
-    const sourceScale = 1 / Math.max(Math.abs(dx) / 74, Math.abs(dy) / 31);
-    const targetScale = 1 / Math.max(Math.abs(dx) / 82, Math.abs(dy) / 38);
+    const sourceScale = 1 / Math.max(Math.abs(dx) / (nodeWidth / 2), Math.abs(dy) / (nodeHeight / 2));
+    const targetScale = sourceScale;
     return { x1: source.x + dx * sourceScale, y1: source.y + dy * sourceScale, x2: target.x - dx * targetScale, y2: target.y - dy * targetScale };
+  }
+
+  function layoutNodes(nodes) {
+    const positions = nodes.map((node) => node.x);
+    const minimum = Math.min(...positions);
+    const maximum = Math.max(...positions);
+    const span = maximum - minimum;
+    return nodes.map((node) => ({
+      ...node,
+      x: span ? graphLeft + ((node.x - minimum) / span) * (graphRight - graphLeft) : graphWidth / 2
+    }));
+  }
+
+  function wrapEdgeLabel(value, maximumLength = 18) {
+    const words = value.trim().split(/\s+/);
+    const lines = [];
+    words.forEach((word) => {
+      const current = lines.at(-1);
+      if (current && `${current} ${word}`.length <= maximumLength) lines[lines.length - 1] = `${current} ${word}`;
+      else lines.push(word);
+    });
+    return lines;
+  }
+
+  function appendEdgeLabel(edge, points) {
+    const x = (points.x1 + points.x2) / 2;
+    const y = (points.y1 + points.y2) / 2 - 8;
+    const lines = wrapEdgeLabel(edge.relationship);
+    const group = createSvg('g', { class: 'graph-edge-label-group', 'aria-hidden': 'true' });
+    const label = createSvg('text', { class: 'graph-edge-label', x: String(x), y: String(y - ((lines.length - 1) * 6)), 'text-anchor': 'middle' });
+    lines.forEach((line, index) => {
+      const tspan = createSvg('tspan', { x: String(x), dy: index === 0 ? '0' : '12' });
+      tspan.textContent = line;
+      label.append(tspan);
+    });
+    group.append(label);
+    svg.append(group);
+    const box = label.getBBox();
+    const background = createSvg('rect', {
+      class: 'graph-edge-label-bg',
+      x: String(box.x - 5),
+      y: String(box.y - 3),
+      width: String(box.width + 10),
+      height: String(box.height + 6),
+      rx: '2'
+    });
+    group.insertBefore(background, label);
   }
 
   function selectNode(node) {
@@ -56,18 +108,17 @@
     defs.append(marker);
     svg.append(defs);
 
-    const byId = Object.fromEntries(data.nodes.map((node) => [node.id, node]));
+    const nodes = layoutNodes(data.nodes);
+    const byId = Object.fromEntries(nodes.map((node) => [node.id, node]));
     data.edges.forEach((edge) => {
       const points = edgePoints(byId[edge.source], byId[edge.target]);
       svg.append(createSvg('line', { class: 'graph-edge', ...points, 'marker-end': `url(#${markerId})` }));
-      const label = createSvg('text', { class: 'graph-edge-label', x: String((points.x1 + points.x2) / 2), y: String((points.y1 + points.y2) / 2 - 7), 'text-anchor': 'middle' });
-      label.textContent = edge.relationship;
-      svg.append(label);
+      appendEdgeLabel(edge, points);
     });
 
-    data.nodes.forEach((node) => {
+    nodes.forEach((node) => {
       const group = createSvg('g', { class: 'graph-node', 'data-id': node.id, 'data-class': node.class, role: 'button', tabindex: '0', 'aria-label': `${node.label}, ${node.class}` });
-      group.append(createSvg('rect', { x: String(node.x - 76), y: String(node.y - 31), width: '152', height: '62' }));
+      group.append(createSvg('rect', { x: String(node.x - (nodeWidth / 2)), y: String(node.y - (nodeHeight / 2)), width: String(nodeWidth), height: String(nodeHeight) }));
       const text = createSvg('text', { x: String(node.x), y: String(node.y - 4), 'text-anchor': 'middle' });
       node.short_label.forEach((line, index) => {
         const tspan = createSvg('tspan', { x: String(node.x), dy: index === 0 ? '0' : '17' });
