@@ -1,21 +1,24 @@
 .attack-evidence-shell {
-  padding-bottom: 3rem;
+  padding-bottom: 0;
 }
 
 .evidence-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(18rem, .65fr);
   gap: clamp(2rem, 6vw, 6rem);
-  align-items: end;
-  padding: clamp(4.5rem, 8vw, 7.5rem) 0 clamp(2rem, 4vw, 3.5rem);
-  border-bottom: 1px solid var(--hx-border);
+  align-items: start;
+  margin: var(--page-top) 0 2.25rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border: 1px solid var(--hx-border);
+  border-top: 2px solid var(--hx-steel);
+  background: var(--hx-surface-1);
 }
 
 .evidence-hero h1 {
   max-width: 14ch;
   margin: .55rem 0 1rem;
-  font-size: clamp(3rem, 6vw, 5.6rem);
-  line-height: .96;
+  font-size: var(--page-title-size);
+  line-height: var(--page-title-leading);
 }
 
 .evidence-hero .lead {
@@ -696,8 +699,12 @@
 }
 
 @media (max-width: 40rem) {
+  .evidence-hero {
+    padding: 1rem;
+  }
+
   .evidence-hero h1 {
-    font-size: clamp(2.6rem, 14vw, 4rem);
+    font-size: var(--page-title-size);
   }
 
   .evidence-controls,

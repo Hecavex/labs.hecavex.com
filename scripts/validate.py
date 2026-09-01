@@ -223,6 +223,7 @@ missing_fonts = sorted(path for path in font_paths if not (root / path).is_file(
 if missing_fonts:
     errors.append("Missing self-hosted font files: " + ", ".join(missing_fonts))
 styles_text = (root / "assets/styles.css").read_text(encoding="utf-8")
+attack_styles_text = (root / "assets/attack-evidence.css").read_text(encoding="utf-8")
 mark_text = (root / "assets/hecavex-mark.svg").read_text(encoding="utf-8").lower()
 for required_mark_colour in ("#55b9b1", "#ece9e1"):
     if required_mark_colour not in mark_text:
@@ -262,15 +263,45 @@ shell_css_contract = {
     "64px mobile header": r"@media\s*\(max-width:\s*1160px\)[\s\S]*?--header-offset:\s*4rem\s*;",
     "1.66 main reading rhythm": r"main\s*\{[^}]*line-height:\s*1\.66\s*;",
     "2rem section heading ceiling": r"h2\s*\{[^}]*font-size:\s*clamp\(1\.45rem,\s*2\.4vw,\s*2rem\)\s*;",
-    "52px display heading ceiling": r"\.brand-hero h1\s*\{[^}]*font-size:\s*clamp\(2\.4rem,\s*4vw,\s*3\.25rem\)\s*;",
     "36px search control containment": r"\.header-search input,\s*\.mobile-header-search input\s*\{[^}]*min-height:\s*0\s*;[^}]*line-height:\s*1\.2\s*;",
     "44px mono call to action": r"\.button\s*\{[^}]*min-height:\s*2\.75rem\s*;[^}]*font:\s*600\s+\.68rem/1\s+var\(--font-mono\)\s*;",
-    "38px mobile hero heading floor": r"\.brand-hero h1,\s*\.page-head h1\s*\{[^}]*font-size:\s*clamp\(2\.4rem,\s*11vw,\s*2\.65rem\)\s*;",
     "16px mobile hero lead floor": r"\.brand-hero \.lead,\s*\.page-head \.lead\s*\{[^}]*font-size:\s*1rem\s*;",
 }
 for label, pattern in shell_css_contract.items():
     if not re.search(pattern, styles_text):
         errors.append(f"Portfolio shell CSS contract differs: {label}")
+geometry_css_contract = {
+    "page top token": r"--page-top:\s*clamp\(3\.25rem,\s*5vw,\s*4\.75rem\)\s*;",
+    "page bottom token": r"--page-bottom:\s*clamp\(4rem,\s*8vw,\s*8rem\)\s*;",
+    "major section token": r"--major-section-space:\s*clamp\(3\.5rem,\s*7vw,\s*6\.5rem\)\s*;",
+    "page title token": r"--page-title-size:\s*clamp\(2\.4rem,\s*3\.6vw,\s*3\.25rem\)\s*;",
+    "page title leading token": r"--page-title-leading:\s*1\s*;",
+    "shared page bottom": r"main\s*\{[^}]*padding:\s*0\s+0\s+var\(--page-bottom\)\s*;",
+    "shared hero page top": r"\.brand-hero,\s*\.page-head\s*\{[^}]*margin:\s*var\(--page-top\)\s+0\s+2\.25rem\s*;",
+    "shared hero title scale": r"\.brand-hero h1,\s*\.page-head h1\s*\{[^}]*font-size:\s*var\(--page-title-size\)\s*;[^}]*line-height:\s*var\(--page-title-leading\)\s*;",
+    "shared major section spacing": r"\.section\s*\{[^}]*margin-top:\s*var\(--major-section-space\)\s*;",
+    "research body tracking": r"body\s*\{[^}]*letter-spacing:\s*-\.006em\s*;",
+    "research heading weight and tracking": r"h1,\s*h2,\s*h3,\s*h4\s*\{[^}]*font-weight:\s*600\s*;[^}]*letter-spacing:\s*-\.035em\s*;",
+    "76ch document reading measure": r"\.document-prose > h2,\s*\.document-prose > p,\s*\.document-prose > ul,\s*\.document-prose > dl\s*\{[^}]*max-width:\s*76ch\s*;",
+    "900px general grid breakpoint": r"@media\s*\(max-width:\s*900px\)[\s\S]*?\.grid,\s*\.source-grid,\s*\.recipe-grid,\s*\.flow,\s*\.flow\.property-flow\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)\s*;",
+    "odd final general grid item span": r"\.grid > :last-child:nth-child\(odd\)[^{}]*\{[^}]*grid-column:\s*1\s*/\s*-1\s*;",
+    "680px single-column breakpoint": r"@media\s*\(max-width:\s*680px\)[\s\S]*?\.grid,\s*\.flow,\s*\.flow\.property-flow,[^{}]*\{[^}]*grid-template-columns:\s*1fr\s*;",
+}
+for label, pattern in geometry_css_contract.items():
+    if not re.search(pattern, styles_text):
+        errors.append(f"Portfolio geometry CSS contract differs: {label}")
+if re.search(r"\.document-prose\s*\{[^}]*max-width:\s*76rem\s*;", styles_text):
+    errors.append("Document prose must keep the 94rem shell and constrain only its reading children")
+attack_geometry_contract = {
+    "ATT&CK hero page top": r"\.evidence-hero\s*\{[^}]*margin:\s*var\(--page-top\)\s+0\s+2\.25rem\s*;",
+    "ATT&CK hero title scale": r"\.evidence-hero h1\s*\{[^}]*font-size:\s*var\(--page-title-size\)\s*;[^}]*line-height:\s*var\(--page-title-leading\)\s*;",
+    "ATT&CK hero shared frame": r"\.evidence-hero\s*\{[^}]*border-top:\s*2px\s+solid\s+var\(--hx-steel\)\s*;",
+}
+for label, pattern in attack_geometry_contract.items():
+    if not re.search(pattern, attack_styles_text):
+        errors.append(f"ATT&CK geometry CSS contract differs: {label}")
+if re.search(r"font-size:\s*clamp\([^;]*(?:5\.6rem|14vw)", attack_styles_text):
+    errors.append("ATT&CK hero must not restore a property-specific oversized title scale")
 for font_path in sorted(path for path in font_paths if path.endswith(".woff2")):
     if f'url("/{font_path}")' not in styles_text:
         errors.append(f"Self-hosted font is not referenced by the stylesheet: {font_path}")
@@ -346,10 +377,10 @@ for path in html_files:
             errors.append(f"Shared identity declaration differs or is missing from {relative}: {declaration}")
     if re.search(r'<link[^>]+rel="stylesheet"[^>]+href="https?://', text, re.IGNORECASE):
         errors.append(f"Remote stylesheet dependency found in {relative}")
-    expected_stylesheet = "/assets/styles.css?v=20260827-1"
+    expected_stylesheet = "/assets/styles.css?v=20260901-1"
     expected_stylesheets = [expected_stylesheet]
     if relative == Path("attack-map/index.html"):
-        expected_stylesheets.append("/assets/attack-evidence.css?v=20260827-1")
+        expected_stylesheets.append("/assets/attack-evidence.css?v=20260901-1")
     if parser.stylesheets != expected_stylesheets:
         errors.append(
             f"Versioned route stylesheet differs in {relative}: "
