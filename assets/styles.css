@@ -53,6 +53,7 @@
   --page-top: clamp(3.25rem, 5vw, 4.75rem);
   --page-bottom: clamp(4rem, 8vw, 8rem);
   --major-section-space: clamp(3.5rem, 7vw, 6.5rem);
+  --frame-product-hero: clamp(21rem, 26.2vw, 23.5625rem);
   --page-title-size: clamp(2.4rem, 3.6vw, 3.25rem);
   --page-title-leading: 1;
 }
@@ -131,6 +132,12 @@ main { display: flow-root; min-height: calc(100vh - 10rem); padding: 0 0 var(--p
 .brand-hero .lead { margin: .65rem 0; }
 .brand-hero .button { position: relative; z-index: 2; grid-column: 2; grid-row: 2 / 4; align-self: center; }
 .hero-meta { margin: .85rem 0 0; color: var(--hx-text-faint); font: 700 .65rem/1.25 var(--font-mono); letter-spacing: .08em; }
+.home-hero { grid-template-columns: minmax(0, 1.7fr) minmax(18rem, .6fr); min-height: var(--frame-product-hero); gap: clamp(2rem, 4vw, 4rem); padding: clamp(1.75rem, 3vw, 2.15rem) clamp(1.75rem, 3vw, 3rem); border: 1px solid var(--hx-border); border-top: 3px solid var(--hx-steel); background: var(--hx-surface-1); }
+.home-hero-copy, .home-hero-utility { display: flex; min-width: 0; flex-direction: column; justify-content: center; }
+.home-hero-utility { align-items: flex-start; gap: 1rem; }
+.home-hero h1 { max-width: 18ch; }
+.home-hero .button { grid-column: auto; grid-row: auto; align-self: flex-start; margin: 0; }
+.home-hero .hero-meta { margin: 0; }
 .button { display: inline-flex; align-items: center; justify-content: center; min-height: 2.75rem; padding: .65rem .9rem; border: 1px solid var(--hx-border); border-radius: 0; background: var(--hx-surface-1); color: var(--hx-text); font: 600 .68rem/1 var(--font-mono); letter-spacing: .035em; text-decoration: none; white-space: nowrap; }
 .button.primary { border-color: var(--hx-steel); background: var(--hx-steel); color: var(--hx-bg); }
 .button:hover { border-color: var(--hx-steel); color: var(--hx-text); box-shadow: 0 .45rem 1.1rem var(--hx-shadow); }
@@ -365,6 +372,7 @@ label.field-error { border-color: var(--hx-danger) !important; background: var(-
 
 @media (max-width: 680px) {
   .brand-hero, .page-head { grid-template-columns: 1fr; padding: 1rem; }
+  .home-hero { grid-template-columns: minmax(0, 1fr); min-height: auto; gap: 1.5rem; padding: 1.5rem; }
   .brand-hero h1, .page-head h1 { font-size: var(--page-title-size); line-height: var(--page-title-leading); }
   .brand-hero .lead, .page-head .lead { font-size: 1rem; line-height: 1.5; }
   .brand-hero::after, .page-head::after { display: none; content: none; }

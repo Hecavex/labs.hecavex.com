@@ -276,6 +276,7 @@ geometry_css_contract = {
     "major section token": r"--major-section-space:\s*clamp\(3\.5rem,\s*7vw,\s*6\.5rem\)\s*;",
     "page title token": r"--page-title-size:\s*clamp\(2\.4rem,\s*3\.6vw,\s*3\.25rem\)\s*;",
     "page title leading token": r"--page-title-leading:\s*1\s*;",
+    "product hero height token": r"--frame-product-hero:\s*clamp\(21rem,\s*26\.2vw,\s*23\.5625rem\)\s*;",
     "shared page bottom": r"main\s*\{[^}]*padding:\s*0\s+0\s+var\(--page-bottom\)\s*;",
     "shared hero page top": r"\.brand-hero,\s*\.page-head\s*\{[^}]*margin:\s*var\(--page-top\)\s+0\s+2\.25rem\s*;",
     "shared hero title scale": r"\.brand-hero h1,\s*\.page-head h1\s*\{[^}]*font-size:\s*var\(--page-title-size\)\s*;[^}]*line-height:\s*var\(--page-title-leading\)\s*;",
@@ -286,6 +287,9 @@ geometry_css_contract = {
     "900px general grid breakpoint": r"@media\s*\(max-width:\s*900px\)[\s\S]*?\.grid,\s*\.source-grid,\s*\.recipe-grid,\s*\.flow,\s*\.flow\.property-flow\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)\s*;",
     "odd final general grid item span": r"\.grid > :last-child:nth-child\(odd\)[^{}]*\{[^}]*grid-column:\s*1\s*/\s*-1\s*;",
     "680px single-column breakpoint": r"@media\s*\(max-width:\s*680px\)[\s\S]*?\.grid,\s*\.flow,\s*\.flow\.property-flow,[^{}]*\{[^}]*grid-template-columns:\s*1fr\s*;",
+    "framed two-column homepage hero": r"\.home-hero\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1\.7fr\)\s+minmax\(18rem,\s*\.6fr\)\s*;[^}]*min-height:\s*var\(--frame-product-hero\)\s*;[^}]*gap:\s*clamp\(2rem,\s*4vw,\s*4rem\)\s*;[^}]*padding:\s*clamp\(1\.75rem,\s*3vw,\s*2\.15rem\)\s+clamp\(1\.75rem,\s*3vw,\s*3rem\)\s*;[^}]*border:\s*1px\s+solid\s+var\(--hx-border\)\s*;[^}]*border-top:\s*3px\s+solid\s+var\(--hx-steel\)\s*;[^}]*background:\s*var\(--hx-surface-1\)\s*;",
+    "homepage hero title measure": r"\.home-hero h1\s*\{[^}]*max-width:\s*18ch\s*;",
+    "homepage hero mobile stack": r"@media\s*\(max-width:\s*680px\)[\s\S]*?\.home-hero\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)\s*;[^}]*min-height:\s*auto\s*;[^}]*padding:\s*1\.5rem\s*;",
 }
 for label, pattern in geometry_css_contract.items():
     if not re.search(pattern, styles_text):
@@ -377,7 +381,7 @@ for path in html_files:
             errors.append(f"Shared identity declaration differs or is missing from {relative}: {declaration}")
     if re.search(r'<link[^>]+rel="stylesheet"[^>]+href="https?://', text, re.IGNORECASE):
         errors.append(f"Remote stylesheet dependency found in {relative}")
-    expected_stylesheet = "/assets/styles.css?v=20260901-1"
+    expected_stylesheet = "/assets/styles.css?v=20260901-2"
     expected_stylesheets = [expected_stylesheet]
     if relative == Path("attack-map/index.html"):
         expected_stylesheets.append("/assets/attack-evidence.css?v=20260901-1")
@@ -1112,6 +1116,13 @@ for required_public_page in ("changes", "methodology", "about", "licence", "secu
         errors.append(f"{required_public_page} page is missing from sitemap.xml")
 
 home_html = (root / "index.html").read_text(encoding="utf-8")
+for home_hero_contract in (
+    '<header class="brand-hero home-hero">',
+    '<div class="home-hero-copy">',
+    '<div class="home-hero-utility">',
+):
+    if home_html.count(home_hero_contract) != 1:
+        errors.append(f"Labs homepage hero structure differs: {home_hero_contract}")
 expected_case_count = len(cases)
 for count_contract in (
     f'<div class="stat"><strong>{expected_case_count}</strong><span>approved pivot cases</span></div>',
