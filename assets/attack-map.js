@@ -517,11 +517,11 @@
       layout: { layout: 'side', aggregateFunction: 'average', showID: true, showName: true, showAggregateScores: false, countUnscored: false },
       hideDisabled: false,
       techniques,
-      gradient: { colors: ['#8397a3', '#ffc857', '#a2da68'], minValue: 0, maxValue: 100 },
+      gradient: { colors: ['#8d969a', '#d2aa62', '#86b77e'], minValue: 0, maxValue: 100 },
       legendItems: [
-        { label: 'Low published confidence', color: '#8397a3' },
-        { label: 'Moderate published confidence', color: '#ffc857' },
-        { label: 'High published confidence', color: '#a2da68' }
+        { label: 'Low published confidence', color: '#8d969a' },
+        { label: 'Moderate published confidence', color: '#d2aa62' },
+        { label: 'High published confidence', color: '#86b77e' }
       ],
       metadata: [
         { name: 'Publisher', value: 'HECAVEX' },
@@ -531,7 +531,7 @@
       ],
       links: [{ label: 'HECAVEX ATT&CK Evidence Explorer', url: 'https://labs.hecavex.com/attack-map/' }],
       showTacticRowBackground: false,
-      tacticRowBackground: '#0b1117',
+      tacticRowBackground: '#171b1d',
       selectTechniquesAcrossTactics: true,
       selectSubtechniquesWithParent: false
     };

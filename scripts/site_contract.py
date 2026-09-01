@@ -59,4 +59,5 @@ PORTFOLIO_NAVIGATION = (
     ("radar", "Radar", "https://radar.hecavex.com/"),
     ("apt", "APT Notes", "https://apt.hecavex.com/"),
     ("labs", "Labs", "https://labs.hecavex.com/"),
+    ("data", "Data", "https://hecavex.com/data/"),
 )

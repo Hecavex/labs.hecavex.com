@@ -3,6 +3,7 @@
 
 from html.parser import HTMLParser
 from datetime import datetime, timezone
+import hashlib
 import json
 from pathlib import Path
 import re
@@ -152,6 +153,22 @@ missing = sorted(path for path in required if not (root / path).is_file())
 if missing:
     errors.append("Missing required files: " + ", ".join(missing))
 
+# Canonical portfolio identity outputs. Locking the binary fallbacks prevents a
+# retired bright-cyan favicon set from drifting back while the SVG looks current.
+identity_asset_digests = {
+    "favicon.ico": "833ad6e58527cee2b60cced56349822615735f5133be19a8e4502c53b533082a",
+    "apple-touch-icon.png": "7494c7531ce9e205350cf4130b5f8e0103e1f10f74257d3437220c8a9e16da89",
+    "icon-192.png": "1d1bf844cd5705bd02248ea31853c06ca0279cf0c99db5a759169f34badacd47",
+    "icon-512.png": "fc6f38b8599104ba47aa86ddd12a295d9f2252f912ab1ed99057241632f9d47c",
+}
+for identity_path, expected_digest in identity_asset_digests.items():
+    asset_path = root / identity_path
+    if not asset_path.is_file():
+        continue
+    actual_digest = hashlib.sha256(asset_path.read_bytes()).hexdigest()
+    if actual_digest != expected_digest:
+        errors.append(f"{identity_path} must match the canonical HECAVEX identity asset")
+
 robots_text = (root / "robots.txt").read_text(encoding="utf-8")
 llms_text = (root / "llms.txt").read_text(encoding="utf-8")
 manifest_data = json.loads((root / "site.webmanifest").read_text(encoding="utf-8"))
@@ -207,33 +224,33 @@ if missing_fonts:
     errors.append("Missing self-hosted font files: " + ", ".join(missing_fonts))
 styles_text = (root / "assets/styles.css").read_text(encoding="utf-8")
 mark_text = (root / "assets/hecavex-mark.svg").read_text(encoding="utf-8").lower()
-for required_mark_colour in ("#44c7dc", "#f2f8fb"):
+for required_mark_colour in ("#55b9b1", "#ece9e1"):
     if required_mark_colour not in mark_text:
         errors.append(f"HECAVEX identity mark is missing {required_mark_colour}")
-if "#ff6b6b" in mark_text:
+if "#d06c65" in mark_text:
     errors.append("HECAVEX identity mark must reserve danger red for status UI")
 design_contract = {
-    "--hx-bg": "#05080b",
-    "--hx-surface-1": "#0b1117",
-    "--hx-surface-2": "#101923",
-    "--hx-border": "#1e3440",
-    "--hx-border-strong": "#1e3440",
-    "--hx-text": "#f2f8fb",
-    "--hx-text-soft": "#b6c6cf",
-    "--hx-text-muted": "#8397a3",
-    "--hx-text-faint": "#8397a3",
-    "--hx-border-subtle": "#1e3440",
-    "--hx-accent": "#44c7dc",
-    "--hx-steel": "#44c7dc",
-    "--hx-steel-hover": "#44c7dc",
-    "--hx-success": "#a2da68",
-    "--hx-bronze": "#ffc857",
-    "--hx-warning": "#ffc857",
-    "--hx-danger": "#ff6b6b",
+    "--hx-bg": "#111416",
+    "--hx-surface-1": "#171b1d",
+    "--hx-surface-2": "#1d2326",
+    "--hx-border": "#30383b",
+    "--hx-border-strong": "#30383b",
+    "--hx-text": "#ece9e1",
+    "--hx-text-soft": "#ece9e1",
+    "--hx-text-muted": "#8d969a",
+    "--hx-text-faint": "#8d969a",
+    "--hx-border-subtle": "#30383b",
+    "--hx-accent": "#55b9b1",
+    "--hx-steel": "#55b9b1",
+    "--hx-steel-hover": "#55b9b1",
+    "--hx-success": "#86b77e",
+    "--hx-bronze": "#d2aa62",
+    "--hx-warning": "#d2aa62",
+    "--hx-danger": "#d06c65",
 }
 for token, value in design_contract.items():
     if not re.search(rf"{re.escape(token)}:\s*{re.escape(value)}\s*;", styles_text, re.IGNORECASE):
-        errors.append(f"Cold Signal design token differs: {token} must be {value}")
+        errors.append(f"HECAVEX operational design token differs: {token} must be {value}")
 shell_css_contract = {
     "shell maximum width": r"--shell-max:\s*94rem\s*;",
     "desktop header offset": r"--header-offset:\s*7\.25rem\s*;",
@@ -265,11 +282,15 @@ for provenance_marker in ("Fontsource 5.3.0", "INTER-OFL.txt", "IBM-PLEX-MONO-OF
         errors.append(f"Font provenance note is missing: {provenance_marker}")
 for forbidden_token in ("--hx-surface-3", "--hx-ember", "--hx-action"):
     if forbidden_token in styles_text:
-        errors.append(f"Obsolete or ambiguous Cold Signal token remains: {forbidden_token}")
-for divergent_colour in ("#14212b", "#294b59", "#3a5966", "#728993", "#7adcea", "#63b3a2", "#63b3ed", "#ff8989"):
+        errors.append(f"Obsolete or ambiguous HECAVEX design token remains: {forbidden_token}")
+for divergent_colour in (
+    "#14212b", "#294b59", "#3a5966", "#728993", "#7adcea", "#63b3a2", "#63b3ed", "#ff8989",
+    "#05080b", "#0b1117", "#101923", "#1c2123", "#1e3440", "#f2f8fb", "#b6c6cf", "#c9c5bc",
+    "#8397a3", "#44c7dc", "#a2da68", "#ffc857", "#ff6b6b",
+):
     if divergent_colour in styles_text.lower():
-        errors.append(f"Divergent Cold Signal colour remains: {divergent_colour}")
-if styles_text.lower().count("#ff6b6b") != 1:
+        errors.append(f"Divergent HECAVEX colour remains: {divergent_colour}")
+if styles_text.lower().count("#d06c65") != 1:
     errors.append("Danger red must be declared once and consumed through --hx-danger")
 danger_selectors = (
     ".form-error-summary", "field-error", "aria-invalid", ".storage-warning",
@@ -312,14 +333,14 @@ for path in html_files:
     parser.feed(text)
     documents[path.resolve()] = parser
     relative = path.relative_to(root)
-    if '<header class="site-header" data-portfolio-shell="v1">' not in text:
-        errors.append(f"Cold Signal site shell is missing from {relative}")
+    if '<header class="site-header" data-portfolio-shell="v2">' not in text:
+        errors.append(f"HECAVEX operational site shell is missing from {relative}")
     if '<footer class="site-footer">' not in text:
         errors.append(f"Portfolio footer is missing from {relative}")
     if "document.documentElement.classList.add('js')" not in text:
         errors.append(f"Progressive-enhancement marker is missing from {relative}")
-    if len(re.findall(r'<meta\s+name="theme-color"\s+content="#05080b"\s*/?>', text, re.IGNORECASE)) != 1:
-        errors.append(f"Cold Signal theme colour metadata differs or is missing from {relative}")
+    if len(re.findall(r'<meta\s+name="theme-color"\s+content="#111416"\s*/?>', text, re.IGNORECASE)) != 1:
+        errors.append(f"HECAVEX operational theme colour metadata differs or is missing from {relative}")
     for declaration in identity_head_contract:
         if text.count(declaration) != 1:
             errors.append(f"Shared identity declaration differs or is missing from {relative}: {declaration}")
@@ -474,6 +495,7 @@ switcher_targets = [
     "https://radar.hecavex.com/",
     "https://apt.hecavex.com/",
     "https://labs.hecavex.com/",
+    "https://hecavex.com/data/",
 ]
 for path in html_files:
     text = path.read_text(encoding="utf-8")

@@ -244,7 +244,7 @@
 }
 
 .evidence-row:hover {
-  background: rgb(68 199 220 / 2.5%);
+  background: var(--hx-accent-soft);
 }
 
 .evidence-cell {
@@ -305,19 +305,19 @@
 
 .evidence-tag.high,
 .evidence-tag.observed {
-  border-color: rgb(162 218 104 / 45%);
+  border-color: rgb(134 183 126 / 45%);
   color: var(--hx-success);
 }
 
 .evidence-tag.moderate,
 .evidence-tag.inferred,
 .evidence-tag.disputed {
-  border-color: rgb(255 200 87 / 45%);
+  border-color: rgb(210 170 98 / 45%);
   color: var(--hx-warning);
 }
 
 .evidence-tag.rejected {
-  border-color: rgb(255 107 107 / 45%);
+  border-color: rgb(208 108 101 / 45%);
   color: var(--hx-danger);
 }
 
@@ -470,7 +470,7 @@
 }
 
 .mapping-dialog::backdrop {
-  background: rgb(2 5 8 / 84%);
+  background: rgb(17 20 22 / 88%);
   backdrop-filter: blur(4px);
 }
 

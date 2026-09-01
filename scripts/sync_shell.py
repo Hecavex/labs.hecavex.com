@@ -78,7 +78,7 @@ def render_header(route: Route) -> str:
     mobile_local = render_local_navigation(route.active, mobile=True)
     desktop_utility = render_utility(route, mobile=False)
     mobile_utility = render_utility(route, mobile=True)
-    return f'''<header class="site-header" data-portfolio-shell="v1">
+    return f'''<header class="site-header" data-portfolio-shell="v2">
     <div class="network-bar">
       <a class="brand" href="https://hecavex.com/en/" aria-label="HECAVEX Research">
         <img src="/assets/hecavex-mark.svg" alt="" width="36" height="36">

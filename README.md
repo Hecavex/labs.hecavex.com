@@ -17,7 +17,7 @@ The former generic [OSINT directory](https://labs.hecavex.com/osint-workbench/) 
 
 ## Repository role
 
-The site is purpose-built static HTML, CSS and browser JavaScript. It shares the Cold Signal portfolio shell with the other HECAVEX properties, uses self-hosted Inter and IBM Plex Mono fonts, and does not depend on a remote font or icon service.
+The site is purpose-built static HTML, CSS and browser JavaScript. It shares the HECAVEX operational portfolio shell with the other HECAVEX properties, uses self-hosted Inter and IBM Plex Mono fonts, and does not depend on a remote font or icon service.
 
 Production staging enables one Do Not Track-aware Cloudflare Web Analytics loader on each HTML page. Source pages and pull-request checks remain keyless; the Pages gate supplies the public site token and verifies the staged artifact without printing it. The published methodology describes that boundary and links to the portfolio privacy policy.
 
