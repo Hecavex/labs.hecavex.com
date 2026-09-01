@@ -1,6 +1,6 @@
 {
-  "schema_version": "0.3.0",
-  "updated": "2026-08-27",
+  "schema_version": "0.4.0",
+  "updated": "2026-09-01",
   "publisher": "HECAVEX",
   "scope": "Selected public-source cyber observations concerning Lithuania, Latvia and Estonia; not an exhaustive incident census or prevalence dataset.",
   "methodology": "Each observation captures one bounded claim from a named public authority. Source terminology and attribution confidence are preserved; nearby events are not merged into campaigns without evidence. Europe-context actors are sourced from APT Notes and do not imply Baltic activity unless an explicit observation id is attached.",
@@ -158,6 +158,12 @@
       "actor": "Laundry Bear / Void Blizzard",
       "attribution": "Multinational government advisory",
       "confidence": "official-attribution",
+      "apt_relevance": {
+        "actor_id": "void-blizzard",
+        "country": "Estonia",
+        "evidence_type": "reporting-connection",
+        "source_id": "joint-laundry-bear-zimbra-2026"
+      },
       "apt_refs": [
         {
           "type": "actor",
@@ -197,9 +203,210 @@
       "attribution": "No common actor attribution",
       "confidence": "reported",
       "source": "https://www.ria.ee/en/situation-cyberspace-june-2026"
+    },
+    {
+      "id": "lt-2023-02-noname057-airports-targeting",
+      "date": "2023-02",
+      "country": "Lithuania",
+      "type": "reported-targeting",
+      "title": "NoName057(16) DDoS campaign targeted Lithuanian airports",
+      "summary": "CERT-EU described a February 2023 DDoS campaign launched against Lithuanian airports. The cited record establishes targeting, not material disruption or a victim count.",
+      "sector": "Transportation and Aviation",
+      "actor": "NoName057(16)",
+      "attribution": "CERT-EU reporting",
+      "confidence": "source-attributed",
+      "apt_relevance": {
+        "actor_id": "noname057-16",
+        "country": "Lithuania",
+        "evidence_type": "reported-targeting",
+        "source_id": "cert-eu-noname057-baltics-2023"
+      },
+      "apt_refs": [
+        {
+          "type": "actor",
+          "label": "NoName057(16)",
+          "url": "https://apt.hecavex.com/actors/noname057-16/"
+        },
+        {
+          "type": "campaign",
+          "label": "NoName057(16) European DDoS campaign",
+          "url": "https://apt.hecavex.com/campaigns/noname057-european-ddos/"
+        }
+      ],
+      "source": "https://cert.europa.eu/publications/threat-intelligence/cb23-03/"
+    },
+    {
+      "id": "lv-2023-02-noname057-defence-academy-claim",
+      "date": "2023-02",
+      "country": "Latvia",
+      "type": "actor-claim",
+      "title": "NoName057(16) claimed Latvia's National Defence Academy",
+      "summary": "CERT-EU recorded a NoName057(16) claim against Latvia's National Defence Academy without confirming impact. The Atlas preserves the distinction between an actor claim and an observed incident.",
+      "sector": "Defence and Education",
+      "actor": "NoName057(16)",
+      "attribution": "Actor claim recorded by CERT-EU",
+      "confidence": "reported",
+      "apt_relevance": {
+        "actor_id": "noname057-16",
+        "country": "Latvia",
+        "evidence_type": "actor-claim",
+        "source_id": "cert-eu-noname057-baltics-2023"
+      },
+      "apt_refs": [
+        {
+          "type": "actor",
+          "label": "NoName057(16)",
+          "url": "https://apt.hecavex.com/actors/noname057-16/"
+        },
+        {
+          "type": "campaign",
+          "label": "NoName057(16) European DDoS campaign",
+          "url": "https://apt.hecavex.com/campaigns/noname057-european-ddos/"
+        }
+      ],
+      "source": "https://cert.europa.eu/publications/threat-intelligence/cb23-03/"
+    },
+    {
+      "id": "lt-2021-unc1151-regional-targeting",
+      "date": "2021-11-16",
+      "country": "Lithuania",
+      "type": "reported-targeting",
+      "title": "UNC1151 reporting included Lithuania in regional targeting",
+      "summary": "Mandiant's public assessment included Lithuania in regional targeting associated with UNC1151 and Ghostwriter-linked intrusion activity. This is a targeting-scope record, not an inventory of Lithuanian compromises.",
+      "sector": "Government, Politics, Media and Civil Society",
+      "actor": "UNC1151",
+      "attribution": "Mandiant assessment",
+      "confidence": "source-attributed",
+      "apt_relevance": {
+        "actor_id": "unc1151",
+        "country": "Lithuania",
+        "evidence_type": "reported-targeting",
+        "source_id": "mandiant-unc1151-belarus-2021"
+      },
+      "apt_refs": [
+        {
+          "type": "actor",
+          "label": "UNC1151",
+          "url": "https://apt.hecavex.com/actors/unc1151/"
+        }
+      ],
+      "source": "https://cloud.google.com/blog/topics/threat-intelligence/unc1151-linked-to-belarus-government/"
+    },
+    {
+      "id": "lv-2021-unc1151-regional-targeting",
+      "date": "2021-11-16",
+      "country": "Latvia",
+      "type": "reported-targeting",
+      "title": "UNC1151 reporting included Latvia in regional targeting",
+      "summary": "Mandiant's public assessment included Latvia in regional targeting associated with UNC1151 and Ghostwriter-linked intrusion activity. This is a targeting-scope record, not an inventory of Latvian compromises.",
+      "sector": "Government, Politics, Media and Civil Society",
+      "actor": "UNC1151",
+      "attribution": "Mandiant assessment",
+      "confidence": "source-attributed",
+      "apt_relevance": {
+        "actor_id": "unc1151",
+        "country": "Latvia",
+        "evidence_type": "reported-targeting",
+        "source_id": "mandiant-unc1151-belarus-2021"
+      },
+      "apt_refs": [
+        {
+          "type": "actor",
+          "label": "UNC1151",
+          "url": "https://apt.hecavex.com/actors/unc1151/"
+        }
+      ],
+      "source": "https://cloud.google.com/blog/topics/threat-intelligence/unc1151-linked-to-belarus-government/"
+    },
+    {
+      "id": "ee-2020-unit29155-ministry-compromise",
+      "date": "2020",
+      "country": "Estonia",
+      "type": "reported-compromise",
+      "title": "Unit 29155 linked to compromise of Estonian ministries",
+      "summary": "The Council of the European Union recorded unauthorised access to Estonian ministries and theft of confidential documents in 2020 when sanctioning three GRU Unit 29155 officers.",
+      "sector": "Government",
+      "actor": "GRU Unit 29155",
+      "attribution": "Council of the European Union sanctions record",
+      "confidence": "official-attribution",
+      "apt_relevance": {
+        "actor_id": "unit-29155",
+        "country": "Estonia",
+        "evidence_type": "reported-compromise",
+        "source_id": "eu-unit29155-estonia-sanctions-2025"
+      },
+      "apt_refs": [
+        {
+          "type": "actor",
+          "label": "GRU Unit 29155",
+          "url": "https://apt.hecavex.com/actors/unit-29155/"
+        }
+      ],
+      "source": "https://www.consilium.europa.eu/en/press/press-releases/2025/01/27/cyber-attacks-three-individuals-added-to-eu-sanctions-list-for-malicious-cyber-activities-against-estonia/"
     }
   ],
+  "actor_context_source": {
+    "name": "APT Notes by HECAVEX",
+    "dataset_version": "2.3.0",
+    "release_id": "apt-notes-2026-09-01-baltic-relevance",
+    "released_at": "2026-09-01T06:46:41.016Z",
+    "url": "https://apt.hecavex.com/api/actors.json",
+    "method": "Manually selected Europe-relevant actor context from the named reviewed APT Notes release. This layer does not create Baltic attribution; only baltic_observation_ids establishes an Atlas mapping."
+  },
   "actor_context": [
+    {
+      "id": "noname057-16",
+      "name": "NoName057(16)",
+      "category": "hacktivist",
+      "status": "intermittently-active",
+      "confidence": "high",
+      "summary": "A pro-Russia DDoS network that recruits participants around an automated attack tool and repeatedly targets Ukraine-supporting governments, public services and critical sectors in Europe.",
+      "europe_relevance": "Reviewed reporting includes direct Lithuanian targeting and a separately labelled claim against a Latvian defence-education institution.",
+      "last_reviewed": "2026-08-26",
+      "source_record_version": "1.1.0",
+      "context_scope": "baltic-linked",
+      "baltic_observation_ids": [
+        "lt-2023-02-noname057-airports-targeting",
+        "lv-2023-02-noname057-defence-academy-claim"
+      ],
+      "apt_url": "https://apt.hecavex.com/actors/noname057-16/",
+      "apt_json_url": "https://apt.hecavex.com/api/actors/noname057-16.json"
+    },
+    {
+      "id": "unit-29155",
+      "name": "GRU Unit 29155",
+      "category": "state-sponsored",
+      "status": "active",
+      "confidence": "high",
+      "summary": "A Russian military intelligence unit associated with espionage, sabotage, reputational harm and the destructive WhisperGate operation against Ukraine.",
+      "europe_relevance": "Official reporting records an Estonian ministry compromise. The wider Europe context is retained without inferring additional Baltic targets.",
+      "last_reviewed": "2026-08-26",
+      "source_record_version": "1.2.0",
+      "context_scope": "baltic-linked",
+      "baltic_observation_ids": [
+        "ee-2020-unit29155-ministry-compromise",
+        "ee-2024-unit-29155"
+      ],
+      "apt_url": "https://apt.hecavex.com/actors/unit-29155/",
+      "apt_json_url": "https://apt.hecavex.com/api/actors/unit-29155.json"
+    },
+    {
+      "id": "void-blizzard",
+      "name": "Void Blizzard",
+      "category": "state-sponsored",
+      "status": "active",
+      "confidence": "high",
+      "summary": "A Russia-affiliated espionage cluster using commodity credentials, stolen session cookies and cloud-native collection against NATO, EU and Ukraine-related targets.",
+      "europe_relevance": "Estonia's Foreign Intelligence Service co-sealed the Laundry Bear Zimbra advisory, creating a reporting connection without establishing an Estonian victim.",
+      "last_reviewed": "2026-08-26",
+      "source_record_version": "1.2.0",
+      "context_scope": "baltic-linked",
+      "baltic_observation_ids": [
+        "ee-2026-laundry-bear-zimbra-advisory"
+      ],
+      "apt_url": "https://apt.hecavex.com/actors/void-blizzard/",
+      "apt_json_url": "https://apt.hecavex.com/api/actors/void-blizzard.json"
+    },
     {
       "id": "gamaredon",
       "name": "UAC-0010 / Gamaredon",
@@ -208,8 +415,12 @@
       "confidence": "high",
       "summary": "Russian state-sponsored espionage actor associated with FSB Centre 18 and sustained targeting of Ukrainian government and defence organisations.",
       "europe_relevance": "Ukraine-focused activity and an EU sanctions record make the actor relevant to the wider European threat picture.",
+      "last_reviewed": "2026-08-27",
+      "source_record_version": "1.0.0",
+      "context_scope": "europe-only",
       "baltic_observation_ids": [],
-      "apt_url": "https://apt.hecavex.com/actors/gamaredon/"
+      "apt_url": "https://apt.hecavex.com/actors/gamaredon/",
+      "apt_json_url": "https://apt.hecavex.com/api/actors/gamaredon.json"
     },
     {
       "id": "secret-blizzard",
@@ -219,8 +430,12 @@
       "confidence": "high",
       "summary": "Russian espionage cluster overlapping Turla and associated with FSB Centre 16.",
       "europe_relevance": "Public reporting covers activity against Ukraine and European diplomatic and government targets.",
+      "last_reviewed": "2026-08-27",
+      "source_record_version": "1.0.0",
+      "context_scope": "europe-only",
       "baltic_observation_ids": [],
-      "apt_url": "https://apt.hecavex.com/actors/secret-blizzard/"
+      "apt_url": "https://apt.hecavex.com/actors/secret-blizzard/",
+      "apt_json_url": "https://apt.hecavex.com/api/actors/secret-blizzard.json"
     },
     {
       "id": "unc1151",
@@ -230,8 +445,15 @@
       "confidence": "high",
       "summary": "Belarus-linked intrusion cluster associated with credential theft and account compromise.",
       "europe_relevance": "The reviewed record concerns government, political, media and civil-society targeting in Central and Eastern Europe.",
-      "baltic_observation_ids": [],
-      "apt_url": "https://apt.hecavex.com/actors/unc1151/"
+      "last_reviewed": "2026-08-27",
+      "source_record_version": "1.1.0",
+      "context_scope": "baltic-linked",
+      "baltic_observation_ids": [
+        "lt-2021-unc1151-regional-targeting",
+        "lv-2021-unc1151-regional-targeting"
+      ],
+      "apt_url": "https://apt.hecavex.com/actors/unc1151/",
+      "apt_json_url": "https://apt.hecavex.com/api/actors/unc1151.json"
     },
     {
       "id": "mustang-panda",
@@ -241,8 +463,12 @@
       "confidence": "high",
       "summary": "China-aligned espionage actor using spearphishing and removable-media operations.",
       "europe_relevance": "Reviewed reporting includes diplomatic, government and maritime organisations in Europe.",
+      "last_reviewed": "2026-08-27",
+      "source_record_version": "1.0.0",
+      "context_scope": "europe-only",
       "baltic_observation_ids": [],
-      "apt_url": "https://apt.hecavex.com/actors/mustang-panda/"
+      "apt_url": "https://apt.hecavex.com/actors/mustang-panda/",
+      "apt_json_url": "https://apt.hecavex.com/api/actors/mustang-panda.json"
     },
     {
       "id": "romcom",
@@ -252,8 +478,12 @@
       "confidence": "high",
       "summary": "Russia-aligned hybrid cybercrime and espionage cluster using phishing, trojanised software and rapid exploitation.",
       "europe_relevance": "The reviewed dossier covers European government, defence, energy, logistics and industrial targeting.",
+      "last_reviewed": "2026-08-27",
+      "source_record_version": "1.0.0",
+      "context_scope": "europe-only",
       "baltic_observation_ids": [],
-      "apt_url": "https://apt.hecavex.com/actors/romcom/"
+      "apt_url": "https://apt.hecavex.com/actors/romcom/",
+      "apt_json_url": "https://apt.hecavex.com/api/actors/romcom.json"
     },
     {
       "id": "lockbit",
@@ -263,8 +493,12 @@
       "confidence": "high",
       "summary": "Ransomware-as-a-service ecosystem whose administrators supplied malware and infrastructure to affiliates.",
       "europe_relevance": "Official disruption reporting documents extensive European victimisation, but affiliate activity is not one centrally attributed campaign.",
+      "last_reviewed": "2026-08-27",
+      "source_record_version": "1.0.0",
+      "context_scope": "europe-only",
       "baltic_observation_ids": [],
-      "apt_url": "https://apt.hecavex.com/actors/lockbit/"
+      "apt_url": "https://apt.hecavex.com/actors/lockbit/",
+      "apt_json_url": "https://apt.hecavex.com/api/actors/lockbit.json"
     },
     {
       "id": "clop",
@@ -274,8 +508,12 @@
       "confidence": "high",
       "summary": "Extortion and ransomware brand associated with mass exploitation of managed file-transfer and enterprise applications.",
       "europe_relevance": "Reviewed campaigns affected organisations across Europe and beyond.",
+      "last_reviewed": "2026-08-27",
+      "source_record_version": "1.0.0",
+      "context_scope": "europe-only",
       "baltic_observation_ids": [],
-      "apt_url": "https://apt.hecavex.com/actors/clop/"
+      "apt_url": "https://apt.hecavex.com/actors/clop/",
+      "apt_json_url": "https://apt.hecavex.com/api/actors/clop.json"
     },
     {
       "id": "evil-corp",
@@ -285,8 +523,12 @@
       "confidence": "high",
       "summary": "Russian cybercriminal organisation linked by authorities to Dridex-enabled theft and ransomware operations.",
       "europe_relevance": "The public record includes extensive harm in the United Kingdom and Europe.",
+      "last_reviewed": "2026-08-27",
+      "source_record_version": "1.0.0",
+      "context_scope": "europe-only",
       "baltic_observation_ids": [],
-      "apt_url": "https://apt.hecavex.com/actors/evil-corp/"
+      "apt_url": "https://apt.hecavex.com/actors/evil-corp/",
+      "apt_json_url": "https://apt.hecavex.com/api/actors/evil-corp.json"
     },
     {
       "id": "scattered-spider",
@@ -296,8 +538,12 @@
       "confidence": "high",
       "summary": "Loose English-speaking cybercriminal collective known for help-desk social engineering, identity compromise and data theft.",
       "europe_relevance": "The reviewed dossier includes the 2024 Transport for London intrusion; unrelated European incidents are not silently attributed to the group.",
+      "last_reviewed": "2026-08-27",
+      "source_record_version": "1.0.0",
+      "context_scope": "europe-only",
       "baltic_observation_ids": [],
-      "apt_url": "https://apt.hecavex.com/actors/scattered-spider/"
+      "apt_url": "https://apt.hecavex.com/actors/scattered-spider/",
+      "apt_json_url": "https://apt.hecavex.com/api/actors/scattered-spider.json"
     },
     {
       "id": "black-basta",
@@ -307,8 +553,12 @@
       "confidence": "high",
       "summary": "Ransomware-as-a-service operation active since 2022 and associated with hundreds of affected organisations.",
       "europe_relevance": "Joint government reporting documents affected organisations across Europe, North America and Australia.",
+      "last_reviewed": "2026-08-27",
+      "source_record_version": "1.0.0",
+      "context_scope": "europe-only",
       "baltic_observation_ids": [],
-      "apt_url": "https://apt.hecavex.com/actors/black-basta/"
+      "apt_url": "https://apt.hecavex.com/actors/black-basta/",
+      "apt_json_url": "https://apt.hecavex.com/api/actors/black-basta.json"
     },
     {
       "id": "z-pentest",
@@ -318,8 +568,12 @@
       "confidence": "high",
       "summary": "State-aligned pro-Russia hacktivist group associated with opportunistic operational-technology access.",
       "europe_relevance": "Danish intelligence attributed a destructive 2024 water-utility incident to the group.",
+      "last_reviewed": "2026-08-27",
+      "source_record_version": "1.0.0",
+      "context_scope": "europe-only",
       "baltic_observation_ids": [],
-      "apt_url": "https://apt.hecavex.com/actors/z-pentest/"
+      "apt_url": "https://apt.hecavex.com/actors/z-pentest/",
+      "apt_json_url": "https://apt.hecavex.com/api/actors/z-pentest.json"
     }
   ]
 }

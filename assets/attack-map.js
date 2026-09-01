@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const DATA_URL = '/data/attack/intelligence/reviewed-evidence.json';
+  const DATA_URL = '/data/attack/intelligence/reviewed-evidence.json?v=20260901-2';
   const MAX_COMPARISON = 3;
   const elements = {
     sourceRelease: document.querySelector('#source-release'),
@@ -102,6 +102,8 @@
           evidence.campaign.id,
           evidence.notes,
           evidence.uncertainty,
+          evidence.confidence_rationale,
+          evidence.record_lifecycle?.state,
           ...evidence.tactics,
           sourceText
         ].join(' '))
@@ -196,7 +198,7 @@
     elements.techniqueTotal.textContent = summary.techniques;
     elements.campaignTotal.textContent = summary.campaigns;
     elements.sourceRelease.textContent = `APT Notes ${source.dataset_version} · ${releaseDate(source.released_at)} · ${source.release_id}`;
-    elements.frameworkNotice.textContent = framework.notice;
+    elements.frameworkNotice.textContent = `${framework.notice} Labs pins this publication to Enterprise ATT&CK ${framework.version}.`;
   }
 
   function currentFilters() {
@@ -318,6 +320,9 @@
     metadata.append(
       mappingDefinition('Evidence status', row.mapping_status),
       mappingDefinition('Confidence', row.confidence),
+      mappingDefinition('Confidence basis', row.confidence_rationale),
+      mappingDefinition('Upstream lifecycle', row.record_lifecycle.state),
+      mappingDefinition('Correction state', row.record_lifecycle.correction_state),
       mappingDefinition('First observed', row.first_observed),
       mappingDefinition('Last observed', row.last_observed),
       mappingDefinition('Campaign', row.campaign.name),
@@ -407,8 +412,11 @@
       technique_id: row.technique_id,
       technique: row.technique,
       tactics: row.tactics,
+      framework_reference: row.framework_reference,
       mapping_status: row.mapping_status,
       confidence: row.confidence,
+      confidence_rationale: row.confidence_rationale,
+      record_lifecycle: row.record_lifecycle,
       campaign: row.campaign,
       first_observed: row.first_observed,
       last_observed: row.last_observed,
@@ -440,6 +448,7 @@
       schema_version: '1.0.0',
       export_scope: 'current filters',
       source_release: state.data.source_system,
+      framework: state.data.framework,
       result_count: state.filtered.length,
       records: serializableRows()
     };
@@ -452,7 +461,7 @@
   }
 
   function exportCsv() {
-    const headers = ['actor', 'actor_id', 'campaign', 'technique_id', 'technique', 'tactics', 'mapping_status', 'confidence', 'first_observed', 'last_observed', 'notes', 'uncertainty', 'source_urls'];
+    const headers = ['actor', 'actor_id', 'campaign', 'technique_id', 'technique', 'tactics', 'framework_version', 'framework_stix_id', 'mapping_status', 'confidence', 'confidence_rationale', 'lifecycle_state', 'correction_state', 'actor_version', 'campaign_version', 'technique_version', 'first_observed', 'last_observed', 'notes', 'uncertainty', 'source_urls'];
     const rows = state.filtered.map((row) => [
       row.actor.name,
       row.actor.id,
@@ -460,8 +469,16 @@
       row.technique_id,
       row.technique,
       row.tactics.join('; '),
+      row.framework_reference.version,
+      row.framework_reference.stix_id,
       row.mapping_status,
       row.confidence,
+      row.confidence_rationale,
+      row.record_lifecycle.state,
+      row.record_lifecycle.correction_state,
+      row.record_lifecycle.actor_version,
+      row.record_lifecycle.campaign_version,
+      row.record_lifecycle.technique_version,
       row.first_observed,
       row.last_observed,
       row.notes,
@@ -492,7 +509,7 @@
     }));
     const layer = {
       name: 'HECAVEX reviewed ATT&CK evidence',
-      versions: { attack: 'current at cited links', navigator: '5.1.0', layer: '4.5' },
+      versions: { attack: state.data.framework.version, navigator: '5.1.0', layer: '4.5' },
       domain: 'enterprise-attack',
       description: `Explicit source-backed mappings from ${state.data.source_system.release_id}. Scores encode published confidence only; they are not defensive coverage or actor prevalence.`,
       filters: { platforms: [] },
@@ -508,6 +525,8 @@
       ],
       metadata: [
         { name: 'Publisher', value: 'HECAVEX' },
+        { name: 'ATT&CK version pinned', value: state.data.framework.version },
+        { name: 'ATT&CK version pinned at', value: state.data.framework.version_pinned_at },
         { name: 'Boundary', value: 'Reviewed evidence index; not coverage or prevalence' }
       ],
       links: [{ label: 'HECAVEX ATT&CK Evidence Explorer', url: 'https://labs.hecavex.com/attack-map/' }],
@@ -555,6 +574,10 @@
       if (state.lastDialogTrigger?.isConnected) state.lastDialogTrigger.focus();
       state.lastDialogTrigger = null;
     });
+    window.HECAVEX_LABS?.bindShellSearch((query) => {
+      elements.search.value = query;
+      if (state.data) applyFilters();
+    });
   }
 
   async function init() {
@@ -563,7 +586,7 @@
       const response = await fetch(DATA_URL, { headers: { Accept: 'application/json' } });
       if (!response.ok) throw new Error(`Evidence dataset request failed with HTTP ${response.status}`);
       const data = await response.json();
-      if (data.schema_version !== '2.0.0' || !Array.isArray(data.actors)) throw new Error('Unsupported evidence dataset contract');
+      if (data.schema_version !== '2.2.0' || !Array.isArray(data.actors)) throw new Error('Unsupported evidence dataset contract');
       state.data = data;
       flattenDataset(data);
       configureControls();

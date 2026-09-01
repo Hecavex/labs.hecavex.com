@@ -3,7 +3,6 @@
   const empty = document.querySelector('#atlas-empty');
   const count = document.querySelector('#atlas-count');
   const search = document.querySelector('#atlas-search');
-  const globalSearch = document.querySelector('#global-q');
   const country = document.querySelector('#atlas-country');
   const type = document.querySelector('#atlas-type');
   const year = document.querySelector('#atlas-year');
@@ -11,6 +10,7 @@
   const actorContextList = document.querySelector('#atlas-actor-context');
   const actorContextCount = document.querySelector('#atlas-context-count');
   let records = [];
+  let recordsLoaded = false;
 
   const element = (name, className, text) => {
     const node = document.createElement(name);
@@ -96,10 +96,16 @@
   }
 
   function update() {
+    // site.js publishes an initial ?q= value as soon as this workspace
+    // subscribes. The dataset fetch may still be in flight at that point, so
+    // retain the query in the input and defer record filtering until the
+    // placeholder has been replaced with actual Atlas records.
+    if (!recordsLoaded) return;
+
     const query = normalise(search.value.trim());
     const filters = { country: country.value, type: type.value, year: year.value };
     let visible = 0;
-    [...list.children].forEach((article, index) => {
+    [...list.querySelectorAll('.atlas-record')].forEach((article, index) => {
       const record = records[index];
       const matches = (!query || article.dataset.search.includes(query))
         && (!filters.country || normalise(record.country) === filters.country)
@@ -142,6 +148,7 @@
       top.append(
         element('span', 'badge derived', actor.category.replaceAll('-', ' ')),
         element('span', 'atlas-tag', actor.status.replaceAll('-', ' ')),
+        element('span', 'atlas-tag', actor.context_scope === 'baltic-linked' ? 'Baltic observation linked' : 'Europe context only'),
       );
 
       const heading = element('h3');
@@ -159,21 +166,23 @@
         heading,
         element('p', '', actor.summary),
         element('p', '', actor.europe_relevance),
-        element('p', 'meta', `${actor.confidence} confidence · ${boundary}`),
+        element('p', 'meta', `${actor.confidence} confidence · reviewed ${actor.last_reviewed} · source record ${actor.source_record_version} · ${boundary}`),
       );
       return card;
     }));
-    actorContextCount.textContent = `${sortedActors.length} Europe-context actors`;
+    const balticLinked = sortedActors.filter((actor) => actor.context_scope === 'baltic-linked').length;
+    actorContextCount.textContent = `${sortedActors.length} Europe-context actors · ${balticLinked} with explicit Baltic mappings`;
     document.querySelector('#atlas-context-total').textContent = String(sortedActors.length);
   }
 
   async function initialise() {
     try {
-      const response = await fetch('/data/atlas/records.json', { credentials: 'same-origin' });
+      const response = await fetch('/data/atlas/records.json?v=20260901-1', { credentials: 'same-origin' });
       if (!response.ok) throw new Error(`Dataset request failed with ${response.status}`);
       const data = await response.json();
       records = [...data.records].sort(newestFirst);
       list.replaceChildren(...records.map(renderRecord));
+      recordsLoaded = true;
       populateSelect(type, records.map((record) => record.type));
       populateSelect(year, records.map(recordYear));
       document.querySelector('#atlas-total').textContent = String(records.length);
@@ -181,6 +190,15 @@
       ['lithuania', 'latvia', 'estonia'].forEach((name) => { document.querySelector(`#count-${name}`).textContent = String(records.filter((record) => normalise(record.country) === name).length); });
       renderMappings();
       renderActorContext(data.actor_context || []);
+      const contextSource = data.actor_context_source;
+      const contextRelease = document.querySelector('#atlas-context-release');
+      if (contextSource && contextRelease) {
+        contextRelease.textContent = '';
+        const sourceLink = element('a', '', `Source release: APT Notes ${contextSource.dataset_version} ↗`);
+        sourceLink.href = contextSource.url;
+        sourceLink.rel = 'noopener';
+        contextRelease.append(sourceLink);
+      }
       update();
     } catch (error) {
       list.replaceChildren(element('div', 'empty', 'The Atlas dataset could not be loaded. Download the JSON or report the problem.'));
@@ -191,7 +209,9 @@
 
   [search, country, type, year].forEach((control) => control.addEventListener(control === search ? 'input' : 'change', update));
   document.querySelectorAll('[data-country-button]').forEach((button) => button.addEventListener('click', () => { country.value = country.value === button.dataset.countryButton ? '' : button.dataset.countryButton; update(); }));
-  globalSearch?.addEventListener('input', () => { search.value = globalSearch.value; update(); });
-  globalSearch?.closest('form')?.addEventListener('submit', (event) => { event.preventDefault(); search.value = globalSearch.value; update(); });
+  window.HECAVEX_LABS?.bindShellSearch((query) => {
+    search.value = query;
+    update();
+  });
   initialise();
 })();

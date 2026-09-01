@@ -35,30 +35,41 @@
 
   const searchInputs = [...document.querySelectorAll('[data-shell-search]')];
   const searchItems = [...document.querySelectorAll('[data-search-item]')];
-  if (searchInputs.length && searchItems.length) {
-    const params = new URLSearchParams(location.search);
-    const initialQuery = params.get('q') || '';
+  const shellSearchSubscribers = new Set();
+  let shellQuery = new URLSearchParams(location.search).get('q') || '';
 
-    const filter = (query) => {
-      const normalized = query.trim().toLowerCase();
-      searchInputs.forEach((input) => {
-        if (input.value !== query) input.value = query;
-      });
-      searchItems.forEach((item) => {
-        item.hidden = Boolean(normalized) && !item.textContent.toLowerCase().includes(normalized);
-      });
-    };
-
+  const publishShellSearch = (query) => {
+    shellQuery = query;
+    const normalized = query.trim().toLowerCase();
     searchInputs.forEach((input) => {
-      input.value = initialQuery;
-      input.addEventListener('input', () => filter(input.value));
-      input.closest('form')?.addEventListener('submit', (event) => {
-        event.preventDefault();
-        filter(input.value);
-      });
+      if (input.value !== query) input.value = query;
     });
-    filter(initialQuery);
-  }
+    searchItems.forEach((item) => {
+      item.hidden = Boolean(normalized) && !item.textContent.toLowerCase().includes(normalized);
+    });
+    shellSearchSubscribers.forEach((subscriber) => subscriber(query));
+  };
+
+  // Workspace scripts subscribe after site.js has loaded. Calling a new
+  // subscriber immediately prevents the initial ?q= value from being lost.
+  window.HECAVEX_LABS = Object.freeze({
+    bindShellSearch(subscriber) {
+      if (typeof subscriber !== 'function') return () => {};
+      shellSearchSubscribers.add(subscriber);
+      subscriber(shellQuery);
+      return () => shellSearchSubscribers.delete(subscriber);
+    }
+  });
+
+  searchInputs.forEach((input) => {
+    input.value = shellQuery;
+    input.addEventListener('input', () => publishShellSearch(input.value));
+    input.closest('form')?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      publishShellSearch(input.value);
+    });
+  });
+  publishShellSearch(shellQuery);
 
   const documentToc = document.querySelector('.document-toc');
   const documentTocLinks = [...(documentToc?.querySelectorAll('a[href^="#"]') || [])];

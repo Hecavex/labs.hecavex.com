@@ -57,6 +57,8 @@ Every pull request and push to `main` runs the publication checks in `.github/wo
 
 The validation entry points are `scripts/sync_shell.py`, `scripts/validate.py` and `scripts/audit_performance.py`.
 
+`scripts/audit_external_links.py` performs the separate remote-destination review. A weekly GitHub workflow publishes its JSON report and warnings without blocking deployment for rate limits, bot protection or transient network failures; only a maintainer-invoked `--strict` run treats confirmed HTTP 404/410 responses as failures.
+
 Production is served through the custom domain declared in `CNAME`. GitHub Pages must remain configured to use GitHub Actions as its source; direct branch publishing would bypass the staging allowlist.
 
 ## Corrections, security and rights

@@ -38,6 +38,7 @@ jobs:
           git diff --exit-code -- data/attack
           python scripts/validate.py
           python scripts/audit_performance.py
+          node scripts/test_atlas_initial_query.js
           for file in assets/*.js; do node --check "$file"; done
 
       - name: Configure GitHub Pages

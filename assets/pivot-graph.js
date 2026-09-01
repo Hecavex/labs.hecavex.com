@@ -2,11 +2,11 @@
   const NS = 'http://www.w3.org/2000/svg';
   const svg = document.querySelector('#graph-svg');
   const ledger = document.querySelector('#claim-ledger');
-  const search = document.querySelector('#global-q');
   const selector = document.querySelector('#case-selector');
   let catalogue;
   let selectedCase;
   let data;
+  let shellQuery = '';
   const graphWidth = 1100;
   const graphLeft = 105;
   const graphRight = graphWidth - 105;
@@ -140,7 +140,7 @@
 
   function filterLedger() {
     if (!data) return;
-    const query = search?.value.trim().toLowerCase() || '';
+    const query = shellQuery.trim().toLowerCase();
     let visible = 0;
     [...ledger.children].forEach((row) => {
       row.hidden = Boolean(query) && !row.dataset.search.includes(query);
@@ -212,7 +212,6 @@
     if (!response.ok) throw new Error(`Graph request failed with ${response.status}`);
     data = await response.json();
     if (data.case.id !== selectedCase.id) throw new Error(`Catalogue and graph case IDs differ for ${selectedCase.id}`);
-    if (search) search.value = '';
     updateCaseHeader();
     renderGraph();
     renderLedger();
@@ -243,8 +242,10 @@
     }
   }
 
-  search?.addEventListener('input', filterLedger);
-  search?.closest('form')?.addEventListener('submit', (event) => { event.preventDefault(); filterLedger(); });
+  window.HECAVEX_LABS?.bindShellSearch((query) => {
+    shellQuery = query;
+    filterLedger();
+  });
   window.addEventListener('popstate', () => {
     if (catalogue) loadCase(new URL(window.location.href).searchParams.get('case'), false).catch(showError);
   });

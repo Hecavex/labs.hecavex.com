@@ -6,6 +6,14 @@
   "description": "Meaningful dataset additions, corrections, schema changes and workspace lifecycle changes.",
   "items": [
     {
+      "id": "labs-contract-corrections-2026-09-01",
+      "url": "https://labs.hecavex.com/changes/#change-2026-09-01-contracts",
+      "title": "Workspace navigation and evidence contracts corrected",
+      "date_published": "2026-09-01T00:00:00Z",
+      "content_text": "Shell search now controls the actual Atlas, Pivot and ATT&CK filters; the homepage count follows the four-case catalogue; Changes HTML and JSON Feed are checked for parity; ATT&CK evidence 2.2 validates every used technique and tactic against a compact manifest derived from the exact official Enterprise ATT&CK 19.2 STIX bundle while preserving confidence basis and lifecycle state; and the Atlas consumes explicit Baltic relevance records from APT Notes 2.3.0 without treating Europe-only actors as Baltic observations.",
+      "tags": ["correction", "schema-change", "usability", "non-breaking"]
+    },
+    {
       "id": "actors-hostinger-2026-08-27",
       "url": "https://labs.hecavex.com/changes/#change-2026-08-27-actors-hostinger",
       "title": "Europe actor context and Hostinger pivot published",
@@ -36,6 +44,14 @@
       "date_published": "2026-08-21T00:00:00Z",
       "content_text": "Catalogue records gained ownership, review triggers, archive conditions and explicit lifecycle states.",
       "tags": ["schema-change", "governance", "non-breaking"]
+    },
+    {
+      "id": "labs-launch-2026-08-14",
+      "url": "https://labs.hecavex.com/changes/#change-2026-08-14-launch",
+      "title": "Baltic Threat Atlas and Evidence Pivot Workspace published",
+      "date_published": "2026-08-14T00:00:00Z",
+      "content_text": "The initial release established bounded Baltic observation records, source-linked entity mappings and provenance-aware case graphs.",
+      "tags": ["initial-publication", "dataset-added", "workspace-launch"]
     }
   ]
 }

@@ -1,0 +1,290 @@
+{
+  "schema_version": "1.0.0",
+  "framework": {
+    "name": "MITRE ATT&CK",
+    "domain": "enterprise-attack",
+    "version": "19.2",
+    "released": "2026-08-06",
+    "source_repository": "https://github.com/mitre-attack/attack-stix-data",
+    "source_commit": "6cda5ad8462c79e14fbb872f4e09059b18e0cfc4",
+    "source_url": "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/6cda5ad8462c79e14fbb872f4e09059b18e0cfc4/enterprise-attack/enterprise-attack-19.2.json",
+    "source_sha256": "dc1639caa5501d720e280cf1cbd8fbe009884a0c9b3e6e9ed9d0c25166c3d8f4",
+    "derived_at": "2026-09-01",
+    "selection": "Exact current Enterprise ATT&CK techniques referenced by the Labs reviewed-evidence projection; this compact validation manifest is not a framework mirror."
+  },
+  "tactics": {
+    "collection": {
+      "id": "TA0009",
+      "name": "Collection",
+      "stix_id": "x-mitre-tactic--d108ce10-2419-4cf9-a774-46161d6c6cfe"
+    },
+    "command-and-control": {
+      "id": "TA0011",
+      "name": "Command and Control",
+      "stix_id": "x-mitre-tactic--f72804c5-f15a-449e-a5da-2eecd181f813"
+    },
+    "credential-access": {
+      "id": "TA0006",
+      "name": "Credential Access",
+      "stix_id": "x-mitre-tactic--2558fd61-8c75-4730-94c4-11926db2a263"
+    },
+    "defense-impairment": {
+      "id": "TA0112",
+      "name": "Defense Impairment",
+      "stix_id": "x-mitre-tactic--43c49635-f2fa-44f2-92b9-0ee980bbf4ef"
+    },
+    "discovery": {
+      "id": "TA0007",
+      "name": "Discovery",
+      "stix_id": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9"
+    },
+    "execution": {
+      "id": "TA0002",
+      "name": "Execution",
+      "stix_id": "x-mitre-tactic--4ca45d45-df4d-4613-8980-bac22d278fa5"
+    },
+    "exfiltration": {
+      "id": "TA0010",
+      "name": "Exfiltration",
+      "stix_id": "x-mitre-tactic--9a4e74ab-5008-408c-84bf-a10dfbc53462"
+    },
+    "impact": {
+      "id": "TA0040",
+      "name": "Impact",
+      "stix_id": "x-mitre-tactic--5569339b-94c2-49ee-afb3-2222936582c8"
+    },
+    "initial-access": {
+      "id": "TA0001",
+      "name": "Initial Access",
+      "stix_id": "x-mitre-tactic--ffd5bcee-6e16-4dd2-8eca-7b3beedf33ca"
+    },
+    "lateral-movement": {
+      "id": "TA0008",
+      "name": "Lateral Movement",
+      "stix_id": "x-mitre-tactic--7141578b-e50b-4dcc-bfa4-08a8dd689e9e"
+    },
+    "persistence": {
+      "id": "TA0003",
+      "name": "Persistence",
+      "stix_id": "x-mitre-tactic--5bc1d813-693e-4823-9961-abf9af4b0e92"
+    },
+    "privilege-escalation": {
+      "id": "TA0004",
+      "name": "Privilege Escalation",
+      "stix_id": "x-mitre-tactic--5e29b093-294e-49e9-a803-dab3d73b77dd"
+    },
+    "reconnaissance": {
+      "id": "TA0043",
+      "name": "Reconnaissance",
+      "stix_id": "x-mitre-tactic--daa4cbb1-b4f4-4723-a824-7f1efd6e0592"
+    },
+    "resource-development": {
+      "id": "TA0042",
+      "name": "Resource Development",
+      "stix_id": "x-mitre-tactic--d679bca2-e57d-4935-8650-8031c87a4400"
+    },
+    "stealth": {
+      "id": "TA0005",
+      "name": "Stealth",
+      "stix_id": "x-mitre-tactic--78b23412-0651-46d7-a540-170a1ce8bd5a"
+    }
+  },
+  "techniques": {
+    "T1003.001": {
+      "name": "LSASS Memory",
+      "stix_id": "attack-pattern--65f2d882-3f41-4d48-8a06-29af77ec9f90",
+      "tactics": ["credential-access"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1005": {
+      "name": "Data from Local System",
+      "stix_id": "attack-pattern--3c4a2599-71ee-4405-ba1e-0e28414b4bc5",
+      "tactics": ["collection"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1053.005": {
+      "name": "Scheduled Task",
+      "stix_id": "attack-pattern--005a06c6-14bf-4118-afa0-ebcd8aebb0c9",
+      "tactics": ["execution", "persistence", "privilege-escalation"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1059.001": {
+      "name": "PowerShell",
+      "stix_id": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
+      "tactics": ["execution"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1078": {
+      "name": "Valid Accounts",
+      "stix_id": "attack-pattern--b17a1a56-e99c-403c-8948-561df0cffe81",
+      "tactics": ["stealth", "persistence", "privilege-escalation", "initial-access"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1087.004": {
+      "name": "Cloud Account",
+      "stix_id": "attack-pattern--8f104855-e5b7-4077-b1f5-bc3103b41abe",
+      "tactics": ["discovery"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1110.003": {
+      "name": "Password Spraying",
+      "stix_id": "attack-pattern--692074ae-bb62-4a5e-a735-02cb6bde458c",
+      "tactics": ["credential-access"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1114": {
+      "name": "Email Collection",
+      "stix_id": "attack-pattern--1608f3e1-598a-42f4-a01a-2e252e81728f",
+      "tactics": ["collection"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1114.002": {
+      "name": "Remote Email Collection",
+      "stix_id": "attack-pattern--b4694861-542c-48ea-9eb1-10d356e7140a",
+      "tactics": ["collection"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1125": {
+      "name": "Video Capture",
+      "stix_id": "attack-pattern--6faf650d-bf31-4eb4-802d-1000cf38efaf",
+      "tactics": ["collection"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1133": {
+      "name": "External Remote Services",
+      "stix_id": "attack-pattern--10d51417-ee35-4589-b1ff-b6df1c334e8d",
+      "tactics": ["persistence", "initial-access"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1190": {
+      "name": "Exploit Public-Facing Application",
+      "stix_id": "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c",
+      "tactics": ["initial-access"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1195.002": {
+      "name": "Compromise Software Supply Chain",
+      "stix_id": "attack-pattern--bd369cd9-abb8-41ce-b5bb-fff23ee86c00",
+      "tactics": ["initial-access"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1203": {
+      "name": "Exploitation for Client Execution",
+      "stix_id": "attack-pattern--be2dcee9-a7a7-4e38-afd6-21b31ecc3d63",
+      "tactics": ["execution"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1219": {
+      "name": "Remote Access Tools",
+      "stix_id": "attack-pattern--4061e78c-1284-44b4-9116-73e4ac3912f7",
+      "tactics": ["command-and-control"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1485": {
+      "name": "Data Destruction",
+      "stix_id": "attack-pattern--d45a3d09-b3cf-48f4-9f0f-f521ee5cb05c",
+      "tactics": ["impact"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1498": {
+      "name": "Network Denial of Service",
+      "stix_id": "attack-pattern--d74c4a7e-ffbf-432f-9365-7ebf1f787cab",
+      "tactics": ["impact"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1505.003": {
+      "name": "Web Shell",
+      "stix_id": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "tactics": ["persistence"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1528": {
+      "name": "Steal Application Access Token",
+      "stix_id": "attack-pattern--890c9858-598c-401d-a4d5-c67ebcdd703a",
+      "tactics": ["credential-access"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1543.002": {
+      "name": "Systemd Service",
+      "stix_id": "attack-pattern--dfefe2ed-4389-4318-8762-f0272b350a1b",
+      "tactics": ["persistence", "privilege-escalation"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1550.004": {
+      "name": "Web Session Cookie",
+      "stix_id": "attack-pattern--c3c8c916-2f3c-4e71-94b2-240bdfc996f0",
+      "tactics": ["lateral-movement"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1557": {
+      "name": "Adversary-in-the-Middle",
+      "stix_id": "attack-pattern--035bb001-ab69-4a0b-9f6c-2de8b09e1b9d",
+      "tactics": ["credential-access", "collection"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1561.002": {
+      "name": "Disk Structure Wipe",
+      "stix_id": "attack-pattern--0af0ca99-357d-4ba1-805f-674fdfb7bef9",
+      "tactics": ["impact"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1566": {
+      "name": "Phishing",
+      "stix_id": "attack-pattern--a62a8db3-f23a-4d8f-afd6-9dbc77e7813b",
+      "tactics": ["initial-access"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1566.001": {
+      "name": "Spearphishing Attachment",
+      "stix_id": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
+      "tactics": ["initial-access"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1566.002": {
+      "name": "Spearphishing Link",
+      "stix_id": "attack-pattern--2b742742-28c3-4e1b-bab7-8350d6300fa7",
+      "tactics": ["initial-access"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1567.002": {
+      "name": "Exfiltration to Cloud Storage",
+      "stix_id": "attack-pattern--bf1b6176-597c-4600-bfcd-ac989670f96b",
+      "tactics": ["exfiltration"],
+      "revoked": false,
+      "deprecated": false
+    },
+    "T1570": {
+      "name": "Lateral Tool Transfer",
+      "stix_id": "attack-pattern--bf90d72c-c00b-45e3-b3aa-68560560d4c5",
+      "tactics": ["lateral-movement"],
+      "revoked": false,
+      "deprecated": false
+    }
+  }
+}

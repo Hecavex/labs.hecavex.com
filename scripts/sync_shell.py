@@ -4,60 +4,31 @@
 from __future__ import annotations
 
 import argparse
-from dataclasses import dataclass
 from pathlib import Path
 import re
 import sys
 
+from site_contract import LOCAL_NAVIGATION, PORTFOLIO_NAVIGATION, ROUTES, Route
+
 
 ROOT = Path(__file__).resolve().parent.parent
 
-
-@dataclass(frozen=True)
-class Route:
-    path: str
-    active: str | None
-    utility: str
-    utility_label: str = ""
-    utility_placeholder: str = ""
-    utility_href: str = ""
-    utility_text: str = ""
-    portfolio_active: str = "labs"
-
-
-ROUTES = (
-    Route("index.html", "overview", "search", "Filter Labs workspaces", "Filter"),
-    Route("baltic-threat-atlas/index.html", "atlas", "search", "Search Baltic Threat Atlas", "Search"),
-    Route("pivot-graph/index.html", "pivots", "search", "Search case claims", "Search"),
-    Route("attack-map/index.html", "attack", "search", "Search actors or techniques", "Search"),
-    Route("osint-workbench/index.html", None, "search", "Search archived OSINT resources", "Search"),
-    Route("data/index.html", None, "link", utility_href="/data/catalogue.json", utility_text="Catalogue JSON"),
-    Route("changes/index.html", "changes", "link", utility_href="/changes/feed.json", utility_text="JSON feed"),
-    Route("methodology/index.html", "methodology", "link", utility_href="https://github.com/Hecavex/labs.hecavex.com", utility_text="Source"),
-    Route("about/index.html", "about", "link", utility_href="https://github.com/Hecavex/labs.hecavex.com", utility_text="Source"),
-    Route("licence/index.html", None, "link", utility_href="/methodology/", utility_text="Methodology"),
-    Route("security/index.html", None, "link", utility_href="/.well-known/security.txt", utility_text="security.txt"),
-)
-
-LOCAL_NAVIGATION = (
-    ("overview", "Overview", "/"),
-    ("atlas", "Baltic Atlas", "/baltic-threat-atlas/"),
-    ("pivots", "Pivots", "/pivot-graph/"),
-    ("attack", "ATT&amp;CK Evidence", "/attack-map/"),
-    ("changes", "Changes", "/changes/"),
-    ("methodology", "Methodology", "/methodology/"),
-    ("about", "About", "/about/"),
-)
-
-PORTFOLIO_NAVIGATION = (
-    ("research", "Research", "https://hecavex.com/en/research/"),
-    ("radar", "Radar", "https://radar.hecavex.com/"),
-    ("apt", "APT Notes", "https://apt.hecavex.com/"),
-    ("labs", "Labs", "https://labs.hecavex.com/"),
-)
-
 HEADER_RE = re.compile(r'<header class="site-header"(?:\s[^>]*)?>.*?</header>', re.DOTALL)
 FOOTER_RE = re.compile(r'<footer class="(?:footer|site-footer)"(?:\s[^>]*)?>.*?</footer>', re.DOTALL)
+
+
+def render_sitemap() -> str:
+    entries = "\n".join(
+        f"  <url><loc>{route.canonical_url}</loc><lastmod>{route.sitemap_lastmod}</lastmod></url>"
+        for route in ROUTES
+        if route.sitemap_lastmod
+    )
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f'{entries}\n'
+        '</urlset>\n'
+    )
 
 
 def attributes(current: bool) -> str:
@@ -173,6 +144,13 @@ def main() -> int:
         stale.append(route.path)
         if args.write:
             path.write_text(rendered, encoding="utf-8", newline="\n")
+
+    sitemap_path = ROOT / "sitemap.xml"
+    expected_sitemap = render_sitemap()
+    if sitemap_path.read_text(encoding="utf-8") != expected_sitemap:
+        stale.append("sitemap.xml")
+        if args.write:
+            sitemap_path.write_text(expected_sitemap, encoding="utf-8", newline="\n")
 
     if stale and args.check:
         print("Stale Labs portfolio shell: " + ", ".join(stale), file=sys.stderr)
