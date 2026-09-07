@@ -116,7 +116,24 @@
         "state": "not-recorded",
         "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
       },
-      "source_caveat": "The source gives 1,551 social-engineering incidents and 49%, but its stated total of 2,888 yields about 53.7%. The published percentage is preserved as source wording, not independently reconciled. Do not infer a common denominator or compare the percentages without clarification."
+      "source_caveat": "The source gives 1,551 social-engineering incidents and 49%, but its stated total of 2,888 yields about 53.7%. The published percentage is preserved as source wording, not independently reconciled. Do not infer a common denominator or compare the percentages without clarification.",
+      "claim_version": "1.1.0",
+      "corrections": [
+        {
+          "id": "lt-2025-phishing-fraud-denominator-2026-09-07",
+          "version": "1.1.0",
+          "previous_version": "1.0.0",
+          "recorded_at": "2026-09-07T10:40:20Z",
+          "method": "automated-source-consistency-check",
+          "human_reviewed_at": null,
+          "affected_field": "source_caveat",
+          "source": "https://www.nksc.lt/doc/rkgc/CTAC_2025_Yearly_Report.pdf#page=17",
+          "locator": "Printed page 17, section 2.2.2 Lithuania, first and second paragraphs",
+          "rationale": "The source states 2,888 total incidents, 1,551 social-engineering incidents and a 49% share. The arithmetic ratio 1,551 / 2,888 is approximately 53.7%, not 49%. The source does not reconcile those denominators here.",
+          "change": "Added an explicit denominator caveat. Retained the source's reported counts and percentage, original 2025 observation period, reported confidence and attribution boundary.",
+          "limitation": "This is an automated source-consistency correction, not a human analyst review or a replacement statistic. The actual intended denominator remains unresolved."
+        }
+      ]
     },
     {
       "id": "lv-2024-q2-threat-hunt",

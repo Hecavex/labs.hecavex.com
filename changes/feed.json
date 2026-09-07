@@ -10,7 +10,7 @@
       "url": "https://labs.hecavex.com/changes/#change-2026-09-07-provenance",
       "title": "Claim provenance and reliable workspace selection",
       "date_published": "2026-09-07T10:00:33Z",
-      "content_text": "Race-safe pivot selection, Atlas source and period-precision metadata with an explicit source-percentage caveat, ATT&CK Evidence schema 2.3 with mapping-level provenance from APT Notes 2.4.0, exact upstream CI pinning, bounded Lithuanian access, opt-in filtered-view copy, accessible footer targets and a custom 404. Canonical analytical claims and historical review dates are not renewed by this publication update.",
+      "content_text": "Race-safe pivot selection, Atlas source and period-precision metadata with an explicit source-percentage caveat and a versioned automated correction trail for that one claim (not a human review), ATT&CK Evidence schema 2.3 with mapping-level provenance from APT Notes 2.4.0, exact upstream CI pinning, bounded Lithuanian access, opt-in filtered-view copy, accessible footer targets and a custom 404. Canonical analytical claims and historical review dates are not renewed by this publication update.",
       "tags": ["correction", "schema-change", "accessibility", "non-breaking"]
     },
     {

@@ -1199,7 +1199,7 @@ pages_workflow = (root / ".github" / "workflows" / "pages.yml").read_text(encodi
 if "node scripts/test_atlas_initial_query.js" not in pages_workflow:
     errors.append("Pages validation does not run the Atlas initial shell-query regression test")
 for route_path, application_script, release_token in (
-    ("baltic-threat-atlas/index.html", "atlas.js", "20260907-1"),
+    ("baltic-threat-atlas/index.html", "atlas.js", "20260907-2"),
     ("pivot-graph/index.html", "pivot-graph.js", "20260907-1"),
     ("attack-map/index.html", "attack-map.js", "20260907-1"),
 ):
@@ -1207,7 +1207,7 @@ for route_path, application_script, release_token in (
     if route_text.count(f'/assets/{application_script}?v={release_token}') != 1:
         errors.append(f"Versioned workspace script differs or is missing from {route_path}")
 for application_script, data_url in (
-    ("atlas.js", "/data/atlas/records.json?v=20260907-1"),
+    ("atlas.js", "/data/atlas/records.json?v=20260907-2"),
     ("attack-map.js", "/data/attack/intelligence/reviewed-evidence.json?v=20260907-1"),
 ):
     javascript = (root / "assets" / application_script).read_text(encoding="utf-8")

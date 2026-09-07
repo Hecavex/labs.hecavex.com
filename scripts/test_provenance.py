@@ -21,3 +21,17 @@ correction = deepcopy(payload)
 first_mapping(correction)["claim_review"].update(state="corrected", reviewed_at="2026-09-07", rationale="Fixture correction", correction_note="")
 assert any("correction needs a note" in error for error in validate_payload(correction))
 print("Claim provenance regressions passed: valid projection, unknown review dates, source scope and explicit corrections.")
+
+atlas = json.loads((ROOT / "data/atlas/records.json").read_text(encoding="utf-8"))
+corrected = [record for record in atlas["records"] if record.get("corrections")]
+assert [record["id"] for record in corrected] == ["lt-2025-phishing-fraud-shift"]
+claim = corrected[0]
+assert claim["date"] == "2025" and claim["confidence"] == "reported" and claim["attribution"] == "None"
+assert "1,551" in claim["summary"] and "49%" in claim["summary"] and "907" in claim["summary"]
+assert all(record["review"]["reviewed_at"] is None for record in atlas["records"])
+trail = claim["corrections"][0]
+assert trail["method"] == "automated-source-consistency-check" and trail["human_reviewed_at"] is None
+assert trail["source"] == claim["source"] + "#page=17" and "2.2.2 Lithuania" in trail["locator"]
+assert trail["version"] == claim["claim_version"] and trail["previous_version"] == "1.0.0"
+assert trail["affected_field"] == "source_caveat" and round(1551 / 2888 * 100, 1) == 53.7
+print("Atlas correction pilot passed: one changed claim, exact source locator, original values preserved and no invented human reviews.")

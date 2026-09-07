@@ -57,6 +57,7 @@
 
   function renderRecord(record) {
     const article = element('article', 'atlas-record');
+    article.id = record.id;
     article.dataset.search = normalise([record.title, record.summary, record.country, record.type, record.sector, record.actor, record.attribution].join(' '));
 
     const date = element('div', 'atlas-date');
@@ -86,6 +87,17 @@
     const metadata = record.source_metadata || {};
     body.append(element('p', 'meta', [metadata.publisher, metadata.title, `Period precision: ${record.period_precision || 'not recorded'}`, metadata.locator || 'Precise source locator not recorded', `Independent claim review: ${record.review?.reviewed_at || 'not recorded'}`].filter(Boolean).join(' · ')));
     if (record.source_caveat) body.append(element('p', 'notice', record.source_caveat));
+    for (const correction of record.corrections || []) {
+      const trail = element('details', 'source-correction');
+      trail.append(element('summary', '', `Automated source-consistency correction · claim ${correction.version}`));
+      trail.append(element('p', '', correction.change), element('p', '', correction.rationale));
+      const sourceLink = element('a', '', correction.locator);
+      sourceLink.href = correction.source;
+      const sourceLine = element('p', 'meta', `${correction.recorded_at} · `);
+      sourceLine.append(sourceLink);
+      trail.append(sourceLine, element('p', 'meta', correction.limitation));
+      body.append(trail);
+    }
     article.append(date, body);
     return article;
   }
@@ -180,7 +192,7 @@
 
   async function initialise() {
     try {
-      const response = await fetch('/data/atlas/records.json?v=20260907-1', { credentials: 'same-origin' });
+      const response = await fetch('/data/atlas/records.json?v=20260907-2', { credentials: 'same-origin' });
       if (!response.ok) throw new Error(`Dataset request failed with ${response.status}`);
       const data = await response.json();
       records = [...data.records].sort(newestFirst);
