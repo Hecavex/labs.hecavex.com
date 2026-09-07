@@ -208,8 +208,8 @@ a.panel:hover { transform: translateY(-2px); border-left-color: var(--hx-steel);
 .change-log { max-width: none; margin: 2.5rem 0 0; padding: 0; border-top: 1px solid var(--hx-border); list-style: none; }
 .change-log > li { display: grid; grid-template-columns: 10.5rem minmax(0, 1fr); gap: 1.5rem; padding: 1.35rem 0; border-bottom: 1px solid var(--hx-border-subtle); }
 .change-log > li > time { color: var(--hx-text-faint); font: 600 .68rem var(--font-mono); }
-.change-log h2 { max-width: 32ch; margin: .4rem 0 .55rem; padding: 0; border: 0; font-size: 1.25rem; }
-.change-log p { max-width: 80ch; margin: .4rem 0; color: var(--hx-text-muted); }
+.change-log h2 { max-width: none; margin: .4rem 0 .55rem; padding: 0; border: 0; font-size: 1.25rem; }
+.change-log p { max-width: none; margin: .4rem 0; color: var(--hx-text-muted); }
 .definition-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid var(--hx-border-subtle); }
 .definition-list > div { min-width: 0; padding: .9rem 1rem; border-right: 1px solid var(--hx-border-subtle); border-bottom: 1px solid var(--hx-border-subtle); background: var(--hx-surface-1); }
 .definition-list > div:nth-child(2n) { border-right: 0; }
