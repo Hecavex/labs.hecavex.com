@@ -21,6 +21,15 @@
   line-height: var(--page-title-leading);
 }
 
+.evidence-hero > div { grid-column: 1 / -1; }
+.evidence-method > summary { cursor: pointer; min-height: 2rem; padding-block: .5rem; }
+.evidence-index > .evidence-boundary { margin-block: 1.5rem; }
+@media (max-width: 680px) {
+  .attack-evidence-shell .evidence-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .attack-evidence-shell .evidence-method { margin-top: 1.5rem; }
+  .attack-evidence-shell .evidence-index { margin-top: 1.5rem; }
+}
+
 .evidence-hero .lead {
   max-width: 62ch;
   margin: 0;

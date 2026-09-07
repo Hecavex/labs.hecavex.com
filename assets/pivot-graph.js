@@ -81,7 +81,8 @@
     group.insertBefore(background, label);
   }
 
-  function selectNode(node) {
+  const claimAnchor = (node) => `claim-${selectedCase.id}-${node.id}`;
+  function selectNode(node, updateHistory = true) {
     document.querySelectorAll('.graph-node').forEach((item) => item.classList.toggle('active', item.dataset.id === node.id));
     document.querySelector('#node-title').textContent = node.label;
     document.querySelector('#node-class').textContent = node.class;
@@ -90,7 +91,25 @@
     const link = create('a', `${node.evidence_label} ↗`);
     link.href = node.evidence;
     link.rel = 'noopener';
-    document.querySelector('#node-evidence').replaceChildren(link);
+    const permalink = new URL(location.href);
+    permalink.searchParams.set('case', selectedCase.id);
+    permalink.searchParams.set('node', node.id);
+    permalink.hash = claimAnchor(node);
+    const copy = create('button', 'Copy claim link', 'button small');
+    copy.type = 'button';
+    const direct = create('a', 'Claim permalink');
+    direct.href = permalink.href;
+    copy.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(permalink.href); copy.textContent = 'Claim link copied'; }
+      catch { copy.textContent = 'Use Claim permalink to copy the address'; }
+    });
+    document.querySelector('#node-evidence').replaceChildren(link, document.createTextNode(' '), direct, document.createTextNode(' '), copy);
+    if (node.artifact) {
+      const artifact = create('a', node.artifact_locator || 'Released artifact');
+      artifact.href = node.artifact;
+      document.querySelector('#node-evidence').append(create('br'), artifact);
+    }
+    if (updateHistory) history.pushState({ caseId: selectedCase.id, nodeId: node.id }, '', permalink);
   }
 
   function renderGraph() {
@@ -135,7 +154,7 @@
       });
       svg.append(group);
     });
-    selectNode(data.nodes[0]);
+    selectNode(data.nodes[0], false);
   }
 
   function filterLedger() {
@@ -152,6 +171,8 @@
   function renderLedger() {
     ledger.replaceChildren(...data.nodes.map((node) => {
       const row = create('tr');
+      row.id = claimAnchor(node);
+      row.tabIndex = -1;
       row.dataset.search = [node.label, node.class, node.confidence, node.meaning].join(' ').toLowerCase();
       const object = create('td');
       const button = create('button', node.label, 'button small');
@@ -220,7 +241,8 @@
     const request = ++caseRequest;
     caseController?.abort();
     caseController = new AbortController();
-    const requestedCase = catalogue.cases.find((caseItem) => caseItem.id === caseId) || catalogue.cases[0];
+    const requestedCase = caseId ? catalogue.cases.find((caseItem) => caseItem.id === caseId) : catalogue.cases[0];
+    if (!requestedCase) throw new Error('Unknown case ID; choose a released case from the catalogue.');
     document.querySelector('#node-title').textContent = 'Loading case…';
     document.querySelector('#node-detail').textContent = 'Retrieving the selected graph.';
     try {
@@ -242,11 +264,32 @@
     if (updateHistory) {
       const url = new URL(window.location.href);
       url.searchParams.set('case', selectedCase.id);
+      url.searchParams.delete('node');
+      url.hash = '';
       window.history.pushState({ caseId: selectedCase.id }, '', url);
+    }
+    const nodeId = new URL(window.location.href).searchParams.get('node');
+    if (nodeId) {
+      const node = data.nodes.find((item) => item.id === nodeId);
+      if (node) {
+        selectNode(node, false);
+        const row = document.getElementById(claimAnchor(node));
+        row.hidden = false;
+        row.focus();
+        row.scrollIntoView({ block: 'center' });
+      } else {
+        document.querySelector('#node-title').textContent = 'Unknown claim';
+        document.querySelector('#node-detail').textContent = 'This claim ID is not in the selected released case. Choose a node or a ledger row.';
+        document.querySelector('#node-evidence').replaceChildren();
+      }
     }
   }
 
   function showError(error) {
+    ['case-title', 'case-summary', 'case-boundary', 'graph-case-label', 'ledger-count', 'case-node-count', 'case-edge-count'].forEach((id) => { document.getElementById(id).textContent = 'Case data unavailable'; });
+    svg.replaceChildren();
+    ledger.replaceChildren();
+    document.querySelector('#node-evidence').replaceChildren();
     document.querySelector('#node-title').textContent = 'Case data unavailable';
     document.querySelector('#node-detail').textContent = 'Download the case catalogue or report the problem.';
     console.error(error);

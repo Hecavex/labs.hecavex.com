@@ -89,7 +89,7 @@
     if (record.source_caveat) body.append(element('p', 'notice', record.source_caveat));
     for (const correction of record.corrections || []) {
       const trail = element('details', 'source-correction');
-      trail.append(element('summary', '', `Automated source-consistency correction · claim ${correction.version}`));
+        trail.append(element('summary', '', `${correction.method === 'ai-assisted-source-comparison' ? 'AI-assisted source comparison' : 'Automated source-consistency correction'} · claim ${correction.version}`));
       trail.append(element('p', '', correction.change), element('p', '', correction.rationale));
       const sourceLink = element('a', '', correction.locator);
       sourceLink.href = correction.source;
@@ -219,6 +219,12 @@
     } catch (error) {
       list.replaceChildren(element('div', 'empty', 'The Atlas dataset could not be loaded. Download the JSON or report the problem.'));
       count.textContent = 'Dataset unavailable';
+      [search, country, type, year, ...document.querySelectorAll('[data-country-button]')].forEach((control) => { control.disabled = true; });
+      ['atlas-total', 'atlas-attributions', 'atlas-context-total', 'atlas-mappings', 'count-lithuania', 'count-latvia', 'count-estonia'].forEach((id) => { document.getElementById(id).textContent = 'Unavailable'; });
+      actorContextCount.textContent = 'Actor context unavailable';
+      actorContextList.replaceChildren(element('p', 'empty', 'Actor context could not be loaded. Use the source JSON download.'));
+      mappingList.replaceChildren(element('p', 'empty', 'Mappings unavailable.'));
+      document.querySelector('#atlas-context-release').textContent = 'Source release unavailable.';
       console.error(error);
     }
   }

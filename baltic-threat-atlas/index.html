@@ -15,6 +15,7 @@
   <meta name="theme-color" content="#111416">
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://hecavex.com/#organization","name":"HECAVEX","url":"https://hecavex.com/","founder":{"@id":"https://hecavex.com/#deividas-lis"}},{"@type":"Person","@id":"https://hecavex.com/#deividas-lis","name":"Deividas Lis","url":"https://hecavex.com/en/about/"},{"@type":"WebSite","@id":"https://hecavex.com/#website","name":"HECAVEX","url":"https://hecavex.com/","hasPart":[{"@id":"https://apt.hecavex.com/#website"},{"@id":"https://labs.hecavex.com/#website"},{"@id":"https://radar.hecavex.com/#website"}]},{"@type":"WebSite","@id":"https://apt.hecavex.com/#website","name":"APT Notes by HECAVEX","url":"https://apt.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"WebSite","@id":"https://radar.hecavex.com/#website","name":"HECAVEX Radar","url":"https://radar.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"WebSite","@id":"https://labs.hecavex.com/#website","name":"HECAVEX Labs","url":"https://labs.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"Dataset","@id":"https://labs.hecavex.com/baltic-threat-atlas/#dataset","name":"Baltic Threat Atlas","url":"https://labs.hecavex.com/baltic-threat-atlas/","description":"Selected Baltic cyber observations with a separate Europe-facing actor context layer.","dateModified":"2026-09-07","license":"https://labs.hecavex.com/LICENSE.md","creator":{"@id":"https://hecavex.com/#deividas-lis"},"publisher":{"@id":"https://hecavex.com/#organization"},"isPartOf":{"@id":"https://labs.hecavex.com/#website"},"distribution":{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://labs.hecavex.com/data/atlas/records.json"}}]}</script>
   <script>document.documentElement.classList.add('js')</script>
+  <noscript><style>.stat-grid,.country-strip,.filters,#atlas-count,#atlas-records,#atlas-empty,#atlas-context-count,#atlas-context-release,#atlas-actor-context{display:none!important}</style></noscript>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -45,13 +46,13 @@
     </div>
   </header>
 
-  <main id="main-content">
+  <main id="main-content"><noscript><p class="notice">Interactive data requires JavaScript. <a href="/data/atlas/records.json">Download the source JSON</a> or <a href="https://hecavex.com/en/research/">read the published research</a>.</p></noscript>
     <div class="shell">
       <header class="brand-hero">
         <p class="eyebrow">Lab 01 · regional observation layer</p>
         <h1>Baltic Threat Atlas</h1>
-        <p class="lead">A queryable set of bounded public-source claims concerning Lithuania, Latvia and Estonia, with supported entity mappings and a separate Europe-facing actor context layer from APT Notes.</p>
-        <a class="button primary" href="/data/atlas/records.json">Download JSON →</a>
+        <p class="lead">Explore sourced claims concerning Lithuania, Latvia and Estonia. Actor context is shown separately.</p>
+        <a class="button primary" href="#atlas-controls">Browse observations</a> <a class="button" href="/data/atlas/records.json">Download JSON →</a>
         <p class="hero-meta">SCHEMA 0.5.0 · UPDATED 2026-09-07 · SELECTED COVERAGE</p>
       </header>
 
@@ -62,11 +63,11 @@
         <div class="stat"><strong id="atlas-context-total">14</strong><span>Europe context actors · <span id="atlas-mappings">7</span> source-backed APT links</span></div>
       </div>
 
-      <div class="notice"><strong>Not a prevalence map.</strong> Reporting visibility, classification and publication practices differ between authorities. A record is a bounded claim, not one unit of comparable national risk. Actor links appear only where the cited reporting supports the mapping.</div>
+
 
       <section class="section">
         <div class="section-head"><div><p class="eyebrow">Dataset explorer</p><h2>Public observations</h2></div><p id="atlas-count" aria-live="polite">Loading records…</p></div>
-        <div class="country-strip" aria-label="Filter by country">
+        <div id="atlas-controls" class="country-strip" aria-label="Filter by country">
           <button class="country-button" type="button" data-country-button="lithuania" aria-pressed="false"><strong id="count-lithuania">0</strong>Lithuania</button>
           <button class="country-button" type="button" data-country-button="latvia" aria-pressed="false"><strong id="count-latvia">0</strong>Latvia</button>
           <button class="country-button" type="button" data-country-button="estonia" aria-pressed="false"><strong id="count-estonia">0</strong>Estonia</button>
@@ -77,6 +78,7 @@
           <label for="atlas-type"><span>Observation type</span><select id="atlas-type"><option value="">All types</option></select></label>
           <label for="atlas-year"><span>Year</span><select id="atlas-year"><option value="">All years</option></select></label>
         </div>
+      <div class="notice"><strong>Not a prevalence map.</strong> Reporting visibility, classification and publication practices differ between authorities. A record is a bounded claim, not one unit of comparable national risk. Actor links appear only where the cited reporting supports the mapping.</div>
         <div class="atlas-layout">
           <div><div class="atlas-list" id="atlas-records"><div class="empty">Loading the source dataset…</div></div><div class="empty" id="atlas-empty" hidden>No observations match these filters.</div></div>
           <aside class="atlas-side" aria-label="Knowledge base mappings">

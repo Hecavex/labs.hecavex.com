@@ -29,6 +29,7 @@
   <meta name="theme-color" content="#111416">
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://hecavex.com/#organization","name":"HECAVEX","url":"https://hecavex.com/","founder":{"@id":"https://hecavex.com/#deividas-lis"}},{"@type":"Person","@id":"https://hecavex.com/#deividas-lis","name":"Deividas Lis","url":"https://hecavex.com/en/about/"},{"@type":"WebSite","@id":"https://hecavex.com/#website","name":"HECAVEX","url":"https://hecavex.com/","hasPart":[{"@id":"https://apt.hecavex.com/#website"},{"@id":"https://labs.hecavex.com/#website"},{"@id":"https://radar.hecavex.com/#website"}]},{"@type":"WebSite","@id":"https://apt.hecavex.com/#website","name":"APT Notes by HECAVEX","url":"https://apt.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"WebSite","@id":"https://radar.hecavex.com/#website","name":"HECAVEX Radar","url":"https://radar.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"WebSite","@id":"https://labs.hecavex.com/#website","name":"HECAVEX Labs","url":"https://labs.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"Dataset","@id":"https://labs.hecavex.com/attack-map/#dataset","name":"HECAVEX ATT&CK Evidence Explorer","description":"A source-backed index of explicit ATT&CK technique evidence from reviewed APT Notes actor dossiers.","url":"https://labs.hecavex.com/attack-map/","distribution":{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://labs.hecavex.com/data/attack/intelligence/reviewed-evidence.json"},"creator":{"@id":"https://hecavex.com/#deividas-lis"},"publisher":{"@id":"https://hecavex.com/#organization"},"isPartOf":{"@id":"https://labs.hecavex.com/#website"}}]}</script>
   <script>document.documentElement.classList.add('js')</script>
+  <noscript><style>#source-release,#result-count,.evidence-controls,.evidence-toolbar,.evidence-table{display:none!important}</style></noscript>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -59,21 +60,16 @@
     </div>
   </header>
 
-  <main id="main-content">
+  <main id="main-content"><noscript><p class="notice">Interactive data requires JavaScript. <a href="/data/attack/intelligence/reviewed-evidence.json">Download the source JSON</a> or <a href="https://hecavex.com/en/research/">read the published research</a>.</p></noscript>
     <div class="shell attack-evidence-shell">
       <header class="evidence-hero">
         <div>
-          <p class="eyebrow">Reviewed ATT&amp;CK evidence</p>
+          <p class="eyebrow">Source-linked ATT&amp;CK evidence</p>
           <h1>Procedure claims you can inspect.</h1>
-          <p class="lead">A read-only index of explicit actor and campaign mappings published in APT Notes. Every row preserves the procedure summary, confidence, uncertainty and public reporting behind it.</p>
+          <p class="lead">Inspect actor and campaign procedures from APT Notes, with confidence, limits and public sources.</p>
           <div class="hero-actions"><a class="button primary" href="#evidence-index">Browse evidence</a><a class="button" href="https://apt.hecavex.com/methodology/">APT Notes methodology</a></div>
         </div>
-        <aside class="evidence-boundary" aria-labelledby="boundary-title">
-          <p class="eyebrow">Publication boundary</p>
-          <h2 id="boundary-title">Evidence index, not attribution engine</h2>
-          <p>The explorer does not generate mappings from keywords, mirror the complete ATT&amp;CK catalogue, score defensive coverage or infer current activity.</p>
-          <p class="meta" id="source-release">Loading source release</p>
-        </aside>
+
       </header>
 
       <section class="evidence-stats" aria-label="Dataset scope">
@@ -83,7 +79,7 @@
         <div><span>Named campaigns</span><strong id="campaign-total">-</strong></div>
       </section>
 
-      <section class="evidence-method" aria-labelledby="method-title">
+      <details class="evidence-method"><summary>How to read the evidence and its limits</summary>
         <p class="eyebrow">How to read this</p>
         <h2 id="method-title">One claim, one evidence trail</h2>
         <div class="method-grid">
@@ -91,11 +87,11 @@
           <div><span>02</span><h3>Labs projects</h3><p>The build copies only explicit technique-evidence records. Actor technique lists and free text never create a mapping.</p></div>
           <div><span>03</span><h3>You verify</h3><p>Open the dossier and cited publication before reusing a claim. A mapping is context, not proof of attribution or prevalence.</p></div>
         </div>
-      </section>
+      </details>
 
       <section class="evidence-index" id="evidence-index" aria-labelledby="index-title">
         <div class="evidence-section-head">
-          <div><p class="eyebrow">Evidence explorer</p><h2 id="index-title">Reviewed mappings</h2></div>
+          <div><p class="eyebrow">Evidence explorer</p><h2 id="index-title">Source-linked mappings</h2></div>
           <p id="result-count" role="status" aria-live="polite">Loading evidence</p>
         </div>
 
@@ -108,6 +104,13 @@
           <label for="status-filter"><span>Evidence status</span><select id="status-filter"><option value="all">All statuses</option><option value="observed">Observed</option><option value="reported">Reported</option><option value="assessed">Assessed</option><option value="inferred">Inferred</option><option value="disputed">Disputed</option><option value="rejected">Rejected</option></select></label>
           <button class="button" id="reset-filters" type="reset">Reset filters</button>
         </form>
+
+        <aside class="evidence-boundary" aria-labelledby="boundary-title">
+          <p class="eyebrow">Publication boundary</p>
+          <h2 id="boundary-title">Evidence index, not attribution engine</h2>
+          <p>The explorer does not generate mappings from keywords, mirror the complete ATT&amp;CK catalogue, score defensive coverage or infer current activity.</p>
+          <p class="meta" id="source-release">Loading source release</p>
+        </aside>
 
         <div class="evidence-toolbar">
           <p><strong id="comparison-count">0</strong> of 3 actors selected for comparison</p>

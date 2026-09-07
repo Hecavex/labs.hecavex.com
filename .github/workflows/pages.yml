@@ -17,6 +17,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      release_digest: ${{ steps.release.outputs.digest }}
     timeout-minutes: 15
     permissions:
       contents: read
@@ -80,7 +82,6 @@ jobs:
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
 
       - name: Stage public site
-        if: github.event_name != 'pull_request'
         shell: bash
         env:
           HECAVEX_ANALYTICS_TOKEN: ${{ vars.HECAVEX_ANALYTICS_TOKEN }}
@@ -88,7 +89,20 @@ jobs:
           mkdir _site
           cp index.html 404.html CNAME robots.txt llms.txt sitemap.xml LICENSE LICENSE.md DATA-LICENSE.md favicon.svg favicon.ico apple-touch-icon.png icon-192.png icon-512.png site.webmanifest _site/
           cp -R .well-known about assets attack-map baltic-threat-atlas changes licence lt methodology osint-workbench pivot-graph security _site/
-          python scripts/stage_public_data.py _site --require-analytics
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            python scripts/stage_public_data.py _site
+          else
+            python scripts/stage_public_data.py _site --require-analytics
+          fi
+          node scripts/apply-csp.mjs _site
+
+      - name: Install bounded browser smoke dependency
+        run: npm install --prefix .browser-check --no-save --package-lock=false playwright-core@1.62.1
+      - name: Test staged data interaction and CSP in Chrome
+        run: node scripts/smoke-release.mjs _site labs
+      - name: Record publication manifest
+        id: release
+        run: node scripts/release.mjs create _site labs
 
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
@@ -106,9 +120,24 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     permissions:
+      contents: read
       pages: write
       id-token: write
     steps:
+      - name: Check out release verifier
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Set up Node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5
+      - name: Verify live revision and artifact hashes
+        env:
+          EXPECTED_DIGEST: ${{ needs.build.outputs.release_digest }}
+        run: node scripts/release.mjs verify https://labs.hecavex.com/ "$EXPECTED_DIGEST" "$GITHUB_SHA"
+      - name: Install bounded browser smoke dependency
+        run: npm install --prefix .browser-check --no-save --package-lock=false playwright-core@1.62.1
+      - name: Verify live data interaction
+        run: node scripts/smoke-release.mjs https://labs.hecavex.com/ labs

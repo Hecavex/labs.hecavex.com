@@ -1,14 +1,14 @@
 {
   "schema_version": "2.3.0",
-  "generated_at": "2026-09-07T10:54:54.000Z",
+  "generated_at": "2026-09-07T13:17:19.000Z",
   "publication_contract_updated_at": "2026-09-07",
   "source_system": {
     "name": "APT Notes by HECAVEX",
     "url": "https://apt.hecavex.com/",
     "api_url": "https://apt.hecavex.com/api/actors.json",
-    "release_id": "apt-notes-2026-09-07-name-provenance",
-    "dataset_version": "2.4.1",
-    "released_at": "2026-09-07T10:54:54.000Z",
+    "release_id": "apt-notes-2026-09-07-procedure-provenance",
+    "dataset_version": "2.4.2",
+    "released_at": "2026-09-07T13:17:19.000Z",
     "method": "Generated only from explicit technique_evidence records in published APT Notes actor dossiers."
   },
   "framework": {
@@ -154,19 +154,26 @@
           "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
           "record_lifecycle": {
             "state": "current",
-            "actor_version": "2.0.1",
+            "actor_version": "2.1.0",
             "campaign_version": "1.0.0",
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
           "claim_review": {
-            "version": "1.0.0",
+            "version": "1.1.0",
             "reviewed_at": null,
             "state": "not-recorded",
-            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
-            "correction_note": ""
+            "rationale": "EWS/IMAP collection and periodic EWS queries directly support T1114.002. 2022-2025 is the original reporting window, not exact per-mailbox observation dates. The April 2026 edition updates indicators; it does not establish new collection in 2026.",
+            "correction_note": "AI-assisted source comparison on 2026-09-07; independent human claim review remains unrecorded."
           },
-          "source_locators": [],
+          "source_locators": [
+            {
+              "source": "cisa-aa25-141a",
+              "locator": "Joint CSA, April 2026 version 1.1; printed pages 8-9, Exfiltration; page 29, Table 13, T1114.002. Official co-author copy: https://media.defense.gov/2025/May/21/2003719846/-1/-1/0/CSA_RUSSIAN_GRU_TARGET_LOGISTICS.PDF#page=8",
+              "basis": "procedure-evidence",
+              "checked_at": "2026-09-07"
+            }
+          ],
           "campaign": {
             "id": "western-logistics-targeting",
             "name": "Western logistics and technology targeting",
@@ -175,7 +182,7 @@
           "first_observed": "2022",
           "last_observed": "2025",
           "notes": "EWS and IMAP supported periodic, long-term collection.",
-          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "uncertainty": "Source passage and mapping compared by an AI assistant on 2026-09-07. This is not an independent human review.",
           "attack_url": "https://attack.mitre.org/techniques/T1114/002/",
           "apt_notes_url": "https://apt.hecavex.com/techniques/remote-email-collection/",
           "sources": [
@@ -209,19 +216,26 @@
           "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
           "record_lifecycle": {
             "state": "current",
-            "actor_version": "2.0.1",
+            "actor_version": "2.1.0",
             "campaign_version": "1.0.0",
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
           "claim_review": {
-            "version": "1.0.0",
+            "version": "1.1.0",
             "reviewed_at": null,
             "state": "not-recorded",
-            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
-            "correction_note": ""
+            "rationale": "T1125 is the source's mapping for attempted access to camera feeds. March 2022 is the stated earliest targeting; 2025 is the original report boundary, not a last confirmed camera access. Targeting counts do not equal successful compromises.",
+            "correction_note": "AI-assisted source comparison on 2026-09-07; independent human claim review remains unrecorded."
           },
-          "source_locators": [],
+          "source_locators": [
+            {
+              "source": "cisa-aa25-141a",
+              "locator": "Joint CSA, April 2026 version 1.1; printed pages 9-10, Connections to Targeting of IP Cameras; page 29, Table 13, T1125. Official co-author copy: https://media.defense.gov/2025/May/21/2003719846/-1/-1/0/CSA_RUSSIAN_GRU_TARGET_LOGISTICS.PDF#page=9",
+              "basis": "procedure-evidence",
+              "checked_at": "2026-09-07"
+            }
+          ],
           "campaign": {
             "id": "western-logistics-targeting",
             "name": "Western logistics and technology targeting",
@@ -230,7 +244,7 @@
           "first_observed": "2022",
           "last_observed": "2025",
           "notes": "RTSP-accessible cameras were targeted around logistics and military locations.",
-          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "uncertainty": "Source passage and mapping compared by an AI assistant on 2026-09-07. This is not an independent human review.",
           "attack_url": "https://attack.mitre.org/techniques/T1125/",
           "apt_notes_url": "https://apt.hecavex.com/techniques/video-capture/",
           "sources": [
@@ -264,19 +278,26 @@
           "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
           "record_lifecycle": {
             "state": "current",
-            "actor_version": "2.0.1",
+            "actor_version": "2.1.0",
             "campaign_version": "1.0.0",
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
           "claim_review": {
-            "version": "1.0.0",
+            "version": "1.1.0",
             "reviewed_at": null,
             "state": "not-recorded",
-            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
-            "correction_note": ""
+            "rationale": "T1190 follows the source's explicit router-exploitation mapping. CVE-2023-50224 remains likely, not confirmed. 2024-2026 is the reported campaign interval, not a dated event for every router.",
+            "correction_note": "AI-assisted source comparison on 2026-09-07; independent human claim review remains unrecorded."
           },
-          "source_locators": [],
+          "source_locators": [
+            {
+              "source": "ncsc-apt28-dns-2026",
+              "locator": "NCSC, 7 April 2026 edition; TP-Link router exploitation, paragraphs 1-3; MITRE ATT&CK table, T1190 row.",
+              "basis": "procedure-evidence",
+              "checked_at": "2026-09-07"
+            }
+          ],
           "campaign": {
             "id": "apt28-dns-hijacking",
             "name": "APT28 router and DNS hijacking operations",
@@ -285,7 +306,7 @@
           "first_observed": "2024",
           "last_observed": "2026",
           "notes": "Exploitation of internet-facing routers to create operational infrastructure.",
-          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "uncertainty": "Source passage and mapping compared by an AI assistant on 2026-09-07. This is not an independent human review.",
           "attack_url": "https://attack.mitre.org/techniques/T1190/",
           "apt_notes_url": "https://apt.hecavex.com/techniques/exploit-public-facing-application/",
           "sources": [
@@ -319,28 +340,35 @@
           "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
           "record_lifecycle": {
             "state": "current",
-            "actor_version": "2.0.1",
+            "actor_version": "2.1.0",
             "campaign_version": "1.0.0",
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
           "claim_review": {
-            "version": "1.0.0",
+            "version": "1.1.0",
             "reviewed_at": null,
             "state": "not-recorded",
-            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
-            "correction_note": ""
+            "rationale": "Intercepted authorization codes redeemed for access and refresh tokens support T1528. The report explicitly places observed use in 2023. Its 2025 publication date does not extend observed use through 2025.",
+            "correction_note": "AI-assisted source comparison on 2026-09-07; independent human claim review remains unrecorded."
           },
-          "source_locators": [],
+          "source_locators": [
+            {
+              "source": "ncsc-authentic-antics-2025",
+              "locator": "NCSC AUTHENTIC ANTICS Malware Analysis Report, version 1, 6 May 2025; printed page 3 Introduction and pages 9-12 Outlook Credential and Token Stealing / Token Retrieval and Validation.",
+              "basis": "procedure-evidence",
+              "checked_at": "2026-09-07"
+            }
+          ],
           "campaign": {
             "id": "outlook-identity-collection",
             "name": "Outlook identity and token collection",
             "url": "https://apt.hecavex.com/campaigns/outlook-identity-collection/"
           },
           "first_observed": "2023",
-          "last_observed": "2025",
+          "last_observed": "2023",
           "notes": "AUTHENTIC ANTICS intercepted OAuth authorization flows from within Outlook.",
-          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "uncertainty": "Source passage and mapping compared by an AI assistant on 2026-09-07. This is not an independent human review.",
           "attack_url": "https://attack.mitre.org/techniques/T1528/",
           "apt_notes_url": "https://apt.hecavex.com/techniques/steal-application-access-token/",
           "sources": [
@@ -375,19 +403,26 @@
           "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
           "record_lifecycle": {
             "state": "current",
-            "actor_version": "2.0.1",
+            "actor_version": "2.1.0",
             "campaign_version": "1.0.0",
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
           "claim_review": {
-            "version": "1.0.0",
+            "version": "1.1.0",
             "reviewed_at": null,
             "state": "not-recorded",
-            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
-            "correction_note": ""
+            "rationale": "T1557 follows selective DNS redirection and attempted credential interception. Password and OAuth-token theft is the reported capability; success for every victim is not established. 2024-2026 is the campaign interval.",
+            "correction_note": "AI-assisted source comparison on 2026-09-07; independent human claim review remains unrecorded."
           },
-          "source_locators": [],
+          "source_locators": [
+            {
+              "source": "ncsc-apt28-dns-2026",
+              "locator": "NCSC, 7 April 2026 edition; APT28 malicious DNS activity / Cluster one, paragraphs 1-3; MITRE ATT&CK table, T1557 row.",
+              "basis": "procedure-evidence",
+              "checked_at": "2026-09-07"
+            }
+          ],
           "campaign": {
             "id": "apt28-dns-hijacking",
             "name": "APT28 router and DNS hijacking operations",
@@ -396,7 +431,7 @@
           "first_observed": "2024",
           "last_observed": "2026",
           "notes": "Selective DNS resolution enabled interception of passwords and OAuth tokens.",
-          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "uncertainty": "Source passage and mapping compared by an AI assistant on 2026-09-07. This is not an independent human review.",
           "attack_url": "https://attack.mitre.org/techniques/T1557/",
           "apt_notes_url": "https://apt.hecavex.com/techniques/adversary-in-the-middle/",
           "sources": [
@@ -439,28 +474,35 @@
           "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
           "record_lifecycle": {
             "state": "current",
-            "actor_version": "2.0.1",
+            "actor_version": "2.1.0",
             "campaign_version": "1.0.0",
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
           "claim_review": {
-            "version": "1.0.0",
+            "version": "1.1.0",
             "reviewed_at": null,
             "state": "not-recorded",
-            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
-            "correction_note": ""
+            "rationale": "Weaponised RTF lures support the attachment mapping. Attribution remains ThreatLabz's high-confidence assessment. January 2026 is the observed activity month; February is publication time, not a separately established last observation.",
+            "correction_note": "AI-assisted source comparison on 2026-09-07; independent human claim review remains unrecorded."
           },
-          "source_locators": [],
+          "source_locators": [
+            {
+              "source": "zscaler-operation-neusploit",
+              "locator": "Zscaler ThreatLabz, 2 February 2026 edition; Introduction and Technical Analysis opening paragraphs; MITRE ATT&CK Framework table. English article text was retrieved on the publisher's /de/blogs/security-research/apt28-leverages-cve-2026-21509-operation-neusploit route.",
+              "basis": "procedure-evidence",
+              "checked_at": "2026-09-07"
+            }
+          ],
           "campaign": {
             "id": "operation-neusploit",
             "name": "Operation Neusploit",
             "url": "https://apt.hecavex.com/campaigns/operation-neusploit/"
           },
           "first_observed": "2026-01",
-          "last_observed": "2026-02",
+          "last_observed": "2026-01",
           "notes": "Weaponised RTF documents exploited CVE-2026-21509.",
-          "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
+          "uncertainty": "Source passage and mapping compared by an AI assistant on 2026-09-07. This is not an independent human review.",
           "attack_url": "https://attack.mitre.org/techniques/T1566/001/",
           "apt_notes_url": "https://apt.hecavex.com/techniques/spearphishing-attachment/",
           "sources": [
