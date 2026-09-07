@@ -73,7 +73,7 @@
       </header>
 
       <section class="evidence-stats" aria-label="Dataset scope">
-        <div><span>Reviewed actors</span><strong id="actor-total">-</strong></div>
+        <div><span>Source-linked actors</span><strong id="actor-total">-</strong></div>
         <div><span>Evidence mappings</span><strong id="mapping-total">-</strong></div>
         <div><span>ATT&amp;CK techniques</span><strong id="technique-total">-</strong></div>
         <div><span>Named campaigns</span><strong id="campaign-total">-</strong></div>
@@ -97,7 +97,7 @@
 
         <form class="evidence-controls" id="evidence-controls" role="search">
           <label class="wide-field" for="evidence-search"><span>Search</span><input id="evidence-search" type="search" placeholder="Actor, alias, campaign, technique, procedure or source" autocomplete="off"></label>
-          <label for="actor-filter"><span>Actor</span><select id="actor-filter"><option value="all">All reviewed actors</option></select></label>
+          <label for="actor-filter"><span>Actor</span><select id="actor-filter"><option value="all">All actors</option></select></label>
           <label for="campaign-filter"><span>Campaign</span><select id="campaign-filter"><option value="all">All campaigns</option></select></label>
           <label for="tactic-filter"><span>Tactic</span><select id="tactic-filter"><option value="all">All tactics</option></select></label>
           <label for="confidence-filter"><span>Confidence</span><select id="confidence-filter"><option value="all">All confidence levels</option><option value="high">High</option><option value="moderate">Moderate</option><option value="low">Low</option></select></label>
@@ -121,24 +121,24 @@
           </div>
         </div>
 
-        <noscript><p class="notice">JavaScript is required to filter the evidence index. The complete reviewed JSON remains available from the Data catalogue.</p></noscript>
-        <div class="evidence-table" role="table" aria-label="Reviewed ATT&CK procedure evidence">
+        <noscript><p class="notice">JavaScript is required to filter the evidence index. The complete source-linked JSON remains available from the Data catalogue.</p></noscript>
+        <div class="evidence-table" role="table" aria-label="Source-linked ATT&amp;CK procedure evidence">
           <div class="evidence-table-head" role="row">
             <span role="columnheader">Actor and campaign</span><span role="columnheader">Technique</span><span role="columnheader">Evidence</span><span role="columnheader">Timeline</span><span role="columnheader">Actions</span>
           </div>
-          <div id="evidence-results" role="rowgroup"><div class="evidence-empty">Loading the reviewed evidence dataset.</div></div>
+          <div id="evidence-results" role="rowgroup"><div class="evidence-empty">Loading the source-linked evidence dataset.</div></div>
         </div>
       </section>
 
       <section class="comparison" id="comparison" aria-labelledby="comparison-title" hidden>
-        <div class="evidence-section-head"><div><p class="eyebrow">Bounded comparison</p><h2 id="comparison-title">Compare reviewed actors</h2></div><button class="button small" id="clear-comparison" type="button">Clear comparison</button></div>
+        <div class="evidence-section-head"><div><p class="eyebrow">Bounded comparison</p><h2 id="comparison-title">Compare actors</h2></div><button class="button small" id="clear-comparison" type="button">Clear comparison</button></div>
         <p class="comparison-intro">This compares only the explicit procedure mappings in the current APT Notes release. A larger count can reflect dossier depth, not actor capability or activity volume.</p>
         <div class="comparison-grid" id="comparison-grid"></div>
       </section>
 
       <section class="evidence-footnote">
         <p><strong>Framework notice.</strong> <span id="framework-notice">MITRE ATT&amp;CK technique identifiers and links are used for reference.</span> HECAVEX is independent and is not affiliated with or endorsed by MITRE. <a href="https://attack.mitre.org/resources/terms-of-use/">ATT&amp;CK terms of use</a>.</p>
-        <p><strong>Machine access.</strong> Download the canonical <a href="/data/attack/intelligence/reviewed-evidence.json">reviewed evidence JSON</a>. Browser exports contain only the currently filtered rows.</p>
+        <p><strong>Machine access.</strong> Download the canonical <a href="/data/attack/intelligence/reviewed-evidence.json">source-linked evidence JSON</a>. Browser exports contain only the currently filtered rows. The historical filename does not establish independent human review.</p>
       </section>
     </div>
   </main>

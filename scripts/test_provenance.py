@@ -41,3 +41,14 @@ assert trail["source"] == claim["source"] + "#page=17" and "2.2.2 Lithuania" in 
 assert trail["version"] == claim["claim_version"] and trail["previous_version"] == "1.0.0"
 assert trail["affected_field"] == "source_caveat" and round(1551 / 2888 * 100, 1) == 53.7
 print("Atlas source tranche passed: five bounded comparisons, preserved arithmetic caveat and no invented human reviews.")
+
+homepage = (ROOT / "index.html").read_text(encoding="utf-8")
+workspace = (ROOT / "attack-map/index.html").read_text(encoding="utf-8")
+interaction = (ROOT / "assets/attack-map.js").read_text(encoding="utf-8")
+assert '<strong>Source-linked</strong>' in homepage
+for text in (homepage, workspace, interaction):
+    assert 'Explore reviewed evidence' not in text
+    assert 'Reviewed ATT&CK procedure evidence' not in text
+    assert 'Loading the reviewed evidence dataset' not in text
+assert 'historical filename does not establish independent human review' in workspace
+print("Current UI labels preserve source linkage without claiming human procedure review.")

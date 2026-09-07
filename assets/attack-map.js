@@ -186,7 +186,7 @@
       [...state.actors.values()]
         .sort((left, right) => left.name.localeCompare(right.name))
         .map((actor) => ({ value: actor.id, label: actor.name })),
-      'All reviewed actors'
+      'All actors'
     );
     reconcileDependentControls();
   }
@@ -285,7 +285,7 @@
   function renderRows() {
     elements.resultCount.textContent = `${state.filtered.length} of ${state.rows.length} mappings`;
     if (!state.filtered.length) {
-      elements.results.replaceChildren(el('div', 'evidence-empty', 'No reviewed evidence matches these filters.'));
+      elements.results.replaceChildren(el('div', 'evidence-empty', 'No source-linked evidence matches these filters.'));
     } else {
       elements.results.replaceChildren(...state.filtered.map(renderRow));
     }
@@ -532,7 +532,7 @@
         { name: 'Publisher', value: 'HECAVEX' },
         { name: 'ATT&CK version pinned', value: state.data.framework.version },
         { name: 'ATT&CK version pinned at', value: state.data.framework.version_pinned_at },
-        { name: 'Boundary', value: 'Reviewed evidence index; not coverage or prevalence' }
+        { name: 'Boundary', value: 'Source-linked evidence index; not coverage or prevalence' }
       ],
       links: [{ label: 'HECAVEX ATT&CK Evidence Explorer', url: 'https://labs.hecavex.com/attack-map/' }],
       showTacticRowBackground: false,
@@ -545,7 +545,7 @@
 
   function showLoadError(error) {
     console.error(error);
-    elements.results.replaceChildren(el('div', 'evidence-error', 'The reviewed evidence dataset could not be loaded. Use the Data catalogue for the canonical JSON or try again later.'));
+    elements.results.replaceChildren(el('div', 'evidence-error', 'The source-linked evidence dataset could not be loaded. Use the Data catalogue for the canonical JSON or try again later.'));
     elements.resultCount.textContent = 'Dataset unavailable';
     document.querySelector('#source-release').textContent = 'Source release unavailable';
     elements.controls.querySelectorAll('input, select, button').forEach((control) => { control.disabled = true; });
