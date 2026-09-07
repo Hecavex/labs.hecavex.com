@@ -332,6 +332,8 @@
     metadata.append(mappingDefinition('Independent claim review', row.claim_review?.reviewed_at || 'Not recorded'), mappingDefinition('Claim review state', row.claim_review?.state || 'not-recorded'), mappingDefinition('Claim version', row.claim_review?.version || 'Not recorded'));
     const locators = el('p', 'meta', row.source_locators?.length ? row.source_locators.map((item) => `${item.source}: ${item.locator}`).join(' / ') : 'Precise source locator not recorded. Compare the procedure with the cited publication before reuse.');
     summary.append(locators);
+    if (row.source_locators?.length && row.claim_review?.rationale) summary.append(el('p', '', row.claim_review.rationale));
+    if (row.claim_review?.correction_note) summary.append(el('p', 'meta', row.claim_review.correction_note));
 
     const uncertainty = el('section', 'mapping-uncertainty');
     uncertainty.append(el('strong', '', 'Uncertainty and reuse boundary'), el('span', '', row.uncertainty));
@@ -545,6 +547,8 @@
     console.error(error);
     elements.results.replaceChildren(el('div', 'evidence-error', 'The reviewed evidence dataset could not be loaded. Use the Data catalogue for the canonical JSON or try again later.'));
     elements.resultCount.textContent = 'Dataset unavailable';
+    document.querySelector('#source-release').textContent = 'Source release unavailable';
+    elements.controls.querySelectorAll('input, select, button').forEach((control) => { control.disabled = true; });
     [elements.exportJson, elements.exportCsv, elements.exportNavigator].forEach((button) => { button.disabled = true; });
   }
 
@@ -593,6 +597,8 @@
       state.data = data;
       flattenDataset(data);
       configureControls();
+      const linkedActor = new URL(window.location.href).searchParams.get('actor');
+      if (linkedActor && state.actors.has(linkedActor)) elements.actor.value = linkedActor;
       setDatasetSummary();
       applyFilters();
       renderComparison();

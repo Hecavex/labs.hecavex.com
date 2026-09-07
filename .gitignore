@@ -2,6 +2,7 @@
 Thumbs.db
 *.tmp
 .codex-tmp/
+.browser-check/
 .venv/
 .env
 .env.*

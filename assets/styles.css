@@ -194,7 +194,7 @@ a.panel:hover { transform: translateY(-2px); border-left-color: var(--hx-steel);
 .document-prose--wide .definition-list dd { text-align: justify; text-align-last: left; text-justify: inter-word; hyphens: auto; }
 .document-toc { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem 1rem; margin: 0 0 2rem; padding: .8rem 0; border-top: 1px solid var(--hx-border-subtle); border-bottom: 1px solid var(--hx-border-subtle); }
 .document-toc span { margin-right: auto; color: var(--hx-text-faint); font: 700 .62rem var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
-.document-toc a { color: var(--hx-text-soft); font: 600 .66rem var(--font-mono); text-decoration: none; text-transform: uppercase; }
+.document-toc a { display: inline-flex; align-items: center; min-height: 2rem; padding: .25rem; color: var(--hx-text-soft); font: 600 .66rem var(--font-mono); text-decoration: none; text-transform: uppercase; }
 .document-toc a:hover,
 .document-toc a[aria-current="location"] { color: var(--hx-steel); }
 .document-toc a[aria-current="location"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .45rem; }

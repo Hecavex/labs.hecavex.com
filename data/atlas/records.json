@@ -50,16 +50,33 @@
         "publisher": "National Cyber Security Centre of Lithuania / CTAC",
         "title": "CTAC 2024 Yearly Report",
         "published_at": null,
-        "accessed_at": null,
-        "locator": "Page 11, section 3.2.1 Lithuania",
+        "accessed_at": "2026-09-07",
+        "locator": "Printed page 11, section 3.2.1 Lithuania; 2024 edition.",
         "locator_checked_at": "2026-09-07"
       },
       "review": {
-        "version": "1.0.0",
+        "version": "1.1.0",
         "reviewed_at": null,
         "state": "not-recorded",
-        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
-      }
+        "note": "AI-assisted source comparison performed 2026-09-07. The 63% rise and 59% social-engineering share are source figures. 2024 is the reporting period; improved reporting affects interpretation. Independent human claim review remains unrecorded."
+      },
+      "claim_version": "1.1.0",
+      "corrections": [
+        {
+          "id": "lt-2024-annual-incidents-source-comparison-2026-09-07",
+          "version": "1.1.0",
+          "previous_version": "1.0.0",
+          "recorded_at": "2026-09-07",
+          "method": "ai-assisted-source-comparison",
+          "human_reviewed_at": null,
+          "affected_field": "source_metadata, review",
+          "source": "https://www.nksc.lt/doc/rkgc/CTAC_2024_Yearly_Report.pdf",
+          "locator": "Printed page 11, section 3.2.1 Lithuania; 2024 edition.",
+          "rationale": "The 63% rise and 59% social-engineering share are source figures. 2024 is the reporting period; improved reporting affects interpretation.",
+          "change": "Added source edition, reproducible locator and date basis; preserved source confidence and attribution limits.",
+          "limitation": "No independent human claim review or new incident collection."
+        }
+      ]
     },
     {
       "id": "lt-2025-incident-volume",
@@ -78,16 +95,33 @@
         "publisher": "National Cyber Security Centre of Lithuania / CTAC",
         "title": "CTAC 2025 Yearly Report",
         "published_at": null,
-        "accessed_at": null,
-        "locator": "Page 17, section 2.2.2 Lithuania",
+        "accessed_at": "2026-09-07",
+        "locator": "Printed page 17, section 2.2.2 Lithuania, first paragraph; 2025 edition.",
         "locator_checked_at": "2026-09-07"
       },
       "review": {
-        "version": "1.0.0",
+        "version": "1.1.0",
         "reviewed_at": null,
         "state": "not-recorded",
-        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
-      }
+        "note": "AI-assisted source comparison performed 2026-09-07. 19 + 380 + 2489 equals 2888. 2025 is the observation period, not the date this report was published; no exact publication date is inferred. Independent human claim review remains unrecorded."
+      },
+      "claim_version": "1.1.0",
+      "corrections": [
+        {
+          "id": "lt-2025-incident-volume-source-comparison-2026-09-07",
+          "version": "1.1.0",
+          "previous_version": "1.0.0",
+          "recorded_at": "2026-09-07",
+          "method": "ai-assisted-source-comparison",
+          "human_reviewed_at": null,
+          "affected_field": "source_metadata, review",
+          "source": "https://www.nksc.lt/doc/rkgc/CTAC_2025_Yearly_Report.pdf",
+          "locator": "Printed page 17, section 2.2.2 Lithuania, first paragraph; 2025 edition.",
+          "rationale": "19 + 380 + 2489 equals 2888. 2025 is the observation period, not the date this report was published; no exact publication date is inferred.",
+          "change": "Added source edition, reproducible locator and date basis; preserved source confidence and attribution limits.",
+          "limitation": "No independent human claim review or new incident collection."
+        }
+      ]
     },
     {
       "id": "lt-2025-phishing-fraud-shift",
@@ -106,15 +140,15 @@
         "publisher": "National Cyber Security Centre of Lithuania / CTAC",
         "title": "CTAC 2025 Yearly Report",
         "published_at": null,
-        "accessed_at": null,
-        "locator": "Page 17, section 2.2.2 Lithuania",
+        "accessed_at": "2026-09-07",
+        "locator": "Printed page 17, section 2.2.2 Lithuania, first and second paragraphs; 2025 edition.",
         "locator_checked_at": "2026-09-07"
       },
       "review": {
-        "version": "1.0.0",
+        "version": "1.1.0",
         "reviewed_at": null,
         "state": "not-recorded",
-        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+        "note": "AI-assisted source comparison performed 2026-09-07. The counts and 49% wording are reproduced with the existing unresolved denominator caveat. 2025 is the reporting period. No common denominator is inferred. Independent human claim review remains unrecorded."
       },
       "source_caveat": "The source gives 1,551 social-engineering incidents and 49%, but its stated total of 2,888 yields about 53.7%. The published percentage is preserved as source wording, not independently reconciled. Do not infer a common denominator or compare the percentages without clarification.",
       "claim_version": "1.1.0",
@@ -132,6 +166,20 @@
           "rationale": "The source states 2,888 total incidents, 1,551 social-engineering incidents and a 49% share. The arithmetic ratio 1,551 / 2,888 is approximately 53.7%, not 49%. The source does not reconcile those denominators here.",
           "change": "Added an explicit denominator caveat. Retained the source's reported counts and percentage, original 2025 observation period, reported confidence and attribution boundary.",
           "limitation": "This is an automated source-consistency correction, not a human analyst review or a replacement statistic. The actual intended denominator remains unresolved."
+        },
+        {
+          "id": "lt-2025-phishing-fraud-shift-source-comparison-2026-09-07",
+          "version": "1.1.0",
+          "previous_version": "1.1.0",
+          "recorded_at": "2026-09-07",
+          "method": "ai-assisted-source-comparison",
+          "human_reviewed_at": null,
+          "affected_field": "source_metadata, review",
+          "source": "https://www.nksc.lt/doc/rkgc/CTAC_2025_Yearly_Report.pdf",
+          "locator": "Printed page 17, section 2.2.2 Lithuania, first and second paragraphs; 2025 edition.",
+          "rationale": "The counts and 49% wording are reproduced with the existing unresolved denominator caveat. 2025 is the reporting period. No common denominator is inferred.",
+          "change": "Added source edition, reproducible locator and date basis; preserved source confidence and attribution limits.",
+          "limitation": "No independent human claim review or new incident collection."
         }
       ]
     },
@@ -197,7 +245,7 @@
       "country": "Latvia",
       "type": "quarterly-statistic",
       "title": "846 incidents and record device visibility",
-      "summary": "CERT.LV processed 846 incidents and identified 757,286 compromised or weakly configured devices. The authority cautioned that expanded SOC visibility contributes to the observed increase.",
+      "summary": "CERT.LV manually processed 846 incidents and identified 757,286 compromised or weakly configured devices. The authority cautioned that expanded SOC visibility contributes to the observed increase.",
       "sector": "Cross-sector",
       "actor": null,
       "attribution": "None",
@@ -206,18 +254,35 @@
       "period_precision": "quarter",
       "source_metadata": {
         "publisher": "CERT.LV",
-        "title": null,
-        "published_at": null,
-        "accessed_at": null,
-        "locator": null,
-        "locator_checked_at": null
+        "title": "CERT.LV activity review Q1 2026",
+        "published_at": "2026-06-03",
+        "accessed_at": "2026-09-07",
+        "locator": "3 June 2026 English summary, Key trends and threats, first three paragraphs. Publisher mirror: https://www.cert.gov.lv/en/2026/06/cert-lv-activity-review-q1-2026",
+        "locator_checked_at": "2026-09-07"
       },
       "review": {
-        "version": "1.0.0",
+        "version": "1.1.0",
         "reviewed_at": null,
         "state": "not-recorded",
-        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
-      }
+        "note": "AI-assisted source comparison performed 2026-09-07. 846 refers to manually processed incidents; 757286 includes configuration weaknesses. Q1 2026 is the observation period, 3 June the publication date. Increased SOC visibility limits comparisons. Independent human claim review remains unrecorded."
+      },
+      "claim_version": "1.1.0",
+      "corrections": [
+        {
+          "id": "lv-2026-q1-incident-volume-source-comparison-2026-09-07",
+          "version": "1.1.0",
+          "previous_version": "1.0.0",
+          "recorded_at": "2026-09-07",
+          "method": "ai-assisted-source-comparison",
+          "human_reviewed_at": null,
+          "affected_field": "source_metadata, review",
+          "source": "https://cert.lv/en/2026/06/cert-lv-activity-review-q1-2026",
+          "locator": "3 June 2026 English summary, Key trends and threats, first three paragraphs. Publisher mirror: https://www.cert.gov.lv/en/2026/06/cert-lv-activity-review-q1-2026",
+          "rationale": "846 refers to manually processed incidents; 757286 includes configuration weaknesses. Q1 2026 is the observation period, 3 June the publication date. Increased SOC visibility limits comparisons.",
+          "change": "Added source edition, reproducible locator and date basis; preserved source confidence and attribution limits.",
+          "limitation": "No independent human claim review or new incident collection."
+        }
+      ]
     },
     {
       "id": "lv-2026-q1-dns-protection",
@@ -621,23 +686,40 @@
         "publisher": "Council of the European Union",
         "title": "Cyber-attacks: three individuals added to EU sanctions list for malicious cyber activities against Estonia",
         "published_at": "2025-01-27T00:00:00.000Z",
-        "accessed_at": "2026-08-26T00:00:00.000Z",
-        "locator": null,
-        "locator_checked_at": null
+        "accessed_at": "2026-09-07",
+        "locator": "Council of the EU, 27 January 2025 press release, opening three paragraphs; page records last review 7 April 2025.",
+        "locator_checked_at": "2026-09-07"
       },
       "review": {
-        "version": "1.0.0",
+        "version": "1.1.0",
         "reviewed_at": null,
         "state": "not-recorded",
-        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
-      }
+        "note": "AI-assisted source comparison performed 2026-09-07. The Council attributes the 2020 ministry intrusions to GRU Unit 29155 officers. Foreign Affairs was targeted without access to sensitive data. 2020 is activity time; 2025 is sanctions/publication time. This remains official attribution, not independent forensic proof. Independent human claim review remains unrecorded."
+      },
+      "claim_version": "1.1.0",
+      "corrections": [
+        {
+          "id": "ee-2020-unit29155-ministry-compromise-source-comparison-2026-09-07",
+          "version": "1.1.0",
+          "previous_version": "1.0.0",
+          "recorded_at": "2026-09-07",
+          "method": "ai-assisted-source-comparison",
+          "human_reviewed_at": null,
+          "affected_field": "source_metadata, review",
+          "source": "https://www.consilium.europa.eu/en/press/press-releases/2025/01/27/cyber-attacks-three-individuals-added-to-eu-sanctions-list-for-malicious-cyber-activities-against-estonia/",
+          "locator": "Council of the EU, 27 January 2025 press release, opening three paragraphs; page records last review 7 April 2025.",
+          "rationale": "The Council attributes the 2020 ministry intrusions to GRU Unit 29155 officers. Foreign Affairs was targeted without access to sensitive data. 2020 is activity time; 2025 is sanctions/publication time. This remains official attribution, not independent forensic proof.",
+          "change": "Added source edition, reproducible locator and date basis; preserved source confidence and attribution limits.",
+          "limitation": "No independent human claim review or new incident collection."
+        }
+      ]
     }
   ],
   "actor_context_source": {
     "name": "APT Notes by HECAVEX",
-    "dataset_version": "2.4.1",
-    "release_id": "apt-notes-2026-09-07-name-provenance",
-    "released_at": "2026-09-07T10:54:54.000Z",
+    "dataset_version": "2.4.2",
+    "release_id": "apt-notes-2026-09-07-procedure-provenance",
+    "released_at": "2026-09-07T13:17:19.000Z",
     "url": "https://apt.hecavex.com/api/actors.json",
     "method": "Manually selected Europe-relevant actor context from the named reviewed APT Notes release. This layer does not create Baltic attribution; only baltic_observation_ids establishes an Atlas mapping."
   },
