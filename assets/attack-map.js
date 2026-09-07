@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const DATA_URL = '/data/attack/intelligence/reviewed-evidence.json?v=20260907-1';
+  const DATA_URL = '/data/attack/intelligence/reviewed-evidence.json?v=20260907-2';
   const MAX_COMPARISON = 3;
   const elements = {
     sourceRelease: document.querySelector('#source-release'),

@@ -192,7 +192,7 @@
 
   async function initialise() {
     try {
-      const response = await fetch('/data/atlas/records.json?v=20260907-2', { credentials: 'same-origin' });
+      const response = await fetch('/data/atlas/records.json?v=20260907-3', { credentials: 'same-origin' });
       if (!response.ok) throw new Error(`Dataset request failed with ${response.status}`);
       const data = await response.json();
       records = [...data.records].sort(newestFirst);
