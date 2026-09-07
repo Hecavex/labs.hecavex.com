@@ -635,9 +635,9 @@
   ],
   "actor_context_source": {
     "name": "APT Notes by HECAVEX",
-    "dataset_version": "2.4.0",
-    "release_id": "apt-notes-2026-09-07-provenance-framework",
-    "released_at": "2026-09-07T10:00:33.000Z",
+    "dataset_version": "2.4.1",
+    "release_id": "apt-notes-2026-09-07-name-provenance",
+    "released_at": "2026-09-07T10:54:54.000Z",
     "url": "https://apt.hecavex.com/api/actors.json",
     "method": "Manually selected Europe-relevant actor context from the named reviewed APT Notes release. This layer does not create Baltic attribution; only baltic_observation_ids establishes an Atlas mapping."
   },

@@ -21,6 +21,7 @@ class DocumentParser(HTMLParser):
     def __init__(self):
         super().__init__()
         self.ids = []
+        self.elements_by_id = {}
         self.references = []
         self.html_lang = ""
         self.title_depth = 0
@@ -64,6 +65,7 @@ class DocumentParser(HTMLParser):
             self._json_buffer = []
         if "id" in attributes:
             self.ids.append(attributes["id"])
+            self.elements_by_id[attributes["id"]] = (tag, attributes)
         for name in ("href", "src"):
             value = attributes.get(name)
             if value:
@@ -997,6 +999,9 @@ if manifest_graphs != catalogued_graphs:
 pivot_html = (root / "pivot-graph/index.html").read_text(encoding="utf-8")
 if 'id="case-selector"' not in pivot_html or "/data/pivots/cases.json" not in pivot_html:
     errors.append("Pivot Workspace is not wired to the case catalogue")
+case_selector = documents[(root / "pivot-graph/index.html").resolve()].elements_by_id.get("case-selector", ("", {}))
+if case_selector[1].get("role") != "group" or not case_selector[1].get("aria-label"):
+    errors.append("Pivot case selector must be a named group of native buttons, not an unnamed div or invented tab model")
 
 attack = json.loads((root / "data/attack/intelligence/reviewed-evidence.json").read_text(encoding="utf-8"))
 attack_manifest = read_attack_manifest()
@@ -1199,16 +1204,16 @@ pages_workflow = (root / ".github" / "workflows" / "pages.yml").read_text(encodi
 if "node scripts/test_atlas_initial_query.js" not in pages_workflow:
     errors.append("Pages validation does not run the Atlas initial shell-query regression test")
 for route_path, application_script, release_token in (
-    ("baltic-threat-atlas/index.html", "atlas.js", "20260907-2"),
+    ("baltic-threat-atlas/index.html", "atlas.js", "20260907-3"),
     ("pivot-graph/index.html", "pivot-graph.js", "20260907-1"),
-    ("attack-map/index.html", "attack-map.js", "20260907-1"),
+    ("attack-map/index.html", "attack-map.js", "20260907-2"),
 ):
     route_text = (root / route_path).read_text(encoding="utf-8")
     if route_text.count(f'/assets/{application_script}?v={release_token}') != 1:
         errors.append(f"Versioned workspace script differs or is missing from {route_path}")
 for application_script, data_url in (
-    ("atlas.js", "/data/atlas/records.json?v=20260907-2"),
-    ("attack-map.js", "/data/attack/intelligence/reviewed-evidence.json?v=20260907-1"),
+    ("atlas.js", "/data/atlas/records.json?v=20260907-3"),
+    ("attack-map.js", "/data/attack/intelligence/reviewed-evidence.json?v=20260907-2"),
 ):
     javascript = (root / "assets" / application_script).read_text(encoding="utf-8")
     if javascript.count(data_url) != 1:

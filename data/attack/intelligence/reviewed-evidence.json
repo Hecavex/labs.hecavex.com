@@ -1,14 +1,14 @@
 {
   "schema_version": "2.3.0",
-  "generated_at": "2026-09-07T10:00:33.000Z",
+  "generated_at": "2026-09-07T10:54:54.000Z",
   "publication_contract_updated_at": "2026-09-07",
   "source_system": {
     "name": "APT Notes by HECAVEX",
     "url": "https://apt.hecavex.com/",
     "api_url": "https://apt.hecavex.com/api/actors.json",
-    "release_id": "apt-notes-2026-09-07-provenance-framework",
-    "dataset_version": "2.4.0",
-    "released_at": "2026-09-07T10:00:33.000Z",
+    "release_id": "apt-notes-2026-09-07-name-provenance",
+    "dataset_version": "2.4.1",
+    "released_at": "2026-09-07T10:54:54.000Z",
     "method": "Generated only from explicit technique_evidence records in published APT Notes actor dossiers."
   },
   "framework": {
