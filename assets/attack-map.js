@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const DATA_URL = '/data/attack/intelligence/reviewed-evidence.json?v=20260901-2';
+  const DATA_URL = '/data/attack/intelligence/reviewed-evidence.json?v=20260907-1';
   const MAX_COMPARISON = 3;
   const elements = {
     sourceRelease: document.querySelector('#source-release'),
@@ -329,6 +329,9 @@
       mappingDefinition('Actor review', row.actor.last_reviewed || 'Not recorded')
     );
     summary.append(copy, metadata);
+    metadata.append(mappingDefinition('Independent claim review', row.claim_review?.reviewed_at || 'Not recorded'), mappingDefinition('Claim review state', row.claim_review?.state || 'not-recorded'), mappingDefinition('Claim version', row.claim_review?.version || 'Not recorded'));
+    const locators = el('p', 'meta', row.source_locators?.length ? row.source_locators.map((item) => `${item.source}: ${item.locator}`).join(' / ') : 'Precise source locator not recorded. Compare the procedure with the cited publication before reuse.');
+    summary.append(locators);
 
     const uncertainty = el('section', 'mapping-uncertainty');
     uncertainty.append(el('strong', '', 'Uncertainty and reuse boundary'), el('span', '', row.uncertainty));
@@ -586,13 +589,17 @@
       const response = await fetch(DATA_URL, { headers: { Accept: 'application/json' } });
       if (!response.ok) throw new Error(`Evidence dataset request failed with HTTP ${response.status}`);
       const data = await response.json();
-      if (data.schema_version !== '2.2.0' || !Array.isArray(data.actors)) throw new Error('Unsupported evidence dataset contract');
+      if (data.schema_version !== '2.3.0' || !Array.isArray(data.actors)) throw new Error('Unsupported evidence dataset contract');
       state.data = data;
       flattenDataset(data);
       configureControls();
       setDatasetSummary();
       applyFilters();
       renderComparison();
+      window.HECAVEX_LABS?.bindCopiedView?.({ q: elements.search, actor: elements.actor, campaign: elements.campaign, tactic: elements.tactic, confidence: elements.confidence, status: elements.status }, elements.controls, applyFilters, {
+        save(values) { if (state.compared.size) values.set('compare', [...state.compared].sort().join(',')); },
+        restore(values) { state.compared = new Set((values.get('compare') || '').split(',').filter((id) => state.actors.has(id)).slice(0, MAX_COMPARISON)); renderComparison(); }
+      });
     } catch (error) {
       showLoadError(error);
     }

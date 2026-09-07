@@ -333,7 +333,7 @@ label.field-error { border-color: var(--hx-danger) !important; background: var(-
 .footer-brand { display: grid; gap: .45rem; color: var(--hx-text-muted); font-size: .76rem; }
 .footer-brand strong { color: var(--hx-text); font: 600 .67rem var(--font-mono); letter-spacing: .12em; }
 .site-footer nav { display: flex; min-width: 0; flex-wrap: wrap; justify-content: flex-end; gap: .65rem 1rem; }
-.site-footer nav a { color: var(--hx-text-muted); font: 500 .62rem var(--font-mono); text-decoration: none; text-transform: uppercase; }
+.site-footer nav a { display: inline-flex; align-items: center; min-height: 2rem; padding-block: .35rem; color: var(--hx-text-muted); font: 500 .62rem var(--font-mono); text-decoration: none; text-transform: uppercase; }
 .site-footer nav a:hover { color: var(--hx-steel); }
 
 @media (max-width: 1160px) {

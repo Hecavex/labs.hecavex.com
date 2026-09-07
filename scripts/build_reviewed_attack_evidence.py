@@ -148,6 +148,7 @@ def lifecycle_projection(
     actor: dict[str, Any],
     campaign: dict[str, Any] | None,
     technique: dict[str, Any],
+    claim_review: dict[str, Any],
 ) -> dict[str, Any]:
     """Preserve upstream record state without implying a mapping-level review."""
     records = [("actor", actor), ("technique", technique)]
@@ -161,7 +162,7 @@ def lifecycle_projection(
         "actor_version": str(actor.get("version") or "not-recorded"),
         "campaign_version": str((campaign or {}).get("version") or "not-applicable"),
         "technique_version": str(technique.get("version") or "not-recorded"),
-        "correction_state": "not-recorded-at-mapping-level",
+        "correction_state": claim_review.get("state") if claim_review.get("state") not in (None, "not-recorded") else "not-recorded-at-mapping-level",
     }
 
 
@@ -232,7 +233,9 @@ def evidence_projection(
         "mapping_status": mapping_status,
         "confidence": confidence,
         "confidence_rationale": confidence_rationale,
-        "record_lifecycle": lifecycle_projection(actor, campaign, technique),
+        "record_lifecycle": lifecycle_projection(actor, campaign, technique, evidence.get("review") or {}),
+        "claim_review": evidence.get("review") or {"version": "1.0.0", "reviewed_at": None, "state": "not-recorded", "rationale": "Legacy mapping has no independent claim review record.", "correction_note": ""},
+        "source_locators": evidence.get("source_locators") or [],
         "campaign": {
             "id": campaign_slug,
             "name": (campaign or {}).get("name") or campaign_slug or "Not assigned",
@@ -306,9 +309,9 @@ def build_payload(apt_dist: Path) -> dict[str, Any]:
     campaign_count = len({item["campaign"]["id"] for item in all_evidence if item["campaign"]["id"]})
     generated_at = actor_collection.get("released_at") or datetime.now(timezone.utc).isoformat()
     return {
-        "schema_version": "2.2.0",
+        "schema_version": "2.3.0",
         "generated_at": generated_at,
-        "publication_contract_updated_at": "2026-09-01",
+        "publication_contract_updated_at": "2026-09-07",
         "source_system": {
             "name": "APT Notes by HECAVEX",
             "url": "https://apt.hecavex.com/",
@@ -338,9 +341,9 @@ def build_payload(apt_dist: Path) -> dict[str, Any]:
             "status_values": sorted(VALID_STATUS),
             "confidence_values": ["high", "moderate", "low"],
             "lifecycle_values": sorted(VALID_LIFECYCLE),
-            "correction_state_values": ["not-recorded-at-mapping-level"],
+            "correction_state_values": ["not-recorded-at-mapping-level", "reviewed", "corrected", "withdrawn"],
             "mapping_unit": "One actor, campaign and procedure claim mapped to the most specific technique explicitly published by APT Notes.",
-            "correction_policy": "APT Notes record lifecycle flags are preserved. Mapping-level correction state is labelled unavailable until the upstream publication contract exposes it; corrections trigger a reviewed rebuild.",
+            "correction_policy": "APT Notes dossier lifecycle and independent claim review are preserved separately. A missing claim review remains not recorded. A populated claim review carries its own version, date, state, rationale and correction note. A locator check does not become a substantive review.",
             "known_limit": "The dataset is a reviewed evidence index, not an exhaustive ATT&CK catalogue, threat prevalence measure, automated attribution system or defensive coverage score.",
         },
         "summary": {
@@ -357,9 +360,9 @@ def build_payload(apt_dist: Path) -> dict[str, Any]:
 def validate_payload(payload: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     attack_manifest = read_attack_manifest()
-    if payload.get("schema_version") != "2.2.0":
-        errors.append("schema_version must be 2.2.0")
-    if payload.get("publication_contract_updated_at") != "2026-09-01":
+    if payload.get("schema_version") != "2.3.0":
+        errors.append("schema_version must be 2.3.0")
+    if payload.get("publication_contract_updated_at") != "2026-09-07":
         errors.append("publication contract update date must be recorded")
     framework = payload.get("framework", {})
     if not {"name", "domain", "version", "version_pinned_at", "version_basis", "version_policy", "source_url", "source_commit", "source_sha256", "manifest_url", "manifest_sha256", "terms", "notice"}.issubset(framework):
@@ -411,6 +414,19 @@ def validate_payload(payload: dict[str, Any]) -> list[str]:
             if not item.get("confidence_rationale"):
                 errors.append(f"{evidence_id} has no confidence rationale")
             lifecycle = item.get("record_lifecycle", {})
+            review = item.get("claim_review", {})
+            if not {"version", "reviewed_at", "state", "rationale", "correction_note"}.issubset(review):
+                errors.append(f"{evidence_id} has incomplete claim review metadata")
+            if review.get("state") == "not-recorded" and review.get("reviewed_at"):
+                errors.append(f"{evidence_id} has an invented claim review date")
+            if review.get("state") in ("reviewed", "corrected", "withdrawn") and (not review.get("reviewed_at") or not review.get("rationale")):
+                errors.append(f"{evidence_id} claim review lacks date or rationale")
+            if review.get("state") in ("corrected", "withdrawn") and not review.get("correction_note"):
+                errors.append(f"{evidence_id} correction needs a note")
+            source_ids = {source_item["id"] for source_item in item.get("sources", [])}
+            for locator in item.get("source_locators", []):
+                if locator.get("source") not in source_ids or not locator.get("locator") or not locator.get("checked_at"):
+                    errors.append(f"{evidence_id} source locator lacks supporting source or location/date")
             if lifecycle.get("state") not in VALID_LIFECYCLE:
                 errors.append(f"{evidence_id} has an invalid upstream lifecycle state")
             if not {"actor_version", "campaign_version", "technique_version", "correction_state"}.issubset(lifecycle):

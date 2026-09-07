@@ -1,0 +1,51 @@
+// Copying is explicit. Restoring a fragment never turns free text into an HTTP query.
+const fs = require('node:fs');
+const vm = require('node:vm');
+const assert = require('node:assert/strict');
+const source = fs.readFileSync('assets/site.js', 'utf8');
+const method = source.slice(source.indexOf('    bindCopiedView('), source.indexOf('    bindShellSearch('));
+const created = [];
+const listeners = {};
+let copied = '';
+let updates = 0;
+function element(tagName) {
+  const node = { tagName: tagName.toUpperCase(), value: '', children: [], events: {}, append(...items) { this.children.push(...items); }, setAttribute() {}, addEventListener(type, callback) { this.events[type] = callback; }, focus() {}, select() {} };
+  created.push(node);
+  return node;
+}
+const location = { origin: 'https://labs.hecavex.com', pathname: '/baltic-threat-atlas/', hash: '', search: '' };
+const context = { URL, URLSearchParams, Object, decodeURIComponent, encodeURIComponent, location, document: { createElement: element }, navigator: { clipboard: { async writeText(value) { copied = value; } } }, window: { addEventListener(type, callback) { listeners[type] = callback; } } };
+vm.createContext(context);
+const api = vm.runInContext(`({${method}})`, context);
+const fields = { q: element('input'), country: element('select') };
+fields.country.options = [{ value: '' }, { value: 'lithuania' }];
+api.bindCopiedView(fields, { after() {} }, () => updates++);
+fields.q.value = 'private query & fragment # text';
+fields.country.value = 'lithuania';
+assert.equal(copied, '');
+assert.equal(location.hash, '');
+assert.equal(location.search, '');
+(async () => {
+  await created.find((node) => node.tagName === 'BUTTON').events.click();
+  const url = new URL(copied);
+  assert.equal(url.search, '');
+  assert.equal(new URLSearchParams(decodeURIComponent(url.hash.slice(6))).get('q'), fields.q.value);
+  location.hash = url.hash;
+  fields.q.value = '';
+  fields.country.value = '';
+  listeners.hashchange();
+  assert.equal(fields.q.value, 'private query & fragment # text');
+  assert.equal(fields.country.value, 'lithuania');
+  assert.equal(updates, 1);
+  location.hash = '#view=%E0%A4%A';
+  assert.doesNotThrow(() => listeners.hashchange());
+  location.hash = '#view=country%3Dunknown';
+  listeners.hashchange();
+  assert.equal(fields.country.value, '');
+  context.navigator.clipboard.writeText = async () => { throw new Error('Denied'); };
+  await created.find((node) => node.tagName === 'BUTTON').events.click();
+  assert.ok(created.some((node) => node.tagName === 'INPUT' && node.readOnly && node.value.startsWith(location.origin)));
+  const css = fs.readFileSync('assets/styles.css', 'utf8');
+  assert.match(css, /\.site-footer[^{}]*a\s*\{[^}]*min-height:\s*2rem/);
+  console.log('Copied-view regressions passed: explicit consent, fragment round-trip, malformed input, invalid options, clipboard fallback and footer targets.');
+})().catch((error) => { console.error(error); process.exitCode = 1; });

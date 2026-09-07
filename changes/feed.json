@@ -6,6 +6,14 @@
   "description": "Meaningful dataset additions, corrections, schema changes and workspace lifecycle changes.",
   "items": [
     {
+      "id": "labs-provenance-access-2026-09-07",
+      "url": "https://labs.hecavex.com/changes/#change-2026-09-07-provenance",
+      "title": "Claim provenance and reliable workspace selection",
+      "date_published": "2026-09-07T10:00:33Z",
+      "content_text": "Race-safe pivot selection, Atlas source and period-precision metadata with an explicit source-percentage caveat, ATT&CK Evidence schema 2.3 with mapping-level provenance from APT Notes 2.4.0, exact upstream CI pinning, bounded Lithuanian access, opt-in filtered-view copy, accessible footer targets and a custom 404. Canonical analytical claims and historical review dates are not renewed by this publication update.",
+      "tags": ["correction", "schema-change", "accessibility", "non-breaking"]
+    },
+    {
       "id": "labs-contract-corrections-2026-09-01",
       "url": "https://labs.hecavex.com/changes/#change-2026-09-01-contracts",
       "title": "Workspace navigation and evidence contracts corrected",

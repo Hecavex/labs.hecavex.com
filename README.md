@@ -43,7 +43,11 @@ The principal maintained data areas are:
 - `data/attack/intelligence/reviewed-evidence.json` for source-linked HECAVEX evidence generated from APT Notes;
 - `data/osint/` for the frozen resource snapshot retained by the archived compatibility page.
 
-`scripts/build_reviewed_attack_evidence.py` rebuilds the public ATT&CK evidence layer from the APT Notes release when that checkout is available and validates the frozen public copy in isolated CI. Generic ATT&CK mirrors, browser-local coverage scoring, detection packages, incident authoring and the old guide are not part of the public product.
+`scripts/build_reviewed_attack_evidence.py` rebuilds the public ATT&CK evidence layer from the APT Notes release. CI checks out the exact source revision declared in `scripts/upstream-release.json`, builds it, and requires both projection parity and the catalogue/framework contract. A new upstream release requires a reviewed proposal, not automatic new analytical claims. Generic ATT&CK mirrors, browser-local coverage scoring, detection packages, incident authoring and the old guide are not part of the public product.
+
+The `/lt/` overview and `/lt/metodika/` route provide bounded Lithuanian access summaries. Canonical workspaces and evidence remain English and retain stable IDs. Atlas records declare period precision, source metadata and claim-review gaps without inventing historical dates. A source locator check is distinct from a substantive analytical review.
+
+Atlas and ATT&CK expose an explicit "Copy filtered view" action. Search text stays local during normal use and is included in a share link only when requested. The fragment preserves filters without sending the text in the HTTP request. Recipients can still read the shared search text, so users must review links before sharing.
 
 ## Validation and deployment
 

@@ -5,6 +5,7 @@ from html.parser import HTMLParser
 from datetime import datetime, timezone
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import sys
@@ -381,10 +382,10 @@ for path in html_files:
             errors.append(f"Shared identity declaration differs or is missing from {relative}: {declaration}")
     if re.search(r'<link[^>]+rel="stylesheet"[^>]+href="https?://', text, re.IGNORECASE):
         errors.append(f"Remote stylesheet dependency found in {relative}")
-    expected_stylesheet = "/assets/styles.css?v=20260901-2"
+    expected_stylesheet = "/assets/styles.css?v=20260907-1"
     expected_stylesheets = [expected_stylesheet]
     if relative == Path("attack-map/index.html"):
-        expected_stylesheets.append("/assets/attack-evidence.css?v=20260901-1")
+        expected_stylesheets.append("/assets/attack-evidence.css?v=20260907-1")
     if parser.stylesheets != expected_stylesheets:
         errors.append(
             f"Versioned route stylesheet differs in {relative}: "
@@ -392,7 +393,7 @@ for path in html_files:
         )
     if re.search(r'<script[^>]+src="https?://', text, re.IGNORECASE):
         errors.append(f"Remote script dependency found in {relative}")
-    if text.count('/assets/site.js?v=20260901-1') != 1:
+    if text.count('/assets/site.js?v=20260907-1') != 1:
         errors.append(f"Versioned shared site script differs or is missing from {relative}")
     duplicates = sorted({value for value in parser.ids if parser.ids.count(value) > 1})
     if duplicates:
@@ -772,6 +773,13 @@ for record in records:
         errors.append(f"Atlas record {record_id} is missing: {', '.join(missing_fields)}")
     if record_id in record_ids:
         errors.append(f"Duplicate Atlas record id: {record_id}")
+    expected_precision = "year" if re.fullmatch(r"\d{4}", str(record.get("date"))) else "quarter" if "Q" in str(record.get("date")) else "month" if re.fullmatch(r"\d{4}-\d{2}", str(record.get("date"))) else "day"
+    if record.get("period_precision") != expected_precision:
+        errors.append(f"Atlas period precision differs from its date: {record_id}")
+    if not {"publisher", "title", "accessed_at", "locator", "locator_checked_at"}.issubset(record.get("source_metadata", {})):
+        errors.append(f"Atlas source metadata is incomplete: {record_id}")
+    if record.get("review", {}).get("state") == "not-recorded" and record.get("review", {}).get("reviewed_at") is not None:
+        errors.append(f"Unrecorded Atlas review cannot claim a date: {record_id}")
     record_ids.add(record_id)
     if record.get("country") not in {"Lithuania", "Latvia", "Estonia"}:
         errors.append(f"Unsupported Atlas country in {record_id}: {record.get('country')}")
@@ -843,7 +851,7 @@ for actor in actor_context:
     if actor.get("context_scope") not in {"europe-only", "baltic-linked"}:
         errors.append(f"Atlas context actor has an invalid scope: {actor_id}")
 
-apt_actor_collection_path = root.parent.parent / "sites" / "apt.hecavex.com" / "dist" / "api" / "actors.json"
+apt_actor_collection_path = Path(os.environ.get("APT_NOTES_DIST", str(root.parent.parent / "sites" / "apt.hecavex.com" / "dist"))) / "api" / "actors.json"
 if apt_actor_collection_path.is_file():
     apt_actor_collection = json.loads(apt_actor_collection_path.read_text(encoding="utf-8"))
     for field in ("dataset_version", "release_id", "released_at"):
@@ -997,8 +1005,8 @@ attack_records = [record for actor in attack_actors for record in actor.get("evi
 provenance_model = attack.get("provenance_model", {})
 source_system = attack.get("source_system", {})
 attack_summary = attack.get("summary", {})
-if attack.get("schema_version") != "2.2.0":
-    errors.append("ATT&CK Evidence Explorer requires reviewed-evidence schema 2.2.0")
+if attack.get("schema_version") != "2.3.0":
+    errors.append("ATT&CK Evidence Explorer requires reviewed-evidence schema 2.3.0")
 if not {"release_id", "dataset_version", "released_at", "method"}.issubset(source_system):
     errors.append("ATT&CK evidence is missing its APT Notes source release contract")
 if urlparse(source_system.get("url", "")).hostname != "apt.hecavex.com":
@@ -1191,16 +1199,16 @@ pages_workflow = (root / ".github" / "workflows" / "pages.yml").read_text(encodi
 if "node scripts/test_atlas_initial_query.js" not in pages_workflow:
     errors.append("Pages validation does not run the Atlas initial shell-query regression test")
 for route_path, application_script, release_token in (
-    ("baltic-threat-atlas/index.html", "atlas.js", "20260901-1"),
-    ("pivot-graph/index.html", "pivot-graph.js", "20260901-1"),
-    ("attack-map/index.html", "attack-map.js", "20260901-2"),
+    ("baltic-threat-atlas/index.html", "atlas.js", "20260907-1"),
+    ("pivot-graph/index.html", "pivot-graph.js", "20260907-1"),
+    ("attack-map/index.html", "attack-map.js", "20260907-1"),
 ):
     route_text = (root / route_path).read_text(encoding="utf-8")
     if route_text.count(f'/assets/{application_script}?v={release_token}') != 1:
         errors.append(f"Versioned workspace script differs or is missing from {route_path}")
 for application_script, data_url in (
-    ("atlas.js", "/data/atlas/records.json?v=20260901-1"),
-    ("attack-map.js", "/data/attack/intelligence/reviewed-evidence.json?v=20260901-2"),
+    ("atlas.js", "/data/atlas/records.json?v=20260907-1"),
+    ("attack-map.js", "/data/attack/intelligence/reviewed-evidence.json?v=20260907-1"),
 ):
     javascript = (root / "assets" / application_script).read_text(encoding="utf-8")
     if javascript.count(data_url) != 1:

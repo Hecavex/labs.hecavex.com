@@ -1,6 +1,6 @@
 {
-  "schema_version": "0.4.0",
-  "updated": "2026-09-01",
+  "schema_version": "0.5.0",
+  "updated": "2026-09-07",
   "publisher": "HECAVEX",
   "scope": "Selected public-source cyber observations concerning Lithuania, Latvia and Estonia; not an exhaustive incident census or prevalence dataset.",
   "methodology": "Each observation captures one bounded claim from a named public authority. Source terminology and attribution confidence are preserved; nearby events are not merged into campaigns without evidence. Europe-context actors are sourced from APT Notes and do not imply Baltic activity unless an explicit observation id is attached.",
@@ -16,7 +16,22 @@
       "actor": null,
       "attribution": "None in cited report",
       "confidence": "reported",
-      "source": "https://www.nksc.lt/doc/rkgc/CTAC_2023_3rd_Quarter_Report.pdf"
+      "source": "https://www.nksc.lt/doc/rkgc/CTAC_2023_3rd_Quarter_Report.pdf",
+      "period_precision": "day",
+      "source_metadata": {
+        "publisher": "National Cyber Security Centre of Lithuania / CTAC",
+        "title": null,
+        "published_at": null,
+        "accessed_at": null,
+        "locator": null,
+        "locator_checked_at": null
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      }
     },
     {
       "id": "lt-2024-annual-incidents",
@@ -29,7 +44,22 @@
       "actor": null,
       "attribution": "None",
       "confidence": "reported",
-      "source": "https://www.nksc.lt/doc/rkgc/CTAC_2024_Yearly_Report.pdf"
+      "source": "https://www.nksc.lt/doc/rkgc/CTAC_2024_Yearly_Report.pdf",
+      "period_precision": "year",
+      "source_metadata": {
+        "publisher": "National Cyber Security Centre of Lithuania / CTAC",
+        "title": "CTAC 2024 Yearly Report",
+        "published_at": null,
+        "accessed_at": null,
+        "locator": "Page 11, section 3.2.1 Lithuania",
+        "locator_checked_at": "2026-09-07"
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      }
     },
     {
       "id": "lt-2025-incident-volume",
@@ -42,7 +72,22 @@
       "actor": null,
       "attribution": "None",
       "confidence": "reported",
-      "source": "https://www.nksc.lt/doc/rkgc/CTAC_2025_Yearly_Report.pdf"
+      "source": "https://www.nksc.lt/doc/rkgc/CTAC_2025_Yearly_Report.pdf",
+      "period_precision": "year",
+      "source_metadata": {
+        "publisher": "National Cyber Security Centre of Lithuania / CTAC",
+        "title": "CTAC 2025 Yearly Report",
+        "published_at": null,
+        "accessed_at": null,
+        "locator": "Page 17, section 2.2.2 Lithuania",
+        "locator_checked_at": "2026-09-07"
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      }
     },
     {
       "id": "lt-2025-phishing-fraud-shift",
@@ -55,7 +100,23 @@
       "actor": null,
       "attribution": "None",
       "confidence": "reported",
-      "source": "https://www.nksc.lt/doc/rkgc/CTAC_2025_Yearly_Report.pdf"
+      "source": "https://www.nksc.lt/doc/rkgc/CTAC_2025_Yearly_Report.pdf",
+      "period_precision": "year",
+      "source_metadata": {
+        "publisher": "National Cyber Security Centre of Lithuania / CTAC",
+        "title": "CTAC 2025 Yearly Report",
+        "published_at": null,
+        "accessed_at": null,
+        "locator": "Page 17, section 2.2.2 Lithuania",
+        "locator_checked_at": "2026-09-07"
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      },
+      "source_caveat": "The source gives 1,551 social-engineering incidents and 49%, but its stated total of 2,888 yields about 53.7%. The published percentage is preserved as source wording, not independently reconciled. Do not infer a common denominator or compare the percentages without clarification."
     },
     {
       "id": "lv-2024-q2-threat-hunt",
@@ -68,7 +129,22 @@
       "actor": null,
       "attribution": "Foreign intruders; identities undisclosed",
       "confidence": "reported",
-      "source": "https://cert.lv/en/2024/08/cert-lv-activity-review-q2-2024"
+      "source": "https://cert.lv/en/2024/08/cert-lv-activity-review-q2-2024",
+      "period_precision": "quarter",
+      "source_metadata": {
+        "publisher": "CERT.LV",
+        "title": null,
+        "published_at": null,
+        "accessed_at": null,
+        "locator": null,
+        "locator_checked_at": null
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      }
     },
     {
       "id": "lv-2024-q2-ddos",
@@ -81,7 +157,22 @@
       "actor": "Russia and proxy hacktivists (source wording)",
       "attribution": "CERT.LV reporting",
       "confidence": "source-attributed",
-      "source": "https://cert.lv/en/2024/08/cert-lv-activity-review-q2-2024"
+      "source": "https://cert.lv/en/2024/08/cert-lv-activity-review-q2-2024",
+      "period_precision": "quarter",
+      "source_metadata": {
+        "publisher": "CERT.LV",
+        "title": null,
+        "published_at": null,
+        "accessed_at": null,
+        "locator": null,
+        "locator_checked_at": null
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      }
     },
     {
       "id": "lv-2026-q1-incident-volume",
@@ -94,7 +185,22 @@
       "actor": null,
       "attribution": "None",
       "confidence": "reported",
-      "source": "https://cert.lv/en/2026/06/cert-lv-activity-review-q1-2026"
+      "source": "https://cert.lv/en/2026/06/cert-lv-activity-review-q1-2026",
+      "period_precision": "quarter",
+      "source_metadata": {
+        "publisher": "CERT.LV",
+        "title": null,
+        "published_at": null,
+        "accessed_at": null,
+        "locator": null,
+        "locator_checked_at": null
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      }
     },
     {
       "id": "lv-2026-q1-dns-protection",
@@ -107,7 +213,22 @@
       "actor": null,
       "attribution": "None",
       "confidence": "reported",
-      "source": "https://cert.lv/en/2026/06/cert-lv-activity-review-q1-2026"
+      "source": "https://cert.lv/en/2026/06/cert-lv-activity-review-q1-2026",
+      "period_precision": "quarter",
+      "source_metadata": {
+        "publisher": "CERT.LV",
+        "title": null,
+        "published_at": null,
+        "accessed_at": null,
+        "locator": null,
+        "locator_checked_at": null
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      }
     },
     {
       "id": "ee-2023-september-ddos",
@@ -120,7 +241,22 @@
       "actor": "Pro-Kremlin groups (source wording)",
       "attribution": "RIA reporting",
       "confidence": "source-attributed",
-      "source": "https://www.ria.ee/en/news/information-system-authority-number-cyber-incidents-increased-quarter-year"
+      "source": "https://www.ria.ee/en/news/information-system-authority-number-cyber-incidents-increased-quarter-year",
+      "period_precision": "month",
+      "source_metadata": {
+        "publisher": "Estonian Information System Authority",
+        "title": null,
+        "published_at": null,
+        "accessed_at": null,
+        "locator": null,
+        "locator_checked_at": null
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      }
     },
     {
       "id": "ee-2024-unit-29155",
@@ -145,7 +281,22 @@
           "url": "https://apt.hecavex.com/campaigns/whispergate-operation/"
         }
       ],
-      "source": "https://www.cisa.gov/news-events/alerts/2024/09/05/fbi-cisa-nsa-and-us-and-international-partners-release-advisory-russian-military-cyber-actors"
+      "source": "https://www.cisa.gov/news-events/alerts/2024/09/05/fbi-cisa-nsa-and-us-and-international-partners-release-advisory-russian-military-cyber-actors",
+      "period_precision": "day",
+      "source_metadata": {
+        "publisher": "CISA",
+        "title": null,
+        "published_at": null,
+        "accessed_at": null,
+        "locator": null,
+        "locator_checked_at": null
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      }
     },
     {
       "id": "ee-2026-laundry-bear-zimbra-advisory",
@@ -176,7 +327,22 @@
           "url": "https://apt.hecavex.com/campaigns/laundry-bear-zimbra/"
         }
       ],
-      "source": "https://www.aivd.nl/documenten/2026/07/23/russian-state-supported-cyber-actors-conduct-phishing-campaign-targeting-users-of-zimbra-collaboration-suite"
+      "source": "https://www.aivd.nl/documenten/2026/07/23/russian-state-supported-cyber-actors-conduct-phishing-campaign-targeting-users-of-zimbra-collaboration-suite",
+      "period_precision": "day",
+      "source_metadata": {
+        "publisher": "NSA and international partners",
+        "title": "Russian State-Supported Cyber Actors Conduct Phishing Campaign Targeting Users of Zimbra Collaboration Suite",
+        "published_at": "2026-07-23T00:00:00.000Z",
+        "accessed_at": "2026-08-14T00:00:00.000Z",
+        "locator": null,
+        "locator_checked_at": null
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      }
     },
     {
       "id": "ee-2025-ddos-resilience",
@@ -189,7 +355,22 @@
       "actor": "Multiple hacktivist ecosystems (source wording)",
       "attribution": "RIA reporting",
       "confidence": "reported",
-      "source": "https://www.ria.ee/en/news/cyber-security-estonia-new-records-old-mistakes"
+      "source": "https://www.ria.ee/en/news/cyber-security-estonia-new-records-old-mistakes",
+      "period_precision": "year",
+      "source_metadata": {
+        "publisher": "Estonian Information System Authority",
+        "title": null,
+        "published_at": null,
+        "accessed_at": null,
+        "locator": null,
+        "locator_checked_at": null
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      }
     },
     {
       "id": "ee-2026-june-impact-incidents",
@@ -202,7 +383,22 @@
       "actor": null,
       "attribution": "No common actor attribution",
       "confidence": "reported",
-      "source": "https://www.ria.ee/en/situation-cyberspace-june-2026"
+      "source": "https://www.ria.ee/en/situation-cyberspace-june-2026",
+      "period_precision": "month",
+      "source_metadata": {
+        "publisher": "Estonian Information System Authority",
+        "title": null,
+        "published_at": null,
+        "accessed_at": null,
+        "locator": null,
+        "locator_checked_at": null
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      }
     },
     {
       "id": "lt-2023-02-noname057-airports-targeting",
@@ -233,7 +429,22 @@
           "url": "https://apt.hecavex.com/campaigns/noname057-european-ddos/"
         }
       ],
-      "source": "https://cert.europa.eu/publications/threat-intelligence/cb23-03/"
+      "source": "https://cert.europa.eu/publications/threat-intelligence/cb23-03/",
+      "period_precision": "month",
+      "source_metadata": {
+        "publisher": "CERT-EU",
+        "title": "Cyber Security Brief 23-03 - February 2023",
+        "published_at": "2023-03-01T00:00:00.000Z",
+        "accessed_at": "2026-08-26T00:00:00.000Z",
+        "locator": null,
+        "locator_checked_at": null
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      }
     },
     {
       "id": "lv-2023-02-noname057-defence-academy-claim",
@@ -264,7 +475,22 @@
           "url": "https://apt.hecavex.com/campaigns/noname057-european-ddos/"
         }
       ],
-      "source": "https://cert.europa.eu/publications/threat-intelligence/cb23-03/"
+      "source": "https://cert.europa.eu/publications/threat-intelligence/cb23-03/",
+      "period_precision": "month",
+      "source_metadata": {
+        "publisher": "CERT-EU",
+        "title": "Cyber Security Brief 23-03 - February 2023",
+        "published_at": "2023-03-01T00:00:00.000Z",
+        "accessed_at": "2026-08-26T00:00:00.000Z",
+        "locator": null,
+        "locator_checked_at": null
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      }
     },
     {
       "id": "lt-2021-unc1151-regional-targeting",
@@ -290,7 +516,22 @@
           "url": "https://apt.hecavex.com/actors/unc1151/"
         }
       ],
-      "source": "https://cloud.google.com/blog/topics/threat-intelligence/unc1151-linked-to-belarus-government/"
+      "source": "https://cloud.google.com/blog/topics/threat-intelligence/unc1151-linked-to-belarus-government/",
+      "period_precision": "day",
+      "source_metadata": {
+        "publisher": "Mandiant",
+        "title": "UNC1151 Assessed with High Confidence to have Links to Belarus, Ghostwriter Campaign Aligned with Belarusian Government Interests",
+        "published_at": "2021-11-16T00:00:00.000Z",
+        "accessed_at": "2026-08-27T00:00:00.000Z",
+        "locator": null,
+        "locator_checked_at": null
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      }
     },
     {
       "id": "lv-2021-unc1151-regional-targeting",
@@ -316,7 +557,22 @@
           "url": "https://apt.hecavex.com/actors/unc1151/"
         }
       ],
-      "source": "https://cloud.google.com/blog/topics/threat-intelligence/unc1151-linked-to-belarus-government/"
+      "source": "https://cloud.google.com/blog/topics/threat-intelligence/unc1151-linked-to-belarus-government/",
+      "period_precision": "day",
+      "source_metadata": {
+        "publisher": "Mandiant",
+        "title": "UNC1151 Assessed with High Confidence to have Links to Belarus, Ghostwriter Campaign Aligned with Belarusian Government Interests",
+        "published_at": "2021-11-16T00:00:00.000Z",
+        "accessed_at": "2026-08-27T00:00:00.000Z",
+        "locator": null,
+        "locator_checked_at": null
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      }
     },
     {
       "id": "ee-2020-unit29155-ministry-compromise",
@@ -342,14 +598,29 @@
           "url": "https://apt.hecavex.com/actors/unit-29155/"
         }
       ],
-      "source": "https://www.consilium.europa.eu/en/press/press-releases/2025/01/27/cyber-attacks-three-individuals-added-to-eu-sanctions-list-for-malicious-cyber-activities-against-estonia/"
+      "source": "https://www.consilium.europa.eu/en/press/press-releases/2025/01/27/cyber-attacks-three-individuals-added-to-eu-sanctions-list-for-malicious-cyber-activities-against-estonia/",
+      "period_precision": "year",
+      "source_metadata": {
+        "publisher": "Council of the European Union",
+        "title": "Cyber-attacks: three individuals added to EU sanctions list for malicious cyber activities against Estonia",
+        "published_at": "2025-01-27T00:00:00.000Z",
+        "accessed_at": "2026-08-26T00:00:00.000Z",
+        "locator": null,
+        "locator_checked_at": null
+      },
+      "review": {
+        "version": "1.0.0",
+        "reviewed_at": null,
+        "state": "not-recorded",
+        "note": "Legacy observation has no independently recorded claim review date. Metadata migration is not a substantive review."
+      }
     }
   ],
   "actor_context_source": {
     "name": "APT Notes by HECAVEX",
-    "dataset_version": "2.3.0",
-    "release_id": "apt-notes-2026-09-01-baltic-relevance",
-    "released_at": "2026-09-01T06:46:41.016Z",
+    "dataset_version": "2.4.0",
+    "release_id": "apt-notes-2026-09-07-provenance-framework",
+    "released_at": "2026-09-07T10:00:33.000Z",
     "url": "https://apt.hecavex.com/api/actors.json",
     "method": "Manually selected Europe-relevant actor context from the named reviewed APT Notes release. This layer does not create Baltic attribution; only baltic_observation_ids establishes an Atlas mapping."
   },

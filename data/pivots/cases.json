@@ -41,7 +41,11 @@
       "updated": "2026-08-27",
       "graph": "/data/pivots/graphs/hostinger.json",
       "research": "https://hecavex.com/en/research/hostinger-pages-phishing-infrastructure/",
-      "evidence_bundle": "https://hecavex.com/assets/data/hostinger-pages-phishing-2026/README.md",
+      "evidence_bundle": "https://github.com/Hecavex/research-artifacts/tree/216ee32566a3794a14b1fa0981f8f0e8a5d51dd8/releases/hostinger-pages-phishing-2026/v1.1.1",
+      "package_version": "1.1.1",
+      "package_updated": "2026-09-07",
+      "package_note": "Packaging-integrity correction only. Investigation observations and analytical claims remain dated 27 August 2026. Earlier packages are retained with errata.",
+      "package_errata": "https://github.com/Hecavex/research-artifacts/blob/216ee32566a3794a14b1fa0981f8f0e8a5d51dd8/docs/ERRATA-2026-09-07.md",
       "tags": ["credential phishing", "Cloudflare Pages", "Render", "exact hash"]
     },
     {

@@ -198,20 +198,44 @@
     document.querySelector('#case-research-link').href = selectedCase.research;
     document.querySelector('#case-json-link').href = selectedCase.graph;
     document.querySelector('#case-boundary').textContent = data.case.boundary;
+    if (data.case.package_note) {
+      const boundary = document.querySelector('#case-boundary');
+      const note = create('span', ` Package ${data.case.package_version}: ${data.case.package_note} `);
+      boundary.append(note);
+      if (data.case.package_errata) {
+        const link = create('a', 'Packaging errata');
+        link.href = data.case.package_errata;
+        boundary.append(link);
+      }
+    }
     document.querySelector('#graph-case-label').textContent = selectedCase.title;
     document.querySelector('#case-node-count').textContent = String(data.nodes.length);
     document.querySelector('#case-edge-count').textContent = String(data.edges.length);
     renderSelector();
   }
 
+  let caseRequest = 0;
+  let caseController;
   async function loadCase(caseId, updateHistory = false) {
-    selectedCase = catalogue.cases.find((caseItem) => caseItem.id === caseId) || catalogue.cases[0];
+    const request = ++caseRequest;
+    caseController?.abort();
+    caseController = new AbortController();
+    const requestedCase = catalogue.cases.find((caseItem) => caseItem.id === caseId) || catalogue.cases[0];
     document.querySelector('#node-title').textContent = 'Loading case…';
     document.querySelector('#node-detail').textContent = 'Retrieving the selected graph.';
-    const response = await fetch(selectedCase.graph, { credentials: 'same-origin' });
-    if (!response.ok) throw new Error(`Graph request failed with ${response.status}`);
-    data = await response.json();
-    if (data.case.id !== selectedCase.id) throw new Error(`Catalogue and graph case IDs differ for ${selectedCase.id}`);
+    try {
+      const response = await fetch(requestedCase.graph, { credentials: 'same-origin', signal: caseController.signal });
+      if (request !== caseRequest) return;
+      if (!response.ok) throw new Error(`Graph request failed with ${response.status}`);
+      const requestedData = await response.json();
+      if (request !== caseRequest) return;
+      if (requestedData.case.id !== requestedCase.id) throw new Error(`Catalogue and graph case IDs differ for ${requestedCase.id}`);
+      selectedCase = requestedCase;
+      data = requestedData;
+    } catch (error) {
+      if (request !== caseRequest || error.name === 'AbortError') return;
+      throw error;
+    }
     updateCaseHeader();
     renderGraph();
     renderLedger();

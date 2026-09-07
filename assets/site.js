@@ -53,6 +53,52 @@
   // Workspace scripts subscribe after site.js has loaded. Calling a new
   // subscriber immediately prevents the initial ?q= value from being lost.
   window.HECAVEX_LABS = Object.freeze({
+    bindCopiedView(fields, container, update, extra = {}) {
+      const restore = () => {
+        if (!location.hash.startsWith('#view=')) return;
+        let values;
+        try { values = new URLSearchParams(decodeURIComponent(location.hash.slice(6))); } catch { return; }
+        for (const [name, control] of Object.entries(fields)) {
+          const value = values.get(name) || '';
+          control.value = control.tagName === 'SELECT' && ![...control.options].some((option) => option.value === value) ? '' : value;
+        }
+        extra.restore?.(values);
+        update();
+      };
+      const panel = document.createElement('p');
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'button';
+      button.textContent = 'Copy filtered view';
+      const status = document.createElement('span');
+      status.className = 'meta';
+      status.setAttribute('role', 'status');
+      status.textContent = ' Includes search text only when copied. Review before sharing.';
+      panel.append(button, status);
+      container.after(panel);
+      button.addEventListener('click', async () => {
+        const values = new URLSearchParams();
+        for (const [name, control] of Object.entries(fields)) if (control.value) values.set(name, control.value);
+        extra.save?.(values);
+        const url = new URL(location.pathname, location.origin);
+        url.hash = `view=${encodeURIComponent(values.toString())}`;
+        try {
+          await navigator.clipboard.writeText(url.href);
+          status.textContent = ' View copied. Search text is kept in the fragment, not the HTTP request.';
+        } catch {
+          status.textContent = ' Select and copy this link: ';
+          const input = document.createElement('input');
+          input.readOnly = true;
+          input.value = url.href;
+          input.setAttribute('aria-label', 'Filtered view link');
+          status.append(input);
+          input.focus();
+          input.select();
+        }
+      });
+      window.addEventListener('hashchange', restore);
+      restore();
+    },
     bindShellSearch(subscriber) {
       if (typeof subscriber !== 'function') return () => {};
       shellSearchSubscribers.add(subscriber);

@@ -1,14 +1,14 @@
 {
-  "schema_version": "2.2.0",
-  "generated_at": "2026-09-01T06:46:41.016Z",
-  "publication_contract_updated_at": "2026-09-01",
+  "schema_version": "2.3.0",
+  "generated_at": "2026-09-07T10:00:33.000Z",
+  "publication_contract_updated_at": "2026-09-07",
   "source_system": {
     "name": "APT Notes by HECAVEX",
     "url": "https://apt.hecavex.com/",
     "api_url": "https://apt.hecavex.com/api/actors.json",
-    "release_id": "apt-notes-2026-09-01-baltic-relevance",
-    "dataset_version": "2.3.0",
-    "released_at": "2026-09-01T06:46:41.016Z",
+    "release_id": "apt-notes-2026-09-07-provenance-framework",
+    "dataset_version": "2.4.0",
+    "released_at": "2026-09-07T10:00:33.000Z",
     "method": "Generated only from explicit technique_evidence records in published APT Notes actor dossiers."
   },
   "framework": {
@@ -47,10 +47,13 @@
       "revoked"
     ],
     "correction_state_values": [
-      "not-recorded-at-mapping-level"
+      "not-recorded-at-mapping-level",
+      "reviewed",
+      "corrected",
+      "withdrawn"
     ],
     "mapping_unit": "One actor, campaign and procedure claim mapped to the most specific technique explicitly published by APT Notes.",
-    "correction_policy": "APT Notes record lifecycle flags are preserved. Mapping-level correction state is labelled unavailable until the upstream publication contract exposes it; corrections trigger a reviewed rebuild.",
+    "correction_policy": "APT Notes dossier lifecycle and independent claim review are preserved separately. A missing claim review remains not recorded. A populated claim review carries its own version, date, state, rationale and correction note. A locator check does not become a substantive review.",
     "known_limit": "The dataset is a reviewed evidence index, not an exhaustive ATT&CK catalogue, threat prevalence measure, automated attribution system or defensive coverage score."
   },
   "summary": {
@@ -156,6 +159,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "western-logistics-targeting",
             "name": "Western logistics and technology targeting",
@@ -203,6 +214,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "western-logistics-targeting",
             "name": "Western logistics and technology targeting",
@@ -250,6 +269,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "apt28-dns-hijacking",
             "name": "APT28 router and DNS hijacking operations",
@@ -297,6 +324,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "outlook-identity-collection",
             "name": "Outlook identity and token collection",
@@ -345,6 +380,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "apt28-dns-hijacking",
             "name": "APT28 router and DNS hijacking operations",
@@ -401,6 +444,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "operation-neusploit",
             "name": "Operation Neusploit",
@@ -465,6 +516,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "apt31-global-intrusion-program",
             "name": "APT31 global intrusion programme",
@@ -512,6 +571,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "apt31-global-intrusion-program",
             "name": "APT31 global intrusion programme",
@@ -582,6 +649,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "badpilot",
             "name": "BadPilot",
@@ -629,6 +704,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "",
             "name": "Not assigned",
@@ -678,6 +761,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "ukraine-electric-power-2022",
             "name": "2022 Ukraine electric power attack",
@@ -734,6 +825,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "ukraine-electric-power-2022",
             "name": "2022 Ukraine electric power attack",
@@ -793,6 +892,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "prestige-ransomware",
             "name": "Prestige ransomware-style attacks",
@@ -850,6 +957,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "badpilot",
             "name": "BadPilot",
@@ -906,6 +1021,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "badpilot",
             "name": "BadPilot",
@@ -953,6 +1076,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "notpetya-operation",
             "name": "NotPetya destructive operation",
@@ -1018,6 +1149,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "",
             "name": "Not assigned",
@@ -1065,6 +1204,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "badpilot",
             "name": "BadPilot",
@@ -1112,6 +1259,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "ukraine-electric-power-2022",
             "name": "2022 Ukraine electric power attack",
@@ -1177,6 +1332,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "badpilot",
             "name": "BadPilot",
@@ -1225,6 +1388,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "ukraine-electric-power-2022",
             "name": "2022 Ukraine electric power attack",
@@ -1281,6 +1452,21 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [
+            {
+              "source": "mitre-g0034",
+              "locator": "Techniques Used table, T1570 Lateral Tool Transfer row. Follow the numbered references for campaign-specific procedures.",
+              "basis": "procedure-evidence",
+              "checked_at": "2026-09-07"
+            }
+          ],
           "campaign": {
             "id": "prestige-ransomware",
             "name": "Prestige ransomware-style attacks",
@@ -1362,6 +1548,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "black-basta-raas-operations",
             "name": "Black Basta ransomware-as-a-service operations",
@@ -1436,6 +1630,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "clop-moveit-2023",
             "name": "CL0P MOVEit mass exploitation campaign",
@@ -1510,6 +1712,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "carr-european-ddos",
             "name": "CARR Ukraine-supporter DDoS campaign",
@@ -1592,6 +1802,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "evil-corp-dridex-uk",
             "name": "Evil Corp Dridex financial theft operations",
@@ -1668,6 +1886,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "",
             "name": "Not assigned",
@@ -1724,6 +1950,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "",
             "name": "Not assigned",
@@ -1771,6 +2005,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "whispergate-operation",
             "name": "WhisperGate operation",
@@ -1836,6 +2078,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "",
             "name": "Not assigned",
@@ -1909,6 +2159,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "lockbit-raas-operations",
             "name": "LockBit ransomware-as-a-service operations",
@@ -1985,6 +2243,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "midnight-blizzard-rdp-spearphishing",
             "name": "Midnight Blizzard RDP-file spearphishing",
@@ -2035,6 +2301,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "midnight-blizzard-cloud-access",
             "name": "Midnight Blizzard cloud initial access",
@@ -2082,6 +2356,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "midnight-blizzard-cloud-access",
             "name": "Midnight Blizzard cloud initial access",
@@ -2129,6 +2411,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "midnight-blizzard-cloud-access",
             "name": "Midnight Blizzard cloud initial access",
@@ -2176,6 +2466,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "midnight-blizzard-rdp-spearphishing",
             "name": "Midnight Blizzard RDP-file spearphishing",
@@ -2241,6 +2539,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "mustang-panda-hodur-europe",
             "name": "Mustang Panda Hodur European campaign",
@@ -2305,6 +2611,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "noname057-european-ddos",
             "name": "NoName057(16) European DDoS campaign",
@@ -2388,6 +2702,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "noname057-nato-summit-2025",
             "name": "NoName057(16) NATO Summit DDoS activity",
@@ -2465,6 +2787,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "scattered-spider-tfl-2024",
             "name": "Scattered Spider Transport for London intrusion",
@@ -2539,6 +2869,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "secret-blizzard-amadey-access-2024",
             "name": "Secret Blizzard Amadey access-brokering operation",
@@ -2610,6 +2948,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "star-blizzard-credential-spearphishing",
             "name": "Star Blizzard credential-theft spearphishing",
@@ -2666,6 +3012,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "star-blizzard-credential-spearphishing",
             "name": "Star Blizzard credential-theft spearphishing",
@@ -2713,6 +3067,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "star-blizzard-credential-spearphishing",
             "name": "Star Blizzard credential-theft spearphishing",
@@ -2761,6 +3123,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "star-blizzard-credential-spearphishing",
             "name": "Star Blizzard credential-theft spearphishing",
@@ -2808,6 +3178,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "star-blizzard-credential-spearphishing",
             "name": "Star Blizzard credential-theft spearphishing",
@@ -2855,6 +3233,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "star-blizzard-credential-spearphishing",
             "name": "Star Blizzard credential-theft spearphishing",
@@ -2902,6 +3288,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "star-blizzard-whatsapp-device-linking",
             "name": "Star Blizzard WhatsApp device-linking campaign",
@@ -2967,6 +3361,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "romcom-europe-zero-day-2024",
             "name": "RomCom Firefox and Windows zero-day campaign",
@@ -3032,6 +3434,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "gamaredon-ukraine-spearphishing-2024",
             "name": "Gamaredon Ukraine spearphishing operations",
@@ -3095,6 +3505,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "unc1151-poland-credential-phishing-2026",
             "name": "UNC1151 Poland credential phishing campaign",
@@ -3160,6 +3578,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "laundry-bear-cloud-espionage",
             "name": "Laundry Bear cloud espionage",
@@ -3207,6 +3633,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "laundry-bear-cloud-espionage",
             "name": "Laundry Bear cloud espionage",
@@ -3254,6 +3688,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "laundry-bear-zimbra",
             "name": "Laundry Bear Zimbra campaign",
@@ -3301,6 +3743,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "laundry-bear-cloud-espionage",
             "name": "Laundry Bear cloud espionage",
@@ -3357,6 +3807,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "laundry-bear-zimbra",
             "name": "Laundry Bear Zimbra campaign",
@@ -3404,6 +3862,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "laundry-bear-cloud-espionage",
             "name": "Laundry Bear cloud espionage",
@@ -3461,6 +3927,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "laundry-bear-cloud-espionage",
             "name": "Laundry Bear cloud espionage",
@@ -3525,6 +3999,14 @@
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
+          "claim_review": {
+            "version": "1.0.0",
+            "reviewed_at": null,
+            "state": "not-recorded",
+            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
+            "correction_note": ""
+          },
+          "source_locators": [],
           "campaign": {
             "id": "z-pentest-danish-water-2024",
             "name": "Z-Pentest Danish water-utility attack",

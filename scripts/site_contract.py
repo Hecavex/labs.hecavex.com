@@ -29,13 +29,16 @@ class Route:
 
 
 ROUTES = (
-    Route("index.html", "/", "overview", "search", "Filter Labs workspaces", "Filter", sitemap_lastmod="2026-09-01"),
-    Route("baltic-threat-atlas/index.html", "/baltic-threat-atlas/", "atlas", "search", "Search Baltic Threat Atlas", "Search", sitemap_lastmod="2026-09-01"),
-    Route("pivot-graph/index.html", "/pivot-graph/", "pivots", "search", "Search case claims", "Search", sitemap_lastmod="2026-09-01"),
-    Route("attack-map/index.html", "/attack-map/", "attack", "search", "Search actors or techniques", "Search", sitemap_lastmod="2026-09-01"),
+    Route("404.html", "/404.html", None, "link", utility_href="/", utility_text="Workspaces"),
+    Route("lt/index.html", "/lt/", "overview", "link", utility_href="/", utility_text="EN", sitemap_lastmod="2026-09-07"),
+    Route("lt/metodika/index.html", "/lt/metodika/", "methodology", "link", utility_href="/methodology/", utility_text="EN", sitemap_lastmod="2026-09-07"),
+    Route("index.html", "/", "overview", "search", "Filter Labs workspaces", "Filter", sitemap_lastmod="2026-09-07"),
+    Route("baltic-threat-atlas/index.html", "/baltic-threat-atlas/", "atlas", "search", "Search Baltic Threat Atlas", "Search", sitemap_lastmod="2026-09-07"),
+    Route("pivot-graph/index.html", "/pivot-graph/", "pivots", "search", "Search case claims", "Search", sitemap_lastmod="2026-09-07"),
+    Route("attack-map/index.html", "/attack-map/", "attack", "search", "Search actors or techniques", "Search", sitemap_lastmod="2026-09-07"),
     Route("osint-workbench/index.html", "/osint-workbench/", None, "link", utility_href="/data/osint/resources.json", utility_text="Archive JSON", sitemap_lastmod="2026-08-26"),
     Route("data/index.html", "/data/", None, "link", utility_href="/data/catalogue.json", utility_text="Catalogue JSON"),
-    Route("changes/index.html", "/changes/", "changes", "link", utility_href="/changes/feed.json", utility_text="JSON feed", sitemap_lastmod="2026-09-01"),
+    Route("changes/index.html", "/changes/", "changes", "link", utility_href="/changes/feed.json", utility_text="JSON feed", sitemap_lastmod="2026-09-07"),
     Route("methodology/index.html", "/methodology/", "methodology", "link", utility_href="https://github.com/Hecavex/labs.hecavex.com", utility_text="Source", sitemap_lastmod="2026-08-26"),
     Route("about/index.html", "/about/", "about", "link", utility_href="https://github.com/Hecavex/labs.hecavex.com", utility_text="Source", sitemap_lastmod="2026-08-26"),
     Route("licence/index.html", "/licence/", None, "link", utility_href="/methodology/", utility_text="Methodology", sitemap_lastmod="2026-08-26"),

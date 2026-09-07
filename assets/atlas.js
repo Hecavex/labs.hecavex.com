@@ -83,6 +83,9 @@
       links.append(link);
     });
     body.append(links);
+    const metadata = record.source_metadata || {};
+    body.append(element('p', 'meta', [metadata.publisher, metadata.title, `Period precision: ${record.period_precision || 'not recorded'}`, metadata.locator || 'Precise source locator not recorded', `Independent claim review: ${record.review?.reviewed_at || 'not recorded'}`].filter(Boolean).join(' · ')));
+    if (record.source_caveat) body.append(element('p', 'notice', record.source_caveat));
     article.append(date, body);
     return article;
   }
@@ -177,7 +180,7 @@
 
   async function initialise() {
     try {
-      const response = await fetch('/data/atlas/records.json?v=20260901-1', { credentials: 'same-origin' });
+      const response = await fetch('/data/atlas/records.json?v=20260907-1', { credentials: 'same-origin' });
       if (!response.ok) throw new Error(`Dataset request failed with ${response.status}`);
       const data = await response.json();
       records = [...data.records].sort(newestFirst);
@@ -200,6 +203,7 @@
         contextRelease.append(sourceLink);
       }
       update();
+      window.HECAVEX_LABS?.bindCopiedView?.({ q: search, country, type, year }, search.closest('form') || search.parentElement.parentElement, update);
     } catch (error) {
       list.replaceChildren(element('div', 'empty', 'The Atlas dataset could not be loaded. Download the JSON or report the problem.'));
       count.textContent = 'Dataset unavailable';

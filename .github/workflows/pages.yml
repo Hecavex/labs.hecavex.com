@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: pages
+  group: pages-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -30,15 +30,49 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Read reviewed upstream revision
+        id: upstream
+        run: |
+          python - <<'PY'
+          import json, os
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('revision=' + json.load(open('scripts/upstream-release.json'))['revision'] + '\n')
+          PY
+
+      - name: Check out pinned APT Notes source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: Hecavex/apt.hecavex.com
+          ref: ${{ steps.upstream.outputs.revision }}
+          path: .codex-tmp/upstream-apt
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+
+      - name: Build exact upstream data release
+        working-directory: .codex-tmp/upstream-apt
+        run: |
+          npm ci
+          npm run build
+
       - name: Validate generated content and static site
         shell: bash
+        env:
+          APT_NOTES_DIST: .codex-tmp/upstream-apt/dist
         run: |
           python scripts/sync_shell.py --check
-          python scripts/build_reviewed_attack_evidence.py --check
+          python scripts/build_reviewed_attack_evidence.py --check --require-source --apt-dist .codex-tmp/upstream-apt/dist
+          python scripts/check_upstream_contract.py --require-revision --apt-dist .codex-tmp/upstream-apt/dist
           git diff --exit-code -- data/attack
           python scripts/validate.py
           python scripts/audit_performance.py
+          python scripts/test_provenance.py
           node scripts/test_atlas_initial_query.js
+          node scripts/test_pivot_race.js
+          node scripts/test_copied_view.js
           for file in assets/*.js; do node --check "$file"; done
 
       - name: Configure GitHub Pages
@@ -52,8 +86,8 @@ jobs:
           HECAVEX_ANALYTICS_TOKEN: ${{ vars.HECAVEX_ANALYTICS_TOKEN }}
         run: |
           mkdir _site
-          cp index.html CNAME robots.txt llms.txt sitemap.xml LICENSE LICENSE.md DATA-LICENSE.md favicon.svg favicon.ico apple-touch-icon.png icon-192.png icon-512.png site.webmanifest _site/
-          cp -R .well-known about assets attack-map baltic-threat-atlas changes licence methodology osint-workbench pivot-graph security _site/
+          cp index.html 404.html CNAME robots.txt llms.txt sitemap.xml LICENSE LICENSE.md DATA-LICENSE.md favicon.svg favicon.ico apple-touch-icon.png icon-192.png icon-512.png site.webmanifest _site/
+          cp -R .well-known about assets attack-map baltic-threat-atlas changes licence lt methodology osint-workbench pivot-graph security _site/
           python scripts/stage_public_data.py _site --require-analytics
 
       - name: Upload Pages artifact

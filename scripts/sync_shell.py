@@ -35,10 +35,15 @@ def attributes(current: bool) -> str:
     return ' aria-current="page"' if current else ""
 
 
-def render_local_navigation(active: str | None, *, mobile: bool) -> str:
+def render_local_navigation(active: str | None, *, mobile: bool, lithuanian: bool = False) -> str:
+    navigation = LOCAL_NAVIGATION if not lithuanian else (
+        ("overview", "Apžvalga", "/lt/"), ("atlas", "Baltijos atlasas (EN)", "/baltic-threat-atlas/"),
+        ("pivots", "Tyrimų grafai (EN)", "/pivot-graph/"), ("attack", "ATT&amp;CK (EN)", "/attack-map/"),
+        ("methodology", "Metodika", "/lt/metodika/"),
+    )
     links = "".join(
         f'<a href="{href}"{attributes(key == active)}>{label}</a>'
-        for key, label, href in LOCAL_NAVIGATION
+        for key, label, href in navigation
     )
     if mobile:
         return f'<nav class="mobile-product-navigation" aria-label="Labs sections"><span class="navigation-label">Labs</span>{links}</nav>'
@@ -74,8 +79,8 @@ def render_utility(route: Route, *, mobile: bool) -> str:
 def render_header(route: Route) -> str:
     desktop_portfolio = render_portfolio_navigation(route.portfolio_active, mobile=False)
     mobile_portfolio = render_portfolio_navigation(route.portfolio_active, mobile=True)
-    desktop_local = render_local_navigation(route.active, mobile=False)
-    mobile_local = render_local_navigation(route.active, mobile=True)
+    desktop_local = render_local_navigation(route.active, mobile=False, lithuanian=route.path.startswith("lt/"))
+    mobile_local = render_local_navigation(route.active, mobile=True, lithuanian=route.path.startswith("lt/"))
     desktop_utility = render_utility(route, mobile=False)
     mobile_utility = render_utility(route, mobile=True)
     return f'''<header class="site-header" data-portfolio-shell="v2">
@@ -110,7 +115,7 @@ def render_footer() -> str:
     return '''<footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-brand"><strong>HECAVEX LABS</strong><span>Inspectable public CTI workspaces by <a href="https://hecavex.com/en/">HECAVEX</a>.</span></div>
-      <nav aria-label="Footer"><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/">Labs</a><a href="https://hecavex.com/data/">Data</a><a href="/changes/">Changes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a><a href="/licence/">Licence</a><a href="https://hecavex.com/en/privacy/">Privacy</a><a href="/security/">Security</a></nav>
+      <nav aria-label="Footer"><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/">Labs</a><a href="https://hecavex.com/data/">Data</a><a href="/changes/">Changes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a><a href="/licence/">Licence</a><a href="https://hecavex.com/en/privacy/">Privacy</a><a href="/security/">Security</a><a href="/lt/" hreflang="lt">Lietuviškai</a></nav>
     </div>
   </footer>'''
 
