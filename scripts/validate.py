@@ -524,6 +524,12 @@ for path, parser in documents.items():
             errors.append(f"Broken local link in {path.relative_to(root)}: {reference}")
             continue
         if parsed.fragment and target.suffix.lower() == ".html":
+            if target.resolve() == (root / "baltic-threat-atlas/index.html").resolve() and parsed.fragment.startswith("observation="):
+                observation_id = unquote(parsed.fragment[len("observation="):])
+                published_observations = json.loads((root / "data/atlas/records.json").read_text(encoding="utf-8"))["records"]
+                if observation_id not in {record["id"] for record in published_observations}:
+                    errors.append(f"Unknown Atlas observation in {path.relative_to(root)}: {reference}")
+                continue
             target_document = documents.get(target.resolve())
             if not target_document or unquote(parsed.fragment) not in target_document.ids:
                 errors.append(f"Broken fragment in {path.relative_to(root)}: {reference}")
@@ -928,8 +934,8 @@ if atlas_dataset_node.get("dateModified") != atlas.get("updated"):
 case_catalogue = json.loads((root / "data/pivots/cases.json").read_text(encoding="utf-8"))
 cases = case_catalogue.get("cases", [])
 case_ids = [case.get("id") for case in cases]
-if case_catalogue.get("schema_version") != "1.1.0":
-    errors.append("Pivot case catalogue must use the publication-approval schema 1.1.0")
+if case_catalogue.get("schema_version") != "1.2.0":
+    errors.append("Pivot case catalogue must use the reproduction-boundary schema 1.2.0")
 if not cases:
     errors.append("Pivot case catalogue must contain at least one case")
 if len(case_ids) != len(set(case_ids)) or None in case_ids:
@@ -1010,8 +1016,8 @@ attack_records = [record for actor in attack_actors for record in actor.get("evi
 provenance_model = attack.get("provenance_model", {})
 source_system = attack.get("source_system", {})
 attack_summary = attack.get("summary", {})
-if attack.get("schema_version") != "2.3.0":
-    errors.append("ATT&CK Evidence Explorer requires reviewed-evidence schema 2.3.0")
+if attack.get("schema_version") != "2.4.0":
+    errors.append("ATT&CK Evidence Explorer requires source-linked evidence schema 2.4.0")
 if not {"release_id", "dataset_version", "released_at", "method"}.issubset(source_system):
     errors.append("ATT&CK evidence is missing its APT Notes source release contract")
 if urlparse(source_system.get("url", "")).hostname != "apt.hecavex.com":

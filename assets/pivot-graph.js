@@ -219,6 +219,14 @@
     document.querySelector('#case-research-link').href = selectedCase.research;
     document.querySelector('#case-json-link').href = selectedCase.graph;
     document.querySelector('#case-boundary').textContent = data.case.boundary;
+    const reproduction = document.querySelector('#case-reproducibility');
+    if (reproduction) {
+      reproduction.replaceChildren(create('summary', 'What can be reproduced from this case?'));
+      const scope = selectedCase.reproducibility;
+      if (scope) {
+        for (const [label, value] of [['Preserved inputs', scope.preserved_inputs], ['Repeatable transformations', scope.transformations], ['Source-attributed conclusions', scope.source_attributed_conclusions], ['Unavailable or unverified', scope.unavailable], ['Analytical cutoff', scope.analytical_cutoff], ['Packaging date (not new analysis)', selectedCase.package_updated || 'No separate packaging revision recorded']]) reproduction.append(create('p', `${label}: ${Array.isArray(value) ? value.join(' / ') : value}`));
+      } else reproduction.append(create('p', 'A case-specific reproduction boundary is not recorded. Consult the published investigation before reuse.'));
+    }
     if (data.case.package_note) {
       const boundary = document.querySelector('#case-boundary');
       const note = create('span', ` Package ${data.case.package_version}: ${data.case.package_note} `);

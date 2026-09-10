@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "id": "mail-tracking-to-hypothesis",
+  "version": "1.0.0",
+  "published_at": "2026-09-10",
+  "kind": "synthetic-analytical-exercise",
+  "intelligence_requirement": "Do these synthetic observations justify checking a specific recipient's identity or mailbox telemetry, and what remains unproven?",
+  "intended_reader": "A defender or CTI analyst translating a published procedure into an authorised, bounded local evidence request.",
+  "reassessment_trigger": "Revisit when the source claim or ATT&CK mapping changes, telemetry semantics invalidate an assumption, or a practitioner records an unsuccessful or misleading decision path.",
+  "not_covered": ["Current actor attribution", "Account-compromise determination", "Production detection efficacy", "Country risk ranking"],
+  "source_claim": "A DOJ indictment announcement describes tracking information followed by later targeting. The legal allegations do not establish that any one tracking request proves compromise.",
+  "source": "https://www.justice.gov/archives/opa/pr/seven-hackers-associated-chinese-government-charged-computer-intrusions-targeting-perceived",
+  "source_locator": "Hacking Scheme, opening three paragraphs; Overview of the Malicious Cyber Activity, mailbox-surveillance paragraph; presumption-of-innocence notice.",
+  "source_record": "https://apt.hecavex.com/actors/apt31/",
+  "technique_ids": ["T1598.003", "T1114.002"],
+  "framework_version": "19.2",
+  "boundary": "All telemetry is fictional and uses reserved .test identities. No malware, live candidate contact, credentials or production log upload. The rule is an exercise answer key, not a detection, attribution or coverage score. Software tests establish repeatability only; representative practitioner outcome validation remains unrecorded.",
+  "method": "Validate required fields; count records by type; join recipient-confirmed opens to failed sign-ins for the same synthetic identity within one hour; preserve proxy and approved-client alternatives; stop when the relevant telemetry is missing. Temporal association is a question for investigation, not a causal or compromise finding.",
+  "cases": [
+    {
+      "id": "proxy-only",
+      "title": "A security proxy fetched a remote image",
+      "available_telemetry": ["mail-image"],
+      "events": [{"type":"mail-image","at":"2026-09-01T08:00:00Z","identity":"analyst@example.test","initiator":"security-proxy"}],
+      "expected": "tracking-ambiguous"
+    },
+    {
+      "id": "recipient-follow-up",
+      "title": "Confirmed recipient open, then a failed sign-in",
+      "available_telemetry": ["mail-image", "identity"],
+      "events": [
+        {"type":"mail-image","at":"2026-09-01T08:00:00Z","identity":"analyst@example.test","initiator":"recipient-confirmed"},
+        {"type":"identity","at":"2026-09-01T08:20:00Z","identity":"analyst@example.test","outcome":"failed-sign-in"}
+      ],
+      "expected": "bounded-follow-up"
+    },
+    {
+      "id": "approved-client",
+      "title": "Mailbox reads match a documented approved client",
+      "available_telemetry": ["mailbox"],
+      "events": [{"type":"mailbox","at":"2026-09-01T08:30:00Z","identity":"analyst@example.test","client_baseline":"approved"}],
+      "expected": "benign-alternative"
+    },
+    {
+      "id": "missing-telemetry",
+      "title": "No identity or mailbox telemetry retained",
+      "available_telemetry": [],
+      "events": [],
+      "expected": "stop-insufficient"
+    }
+  ]
+}

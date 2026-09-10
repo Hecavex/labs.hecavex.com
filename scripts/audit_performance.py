@@ -38,7 +38,7 @@ PAGE_SHELL_GZIP_BUDGET = 64 * KIB
 ROUTE_DATA_GZIP_BUDGETS = {
     "attack-map": (
         128 * KIB,
-        ("data/attack/intelligence/reviewed-evidence.json",),
+        ("data/attack/intelligence/reviewed-evidence.json", "data/attack/exercises/source-to-hypothesis.json"),
     ),
     "baltic-threat-atlas": (32 * KIB, ("data/atlas/records.json",)),
     "osint-workbench": (32 * KIB, ("data/osint/resources.json",)),

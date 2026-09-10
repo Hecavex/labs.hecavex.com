@@ -258,7 +258,7 @@
 
     const evidenceCell = rowCell('Evidence');
     const tags = el('div', 'evidence-tags');
-    tags.append(tag(row.mapping_status), tag(row.confidence));
+    tags.append(tag(row.mapping_status), tag(`Published ${row.confidence}`), tag(row.assessment?.method === 'ai-assisted-source-comparison' ? 'AI source comparison' : 'Claim basis unrecorded'));
     evidenceCell.append(tags);
     evidenceCell.append(el('small', '', `${row.sources.length} public source${row.sources.length === 1 ? '' : 's'}`));
 
@@ -303,7 +303,7 @@
 
   function mappingDefinition(label, value) {
     const wrapper = el('div');
-    wrapper.append(el('span', '', label), el('strong', '', value));
+    wrapper.append(el('span', '', label), el('strong', '', value ?? 'Not recorded'));
     return wrapper;
   }
 
@@ -326,7 +326,7 @@
     const metadata = el('div', 'mapping-meta');
     metadata.append(
       mappingDefinition('Evidence status', row.mapping_status),
-      mappingDefinition('Confidence', row.confidence),
+      mappingDefinition('Published confidence', row.confidence),
       mappingDefinition('Confidence basis', row.confidence_rationale),
       mappingDefinition('Upstream lifecycle', row.record_lifecycle.state),
       mappingDefinition('Correction state', row.record_lifecycle.correction_state),
@@ -336,6 +336,11 @@
       mappingDefinition('Actor review', row.actor.last_reviewed || 'Not recorded')
     );
     summary.append(copy, metadata);
+    if (row.assessment?.method === 'not-recorded') metadata.append(mappingDefinition('Claim assessment method', 'Not recorded; inherited confidence is not independently certified.'));
+    if (row.assessment?.method === 'ai-assisted-source-comparison') {
+      metadata.append(mappingDefinition('Claim assessment method', row.assessment.method), mappingDefinition('Source comparison date (not human review)', row.assessment.compared_at || 'Not recorded'), mappingDefinition('Evidence type', row.assessment.evidence_type), mappingDefinition('Confidence scope', row.assessment.confidence_scope), mappingDefinition('Source dependence', row.assessment.source_dependence), mappingDefinition('Mapping rationale', row.assessment.mapping_rationale), mappingDefinition('Alternative explanations', row.assessment.alternatives?.join(' / ') || 'Not recorded'));
+    }
+    if (row.temporal_scope) metadata.append(mappingDefinition('Date basis', row.temporal_scope.date_basis), mappingDefinition('Time limitation', row.temporal_scope.note));
     metadata.append(mappingDefinition('Independent claim review', row.claim_review?.reviewed_at || 'Not recorded'), mappingDefinition('Claim review state', row.claim_review?.state || 'not-recorded'), mappingDefinition('Claim version', row.claim_review?.version || 'Not recorded'));
     const locators = el('p', 'meta', row.source_locators?.length ? row.source_locators.map((item) => `${item.source}: ${item.locator}`).join(' / ') : 'Precise source locator not recorded. Compare the procedure with the cited publication before reuse.');
     summary.append(locators);
@@ -351,6 +356,7 @@
       const sourceRecord = el('article', 'source-record');
       const sourceCopy = el('div');
       sourceCopy.append(el('strong', '', source.title));
+      if (source.source_identity) sourceCopy.append(el('p', 'meta', `${source.source_identity.edition}. Access: ${source.source_identity.accessed_at}; ${source.source_identity.access_outcome}. Body SHA-256: ${source.source_identity.body_sha256 || 'Not established'}. ${source.source_identity.preservation}`));
       sourceCopy.append(el('small', '', [source.publisher, source.published, source.source_type].filter(Boolean).join(' · ')));
       const sourceLinks = el('nav');
       sourceLinks.setAttribute('aria-label', `${source.title} links`);
@@ -553,7 +559,7 @@
       if (!response.ok) throw new Error(`Evidence dataset request failed with HTTP ${response.status}`);
       const sourceText = await response.text();
       const data = JSON.parse(sourceText);
-      if (data.schema_version !== '2.3.0' || !Array.isArray(data.actors)) throw new Error('Unsupported evidence dataset contract');
+      if (data.schema_version !== '2.4.0' || !Array.isArray(data.actors)) throw new Error('Unsupported evidence dataset contract');
       state.data = data;
       try {
         const context = JSON.parse(document.querySelector('#evidence-build-context').textContent);

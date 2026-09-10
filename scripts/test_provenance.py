@@ -24,7 +24,7 @@ print("Claim provenance regressions passed: valid projection, unknown review dat
 
 atlas = json.loads((ROOT / "data/atlas/records.json").read_text(encoding="utf-8"))
 corrected = [record for record in atlas["records"] if record.get("corrections")]
-assert {record["id"] for record in corrected} == {"lt-2024-annual-incidents", "lt-2025-incident-volume", "lt-2025-phishing-fraud-shift", "lv-2026-q1-incident-volume", "ee-2020-unit29155-ministry-compromise"}
+assert {record["id"] for record in corrected} == {"lt-2024-annual-incidents", "lt-2025-incident-volume", "lt-2025-phishing-fraud-shift", "lv-2026-q1-incident-volume", "lv-2026-q1-dns-protection", "ee-2020-unit29155-ministry-compromise"}
 for record in corrected:
     comparison = record["corrections"][-1]
     assert comparison["method"] == "ai-assisted-source-comparison"

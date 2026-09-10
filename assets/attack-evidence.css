@@ -206,6 +206,11 @@
   background: var(--hx-surface-1);
 }
 
+#analytical-exercise { grid-template-columns: minmax(0, 1fr) auto; }
+#analytical-exercise .wide-field, #analytical-exercise .button { grid-column: auto; }
+#exercise-input { white-space: pre-wrap; overflow-wrap: anywhere; padding: .85rem; border: 1px solid var(--hx-border); background: var(--hx-surface-1); font: .8rem/1.65 var(--font-mono); }
+@media (max-width: 600px) { #analytical-exercise { grid-template-columns: minmax(0, 1fr); } }
+
 .evidence-toolbar {
   display: flex;
   align-items: center;
