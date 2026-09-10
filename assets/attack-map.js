@@ -25,6 +25,8 @@
     clearComparison: document.querySelector('#clear-comparison'),
     exportJson: document.querySelector('#export-json'),
     exportCsv: document.querySelector('#export-csv'),
+    exportMarkdown: document.querySelector('#export-markdown'),
+    exportScope: document.querySelector('#export-scope'),
     exportNavigator: document.querySelector('#export-navigator'),
     dialog: document.querySelector('#mapping-dialog'),
     dialogTitle: document.querySelector('#mapping-dialog-title'),
@@ -34,6 +36,7 @@
 
   const state = {
     data: null,
+    buildContext: null,
     actors: new Map(),
     rows: [],
     filtered: [],
@@ -289,9 +292,13 @@
     } else {
       elements.results.replaceChildren(...state.filtered.map(renderRow));
     }
-    [elements.exportJson, elements.exportCsv, elements.exportNavigator].forEach((button) => {
-      button.disabled = state.filtered.length === 0;
+    [elements.exportJson, elements.exportCsv, elements.exportMarkdown].forEach((button) => {
+      button.disabled = state.filtered.length === 0 || !state.buildContext;
     });
+    elements.exportNavigator.disabled = state.filtered.length === 0;
+    elements.exportScope.textContent = state.buildContext
+      ? `Export scope: ${state.filtered.length} current filtered record${state.filtered.length === 1 ? '' : 's'}. Actor comparison does not change this selection. JSON and CSV preserve the published fields. The Markdown brief is a readable subset, not a comprehensive actor profile or coverage measure.`
+      : 'Evidence handoff unavailable: the page and source snapshot provenance could not be verified. Browsing still works. Use the canonical source JSON below.';
   }
 
   function mappingDefinition(label, value) {
@@ -410,26 +417,9 @@
     renderComparison();
   }
 
-  function serializableRows() {
-    return state.filtered.map((row) => ({
-      actor: { id: row.actor.id, name: row.actor.name, url: row.actor.url },
-      id: row.id,
-      technique_id: row.technique_id,
-      technique: row.technique,
-      tactics: row.tactics,
-      framework_reference: row.framework_reference,
-      mapping_status: row.mapping_status,
-      confidence: row.confidence,
-      confidence_rationale: row.confidence_rationale,
-      record_lifecycle: row.record_lifecycle,
-      campaign: row.campaign,
-      first_observed: row.first_observed,
-      last_observed: row.last_observed,
-      notes: row.notes,
-      uncertainty: row.uncertainty,
-      attack_url: row.attack_url,
-      sources: row.sources
-    }));
+  function evidenceEnvelope() {
+    const filters = { query: elements.search.value, actor: elements.actor.value, campaign: elements.campaign.value, tactic: elements.tactic.value, confidence: elements.confidence.value, status: elements.status.value };
+    return window.HECAVEX_EVIDENCE_EXPORT.createEnvelope(state.data, state.filtered.map((row) => row.id), filters, state.buildContext);
   }
 
   function download(filename, mimeType, content) {
@@ -449,49 +439,16 @@
   }
 
   function exportJson() {
-    const payload = {
-      schema_version: '1.0.0',
-      export_scope: 'current filters',
-      source_release: state.data.source_system,
-      framework: state.data.framework,
-      result_count: state.filtered.length,
-      records: serializableRows()
-    };
+    const payload = evidenceEnvelope();
     download(`hecavex-attack-evidence-${exportDate()}.json`, 'application/json', `${JSON.stringify(payload, null, 2)}\n`);
   }
 
-  function csvCell(value) {
-    const text = String(value ?? '');
-    return `"${text.replace(/"/g, '""')}"`;
+  function exportCsv() {
+    download(`hecavex-attack-evidence-${exportDate()}.csv`, 'text/csv;charset=utf-8', window.HECAVEX_EVIDENCE_EXPORT.toCsv(evidenceEnvelope()));
   }
 
-  function exportCsv() {
-    const headers = ['actor', 'actor_id', 'campaign', 'technique_id', 'technique', 'tactics', 'framework_version', 'framework_stix_id', 'mapping_status', 'confidence', 'confidence_rationale', 'lifecycle_state', 'correction_state', 'actor_version', 'campaign_version', 'technique_version', 'first_observed', 'last_observed', 'notes', 'uncertainty', 'source_urls'];
-    const rows = state.filtered.map((row) => [
-      row.actor.name,
-      row.actor.id,
-      row.campaign.name,
-      row.technique_id,
-      row.technique,
-      row.tactics.join('; '),
-      row.framework_reference.version,
-      row.framework_reference.stix_id,
-      row.mapping_status,
-      row.confidence,
-      row.confidence_rationale,
-      row.record_lifecycle.state,
-      row.record_lifecycle.correction_state,
-      row.record_lifecycle.actor_version,
-      row.record_lifecycle.campaign_version,
-      row.record_lifecycle.technique_version,
-      row.first_observed,
-      row.last_observed,
-      row.notes,
-      row.uncertainty,
-      row.sources.map((source) => source.url).join('; ')
-    ]);
-    const csv = [headers, ...rows].map((row) => row.map(csvCell).join(',')).join('\r\n');
-    download(`hecavex-attack-evidence-${exportDate()}.csv`, 'text/csv;charset=utf-8', `\uFEFF${csv}\r\n`);
+  function exportMarkdown() {
+    download(`hecavex-attack-evidence-${exportDate()}.md`, 'text/markdown;charset=utf-8', window.HECAVEX_EVIDENCE_EXPORT.toMarkdown(evidenceEnvelope()));
   }
 
   function exportNavigator() {
@@ -549,7 +506,8 @@
     elements.resultCount.textContent = 'Dataset unavailable';
     document.querySelector('#source-release').textContent = 'Source release unavailable';
     elements.controls.querySelectorAll('input, select, button').forEach((control) => { control.disabled = true; });
-    [elements.exportJson, elements.exportCsv, elements.exportNavigator].forEach((button) => { button.disabled = true; });
+    [elements.exportJson, elements.exportCsv, elements.exportMarkdown, elements.exportNavigator].forEach((button) => { button.disabled = true; });
+    elements.exportScope.textContent = 'Evidence handoff unavailable until the source dataset can be loaded.';
   }
 
   function bindEvents() {
@@ -572,6 +530,7 @@
     });
     elements.exportJson.addEventListener('click', exportJson);
     elements.exportCsv.addEventListener('click', exportCsv);
+    elements.exportMarkdown.addEventListener('click', exportMarkdown);
     elements.exportNavigator.addEventListener('click', exportNavigator);
     elements.dialogClose.addEventListener('click', () => elements.dialog.close());
     elements.dialog.addEventListener('click', (event) => {
@@ -592,9 +551,16 @@
     try {
       const response = await fetch(DATA_URL, { headers: { Accept: 'application/json' } });
       if (!response.ok) throw new Error(`Evidence dataset request failed with HTTP ${response.status}`);
-      const data = await response.json();
+      const sourceText = await response.text();
+      const data = JSON.parse(sourceText);
       if (data.schema_version !== '2.3.0' || !Array.isArray(data.actors)) throw new Error('Unsupported evidence dataset contract');
       state.data = data;
+      try {
+        const context = JSON.parse(document.querySelector('#evidence-build-context').textContent);
+        const digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(sourceText))), (byte) => byte.toString(16).padStart(2, '0')).join('');
+        if (context.source_dataset_sha256 !== digest || context.release_id !== data.source_system.release_id || !/^[a-f0-9]{40}$/.test(context.revision || '') || context.repository !== 'Hecavex/apt.hecavex.com' || !window.HECAVEX_EVIDENCE_EXPORT) throw new Error('Snapshot context mismatch');
+        state.buildContext = context;
+      } catch { state.buildContext = null; }
       flattenDataset(data);
       configureControls();
       const linkedActor = new URL(window.location.href).searchParams.get('actor');

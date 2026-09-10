@@ -72,6 +72,8 @@ jobs:
           python scripts/validate.py
           python scripts/audit_performance.py
           python scripts/test_provenance.py
+          python scripts/test_evidence_context.py
+          node scripts/test_evidence_export.js
           node scripts/test_atlas_initial_query.js
           node scripts/test_pivot_race.js
           node scripts/test_copied_view.js

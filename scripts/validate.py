@@ -1114,7 +1114,7 @@ required_explorer_ids = {
     "evidence-index", "evidence-controls", "evidence-results", "result-count", "actor-filter",
     "campaign-filter", "tactic-filter", "confidence-filter", "status-filter", "comparison",
     "comparison-grid", "mapping-dialog", "mapping-dialog-body", "export-json", "export-csv",
-    "export-navigator",
+    "export-navigator", "export-markdown", "export-scope", "evidence-build-context",
 }
 missing_explorer_ids = {item for item in required_explorer_ids if f'id="{item}"' not in attack_html}
 if missing_explorer_ids or "/assets/attack-map.js" not in attack_html or "/assets/attack-evidence.css" not in attack_html:
@@ -1206,7 +1206,7 @@ if "node scripts/test_atlas_initial_query.js" not in pages_workflow:
 for route_path, application_script, release_token in (
     ("baltic-threat-atlas/index.html", "atlas.js", "20260910-1"),
     ("pivot-graph/index.html", "pivot-graph.js", "20260907-1"),
-    ("attack-map/index.html", "attack-map.js", "20260907-2"),
+    ("attack-map/index.html", "attack-map.js", "20260910-1"),
 ):
     route_text = (root / route_path).read_text(encoding="utf-8")
     if route_text.count(f'/assets/{application_script}?v={release_token}') != 1:

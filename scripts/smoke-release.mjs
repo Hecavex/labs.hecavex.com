@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
+import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 const [target, profile] = process.argv.slice(2);
 const { chromium } = await import(pathToFileURL(path.resolve(process.env.PLAYWRIGHT_MODULE || '.browser-check/node_modules/playwright-core/index.mjs')).href);
@@ -46,6 +47,75 @@ try {
       assert.deepEqual(await page.evaluate(() => window.cspViolations), []);
     }
   } else if (profile === 'labs') {
+    const sourceResponse = await page.request.get(new URL('data/attack/intelligence/reviewed-evidence.json', base).href);
+    const sourceBytes = await sourceResponse.body();
+    const evidenceData = JSON.parse(sourceBytes.toString('utf8'));
+    const expectedActor = evidenceData.actors.find(actor => actor.id === 'apt28');
+    async function downloadedText(button) {
+      const promise = page.waitForEvent('download');
+      await page.locator(button).click();
+      const download = await promise;
+      const stream = await download.createReadStream();
+      const chunks = [];
+      for await (const chunk of stream) chunks.push(chunk);
+      return Buffer.concat(chunks).toString('utf8');
+    }
+    for (const width of [320, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(new URL('attack-map/?actor=apt28', base).href);
+      await page.waitForFunction(() => !document.querySelector('#export-json').disabled);
+      assert.equal(await page.locator('#actor-filter').inputValue(), 'apt28');
+      await page.locator('[data-compare-actor="apt28"]').first().click();
+      const full = JSON.parse(await downloadedText('#export-json'));
+      assert.equal(full.result_count, expectedActor.evidence.length);
+      assert.deepEqual(full.selection.record_ids, expectedActor.evidence.map(record => record.id));
+      assert.equal(full.build_context.source_dataset_sha256, createHash('sha256').update(sourceBytes).digest('hex'));
+      assert.equal(full.source_release.release_id, evidenceData.source_system.release_id);
+      assert.match(await page.locator('#export-scope').innerText(), /Actor comparison does not change/);
+      const evidence = expectedActor.evidence[0];
+      await page.locator('#evidence-search').fill(evidence.technique_id);
+      const filtered = JSON.parse(await downloadedText('#export-json'));
+      const expected = expectedActor.evidence.filter(record => record.technique_id === evidence.technique_id);
+      assert.deepEqual(filtered.selection.record_ids, expected.map(record => record.id));
+      assert.equal(filtered.selection.filters.query, evidence.technique_id);
+      const { evidence: allEvidence, ...actorContext } = expectedActor;
+      assert.deepEqual(filtered.records, expected.map(record => ({ ...record, actor: actorContext })));
+      const csv = await downloadedText('#export-csv');
+      assert(csv.includes('record_json') && csv.includes('source_locators_json') && csv.includes(evidence.id));
+      const markdown = await downloadedText('#export-markdown');
+      assert(markdown.includes('Independent claim review date: Not recorded'));
+      assert(markdown.includes(evidence.notes.slice(0, 15)));
+      assert(markdown.includes(filtered.build_context.revision));
+      assert(markdown.includes('Only the explicitly filtered records'));
+      await page.locator('#evidence-search').fill('no-such-evidence-zzzz');
+      for (const button of ['#export-json', '#export-csv', '#export-markdown', '#export-navigator']) assert(await page.locator(button).isDisabled());
+      assert.match(await page.locator('#export-scope').innerText(), /0 current filtered records/);
+      await page.locator('#reset-filters').click();
+      await page.waitForFunction(() => document.querySelector('#actor-filter').value === 'all' && !document.querySelector('#export-json').disabled);
+      assert.equal(JSON.parse(await downloadedText('#export-json')).result_count, evidenceData.summary.mappings);
+      const firstView = 'attack-map/#view=' + encodeURIComponent('actor=apt28&q=' + evidence.technique_id);
+      await page.goto(new URL(firstView, base).href);
+      await page.waitForFunction(id => document.querySelector('#evidence-search').value === id, evidence.technique_id);
+      assert.deepEqual(JSON.parse(await downloadedText('#export-json')).selection.record_ids, expected.map(record => record.id));
+      await page.goto(new URL('attack-map/#view=' + encodeURIComponent('actor=apt44'), base).href);
+      await page.waitForFunction(() => document.querySelector('#actor-filter').value === 'apt44');
+      await page.goBack();
+      await page.waitForFunction(id => document.querySelector('#evidence-search').value === id && document.querySelector('#actor-filter').value === 'apt28', evidence.technique_id);
+      assert.deepEqual(JSON.parse(await downloadedText('#export-json')).selection.record_ids, expected.map(record => record.id));
+      await page.goForward();
+      await page.waitForFunction(() => document.querySelector('#actor-filter').value === 'apt44');
+      assert(JSON.parse(await downloadedText('#export-json')).records.every(record => record.actor.id === 'apt44'));
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      assert.deepEqual(await page.evaluate(() => window.cspViolations), []);
+    }
+    // Stale HTML paired with a newer JSON must not publish a false immutable hash.
+    await page.route('**/data/attack/intelligence/reviewed-evidence.json?*', route => route.fulfill({ contentType: 'application/json', body: JSON.stringify({ ...evidenceData, export_test: 'different source bytes' }) }));
+    await page.goto(new URL('attack-map/', base).href);
+    await page.waitForFunction(() => document.querySelector('#export-scope').textContent.includes('could not be verified'));
+    assert(await page.locator('#export-json').isDisabled());
+    assert(await page.locator('#export-markdown').isDisabled());
+    assert((await page.locator('.evidence-row').count()) > 0);
+    await page.unroute('**/data/attack/intelligence/reviewed-evidence.json?*');
     await page.goto(new URL('attack-map/?actor=apt28', base).href);
     await page.waitForFunction(() => !/Loading/.test(document.querySelector('#result-count').textContent));
     assert.equal(await page.locator('#actor-filter').inputValue(), 'apt28');
@@ -114,6 +184,10 @@ try {
       assert(await staticPage.locator('noscript a[href="/data/atlas/records.json"]').isVisible());
       assert.equal(await staticPage.locator('#atlas-records').isVisible(), false);
       assert(await staticPage.locator('main > noscript').innerText().then(text => text.includes('JavaScript')));
+      await staticPage.goto(new URL('attack-map/?actor=apt28', base).href);
+      assert(await staticPage.locator('noscript a[href="/data/attack/intelligence/reviewed-evidence.json"]').isVisible());
+      assert.equal(await staticPage.locator('#export-json').isVisible(), false);
+      assert.equal(await staticPage.locator('#export-scope').isVisible(), false);
     } finally { await noJs.close(); }
   } else throw new Error('Unknown smoke profile');
   assert.deepEqual(failures, []);

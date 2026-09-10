@@ -1,5 +1,13 @@
 # HECAVEX Labs
 
+## Source-linked evidence handoff
+
+The ATT&CK explorer exports the current filtered records, independently of the actor comparison panel. JSON retains every public record field and source snapshot metadata. CSV keeps its existing display columns and appends exact IDs, provenance, lossless `record_json`, `source_metadata_json` and build context. Formula-sensitive display cells are apostrophe-prefixed. Parse the JSON cells for original values.
+
+The Markdown evidence brief is a readable subset, not a comprehensive actor profile, detection rule or defensive coverage measure. It distinguishes the frozen dataset release, pinned APT build revision, source SHA-256, actual recorded review dates and export time. Staging injects non-executable context from `scripts/upstream-release.json`, without changing the evidence dataset. The browser verifies the downloaded source hash before enabling the handoff. Unstaged previews retain browsing and canonical JSON access but cannot claim verified export provenance.
+
+Regression gates: `node scripts/test_evidence_export.js`, `python scripts/test_evidence_context.py`, and the served-release browser smoke at 320/1440 pixels.
+
 This repository is the publication source for [labs.hecavex.com](https://labs.hecavex.com/), the HECAVEX collection of small, inspectable cyber-threat-intelligence workspaces and public datasets.
 
 The canonical product is the deployed website. This repository is public to make its evidence boundaries, transformations and publication controls inspectable; it is not maintained as a starter kit, distributable application or supported self-hosting package.
