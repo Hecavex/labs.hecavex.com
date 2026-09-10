@@ -1,6 +1,6 @@
 {
   "repository": "Hecavex/apt.hecavex.com",
-  "revision": "cf041cc8a4def6231b9c6d8e4bf87904682793b9",
+  "revision": "19a8572f79377bbbd26a0524337f9fb090ef05e4",
   "release_id": "apt-notes-2026-09-07-procedure-provenance",
   "policy": "Build this exact reviewed revision in CI. A newer upstream release requires a proposal and review, never automatic analytical publication."
 }
