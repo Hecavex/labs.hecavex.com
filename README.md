@@ -49,6 +49,8 @@ The `/lt/` overview and `/lt/metodika/` route provide bounded Lithuanian access 
 
 Atlas and ATT&CK expose an explicit "Copy filtered view" action. Search text stays local during normal use and is included in a share link only when requested. The fragment preserves filters without sending the text in the HTTP request. Recipients can still read the shared search text, so users must review links before sharing.
 
+Each Atlas observation also has a stable-ID permalink. A direct observation link is resolved after the dataset loads, visibly clears conflicting filters and focuses the exact record with its source, period precision and review limitations intact. Browser Back restores a locally filtered view when a permalink was opened from it. Unknown IDs are reported, never guessed or substituted. Without JavaScript, the source JSON and published research remain the explicit fallback.
+
 ## Validation and deployment
 
 Every pull request and push to `main` runs the publication checks in `.github/workflows/pages.yml`. The workflow:

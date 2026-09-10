@@ -1204,7 +1204,7 @@ pages_workflow = (root / ".github" / "workflows" / "pages.yml").read_text(encodi
 if "node scripts/test_atlas_initial_query.js" not in pages_workflow:
     errors.append("Pages validation does not run the Atlas initial shell-query regression test")
 for route_path, application_script, release_token in (
-    ("baltic-threat-atlas/index.html", "atlas.js", "20260907-3"),
+    ("baltic-threat-atlas/index.html", "atlas.js", "20260910-1"),
     ("pivot-graph/index.html", "pivot-graph.js", "20260907-1"),
     ("attack-map/index.html", "attack-map.js", "20260907-2"),
 ):

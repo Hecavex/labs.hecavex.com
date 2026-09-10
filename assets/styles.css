@@ -243,6 +243,9 @@ label.field-error { border-color: var(--hx-danger) !important; background: var(-
 .atlas-record { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 1rem; padding: 1.15rem .7rem; border-bottom: 1px solid var(--hx-border-subtle); }
 .atlas-record:hover { background: var(--hx-surface-1); }
 .atlas-record[hidden] { display: none; }
+.atlas-record, #atlas-link-status { scroll-margin-top: calc(var(--header-offset) + 1rem); }
+.atlas-record[data-linked-observation] { outline: 2px solid var(--hx-steel); outline-offset: -2px; background: var(--hx-surface-1); }
+.atlas-record .observation-link { display: inline-flex; align-items: center; min-height: 2rem; }
 .atlas-date { color: var(--hx-text-muted); font: .72rem/1.6 var(--font-mono); }
 .atlas-record h3 { margin: .25rem 0; font-size: 1.05rem; }
 .atlas-record p { margin: .3rem 0 .7rem; color: var(--hx-text-muted); font-size: .9rem; }
