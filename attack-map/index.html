@@ -29,7 +29,7 @@
   <meta name="theme-color" content="#111416">
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://hecavex.com/#organization","name":"HECAVEX","url":"https://hecavex.com/","founder":{"@id":"https://hecavex.com/#deividas-lis"}},{"@type":"Person","@id":"https://hecavex.com/#deividas-lis","name":"Deividas Lis","url":"https://hecavex.com/en/about/"},{"@type":"WebSite","@id":"https://hecavex.com/#website","name":"HECAVEX","url":"https://hecavex.com/","hasPart":[{"@id":"https://apt.hecavex.com/#website"},{"@id":"https://labs.hecavex.com/#website"},{"@id":"https://radar.hecavex.com/#website"}]},{"@type":"WebSite","@id":"https://apt.hecavex.com/#website","name":"APT Notes by HECAVEX","url":"https://apt.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"WebSite","@id":"https://radar.hecavex.com/#website","name":"HECAVEX Radar","url":"https://radar.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"WebSite","@id":"https://labs.hecavex.com/#website","name":"HECAVEX Labs","url":"https://labs.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"Dataset","@id":"https://labs.hecavex.com/attack-map/#dataset","name":"HECAVEX ATT&CK Evidence Explorer","description":"A source-backed index of explicit ATT&CK technique evidence from reviewed APT Notes actor dossiers.","url":"https://labs.hecavex.com/attack-map/","distribution":{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://labs.hecavex.com/data/attack/intelligence/reviewed-evidence.json"},"creator":{"@id":"https://hecavex.com/#deividas-lis"},"publisher":{"@id":"https://hecavex.com/#organization"},"isPartOf":{"@id":"https://labs.hecavex.com/#website"}}]}</script>
   <script>document.documentElement.classList.add('js')</script>
-  <noscript><style>#source-release,#result-count,.evidence-controls,.evidence-toolbar,.evidence-table{display:none!important}</style></noscript>
+  <noscript><style>#source-release,#result-count,#export-scope,.evidence-controls,.evidence-toolbar,.evidence-table{display:none!important}</style></noscript>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -115,12 +115,14 @@
         <div class="evidence-toolbar">
           <p><strong id="comparison-count">0</strong> of 3 actors selected for comparison</p>
           <div class="export-actions" aria-label="Export filtered evidence">
-            <button class="button small" id="export-json" type="button">Filtered JSON</button>
-            <button class="button small" id="export-csv" type="button">Filtered CSV</button>
-            <button class="button small" id="export-navigator" type="button">Navigator layer</button>
+            <button class="button small" id="export-json" type="button" disabled>Filtered JSON</button>
+            <button class="button small" id="export-csv" type="button" disabled>Filtered CSV</button>
+            <button class="button small" id="export-markdown" type="button" disabled>Evidence brief (.md)</button>
+            <button class="button small" id="export-navigator" type="button" disabled>Navigator layer</button>
           </div>
         </div>
 
+        <p id="export-scope" role="status">Verifying source snapshot for evidence handoff.</p>
         <noscript><p class="notice">JavaScript is required to filter the evidence index. The complete source-linked JSON remains available from the Data catalogue.</p></noscript>
         <div class="evidence-table" role="table" aria-label="Source-linked ATT&amp;CK procedure evidence">
           <div class="evidence-table-head" role="row">
@@ -138,7 +140,7 @@
 
       <section class="evidence-footnote">
         <p><strong>Framework notice.</strong> <span id="framework-notice">MITRE ATT&amp;CK technique identifiers and links are used for reference.</span> HECAVEX is independent and is not affiliated with or endorsed by MITRE. <a href="https://attack.mitre.org/resources/terms-of-use/">ATT&amp;CK terms of use</a>.</p>
-        <p><strong>Machine access.</strong> Download the canonical <a href="/data/attack/intelligence/reviewed-evidence.json">source-linked evidence JSON</a>. Browser exports contain only the currently filtered rows. The historical filename does not establish independent human review.</p>
+        <p><strong>Machine access.</strong> Download the canonical <a href="/data/attack/intelligence/reviewed-evidence.json">source-linked evidence JSON</a>. Browser exports contain only the currently filtered rows. JSON preserves all published record fields. CSV includes lossless <code>record_json</code> and source metadata alongside spreadsheet-safe display columns. The Markdown brief carries procedures, claim-review state, locators and uncertainty. Navigator is a reduced technique visualization, not a full evidence archive. The historical filename does not establish independent human review. <a href="/methodology/#evidence-handoff">Evidence handoff guidance</a> · <a href="/lt/metodika/#irodymu-perdavimas" hreflang="lt">Lietuviškai</a>.</p>
       </section>
     </div>
   </main>
@@ -155,6 +157,8 @@
     </div>
   </footer>
   <script src="/assets/site.js?v=20260907-1"></script>
-  <script src="/assets/attack-map.js?v=20260907-2"></script>
+  <script type="application/json" id="evidence-build-context">{}</script>
+  <script src="/assets/evidence-export.js?v=20260910-1"></script>
+  <script src="/assets/attack-map.js?v=20260910-1"></script>
 </body>
 </html>

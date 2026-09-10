@@ -3,6 +3,7 @@
 
 import argparse
 from datetime import date
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -16,6 +17,35 @@ MANIFEST_PATH = DATA_ROOT / "public-manifest.json"
 PIVOT_CASES_PATH = DATA_ROOT / "pivots" / "cases.json"
 ANALYTICS_ENVIRONMENT = "HECAVEX_ANALYTICS_TOKEN"
 ANALYTICS_SOURCE = "https://static.cloudflareinsights.com/beacon.min.js"
+EVIDENCE_CONTEXT_MARKER = '<script type="application/json" id="evidence-build-context">{}</script>'
+
+
+def evidence_build_context(pin: dict, source_bytes: bytes) -> dict:
+    source = json.loads(source_bytes)
+    if pin.get("repository") != "Hecavex/apt.hecavex.com" or not re.fullmatch(r"[a-f0-9]{40}", pin.get("revision", "")):
+        raise ValueError("Evidence handoff requires the exact trusted APT revision")
+    if pin.get("release_id") != source["source_system"]["release_id"]:
+        raise ValueError("Evidence handoff release does not match the frozen source")
+    return {
+        "repository": pin["repository"], "revision": pin["revision"], "release_id": pin["release_id"],
+        "source_dataset_url": "https://labs.hecavex.com/data/attack/intelligence/reviewed-evidence.json",
+        "source_dataset_sha256": hashlib.sha256(source_bytes).hexdigest(),
+    }
+
+
+def render_evidence_context(page: str, context: dict) -> str:
+    if page.count(EVIDENCE_CONTEXT_MARKER) != 1:
+        raise ValueError("Staged ATT&CK page requires exactly one empty build-context marker")
+    # JSON data is not executable, but the HTML parser still recognizes a closing script tag.
+    encoded = json.dumps(context, ensure_ascii=True).replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
+    return page.replace(EVIDENCE_CONTEXT_MARKER, EVIDENCE_CONTEXT_MARKER.replace("{}", encoded), 1)
+
+
+def stage_evidence_context(destination: Path) -> None:
+    pin = json.loads((ROOT / "scripts/upstream-release.json").read_text(encoding="utf-8"))
+    source = (destination / "data/attack/intelligence/reviewed-evidence.json").read_bytes()
+    target = destination / "attack-map/index.html"
+    target.write_text(render_evidence_context(target.read_text(encoding="utf-8"), evidence_build_context(pin, source)), encoding="utf-8", newline="\n")
 
 
 def analytics_loader(token: str) -> str:
@@ -146,6 +176,7 @@ def main():
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, target)
     print(f"Staged {len(paths)} explicitly approved public data files")
+    stage_evidence_context(destination)
     token = os.environ.get(ANALYTICS_ENVIRONMENT, "").strip()
     analytics_pages = stage_analytics(destination, token, required=args.require_analytics)
     if analytics_pages:
