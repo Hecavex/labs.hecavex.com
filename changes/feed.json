@@ -6,12 +6,30 @@
   "description": "Meaningful dataset additions, corrections, schema changes and workspace lifecycle changes.",
   "items": [
     {
+      "id": "labs-claim-assurance-2026-09-10",
+      "url": "https://labs.hecavex.com/changes/#change-2026-09-10-claim-assurance",
+      "title": "Source comparisons with defensible decision boundaries",
+      "date_published": "2026-09-10T10:13:22Z",
+      "content_text": "APT Notes 2.5.0 source-comparison corrections project into evidence schema 2.4 without inventing human reviews. Atlas schema 0.6 narrows the Latvian 266-campaign wording and exposes date/comparability limits. Pivot catalogue 1.2 records per-case reproduction boundaries. A four-case synthetic analytical exercise publishes intermediate artifacts, alternatives and stopping rules; software tests do not establish detection efficacy or practitioner outcomes. ATT&CK remains pinned to 19.2.",
+      "tags": [
+        "correction",
+        "schema-change",
+        "analytical-exercise",
+        "non-breaking"
+      ]
+    },
+    {
       "id": "labs-provenance-access-2026-09-07",
       "url": "https://labs.hecavex.com/changes/#change-2026-09-07-provenance",
       "title": "Claim provenance and reliable workspace selection",
       "date_published": "2026-09-07T10:00:33Z",
       "content_text": "Race-safe pivot selection, Atlas source and period-precision metadata with an explicit source-percentage caveat and a versioned automated correction trail for that one claim (not a human review), ATT&CK Evidence schema 2.3 with mapping-level provenance from APT Notes 2.4.0, exact upstream CI pinning, bounded Lithuanian access, opt-in filtered-view copy, accessible footer targets and a custom 404. Canonical analytical claims and historical review dates are not renewed by this publication update.",
-      "tags": ["correction", "schema-change", "accessibility", "non-breaking"]
+      "tags": [
+        "correction",
+        "schema-change",
+        "accessibility",
+        "non-breaking"
+      ]
     },
     {
       "id": "labs-contract-corrections-2026-09-01",
@@ -19,7 +37,12 @@
       "title": "Workspace navigation and evidence contracts corrected",
       "date_published": "2026-09-01T00:00:00Z",
       "content_text": "Shell search now controls the actual Atlas, Pivot and ATT&CK filters; the homepage count follows the four-case catalogue; Changes HTML and JSON Feed are checked for parity; ATT&CK evidence 2.2 validates every used technique and tactic against a compact manifest derived from the exact official Enterprise ATT&CK 19.2 STIX bundle while preserving confidence basis and lifecycle state; and the Atlas consumes explicit Baltic relevance records from APT Notes 2.3.0 without treating Europe-only actors as Baltic observations.",
-      "tags": ["correction", "schema-change", "usability", "non-breaking"]
+      "tags": [
+        "correction",
+        "schema-change",
+        "usability",
+        "non-breaking"
+      ]
     },
     {
       "id": "actors-hostinger-2026-08-27",
@@ -27,7 +50,12 @@
       "title": "Europe actor context and Hostinger pivot published",
       "date_published": "2026-08-27T00:00:00Z",
       "content_text": "The Atlas gained an explicitly bounded Europe-context actor layer, ATT&CK Evidence was rebuilt from APT Notes 2.2.0, and the Pivot Workspace gained a Hostinger-themed Pages phishing graph.",
-      "tags": ["dataset-expanded", "actor-context", "pivot-case", "non-breaking"]
+      "tags": [
+        "dataset-expanded",
+        "actor-context",
+        "pivot-case",
+        "non-breaking"
+      ]
     },
     {
       "id": "labs-scope-2026-08-26",
@@ -35,7 +63,10 @@
       "title": "Labs narrowed to three first-class workspaces",
       "date_published": "2026-08-26T00:00:00Z",
       "content_text": "Baltic Threat Atlas and Evidence Pivot remain primary. ATT&CK is refocused on reviewed evidence. Generic OSINT and earlier operational ATT&CK material are retained as archived records.",
-      "tags": ["workspace-lifecycle", "non-breaking"]
+      "tags": [
+        "workspace-lifecycle",
+        "non-breaking"
+      ]
     },
     {
       "id": "adform-case-2026-08-23",
@@ -43,7 +74,11 @@
       "title": "Adform supply-chain clipper case graph published",
       "date_published": "2026-08-23T00:00:00Z",
       "content_text": "A versioned evidence graph separates captured JavaScript, reproducible transformations, public-chain observations and bounded assessments.",
-      "tags": ["dataset-added", "pivot-case", "non-breaking"]
+      "tags": [
+        "dataset-added",
+        "pivot-case",
+        "non-breaking"
+      ]
     },
     {
       "id": "catalogue-governance-2026-08-21",
@@ -51,7 +86,11 @@
       "title": "Dataset lifecycle fields made public",
       "date_published": "2026-08-21T00:00:00Z",
       "content_text": "Catalogue records gained ownership, review triggers, archive conditions and explicit lifecycle states.",
-      "tags": ["schema-change", "governance", "non-breaking"]
+      "tags": [
+        "schema-change",
+        "governance",
+        "non-breaking"
+      ]
     },
     {
       "id": "labs-launch-2026-08-14",
@@ -59,7 +98,11 @@
       "title": "Baltic Threat Atlas and Evidence Pivot Workspace published",
       "date_published": "2026-08-14T00:00:00Z",
       "content_text": "The initial release established bounded Baltic observation records, source-linked entity mappings and provenance-aware case graphs.",
-      "tags": ["initial-publication", "dataset-added", "workspace-launch"]
+      "tags": [
+        "initial-publication",
+        "dataset-added",
+        "workspace-launch"
+      ]
     }
   ]
 }

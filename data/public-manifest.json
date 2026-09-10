@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "updated": "2026-09-01",
+  "updated": "2026-09-10",
   "default_policy": "deny",
   "description": "Exact allowlist of files intentionally published below /data/. A new file is not deployed until it is reviewed and added here.",
   "files": [
@@ -74,6 +74,12 @@
       "path": "data/osint/resources.json",
       "catalogue_id": "osint-resources",
       "role": "distribution",
+      "licence_url": "https://labs.hecavex.com/licence/#original-data"
+    },
+    {
+      "path": "data/attack/exercises/source-to-hypothesis.json",
+      "catalogue_id": "attack-reviewed-evidence",
+      "role": "synthetic-exercise-fixture",
       "licence_url": "https://labs.hecavex.com/licence/#original-data"
     }
   ]

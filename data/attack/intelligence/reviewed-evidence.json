@@ -1,14 +1,14 @@
 {
-  "schema_version": "2.3.0",
-  "generated_at": "2026-09-07T13:17:19.000Z",
-  "publication_contract_updated_at": "2026-09-07",
+  "schema_version": "2.4.0",
+  "generated_at": "2026-09-10T10:13:22.000Z",
+  "publication_contract_updated_at": "2026-09-10",
   "source_system": {
     "name": "APT Notes by HECAVEX",
     "url": "https://apt.hecavex.com/",
     "api_url": "https://apt.hecavex.com/api/actors.json",
-    "release_id": "apt-notes-2026-09-07-procedure-provenance",
-    "dataset_version": "2.4.2",
-    "released_at": "2026-09-07T13:17:19.000Z",
+    "release_id": "apt-notes-2026-09-10-claim-assurance",
+    "dataset_version": "2.5.0",
+    "released_at": "2026-09-10T10:13:22.000Z",
     "method": "Generated only from explicit technique_evidence records in published APT Notes actor dossiers."
   },
   "framework": {
@@ -22,7 +22,7 @@
     "source_commit": "6cda5ad8462c79e14fbb872f4e09059b18e0cfc4",
     "source_sha256": "dc1639caa5501d720e280cf1cbd8fbe009884a0c9b3e6e9ed9d0c25166c3d8f4",
     "manifest_url": "/data/attack/framework/enterprise-attack-19.2-used-techniques.json",
-    "manifest_sha256": "8f110024345efe8a2eb12223d4382e08ed79eb23ad90973e1e17bb7fa7922212",
+    "manifest_sha256": "1dd4857724b0bbaf64d0be21fefbcf9ca0d2d959cc51796981d19711b77d6fa9",
     "terms": "https://attack.mitre.org/resources/terms-of-use/",
     "notice": "MITRE ATT&CK technique identifiers and links are used for reference. HECAVEX procedure summaries and analytical boundaries remain separately attributed."
   },
@@ -54,7 +54,7 @@
     ],
     "mapping_unit": "One actor, campaign and procedure claim mapped to the most specific technique explicitly published by APT Notes.",
     "correction_policy": "APT Notes dossier lifecycle and independent claim review are preserved separately. A missing claim review remains not recorded. A populated claim review carries its own version, date, state, rationale and correction note. A locator check does not become a substantive review.",
-    "known_limit": "The dataset is a reviewed evidence index, not an exhaustive ATT&CK catalogue, threat prevalence measure, automated attribution system or defensive coverage score."
+    "known_limit": "The dataset is a source-linked evidence index, not an exhaustive ATT&CK catalogue, threat prevalence measure, automated attribution system or defensive coverage score. Published confidence and documented claim assurance are separate; an inherited rating is not independently certified by Labs."
   },
   "summary": {
     "actors": 20,
@@ -92,7 +92,7 @@
       },
       {
         "name": "Initial Access",
-        "mappings": 22
+        "mappings": 21
       },
       {
         "name": "Lateral Movement",
@@ -107,6 +107,10 @@
         "mappings": 6
       },
       {
+        "name": "Reconnaissance",
+        "mappings": 1
+      },
+      {
         "name": "Stealth",
         "mappings": 4
       }
@@ -119,6 +123,12 @@
       "slug": "apt28",
       "summary": "A Russian military intelligence intrusion set associated with GRU Unit 26165 and persistent espionage against governments, defence, logistics, technology, identity systems and organisations supporting Ukraine.",
       "status": "active",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-26",
       "aliases": [
@@ -151,7 +161,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "2.1.0",
@@ -193,7 +210,8 @@
               "published": "2025-05-21",
               "source_type": "government",
               "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-141a",
-              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa25-141a/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa25-141a/",
+              "source_identity": null
             }
           ]
         },
@@ -213,7 +231,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "2.1.0",
@@ -255,7 +280,8 @@
               "published": "2025-05-21",
               "source_type": "government",
               "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-141a",
-              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa25-141a/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa25-141a/",
+              "source_identity": null
             }
           ]
         },
@@ -275,7 +301,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "2.1.0",
@@ -317,7 +350,8 @@
               "published": "2026-04-07",
               "source_type": "government",
               "url": "https://www.ncsc.gov.uk/news/apt28-exploit-routers-to-enable-dns-hijacking-operations",
-              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-apt28-dns-2026/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-apt28-dns-2026/",
+              "source_identity": null
             }
           ]
         },
@@ -337,7 +371,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "2.1.0",
@@ -379,7 +420,8 @@
               "published": "2025-05-06",
               "source_type": "government",
               "url": "https://www.ncsc.gov.uk/sites/default/files/documents/ncsc-mar-authentic_antics.pdf",
-              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-authentic-antics-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-authentic-antics-2025/",
+              "source_identity": null
             }
           ]
         },
@@ -400,7 +442,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "2.1.0",
@@ -442,7 +491,8 @@
               "published": "2026-04-07",
               "source_type": "government",
               "url": "https://www.ncsc.gov.uk/news/apt28-exploit-routers-to-enable-dns-hijacking-operations",
-              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-apt28-dns-2026/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-apt28-dns-2026/",
+              "source_identity": null
             },
             {
               "id": "microsoft-soho-dns-2026",
@@ -451,7 +501,8 @@
               "published": "2026-04-07",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2026/04/07/soho-router-compromise-leads-to-dns-hijacking-and-adversary-in-the-middle-attacks/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-soho-dns-2026/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-soho-dns-2026/",
+              "source_identity": null
             }
           ]
         },
@@ -471,7 +522,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "2.1.0",
@@ -513,7 +571,8 @@
               "published": "2026-02-02",
               "source_type": "vendor-research",
               "url": "https://www.zscaler.com/blogs/security-research/apt28-leverages-cve-2026-21509-operation-neusploit",
-              "apt_notes_url": "https://apt.hecavex.com/sources/zscaler-operation-neusploit/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/zscaler-operation-neusploit/",
+              "source_identity": null
             }
           ]
         }
@@ -525,6 +584,16 @@
       "slug": "apt31",
       "summary": "A China state-affiliated cyberespionage actor associated in government and legal reporting with the Ministry of State Security and long-running targeting of political, government and strategically important commercial networks.",
       "status": "active",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [
+          "nukib-apt31-czech-mfa-2025",
+          "uk-apt31-2024",
+          "doj-apt31-2024"
+        ],
+        "basis": "The existing active status reflects the dossier's government-attributed historical programme and Czech attribution published in 2025. A separately dated current-activity adjudication is not recorded; the source does not establish activity on the publication day.",
+        "reassessment_trigger": "New source-supported operational evidence, disruption or changed attribution boundaries; annual dossier review remains separate and absence of reporting is not proof of inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-26",
       "aliases": [
@@ -549,30 +618,59 @@
             "deprecated": false
           },
           "mapping_status": "reported",
-          "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence": "moderate",
+          "confidence_rationale": "The source explicitly alleges access and prolonged mailbox surveillance, supporting Remote Email Collection as reported conduct. Moderate reflects undisclosed underlying evidence and unresolved collection mechanics, not a rule that a single source is weak.",
+          "assessment": {
+            "method": "ai-assisted-source-comparison",
+            "compared_at": "2026-09-10",
+            "evidence_type": "Legal allegation in a charging announcement; underlying mailbox evidence is not reproduced here.",
+            "confidence_scope": "Reported remote mailbox surveillance, not a conclusion about every targeted account, exact collection mechanism or individual guilt.",
+            "source_dependence": "The DOJ announcement is the immediate source. Other related attribution statements do not independently corroborate this precise mailbox-collection allegation.",
+            "alternatives": [
+              "Successful account access alone would not prove every mailbox was collected.",
+              "The source does not identify IMAP",
+              "EWS or a uniform collection method for all accounts."
+            ],
+            "mapping_rationale": "T1114.002 fits the explicit allegation of prolonged surveillance of compromised email accounts; no protocol, complete victim inventory or continuous activity window is inferred.",
+            "supersedes_mapping": null
+          },
+          "temporal_scope": {
+            "date_basis": "mixed-source-reporting",
+            "activity_first": null,
+            "activity_last": null,
+            "source_published_at": "2024-03-25",
+            "assessment_at": "2026-09-10",
+            "note": "The announcement describes a long-running programme but gives no precise window for this procedure. Its publication date is not the last observed mailbox access; comparison time is not human review."
+          },
           "record_lifecycle": {
             "state": "current",
-            "actor_version": "1.0.0",
-            "campaign_version": "1.0.0",
+            "actor_version": "1.1.0",
+            "campaign_version": "1.1.0",
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
           "claim_review": {
-            "version": "1.0.0",
+            "version": "1.1.0",
             "reviewed_at": null,
             "state": "not-recorded",
-            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
-            "correction_note": ""
+            "rationale": "AI-assisted source comparison performed 10 September 2026. Independent human claim review remains unrecorded.",
+            "correction_note": "Retained T1114.002 with an exact locator, narrower temporal semantics and moderate claim confidence; no independent corroboration is established by this record."
           },
-          "source_locators": [],
+          "source_locators": [
+            {
+              "source": "doj-apt31-2024",
+              "locator": "25 March 2024 announcement, updated 6 February 2025: Overview, third paragraph (successful account compromises and years of mailbox surveillance); final presumption-of-innocence paragraph.",
+              "basis": "procedure-evidence",
+              "checked_at": "2026-09-10"
+            }
+          ],
           "campaign": {
             "id": "apt31-global-intrusion-program",
             "name": "APT31 global intrusion programme",
             "url": "https://apt.hecavex.com/campaigns/apt31-global-intrusion-program/"
           },
-          "first_observed": "2010 or later",
-          "last_observed": "2024 reporting",
+          "first_observed": "Not stated for this procedure",
+          "last_observed": "Reported by 2024-03-25; operational endpoint not stated",
           "notes": "US legal reporting alleges successful access to email and cloud accounts, with surveillance of some compromised mailboxes continuing for years.",
           "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
           "attack_url": "https://attack.mitre.org/techniques/T1114/002/",
@@ -585,53 +683,88 @@
               "published": "2024-03-25",
               "source_type": "legal",
               "url": "https://www.justice.gov/archives/opa/pr/seven-hackers-associated-chinese-government-charged-computer-intrusions-targeting-perceived",
-              "apt_notes_url": "https://apt.hecavex.com/sources/doj-apt31-2024/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/doj-apt31-2024/",
+              "source_identity": {
+                "edition": "25 March 2024 announcement; page states updated 6 February 2025.",
+                "accessed_at": "2026-09-10",
+                "access_outcome": "Indexed publisher text compared. Direct HTTP 200 returned an interstitial, not a verified publication body.",
+                "body_sha256": null,
+                "preservation": "No body mirrored or hashed. Section locators and archive URL retained; archive body identity remains unverified."
+              }
             }
           ]
         },
         {
-          "id": "apt31:T1566:apt31-global-intrusion-program",
-          "technique_id": "T1566",
-          "technique": "Phishing",
-          "technique_slug": "phishing",
+          "id": "apt31:T1598.003:apt31-global-intrusion-program",
+          "technique_id": "T1598.003",
+          "technique": "Spearphishing Link",
+          "technique_slug": "spearphishing-for-information-link",
           "tactics": [
-            "Initial Access"
+            "Reconnaissance"
           ],
           "framework_reference": {
             "version": "19.2",
-            "stix_id": "attack-pattern--a62a8db3-f23a-4d8f-afd6-9dbc77e7813b",
+            "stix_id": "attack-pattern--2d3f5b3c-54ca-4f4d-bb1f-849346d31230",
             "revoked": false,
             "deprecated": false
           },
           "mapping_status": "reported",
-          "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence": "moderate",
+          "confidence_rationale": "The DOJ announcement explicitly alleges this behavior, and the pinned ATT&CK reconnaissance definition includes tracking beacons. Moderate applies to this reported procedure mapping, not guilt or current activity; the underlying case evidence and independent corroboration are not published in this record.",
+          "assessment": {
+            "method": "ai-assisted-source-comparison",
+            "compared_at": "2026-09-10",
+            "evidence_type": "Legal allegation in a charging announcement, not an adjudicated finding or HECAVEX telemetry.",
+            "confidence_scope": "Support for the narrowly described tracking-email procedure and its reconnaissance mapping; actor attribution and individual guilt remain separate.",
+            "source_dependence": "One DOJ announcement is the immediate procedure source. MITRE defines the behavior but is not independent evidence that this campaign occurred; other governments' related attributions do not independently prove this exact procedure.",
+            "alternatives": [
+              "Opening a tracking email does not establish device or account compromise.",
+              "The source separately describes malware-link emails; that access behavior is not the procedure represented here."
+            ],
+            "mapping_rationale": "T1598.003 covers tracking beacons used to profile recipients before subsequent targeting. T1566 initial access was too broad for the recorded tracking-only procedure. No additional malware-delivery mapping is inferred from adjacent allegations.",
+            "supersedes_mapping": "apt31:T1566:apt31-global-intrusion-program"
+          },
+          "temporal_scope": {
+            "date_basis": "mixed-source-reporting",
+            "activity_first": null,
+            "activity_last": null,
+            "source_published_at": "2024-03-25",
+            "assessment_at": "2026-09-10",
+            "note": "The programme is alleged to date from at least 2010, but that is not an established start for every tracking email. The announcement date is a reporting cutoff, not an observed activity endpoint. Assessment time records an AI-assisted comparison, not human review."
+          },
           "record_lifecycle": {
             "state": "current",
-            "actor_version": "1.0.0",
-            "campaign_version": "1.0.0",
+            "actor_version": "1.1.0",
+            "campaign_version": "1.1.0",
             "technique_version": "1.0.0",
             "correction_state": "not-recorded-at-mapping-level"
           },
           "claim_review": {
-            "version": "1.0.0",
+            "version": "1.1.0",
             "reviewed_at": null,
             "state": "not-recorded",
-            "rationale": "The source dossier predates claim-level review tracking. No independent claim review date is recorded.",
-            "correction_note": ""
+            "rationale": "AI-assisted source comparison performed 10 September 2026. Independent human claim review remains unrecorded.",
+            "correction_note": "Replaced tracking-only T1566 mapping with T1598.003; changed the published claim confidence from high to moderate because this record does not establish the independence required by the high-confidence definition. Programme/report dates are no longer presented as exact procedure activity dates."
           },
-          "source_locators": [],
+          "source_locators": [
+            {
+              "source": "doj-apt31-2024",
+              "locator": "25 March 2024 announcement, updated 6 February 2025: Hacking Scheme, opening three paragraphs (tracking-email profiling followed by separate hacking); final presumption-of-innocence paragraph.",
+              "basis": "procedure-evidence",
+              "checked_at": "2026-09-10"
+            }
+          ],
           "campaign": {
             "id": "apt31-global-intrusion-program",
             "name": "APT31 global intrusion programme",
             "url": "https://apt.hecavex.com/campaigns/apt31-global-intrusion-program/"
           },
-          "first_observed": "2010 or later",
-          "last_observed": "2024 reporting",
+          "first_observed": "Not stated for this procedure",
+          "last_observed": "Reported by 2024-03-25; operational endpoint not stated",
           "notes": "The indictment announcement alleges that more than 10,000 targeted emails contained hidden tracking links which disclosed recipient, device and network information when messages were opened.",
           "uncertainty": "Derived from explicit procedure evidence in the actor dossier; broader catalogue mappings are not included.",
-          "attack_url": "https://attack.mitre.org/techniques/T1566/",
-          "apt_notes_url": "https://apt.hecavex.com/techniques/phishing/",
+          "attack_url": "https://attack.mitre.org/techniques/T1598/003/",
+          "apt_notes_url": "https://apt.hecavex.com/techniques/spearphishing-for-information-link/",
           "sources": [
             {
               "id": "doj-apt31-2024",
@@ -640,7 +773,14 @@
               "published": "2024-03-25",
               "source_type": "legal",
               "url": "https://www.justice.gov/archives/opa/pr/seven-hackers-associated-chinese-government-charged-computer-intrusions-targeting-perceived",
-              "apt_notes_url": "https://apt.hecavex.com/sources/doj-apt31-2024/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/doj-apt31-2024/",
+              "source_identity": {
+                "edition": "25 March 2024 announcement; page states updated 6 February 2025.",
+                "accessed_at": "2026-09-10",
+                "access_outcome": "Indexed publisher text compared. Direct HTTP 200 returned an interstitial, not a verified publication body.",
+                "body_sha256": null,
+                "preservation": "No body mirrored or hashed. Section locators and archive URL retained; archive body identity remains unverified."
+              }
             }
           ]
         }
@@ -652,6 +792,12 @@
       "slug": "apt44",
       "summary": "A Russian military intelligence intrusion set associated with GRU Unit 74455 and a full-spectrum mission spanning strategic access, espionage, destructive attacks, operational-technology disruption and influence activity.",
       "status": "active",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-26",
       "aliases": [
@@ -683,7 +829,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.1.0",
@@ -718,7 +871,8 @@
               "published": "2025-02-12",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/",
+              "source_identity": null
             }
           ]
         },
@@ -738,7 +892,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.1.0",
@@ -773,7 +934,8 @@
               "published": "2026-02-10",
               "source_type": "vendor-research",
               "url": "https://cloud.google.com/blog/topics/threat-intelligence/threats-to-defense-industrial-base",
-              "apt_notes_url": "https://apt.hecavex.com/sources/gtig-defense-industrial-base-2026/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/gtig-defense-industrial-base-2026/",
+              "source_identity": null
             }
           ]
         },
@@ -795,7 +957,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.1.0",
@@ -830,7 +999,8 @@
               "published": "2023-11-09",
               "source_type": "vendor-research",
               "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology",
-              "apt_notes_url": "https://apt.hecavex.com/sources/mandiant-ukraine-power-2023/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/mandiant-ukraine-power-2023/",
+              "source_identity": null
             },
             {
               "id": "microsoft-prestige-2022",
@@ -839,7 +1009,8 @@
               "published": "2022-10-14",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-prestige-2022/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-prestige-2022/",
+              "source_identity": null
             }
           ]
         },
@@ -859,7 +1030,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.1.0",
@@ -894,7 +1072,8 @@
               "published": "2023-11-09",
               "source_type": "vendor-research",
               "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology",
-              "apt_notes_url": "https://apt.hecavex.com/sources/mandiant-ukraine-power-2023/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/mandiant-ukraine-power-2023/",
+              "source_identity": null
             },
             {
               "id": "mitre-g0034",
@@ -903,7 +1082,8 @@
               "published": "2017-05-31",
               "source_type": "nonprofit",
               "url": "https://attack.mitre.org/groups/G0034/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g0034/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g0034/",
+              "source_identity": null
             }
           ]
         },
@@ -926,7 +1106,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.1.0",
@@ -961,7 +1148,8 @@
               "published": "2022-10-14",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-prestige-2022/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-prestige-2022/",
+              "source_identity": null
             },
             {
               "id": "microsoft-badpilot-2025",
@@ -970,7 +1158,8 @@
               "published": "2025-02-12",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/",
+              "source_identity": null
             }
           ]
         },
@@ -991,7 +1180,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.1.0",
@@ -1026,7 +1222,8 @@
               "published": "2025-02-12",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/",
+              "source_identity": null
             },
             {
               "id": "ncsc-cyclops-blink-2022",
@@ -1035,7 +1232,8 @@
               "published": "2022-02-23",
               "source_type": "government",
               "url": "https://www.ncsc.gov.uk/news/joint-advisory-shows-new-sandworm-malware-cyclops-blink-replaces-vpnfilter",
-              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-cyclops-blink-2022/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-cyclops-blink-2022/",
+              "source_identity": null
             }
           ]
         },
@@ -1055,7 +1253,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.1.0",
@@ -1090,7 +1295,8 @@
               "published": "2025-02-12",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/",
+              "source_identity": null
             }
           ]
         },
@@ -1110,7 +1316,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 3 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.1.0",
@@ -1145,7 +1358,8 @@
               "published": "2020-10-19",
               "source_type": "legal",
               "url": "https://www.justice.gov/archives/opa/pr/six-russian-gru-officers-charged-connection-worldwide-deployment-destructive-malware-and",
-              "apt_notes_url": "https://apt.hecavex.com/sources/doj-sandworm-indictment-2020/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/doj-sandworm-indictment-2020/",
+              "source_identity": null
             },
             {
               "id": "gtig-apt44-2024",
@@ -1154,7 +1368,8 @@
               "published": "2024-04-17",
               "source_type": "vendor-research",
               "url": "https://cloud.google.com/blog/topics/threat-intelligence/apt44-unearthing-sandworm",
-              "apt_notes_url": "https://apt.hecavex.com/sources/gtig-apt44-2024/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/gtig-apt44-2024/",
+              "source_identity": null
             },
             {
               "id": "mitre-g0034",
@@ -1163,7 +1378,8 @@
               "published": "2017-05-31",
               "source_type": "nonprofit",
               "url": "https://attack.mitre.org/groups/G0034/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g0034/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g0034/",
+              "source_identity": null
             }
           ]
         },
@@ -1183,7 +1399,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.1.0",
@@ -1218,7 +1441,8 @@
               "published": "2026-01-27",
               "source_type": "vendor-research",
               "url": "https://cloud.google.com/blog/topics/threat-intelligence/exploiting-critical-winrar-vulnerability",
-              "apt_notes_url": "https://apt.hecavex.com/sources/gtig-winrar-cve-2025-8088-2026/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/gtig-winrar-cve-2025-8088-2026/",
+              "source_identity": null
             }
           ]
         },
@@ -1238,7 +1462,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.1.0",
@@ -1273,7 +1504,8 @@
               "published": "2025-02-12",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/",
+              "source_identity": null
             }
           ]
         },
@@ -1293,7 +1525,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 3 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.1.0",
@@ -1328,7 +1567,8 @@
               "published": "2020-10-19",
               "source_type": "legal",
               "url": "https://www.justice.gov/archives/opa/pr/six-russian-gru-officers-charged-connection-worldwide-deployment-destructive-malware-and",
-              "apt_notes_url": "https://apt.hecavex.com/sources/doj-sandworm-indictment-2020/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/doj-sandworm-indictment-2020/",
+              "source_identity": null
             },
             {
               "id": "mandiant-ukraine-power-2023",
@@ -1337,7 +1577,8 @@
               "published": "2023-11-09",
               "source_type": "vendor-research",
               "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology",
-              "apt_notes_url": "https://apt.hecavex.com/sources/mandiant-ukraine-power-2023/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/mandiant-ukraine-power-2023/",
+              "source_identity": null
             },
             {
               "id": "microsoft-prestige-2022",
@@ -1346,7 +1587,8 @@
               "published": "2022-10-14",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-prestige-2022/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-prestige-2022/",
+              "source_identity": null
             }
           ]
         },
@@ -1366,7 +1608,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.1.0",
@@ -1401,7 +1650,8 @@
               "published": "2025-02-12",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2025/02/12/the-badpilot-campaign-seashell-blizzard-subgroup-conducts-multiyear-global-access-operation/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-badpilot-2025/",
+              "source_identity": null
             }
           ]
         },
@@ -1422,7 +1672,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.1.0",
@@ -1457,7 +1714,8 @@
               "published": "2023-11-09",
               "source_type": "vendor-research",
               "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology",
-              "apt_notes_url": "https://apt.hecavex.com/sources/mandiant-ukraine-power-2023/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/mandiant-ukraine-power-2023/",
+              "source_identity": null
             },
             {
               "id": "mitre-g0034",
@@ -1466,7 +1724,8 @@
               "published": "2017-05-31",
               "source_type": "nonprofit",
               "url": "https://attack.mitre.org/groups/G0034/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g0034/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g0034/",
+              "source_identity": null
             }
           ]
         },
@@ -1486,7 +1745,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 3 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.1.0",
@@ -1528,7 +1794,8 @@
               "published": "2022-10-14",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-prestige-2022/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-prestige-2022/",
+              "source_identity": null
             },
             {
               "id": "mandiant-ukraine-power-2023",
@@ -1537,7 +1804,8 @@
               "published": "2023-11-09",
               "source_type": "vendor-research",
               "url": "https://cloud.google.com/blog/topics/threat-intelligence/sandworm-disrupts-power-ukraine-operational-technology",
-              "apt_notes_url": "https://apt.hecavex.com/sources/mandiant-ukraine-power-2023/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/mandiant-ukraine-power-2023/",
+              "source_identity": null
             },
             {
               "id": "mitre-g0034",
@@ -1546,7 +1814,8 @@
               "published": "2017-05-31",
               "source_type": "nonprofit",
               "url": "https://attack.mitre.org/groups/G0034/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g0034/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g0034/",
+              "source_identity": null
             }
           ]
         }
@@ -1558,6 +1827,12 @@
       "slug": "black-basta",
       "summary": "A ransomware-as-a-service operation active since 2022 that affected more than 500 organisations across North America, Europe and Australia by May 2024.",
       "status": "uncertain",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-27",
       "aliases": [
@@ -1582,7 +1857,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -1617,7 +1899,8 @@
               "published": "2024-05-10",
               "source_type": "government",
               "url": "https://www.cisa.gov/sites/default/files/2024-05/aa24-131a-joint-csa-stopransomware-black-basta_1.pdf",
-              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-black-basta-2024/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-black-basta-2024/",
+              "source_identity": null
             },
             {
               "id": "cert-eu-black-basta-2025",
@@ -1626,7 +1909,8 @@
               "published": "2025-03-31",
               "source_type": "government",
               "url": "https://cert.europa.eu/publications/threat-intelligence/cb25-04/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/cert-eu-black-basta-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/cert-eu-black-basta-2025/",
+              "source_identity": null
             }
           ]
         }
@@ -1638,6 +1922,12 @@
       "slug": "clop",
       "summary": "A financially motivated extortion and ransomware brand associated with repeated mass exploitation of managed file-transfer and enterprise applications affecting organisations across Europe and beyond.",
       "status": "active",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-27",
       "aliases": [
@@ -1664,7 +1954,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -1699,7 +1996,8 @@
               "published": "2023-06-07",
               "source_type": "government",
               "url": "https://www.cisa.gov/sites/default/files/2023-06/aa23-158a-stopransomware-cl0p-ransomware-gang-exploits-moveit-vulnerability_7.pdf",
-              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-clop-moveit-2023/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-clop-moveit-2023/",
+              "source_identity": null
             },
             {
               "id": "enisa-finance-threat-landscape-2025",
@@ -1708,7 +2006,8 @@
               "published": "2025-02-24",
               "source_type": "government",
               "url": "https://www.enisa.europa.eu/sites/default/files/2025-02/Finance%20TL%202024_Final.pdf",
-              "apt_notes_url": "https://apt.hecavex.com/sources/enisa-finance-threat-landscape-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/enisa-finance-threat-landscape-2025/",
+              "source_identity": null
             }
           ]
         }
@@ -1720,6 +2019,12 @@
       "slug": "cyber-army-russia-reborn",
       "summary": "A Russian government-aligned hacktivist group associated with DDoS campaigns and low-sophistication industrial-control-system intrusions against Ukraine-supporting states and critical infrastructure.",
       "status": "uncertain",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-26",
       "aliases": [
@@ -1746,7 +2051,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 3 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -1781,7 +2093,8 @@
               "published": "2024-07-19",
               "source_type": "government",
               "url": "https://home.treasury.gov/news/press-releases/jy2473",
-              "apt_notes_url": "https://apt.hecavex.com/sources/treasury-carr-2024/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/treasury-carr-2024/",
+              "source_identity": null
             },
             {
               "id": "eu-russian-cyber-sanctions-2026",
@@ -1790,7 +2103,8 @@
               "published": "2026-07-13",
               "source_type": "government",
               "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/07/13/russian-cyber-attacks-and-destabilising-activities-council-sanctions-nine-individuals-and-four-entities/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/eu-russian-cyber-sanctions-2026/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/eu-russian-cyber-sanctions-2026/",
+              "source_identity": null
             },
             {
               "id": "joint-csa-pro-russia-hacktivists-2025",
@@ -1799,7 +2113,8 @@
               "published": "2025-12-09",
               "source_type": "government",
               "url": "https://media.defense.gov/2025/Dec/09/2003840175/-1/-1/0/Joint_CSA_Pro-Russia_Hacktivists_Conduct_Attacks_against_Critical_Infrastructure.PDF",
-              "apt_notes_url": "https://apt.hecavex.com/sources/joint-csa-pro-russia-hacktivists-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/joint-csa-pro-russia-hacktivists-2025/",
+              "source_identity": null
             }
           ]
         }
@@ -1811,6 +2126,12 @@
       "slug": "evil-corp",
       "summary": "A Russian financially motivated cybercriminal organisation linked by UK and US authorities to Dridex-enabled theft, ransomware operations and extensive harm in the United Kingdom and Europe.",
       "status": "intermittently-active",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-27",
       "aliases": [
@@ -1836,7 +2157,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -1871,7 +2199,8 @@
               "published": "2019-12-05",
               "source_type": "government",
               "url": "https://www.ncsc.gov.uk/news/uk-and-us-investigation-into-harmful-international-cyber-campaigns",
-              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-evil-corp-2019/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-evil-corp-2019/",
+              "source_identity": null
             },
             {
               "id": "uk-evil-corp-sanctions-2024",
@@ -1880,7 +2209,8 @@
               "published": "2024-10-01",
               "source_type": "government",
               "url": "https://www.gov.uk/government/news/uk-sanctions-members-of-notorious-evil-corp-cyber-crime-gang-after-lammy-calls-out-putins-mafia-state",
-              "apt_notes_url": "https://apt.hecavex.com/sources/uk-evil-corp-sanctions-2024/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/uk-evil-corp-sanctions-2024/",
+              "source_identity": null
             }
           ]
         }
@@ -1892,6 +2222,12 @@
       "slug": "unit-29155",
       "summary": "A Russian military intelligence unit associated with espionage, sabotage, reputational harm and the destructive WhisperGate operation against Ukraine.",
       "status": "active",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-26",
       "aliases": [
@@ -1920,7 +2256,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.2.0",
@@ -1955,7 +2298,8 @@
               "published": "2024-09-05",
               "source_type": "government",
               "url": "https://www.cisa.gov/sites/default/files/2024-09/aa24-249a-russian-military-cyber-actors-target-us-and-global-critical-infrastructure.pdf",
-              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa24-249a/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa24-249a/",
+              "source_identity": null
             },
             {
               "id": "mitre-g1003",
@@ -1964,7 +2308,8 @@
               "published": "2022-06-09",
               "source_type": "nonprofit",
               "url": "https://attack.mitre.org/groups/G1003/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g1003/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g1003/",
+              "source_identity": null
             }
           ]
         },
@@ -1984,7 +2329,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.2.0",
@@ -2019,7 +2371,8 @@
               "published": "2024-09-05",
               "source_type": "government",
               "url": "https://www.cisa.gov/sites/default/files/2024-09/aa24-249a-russian-military-cyber-actors-target-us-and-global-critical-infrastructure.pdf",
-              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa24-249a/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa24-249a/",
+              "source_identity": null
             }
           ]
         },
@@ -2039,7 +2392,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 3 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.2.0",
@@ -2074,7 +2434,8 @@
               "published": "2024-09-05",
               "source_type": "government",
               "url": "https://www.cisa.gov/sites/default/files/2024-09/aa24-249a-russian-military-cyber-actors-target-us-and-global-critical-infrastructure.pdf",
-              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa24-249a/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa24-249a/",
+              "source_identity": null
             },
             {
               "id": "doj-unit-29155-2024",
@@ -2083,7 +2444,8 @@
               "published": "2024-09-05",
               "source_type": "legal",
               "url": "https://www.justice.gov/archives/opa/pr/five-russian-gru-officers-and-one-civilian-charged-conspiring-hack-ukrainian-government",
-              "apt_notes_url": "https://apt.hecavex.com/sources/doj-unit-29155-2024/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/doj-unit-29155-2024/",
+              "source_identity": null
             },
             {
               "id": "mitre-g1003",
@@ -2092,7 +2454,8 @@
               "published": "2022-06-09",
               "source_type": "nonprofit",
               "url": "https://attack.mitre.org/groups/G1003/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g1003/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g1003/",
+              "source_identity": null
             }
           ]
         },
@@ -2112,7 +2475,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.2.0",
@@ -2147,7 +2517,8 @@
               "published": "2024-09-05",
               "source_type": "government",
               "url": "https://www.cisa.gov/sites/default/files/2024-09/aa24-249a-russian-military-cyber-actors-target-us-and-global-critical-infrastructure.pdf",
-              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa24-249a/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-aa24-249a/",
+              "source_identity": null
             },
             {
               "id": "mitre-g1003",
@@ -2156,7 +2527,8 @@
               "published": "2022-06-09",
               "source_type": "nonprofit",
               "url": "https://attack.mitre.org/groups/G1003/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g1003/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/mitre-g1003/",
+              "source_identity": null
             }
           ]
         }
@@ -2168,6 +2540,12 @@
       "slug": "lockbit",
       "summary": "A ransomware-as-a-service ecosystem whose administrators supplied malware and infrastructure to affiliates responsible for thousands of intrusions, including extensive European targeting.",
       "status": "disrupted",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-27",
       "aliases": [
@@ -2193,7 +2571,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -2228,7 +2613,8 @@
               "published": "2023-06-14",
               "source_type": "government",
               "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-165a",
-              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-lockbit-advisory-2023/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-lockbit-advisory-2023/",
+              "source_identity": null
             },
             {
               "id": "nca-lockbit-disruption-2024",
@@ -2237,7 +2623,8 @@
               "published": "2024-02-20",
               "source_type": "legal",
               "url": "https://www.nationalcrimeagency.gov.uk/news/nca-leads-international-investigation-targeting-worlds-most-harmful-ransomware-group",
-              "apt_notes_url": "https://apt.hecavex.com/sources/nca-lockbit-disruption-2024/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/nca-lockbit-disruption-2024/",
+              "source_identity": null
             }
           ]
         }
@@ -2249,6 +2636,12 @@
       "slug": "midnight-blizzard",
       "summary": "A Russian SVR-linked espionage actor using cloud identity abuse, credential attacks, supply-chain access and targeted phishing against government, diplomatic, technology and civil-society targets.",
       "status": "uncertain",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-26",
       "aliases": [
@@ -2277,7 +2670,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -2312,7 +2712,8 @@
               "published": "2024-10-29",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2024/10/29/midnight-blizzard-conducts-large-scale-spear-phishing-campaign-using-rdp-files/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-apt29-rdp-2024/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-apt29-rdp-2024/",
+              "source_identity": null
             }
           ]
         },
@@ -2335,7 +2736,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -2370,7 +2778,8 @@
               "published": "2024-02-26",
               "source_type": "government",
               "url": "https://www.ncsc.gov.uk/news/svr-cyber-actors-adapt-tactics-for-initial-cloud-access",
-              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-apt29-cloud-2024/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-apt29-cloud-2024/",
+              "source_identity": null
             }
           ]
         },
@@ -2390,7 +2799,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -2425,7 +2841,8 @@
               "published": "2024-02-26",
               "source_type": "government",
               "url": "https://www.ncsc.gov.uk/news/svr-cyber-actors-adapt-tactics-for-initial-cloud-access",
-              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-apt29-cloud-2024/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-apt29-cloud-2024/",
+              "source_identity": null
             }
           ]
         },
@@ -2445,7 +2862,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -2480,7 +2904,8 @@
               "published": "2024-02-26",
               "source_type": "government",
               "url": "https://www.ncsc.gov.uk/news/svr-cyber-actors-adapt-tactics-for-initial-cloud-access",
-              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-apt29-cloud-2024/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-apt29-cloud-2024/",
+              "source_identity": null
             }
           ]
         },
@@ -2500,7 +2925,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -2535,7 +2967,8 @@
               "published": "2024-10-29",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2024/10/29/midnight-blizzard-conducts-large-scale-spear-phishing-campaign-using-rdp-files/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-apt29-rdp-2024/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-apt29-rdp-2024/",
+              "source_identity": null
             }
           ]
         }
@@ -2547,6 +2980,12 @@
       "slug": "mustang-panda",
       "summary": "A China-aligned espionage actor conducting sustained spearphishing and removable-media operations against diplomatic, government and maritime targets, including organisations in Europe.",
       "status": "active",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-27",
       "aliases": [
@@ -2573,7 +3012,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -2608,7 +3054,8 @@
               "published": "2022-03-23",
               "source_type": "vendor-research",
               "url": "https://www.welivesecurity.com/2022/03/23/mustang-panda-hodur-old-tricks-new-korplug-variant/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/eset-mustang-panda-hodur-2022/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/eset-mustang-panda-hodur-2022/",
+              "source_identity": null
             }
           ]
         }
@@ -2620,6 +3067,12 @@
       "slug": "noname057-16",
       "summary": "A pro-Russia DDoS network that recruits participants around an automated attack tool and repeatedly targets Ukraine-supporting governments, public services and critical sectors in Europe.",
       "status": "intermittently-active",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-26",
       "aliases": [
@@ -2645,7 +3098,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 5 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.1.0",
@@ -2680,7 +3140,8 @@
               "published": "2025-07-16",
               "source_type": "government",
               "url": "https://www.europol.europa.eu/media-press/newsroom/news/global-operation-targets-noname05716-pro-russian-cybercrime-network",
-              "apt_notes_url": "https://apt.hecavex.com/sources/europol-noname057-eastwood-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/europol-noname057-eastwood-2025/",
+              "source_identity": null
             },
             {
               "id": "bka-noname057-eastwood-2025",
@@ -2689,7 +3150,8 @@
               "published": "2025-07-16",
               "source_type": "legal",
               "url": "https://www.bka.de/SharedDocs/Pressemitteilungen/DE/Presse_2025/pm250716_noname.pdf?__blob=publicationFile&v=4",
-              "apt_notes_url": "https://apt.hecavex.com/sources/bka-noname057-eastwood-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/bka-noname057-eastwood-2025/",
+              "source_identity": null
             },
             {
               "id": "cert-eu-noname057-baltics-2023",
@@ -2698,7 +3160,8 @@
               "published": "2023-03-01",
               "source_type": "government",
               "url": "https://cert.europa.eu/publications/threat-intelligence/cb23-03/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/cert-eu-noname057-baltics-2023/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/cert-eu-noname057-baltics-2023/",
+              "source_identity": null
             },
             {
               "id": "cert-eu-noname057-november-2025",
@@ -2707,7 +3170,8 @@
               "published": "2025-12-02",
               "source_type": "government",
               "url": "https://cert.europa.eu/publications/threat-intelligence/cb25-12/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/cert-eu-noname057-november-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/cert-eu-noname057-november-2025/",
+              "source_identity": null
             },
             {
               "id": "joint-csa-pro-russia-hacktivists-2025",
@@ -2716,7 +3180,8 @@
               "published": "2025-12-09",
               "source_type": "government",
               "url": "https://media.defense.gov/2025/Dec/09/2003840175/-1/-1/0/Joint_CSA_Pro-Russia_Hacktivists_Conduct_Attacks_against_Critical_Infrastructure.PDF",
-              "apt_notes_url": "https://apt.hecavex.com/sources/joint-csa-pro-russia-hacktivists-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/joint-csa-pro-russia-hacktivists-2025/",
+              "source_identity": null
             }
           ]
         },
@@ -2736,7 +3201,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.1.0",
@@ -2771,7 +3243,8 @@
               "published": "2025-07-01",
               "source_type": "government",
               "url": "https://cert.europa.eu/publications/threat-intelligence/cb25-07/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/cert-eu-noname057-june-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/cert-eu-noname057-june-2025/",
+              "source_identity": null
             },
             {
               "id": "europol-noname057-eastwood-2025",
@@ -2780,7 +3253,8 @@
               "published": "2025-07-16",
               "source_type": "government",
               "url": "https://www.europol.europa.eu/media-press/newsroom/news/global-operation-targets-noname05716-pro-russian-cybercrime-network",
-              "apt_notes_url": "https://apt.hecavex.com/sources/europol-noname057-eastwood-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/europol-noname057-eastwood-2025/",
+              "source_identity": null
             }
           ]
         }
@@ -2792,6 +3266,12 @@
       "slug": "scattered-spider",
       "summary": "A loose English-speaking cybercriminal collective known for help-desk social engineering, identity compromise, data theft and selected ransomware partnerships, including the 2024 Transport for London intrusion.",
       "status": "disrupted",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-27",
       "aliases": [
@@ -2821,7 +3301,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -2856,7 +3343,8 @@
               "published": "2026-07-16",
               "source_type": "legal",
               "url": "https://www.nationalcrimeagency.gov.uk/news/two-sentenced-for-hacking-transport-for-london-in-uk-s-biggest-ever-cyber-crime-case",
-              "apt_notes_url": "https://apt.hecavex.com/sources/nca-scattered-spider-tfl-2026/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/nca-scattered-spider-tfl-2026/",
+              "source_identity": null
             },
             {
               "id": "cisa-scattered-spider-2025",
@@ -2865,7 +3353,8 @@
               "published": "2025-07-29",
               "source_type": "government",
               "url": "https://www.cisa.gov/sites/default/files/2025-08/aa23-320a-scattered-spider-508c.pdf",
-              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-scattered-spider-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/cisa-scattered-spider-2025/",
+              "source_identity": null
             }
           ]
         }
@@ -2877,6 +3366,12 @@
       "slug": "secret-blizzard",
       "summary": "A Russian state-sponsored espionage cluster overlapping Turla and associated with FSB Centre 16, active against Ukraine and European diplomatic and government targets.",
       "status": "active",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-27",
       "aliases": [
@@ -2903,7 +3398,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -2938,7 +3440,8 @@
               "published": "2024-12-11",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2024/12/11/frequent-freeloader-part-ii-russian-actor-secret-blizzard-using-tools-of-other-groups-to-attack-ukraine/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-secret-blizzard-freeloader-2024/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-secret-blizzard-freeloader-2024/",
+              "source_identity": null
             }
           ]
         }
@@ -2950,6 +3453,12 @@
       "slug": "star-blizzard",
       "summary": "An FSB Centre 18-linked espionage cluster using researched impersonation, credential phishing and account access against government, defence, civil-society and Ukraine-related targets.",
       "status": "uncertain",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-26",
       "aliases": [
@@ -2982,7 +3491,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -3017,7 +3533,8 @@
               "published": "2023-12-07",
               "source_type": "government",
               "url": "https://www.ncsc.gov.uk/news/star-blizzard-continues-spear-phishing-campaigns",
-              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/",
+              "source_identity": null
             },
             {
               "id": "doj-star-blizzard-2023",
@@ -3026,7 +3543,8 @@
               "published": "2023-12-07",
               "source_type": "legal",
               "url": "https://www.justice.gov/archives/opa/pr/two-russian-nationals-working-russias-federal-security-service-charged-global-computer",
-              "apt_notes_url": "https://apt.hecavex.com/sources/doj-star-blizzard-2023/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/doj-star-blizzard-2023/",
+              "source_identity": null
             }
           ]
         },
@@ -3046,7 +3564,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -3081,7 +3606,8 @@
               "published": "2023-12-07",
               "source_type": "government",
               "url": "https://www.ncsc.gov.uk/news/star-blizzard-continues-spear-phishing-campaigns",
-              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/",
+              "source_identity": null
             }
           ]
         },
@@ -3101,7 +3627,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -3136,7 +3669,8 @@
               "published": "2023-12-07",
               "source_type": "government",
               "url": "https://www.ncsc.gov.uk/news/star-blizzard-continues-spear-phishing-campaigns",
-              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/",
+              "source_identity": null
             }
           ]
         },
@@ -3157,7 +3691,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -3192,7 +3733,8 @@
               "published": "2023-12-07",
               "source_type": "government",
               "url": "https://www.ncsc.gov.uk/news/star-blizzard-continues-spear-phishing-campaigns",
-              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/",
+              "source_identity": null
             }
           ]
         },
@@ -3212,7 +3754,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -3247,7 +3796,8 @@
               "published": "2023-12-07",
               "source_type": "government",
               "url": "https://www.ncsc.gov.uk/news/star-blizzard-continues-spear-phishing-campaigns",
-              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/",
+              "source_identity": null
             }
           ]
         },
@@ -3267,7 +3817,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -3302,7 +3859,8 @@
               "published": "2023-12-07",
               "source_type": "government",
               "url": "https://www.ncsc.gov.uk/news/star-blizzard-continues-spear-phishing-campaigns",
-              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/ncsc-star-blizzard-2023/",
+              "source_identity": null
             }
           ]
         },
@@ -3322,7 +3880,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -3357,7 +3922,8 @@
               "published": "2025-01-16",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2025/01/16/new-star-blizzard-spear-phishing-campaign-targets-whatsapp-accounts/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-star-blizzard-whatsapp-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-star-blizzard-whatsapp-2025/",
+              "source_identity": null
             }
           ]
         }
@@ -3369,6 +3935,12 @@
       "slug": "romcom",
       "summary": "A Russia-aligned hybrid cybercrime and espionage cluster targeting European government, defence, energy, logistics and industry through phishing, trojanised software and rapid exploitation.",
       "status": "active",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-27",
       "aliases": [
@@ -3395,7 +3967,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -3430,7 +4009,8 @@
               "published": "2024-11-26",
               "source_type": "vendor-research",
               "url": "https://www.welivesecurity.com/en/eset-research/romcom-exploits-firefox-and-windows-zero-days-in-the-wild/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/eset-romcom-zero-days-2024/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/eset-romcom-zero-days-2024/",
+              "source_identity": null
             }
           ]
         }
@@ -3442,6 +4022,12 @@
       "slug": "gamaredon",
       "summary": "A Russian state-sponsored espionage actor associated with FSB Centre 18 and sustained, high-volume targeting of Ukrainian government and defence organisations.",
       "status": "active",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-27",
       "aliases": [
@@ -3468,7 +4054,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -3503,7 +4096,8 @@
               "published": "2025-07-02",
               "source_type": "vendor-research",
               "url": "https://www.welivesecurity.com/en/eset-research/gamaredon-2024-cranking-out-spearphishing-campaigns-ukraine-evolved-toolset/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/eset-gamaredon-2024-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/eset-gamaredon-2024-2025/",
+              "source_identity": null
             }
           ]
         }
@@ -3515,6 +4109,12 @@
       "slug": "unc1151",
       "summary": "A Belarus-linked state-aligned intrusion cluster conducting credential theft and account compromise against government, political, media and civil-society targets in Central and Eastern Europe.",
       "status": "active",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-27",
       "aliases": [
@@ -3539,7 +4139,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.1.0",
@@ -3574,7 +4181,8 @@
               "published": "2026-06-12",
               "source_type": "government",
               "url": "https://cert.pl/en/posts/2026/06/UNC1151-gmail-campaign/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/certpl-unc1151-gmail-2026/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/certpl-unc1151-gmail-2026/",
+              "source_identity": null
             }
           ]
         }
@@ -3586,6 +4194,12 @@
       "slug": "void-blizzard",
       "summary": "A Russia-affiliated espionage cluster using commodity credentials, stolen session cookies and cloud-native collection against NATO, EU and Ukraine-related targets.",
       "status": "active",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-26",
       "aliases": [
@@ -3612,7 +4226,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.2.0",
@@ -3647,7 +4268,8 @@
               "published": "2025-05-27",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2025/05/27/new-russia-affiliated-actor-void-blizzard-targets-critical-sectors-for-espionage/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-void-blizzard-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-void-blizzard-2025/",
+              "source_identity": null
             }
           ]
         },
@@ -3667,7 +4289,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.2.0",
@@ -3702,7 +4331,8 @@
               "published": "2025-05-27",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2025/05/27/new-russia-affiliated-actor-void-blizzard-targets-critical-sectors-for-espionage/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-void-blizzard-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-void-blizzard-2025/",
+              "source_identity": null
             }
           ]
         },
@@ -3722,7 +4352,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.2.0",
@@ -3757,7 +4394,8 @@
               "published": "2026-07-23",
               "source_type": "government",
               "url": "https://www.aivd.nl/documenten/2026/07/23/russian-state-supported-cyber-actors-conduct-phishing-campaign-targeting-users-of-zimbra-collaboration-suite",
-              "apt_notes_url": "https://apt.hecavex.com/sources/joint-laundry-bear-zimbra-2026/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/joint-laundry-bear-zimbra-2026/",
+              "source_identity": null
             }
           ]
         },
@@ -3777,7 +4415,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.2.0",
@@ -3812,7 +4457,8 @@
               "published": "2025-05-27",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2025/05/27/new-russia-affiliated-actor-void-blizzard-targets-critical-sectors-for-espionage/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-void-blizzard-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-void-blizzard-2025/",
+              "source_identity": null
             },
             {
               "id": "aivd-mivd-laundry-bear-2025",
@@ -3821,7 +4467,8 @@
               "published": "2025-05-27",
               "source_type": "government",
               "url": "https://www.aivd.nl/documenten/2025/05/27/aivd-en-mivd-onderkennen-nieuwe-russische-cyberactor",
-              "apt_notes_url": "https://apt.hecavex.com/sources/aivd-mivd-laundry-bear-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/aivd-mivd-laundry-bear-2025/",
+              "source_identity": null
             }
           ]
         },
@@ -3841,7 +4488,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.2.0",
@@ -3876,7 +4530,8 @@
               "published": "2026-07-23",
               "source_type": "government",
               "url": "https://www.aivd.nl/documenten/2026/07/23/russian-state-supported-cyber-actors-conduct-phishing-campaign-targeting-users-of-zimbra-collaboration-suite",
-              "apt_notes_url": "https://apt.hecavex.com/sources/joint-laundry-bear-zimbra-2026/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/joint-laundry-bear-zimbra-2026/",
+              "source_identity": null
             }
           ]
         },
@@ -3896,7 +4551,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 2 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.2.0",
@@ -3931,7 +4593,8 @@
               "published": "2025-05-27",
               "source_type": "government",
               "url": "https://www.aivd.nl/documenten/2025/05/27/aivd-en-mivd-onderkennen-nieuwe-russische-cyberactor",
-              "apt_notes_url": "https://apt.hecavex.com/sources/aivd-mivd-laundry-bear-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/aivd-mivd-laundry-bear-2025/",
+              "source_identity": null
             },
             {
               "id": "microsoft-void-blizzard-2025",
@@ -3940,7 +4603,8 @@
               "published": "2025-05-27",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2025/05/27/new-russia-affiliated-actor-void-blizzard-targets-critical-sectors-for-espionage/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-void-blizzard-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-void-blizzard-2025/",
+              "source_identity": null
             }
           ]
         },
@@ -3961,7 +4625,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 1 cited public source; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.2.0",
@@ -3996,7 +4667,8 @@
               "published": "2025-05-27",
               "source_type": "vendor-research",
               "url": "https://www.microsoft.com/en-us/security/blog/2025/05/27/new-russia-affiliated-actor-void-blizzard-targets-critical-sectors-for-espionage/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-void-blizzard-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/microsoft-void-blizzard-2025/",
+              "source_identity": null
             }
           ]
         }
@@ -4008,6 +4680,12 @@
       "slug": "z-pentest",
       "summary": "A state-aligned pro-Russia hacktivist group associated with opportunistic operational-technology access and a destructive 2024 attack against a Danish water utility.",
       "status": "intermittently-active",
+      "status_assessment": {
+        "assessed_at": null,
+        "sources": [],
+        "basis": "Legacy published status. A separately dated status adjudication is not recorded; read the current assessment and source-specific timeline.",
+        "reassessment_trigger": "New source-supported activity, disruption, attribution correction or changed actor boundaries; silence alone does not establish inactivity."
+      },
       "confidence": "high",
       "last_reviewed": "2026-08-27",
       "aliases": [
@@ -4033,7 +4711,14 @@
           },
           "mapping_status": "reported",
           "confidence": "high",
-          "confidence_rationale": "APT Notes publishes this procedure mapping with high confidence and 3 cited public sources; Labs preserves that rating without recalculating it. The upstream mapping does not expose a separate scoring rubric.",
+          "confidence_rationale": "Unrecorded; inherited rating.",
+          "assessment": {
+            "method": "not-recorded"
+          },
+          "temporal_scope": {
+            "date_basis": "not-recorded",
+            "note": "Date basis unrecorded."
+          },
           "record_lifecycle": {
             "state": "current",
             "actor_version": "1.0.0",
@@ -4068,7 +4753,8 @@
               "published": "2025-12-09",
               "source_type": "government",
               "url": "https://media.defense.gov/2025/Dec/09/2003840175/-1/-1/0/Joint_CSA_Pro-Russia_Hacktivists_Conduct_Attacks_against_Critical_Infrastructure.PDF",
-              "apt_notes_url": "https://apt.hecavex.com/sources/joint-csa-pro-russia-hacktivists-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/joint-csa-pro-russia-hacktivists-2025/",
+              "source_identity": null
             },
             {
               "id": "nukib-prorussia-ot-2025",
@@ -4077,7 +4763,8 @@
               "published": "2025-12-11",
               "source_type": "government",
               "url": "https://nukib.gov.cz/en/infoservis-en/news/2357-the-nukib-has-joined-an-international-warning-about-pro-russian-hacktivist-groups-attacking-critical-infrastructure-entities/",
-              "apt_notes_url": "https://apt.hecavex.com/sources/nukib-prorussia-ot-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/nukib-prorussia-ot-2025/",
+              "source_identity": null
             },
             {
               "id": "ddis-z-pentest-denmark-2025",
@@ -4086,7 +4773,8 @@
               "published": "2025-12-18",
               "source_type": "government",
               "url": "https://www.fe-ddis.dk/globalassets/fe/dokumenter/2025/-russia-responsible-for-cyber-attacks-.pdf",
-              "apt_notes_url": "https://apt.hecavex.com/sources/ddis-z-pentest-denmark-2025/"
+              "apt_notes_url": "https://apt.hecavex.com/sources/ddis-z-pentest-denmark-2025/",
+              "source_identity": null
             }
           ]
         }

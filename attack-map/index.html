@@ -15,7 +15,7 @@
   <meta property="og:site_name" content="HECAVEX Labs">
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="ATT&amp;CK Evidence Explorer | HECAVEX Labs">
-  <meta property="og:description" content="A read-only index of reviewed actor, campaign and ATT&amp;CK procedure evidence from APT Notes.">
+  <meta property="og:description" content="Source-linked actor, campaign and ATT&amp;CK procedure evidence, with explicit confidence and review boundaries.">
   <meta property="og:url" content="https://labs.hecavex.com/attack-map/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://hecavex.com/assets/img/og/hecavex-default-en.png">
@@ -29,7 +29,7 @@
   <meta name="theme-color" content="#111416">
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://hecavex.com/#organization","name":"HECAVEX","url":"https://hecavex.com/","founder":{"@id":"https://hecavex.com/#deividas-lis"}},{"@type":"Person","@id":"https://hecavex.com/#deividas-lis","name":"Deividas Lis","url":"https://hecavex.com/en/about/"},{"@type":"WebSite","@id":"https://hecavex.com/#website","name":"HECAVEX","url":"https://hecavex.com/","hasPart":[{"@id":"https://apt.hecavex.com/#website"},{"@id":"https://labs.hecavex.com/#website"},{"@id":"https://radar.hecavex.com/#website"}]},{"@type":"WebSite","@id":"https://apt.hecavex.com/#website","name":"APT Notes by HECAVEX","url":"https://apt.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"WebSite","@id":"https://radar.hecavex.com/#website","name":"HECAVEX Radar","url":"https://radar.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"WebSite","@id":"https://labs.hecavex.com/#website","name":"HECAVEX Labs","url":"https://labs.hecavex.com/","isPartOf":{"@id":"https://hecavex.com/#website"}},{"@type":"Dataset","@id":"https://labs.hecavex.com/attack-map/#dataset","name":"HECAVEX ATT&CK Evidence Explorer","description":"A source-backed index of explicit ATT&CK technique evidence from reviewed APT Notes actor dossiers.","url":"https://labs.hecavex.com/attack-map/","distribution":{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://labs.hecavex.com/data/attack/intelligence/reviewed-evidence.json"},"creator":{"@id":"https://hecavex.com/#deividas-lis"},"publisher":{"@id":"https://hecavex.com/#organization"},"isPartOf":{"@id":"https://labs.hecavex.com/#website"}}]}</script>
   <script>document.documentElement.classList.add('js')</script>
-  <noscript><style>#source-release,#result-count,#export-scope,.evidence-controls,.evidence-toolbar,.evidence-table{display:none!important}</style></noscript>
+  <noscript><style>#source-release,#result-count,#export-scope,#exercise-input,#exercise-result,.evidence-controls,.evidence-toolbar,.evidence-table{display:none!important}</style></noscript>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -139,8 +139,20 @@
       </section>
 
       <section class="evidence-footnote">
+        <p><a href="#worked-exercise">Try the source-to-hypothesis worked exercise</a>: four fictional inputs, intermediate counts, alternatives and stopping rules. No production telemetry or malware required.</p>
         <p><strong>Framework notice.</strong> <span id="framework-notice">MITRE ATT&amp;CK technique identifiers and links are used for reference.</span> HECAVEX is independent and is not affiliated with or endorsed by MITRE. <a href="https://attack.mitre.org/resources/terms-of-use/">ATT&amp;CK terms of use</a>.</p>
         <p><strong>Machine access.</strong> Download the canonical <a href="/data/attack/intelligence/reviewed-evidence.json">source-linked evidence JSON</a>. Browser exports contain only the currently filtered rows. JSON preserves all published record fields. CSV includes lossless <code>record_json</code> and source metadata alongside spreadsheet-safe display columns. The Markdown brief carries procedures, claim-review state, locators and uncertainty. Navigator is a reduced technique visualization, not a full evidence archive. The historical filename does not establish independent human review. <a href="/methodology/#evidence-handoff">Evidence handoff guidance</a> · <a href="/lt/metodika/#irodymu-perdavimas" hreflang="lt">Lietuviškai</a>.</p>
+      </section>
+      <section class="evidence-method" id="worked-exercise" aria-labelledby="exercise-title">
+        <p class="eyebrow">Worked analytical exercise · synthetic data</p><h2 id="exercise-title">A tracking request is not a compromise</h2>
+        <p><strong>Decision:</strong> do these observations justify checking one recipient's identity or mailbox telemetry? Start with the <a href="https://apt.hecavex.com/actors/apt31/">bounded APT31 source claim</a>, not an actor verdict. The fictional records below illustrate why tracking reconnaissance and remote mailbox collection need different evidence.</p>
+        <p><strong>Prerequisites:</strong> understand mail proxy behavior, identity-to-recipient mapping and UTC timestamps. Real follow-up requires authorised access to appropriate telemetry and a documented retention window. Do not submit production logs here. This page makes no candidate-domain or malware requests.</p>
+        <form id="analytical-exercise" class="evidence-controls"><label class="wide-field" for="exercise-case"><span>Synthetic case</span><select id="exercise-case" disabled><option>Loading fictional inputs</option></select></label><button class="button" type="submit" disabled>Reveal worked answer</button></form>
+        <pre id="exercise-input" aria-label="Selected synthetic input">Fictional inputs are available in the downloadable fixture.</pre>
+        <div id="exercise-result" role="status" aria-live="polite"><p>Select a case to inspect the decision path.</p></div>
+        <details open><summary>Complete static worked example — available without JavaScript</summary><p><strong>Input:</strong> an email-image request at 08:00 UTC is labelled <code>security-proxy</code>; no identity or mailbox events are supplied.</p><p><strong>Transformation:</strong> count one image request and zero identity or mailbox events; zero recipient-confirmed identity/time joins. Proxy retrieval is a competing explanation.</p><p><strong>Output:</strong> tracking-ambiguous. Ask whether a recipient actually opened the message; do not label an account compromised. Stop the recipient-specific chain when the initiator cannot be established.</p><p><strong>Other controls:</strong> a confirmed recipient open followed by that identity's failed sign-in within one hour justifies a bounded follow-up, not a compromise finding. Approved-client mailbox reads have a benign alternative. Missing telemetry produces an explicit stop, never a successful defensive test.</p></details>
+        <p><a href="/data/attack/exercises/source-to-hypothesis.json">Download all four fictional inputs and answer labels (JSON)</a> · <a href="https://github.com/Hecavex/labs.hecavex.com/blob/main/scripts/test_analytical_exercise.js">Repeat the automated exercise tests</a> · <a href="/lt/metodika/#analitine-uzduotis" hreflang="lt">Užduoties paaiškinimas lietuviškai</a>.</p>
+        <p class="notice">This is an answer-key exercise, not a detection rule, attribution model or coverage score. Its software behavior is tested; representative practitioner outcome validation remains unrecorded. The comparison of published source wording was AI-assisted and is not independent human claim review.</p>
       </section>
     </div>
   </main>
@@ -160,5 +172,6 @@
   <script type="application/json" id="evidence-build-context">{}</script>
   <script src="/assets/evidence-export.js?v=20260910-1"></script>
   <script src="/assets/attack-map.js?v=20260910-1"></script>
+  <script src="/assets/analytical-exercise.js?v=20260910-1"></script>
 </body>
 </html>

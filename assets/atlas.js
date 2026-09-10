@@ -27,7 +27,7 @@
   const recordYear = (record) => String(record.date).slice(0, 4);
 
   // Atlas dates have different levels of precision. Treat a year, quarter or
-  // month as the start of that period so every record has one comparable key.
+  // month as the start of that period for display sorting only, not equivalent activity dates.
   function recordDateValue(record) {
     const value = String(record.date ?? '').trim();
     let match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
@@ -106,6 +106,17 @@
     const metadata = record.source_metadata || {};
     body.append(element('p', 'meta', [metadata.publisher, metadata.title, `Period precision: ${record.period_precision || 'not recorded'}`, metadata.locator || 'Precise source locator not recorded', `Independent claim review: ${record.review?.reviewed_at || 'not recorded'}`].filter(Boolean).join(' · ')));
     if (record.source_caveat) body.append(element('p', 'notice', record.source_caveat));
+    const timing = record.temporal_scope;
+    if (timing) body.append(element('p', 'meta', `Date basis: ${timing.date_basis.replaceAll('-', ' ')}. ${timing.note}`));
+    const comparison = record.comparability;
+    if (comparison) {
+      const detail = element('details', 'source-correction');
+      detail.append(element('summary', '', 'Can this record be compared?'));
+      for (const [label, value] of [['Unit', comparison.unit], ['Reporting population', comparison.population], ['Definition', comparison.definition], ['Period', comparison.period], ['Source edition', comparison.source_edition], ['Visibility changes', comparison.visibility_changes], ['Decision', comparison.reason]]) {
+        detail.append(element('p', 'meta', `${label}: ${value}`));
+      }
+      body.append(detail);
+    }
     for (const correction of record.corrections || []) {
       const trail = element('details', 'source-correction');
         trail.append(element('summary', '', `${correction.method === 'ai-assisted-source-comparison' ? 'AI-assisted source comparison' : 'Automated source-consistency correction'} · claim ${correction.version}`));

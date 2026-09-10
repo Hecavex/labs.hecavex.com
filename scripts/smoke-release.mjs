@@ -178,6 +178,43 @@ try {
     assert.deepEqual(await page.evaluate(() => window.cspViolations), []);
 
     const noJs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 320, height: 900 } });
+    for (const width of [320, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(new URL('attack-map/?actor=apt31#worked-exercise', base).href);
+      await page.waitForFunction(() => !document.querySelector('#exercise-case').disabled);
+      const exerciseCases = [['proxy-only', 'a recipient action is not established'], ['recipient-follow-up', 'temporally associated'], ['approved-client', 'approved-client explanation'], ['missing-telemetry', 'cannot answer the question']];
+      for (const [id, expected] of exerciseCases) {
+        await page.locator('#exercise-case').selectOption(id);
+        await page.locator('#analytical-exercise button').focus();
+        await page.keyboard.press('Enter');
+        assert((await page.locator('#exercise-result').innerText()).includes(expected));
+        assert((await page.locator('#exercise-result').innerText()).includes('Stopping rule:'));
+        if (id === 'proxy-only' && process.env.SCREENSHOT_DIR) {
+          fs.mkdirSync(process.env.SCREENSHOT_DIR, { recursive: true });
+          await page.locator('#worked-exercise').screenshot({ path: path.join(process.env.SCREENSHOT_DIR, `worked-exercise-${width}.png`) });
+        }
+      }
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      await page.locator('[data-open-evidence]').first().click();
+      assert((await page.locator('#mapping-dialog').innerText()).includes('ai-assisted-source-comparison'));
+      assert((await page.locator('#mapping-dialog').innerText()).includes('Not recorded'));
+      await page.keyboard.press('Escape');
+      await page.goto(new URL('pivot-graph/?case=github-python-loader-2024', base).href);
+      await page.waitForFunction(() => document.querySelector('#case-reproducibility').textContent.includes('final stage is unavailable'));
+      await page.locator('#case-reproducibility summary').focus();
+      await page.keyboard.press('Enter');
+      assert((await page.locator('#case-reproducibility').innerText()).includes('Complete original bytes'));
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      assert.deepEqual(await page.evaluate(() => window.cspViolations), []);
+    }
+    await page.emulateMedia({ forcedColors: 'active', reducedMotion: 'reduce' });
+    await page.goto(new URL('attack-map/#worked-exercise', base).href);
+    await page.waitForFunction(() => !document.querySelector('#exercise-case').disabled);
+    await page.locator('#analytical-exercise button').focus();
+    await page.keyboard.press('Enter');
+    assert((await page.locator('#exercise-result').innerText()).includes('Stopping rule:'));
+    assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    await page.emulateMedia({ forcedColors: 'none', reducedMotion: 'no-preference' });
     try {
       const staticPage = await noJs.newPage();
       await staticPage.goto(permalink);
@@ -188,6 +225,9 @@ try {
       assert(await staticPage.locator('noscript a[href="/data/attack/intelligence/reviewed-evidence.json"]').isVisible());
       assert.equal(await staticPage.locator('#export-json').isVisible(), false);
       assert.equal(await staticPage.locator('#export-scope').isVisible(), false);
+      assert(await staticPage.locator('#worked-exercise').isVisible());
+      assert((await staticPage.locator('#worked-exercise').innerText()).includes('Complete static worked example'));
+      assert(await staticPage.locator('a[href="/data/attack/exercises/source-to-hypothesis.json"]').isVisible());
     } finally { await noJs.close(); }
   } else throw new Error('Unknown smoke profile');
   assert.deepEqual(failures, []);

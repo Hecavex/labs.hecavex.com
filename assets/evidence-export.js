@@ -112,6 +112,12 @@
         line('Evidence ID', record.id), line('Technique', record.technique), line('Campaign', record.campaign?.name),
         line('Evidence status', record.mapping_status), line('Published confidence', record.confidence),
         line('Confidence basis', record.confidence_rationale), line('First observed', record.first_observed), line('Last observed', record.last_observed),
+        line('Claim assessment method', record.assessment?.method), line('Source comparison date (not human review)', record.assessment?.compared_at),
+        line('Evidence type', record.assessment?.evidence_type), line('Confidence scope', record.assessment?.confidence_scope),
+        line('Source dependence', record.assessment?.source_dependence), line('Mapping rationale', record.assessment?.mapping_rationale),
+        line('Alternative explanations', record.assessment?.alternatives?.join(' / ')),
+        line('Date basis', record.temporal_scope?.date_basis), line('Time limitation', record.temporal_scope?.note),
+        line('Source publication date', record.temporal_scope?.source_published_at), line('Activity first / last', [record.temporal_scope?.activity_first || 'Not recorded', record.temporal_scope?.activity_last || 'Not recorded'].join(' / ')),
         line('Actor / campaign / technique versions', [record.record_lifecycle.actor_version, record.record_lifecycle.campaign_version, record.record_lifecycle.technique_version].join(' / ')),
         line('Upstream lifecycle', record.record_lifecycle.state), line('Correction state', record.record_lifecycle.correction_state),
         line('Actor review date', record.actor.last_reviewed), '', '### Published procedure', '', paragraph(record.notes), '',
@@ -123,6 +129,7 @@
         lines.push('- ' + markdownLink(source.title, source.url), '  ' + line('Source ID / publisher / publication date', [source.id, source.publisher, source.published].join(' / ')),
           '  ' + markdownLink('APT Notes source record', source.apt_notes_url));
         const locators = (record.source_locators || []).filter((locator) => locator.source === source.id);
+        if (source.source_identity) lines.push('  ' + line('Source edition', source.source_identity.edition), '  ' + line('Access date / outcome', [source.source_identity.accessed_at, source.source_identity.access_outcome].join(' / ')), '  ' + line('Source body SHA-256', source.source_identity.body_sha256), '  ' + line('Preservation boundary', source.source_identity.preservation));
         if (!locators.length) lines.push('  - Exact source locator: Not recorded');
         for (const locator of locators) lines.push('  ' + line('Locator', locator.locator), '  ' + line('Locator basis', locator.basis), '  ' + line('Locator checked at (not claim review)', locator.checked_at));
       }

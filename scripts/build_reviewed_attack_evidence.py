@@ -35,7 +35,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_APT_DIST = ROOT.parent.parent / "sites" / "apt.hecavex.com" / "dist"
 DEFAULT_OUTPUT = ROOT / "data" / "attack" / "intelligence" / "reviewed-evidence.json"
 ATTACK_MANIFEST = ROOT / "data" / "attack" / "framework" / "enterprise-attack-19.2-used-techniques.json"
-ATTACK_MANIFEST_SHA256 = "8f110024345efe8a2eb12223d4382e08ed79eb23ad90973e1e17bb7fa7922212"
+ATTACK_MANIFEST_SHA256 = "1dd4857724b0bbaf64d0be21fefbcf9ca0d2d959cc51796981d19711b77d6fa9"
 VALID_CONFIDENCE = {"high", "moderate", "low"}
 VALID_STATUS = {"observed", "reported", "assessed", "inferred", "disputed", "rejected"}
 VALID_LIFECYCLE = {"current", "deprecated", "revoked"}
@@ -141,6 +141,7 @@ def source_projection(source_id: str, sources: dict[str, dict[str, Any]]) -> dic
         "source_type": source.get("source_type") or "unspecified",
         "url": source.get("source_url") or source.get("url") or "",
         "apt_notes_url": source.get("url") or f"https://apt.hecavex.com/sources/{source_id}/",
+        "source_identity": source.get("source_identity"),
     }
 
 
@@ -233,6 +234,8 @@ def evidence_projection(
         "mapping_status": mapping_status,
         "confidence": confidence,
         "confidence_rationale": confidence_rationale,
+        "assessment": evidence.get("assessment"),
+        "temporal_scope": evidence.get("temporal_scope"),
         "record_lifecycle": lifecycle_projection(actor, campaign, technique, evidence.get("review") or {}),
         "claim_review": evidence.get("review") or {"version": "1.0.0", "reviewed_at": None, "state": "not-recorded", "rationale": "Legacy mapping has no independent claim review record.", "correction_note": ""},
         "source_locators": evidence.get("source_locators") or [],
@@ -283,6 +286,7 @@ def build_payload(apt_dist: Path) -> dict[str, Any]:
             "slug": actor.get("slug") or actor["id"],
             "summary": actor.get("summary") or "",
             "status": actor.get("status") or "unknown",
+            "status_assessment": actor.get("status_assessment"),
             "confidence": actor.get("confidence") or "unknown",
             "last_reviewed": (actor.get("last_reviewed_at") or actor.get("last_reviewed") or "")[:10],
             "aliases": [value.get("name") for value in actor.get("aliases", []) if value.get("name")],
@@ -309,9 +313,9 @@ def build_payload(apt_dist: Path) -> dict[str, Any]:
     campaign_count = len({item["campaign"]["id"] for item in all_evidence if item["campaign"]["id"]})
     generated_at = actor_collection.get("released_at") or datetime.now(timezone.utc).isoformat()
     return {
-        "schema_version": "2.3.0",
+        "schema_version": "2.4.0",
         "generated_at": generated_at,
-        "publication_contract_updated_at": "2026-09-07",
+        "publication_contract_updated_at": "2026-09-10",
         "source_system": {
             "name": "APT Notes by HECAVEX",
             "url": "https://apt.hecavex.com/",
@@ -344,7 +348,7 @@ def build_payload(apt_dist: Path) -> dict[str, Any]:
             "correction_state_values": ["not-recorded-at-mapping-level", "reviewed", "corrected", "withdrawn"],
             "mapping_unit": "One actor, campaign and procedure claim mapped to the most specific technique explicitly published by APT Notes.",
             "correction_policy": "APT Notes dossier lifecycle and independent claim review are preserved separately. A missing claim review remains not recorded. A populated claim review carries its own version, date, state, rationale and correction note. A locator check does not become a substantive review.",
-            "known_limit": "The dataset is a reviewed evidence index, not an exhaustive ATT&CK catalogue, threat prevalence measure, automated attribution system or defensive coverage score.",
+            "known_limit": "The dataset is a source-linked evidence index, not an exhaustive ATT&CK catalogue, threat prevalence measure, automated attribution system or defensive coverage score. Published confidence and documented claim assurance are separate; an inherited rating is not independently certified by Labs.",
         },
         "summary": {
             "actors": len(projected_actors),
@@ -360,9 +364,9 @@ def build_payload(apt_dist: Path) -> dict[str, Any]:
 def validate_payload(payload: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     attack_manifest = read_attack_manifest()
-    if payload.get("schema_version") != "2.3.0":
-        errors.append("schema_version must be 2.3.0")
-    if payload.get("publication_contract_updated_at") != "2026-09-07":
+    if payload.get("schema_version") != "2.4.0":
+        errors.append("schema_version must be 2.4.0")
+    if payload.get("publication_contract_updated_at") != "2026-09-10":
         errors.append("publication contract update date must be recorded")
     framework = payload.get("framework", {})
     if not {"name", "domain", "version", "version_pinned_at", "version_basis", "version_policy", "source_url", "source_commit", "source_sha256", "manifest_url", "manifest_sha256", "terms", "notice"}.issubset(framework):
@@ -415,6 +419,19 @@ def validate_payload(payload: dict[str, Any]) -> list[str]:
                 errors.append(f"{evidence_id} has no confidence rationale")
             lifecycle = item.get("record_lifecycle", {})
             review = item.get("claim_review", {})
+            assessment = item.get("assessment") or {}
+            if assessment.get("method") not in ("not-recorded", "ai-assisted-source-comparison"):
+                errors.append(f"{evidence_id} lacks explicit claim assurance")
+            if assessment.get("method") == "ai-assisted-source-comparison":
+                if not assessment.get("compared_at") or not assessment.get("alternatives") or not item.get("source_locators"):
+                    errors.append(f"{evidence_id} comparison lacks date, alternatives or locators")
+                if review.get("reviewed_at") or review.get("state") != "not-recorded":
+                    errors.append(f"{evidence_id} AI comparison cannot certify human review")
+            temporal = item.get("temporal_scope") or {}
+            if not temporal.get("date_basis") or not temporal.get("note"):
+                errors.append(f"{evidence_id} lacks explicit date basis")
+            if temporal.get("date_basis") == "publication-date" and (temporal.get("activity_first") or temporal.get("activity_last")):
+                errors.append(f"{evidence_id} publication date cannot establish activity dates")
             if not {"version", "reviewed_at", "state", "rationale", "correction_note"}.issubset(review):
                 errors.append(f"{evidence_id} has incomplete claim review metadata")
             if review.get("state") == "not-recorded" and review.get("reviewed_at"):
@@ -470,7 +487,7 @@ def main() -> int:
                 current_errors = validate_payload(current)
                 if current_errors:
                     raise ContractError("\n".join(current_errors))
-                if canonical(current) != canonical(expected):
+                if canonical(current) != canonical(expected) or args.output.read_bytes() != canonical(expected).encode("utf-8"):
                     raise ContractError(
                         "Reviewed ATT&CK evidence has drifted from APT Notes. "
                         "Run scripts/build_reviewed_attack_evidence.py and review the diff."
@@ -481,7 +498,7 @@ def main() -> int:
                 )
                 return 0
             args.output.parent.mkdir(parents=True, exist_ok=True)
-            args.output.write_text(canonical(expected), encoding="utf-8")
+            args.output.write_text(canonical(expected), encoding="utf-8", newline="\n")
             print(
                 f"Wrote {args.output}: {expected['summary']['actors']} actors, "
                 f"{expected['summary']['mappings']} mappings"

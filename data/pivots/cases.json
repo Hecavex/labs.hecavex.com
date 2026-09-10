@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.1.0",
-  "updated": "2026-08-27",
+  "schema_version": "1.2.0",
+  "updated": "2026-09-10",
   "cases": [
     {
       "id": "unipark-smishing-2026",
@@ -14,7 +14,22 @@
       "graph": "/data/pivots/graphs/unipark.json",
       "research": "https://hecavex.com/en/research/unipark-smishing-campaign-infrastructure/",
       "evidence_bundle": "https://github.com/Hecavex/research-artifacts/releases/tag/unipark-smishing-2026-v1.0.0",
-      "tags": ["smishing", "phishing kit", "exact hash", "infrastructure"]
+      "tags": [
+        "smishing",
+        "phishing kit",
+        "exact hash",
+        "infrastructure"
+      ],
+      "reproducibility": {
+        "preserved_inputs": "Published static graph and linked versioned evidence bundle; original SMS and provider observations only to the extent preserved in that release.",
+        "transformations": "Follow the article's exact-hash and hostname joins against released records; verify supplied hashes before using a downloaded bundle.",
+        "source_attributed_conclusions": "The 126-host relationship and infrastructure assessment are source-attributed to the time-bounded investigation, not independently recollected by this UI.",
+        "unavailable": "No replay of live phishing pages, hidden provider retention or unpreserved requests. Bundle byte completeness has not been re-audited by this metadata release.",
+        "analytical_cutoff": "2026-08-14 publication state; individual observations retain their recorded times.",
+        "metadata_recorded_at": "2026-09-10",
+        "method": "publication-boundary-description",
+        "independent_reproduction_verified_at": null
+      }
     },
     {
       "id": "adform-clipper-2026",
@@ -28,7 +43,22 @@
       "graph": "/data/pivots/graphs/adform.json",
       "research": "https://hecavex.com/en/research/adform-supply-chain-crypto-clipper/",
       "evidence_bundle": "https://hecavex.com/assets/data/adform-clipper-2026/README.md",
-      "tags": ["supply chain", "JavaScript", "blockchain", "cross-chain routing"]
+      "tags": [
+        "supply chain",
+        "JavaScript",
+        "blockchain",
+        "cross-chain routing"
+      ],
+      "reproducibility": {
+        "preserved_inputs": "Published graph, investigation excerpts and linked evidence index; preserve each captured response hash and stated chain snapshot.",
+        "transformations": "Repeat only the documented static decoding, exact-response comparisons and archived chain arithmetic for inputs actually supplied by the evidence index.",
+        "source_attributed_conclusions": "Published JavaScript and public-chain path interpretations remain separate from operator identity, victims and loss claims.",
+        "unavailable": "No execution of captured JavaScript, live endpoint requests or reconstruction of missing TRON evidence. Explorer results may change outside the stated snapshot.",
+        "analytical_cutoff": "2026-08-23 analytical update; see the investigation for per-chain snapshot cutoffs.",
+        "metadata_recorded_at": "2026-09-10",
+        "method": "publication-boundary-description",
+        "independent_reproduction_verified_at": null
+      }
     },
     {
       "id": "hostinger-pages-phishing-2026",
@@ -46,7 +76,22 @@
       "package_updated": "2026-09-07",
       "package_note": "Packaging-integrity correction only. Investigation observations and analytical claims remain dated 27 August 2026. Earlier packages are retained with errata.",
       "package_errata": "https://github.com/Hecavex/research-artifacts/blob/216ee32566a3794a14b1fa0981f8f0e8a5d51dd8/docs/ERRATA-2026-09-07.md",
-      "tags": ["credential phishing", "Cloudflare Pages", "Render", "exact hash"]
+      "tags": [
+        "credential phishing",
+        "Cloudflare Pages",
+        "Render",
+        "exact hash"
+      ],
+      "reproducibility": {
+        "preserved_inputs": "Published graph and immutable v1.1.1 research-artifacts package identified by the catalogue link.",
+        "transformations": "Use the released static comparison instructions and manifests for exact credential-core/tracker hashes and the named domain-set counts.",
+        "source_attributed_conclusions": "The 298 task-name and kit-family statements belong to the 27 August investigation; common code does not identify a shared operator or provider compromise.",
+        "unavailable": "No contact with Pages or Render endpoints, no credential submission and no recovery of unavailable original collection records. Packaging integrity does not validate attribution.",
+        "analytical_cutoff": "2026-08-27; the 2026-09-07 package correction is not new analytical evidence.",
+        "metadata_recorded_at": "2026-09-10",
+        "method": "publication-boundary-description",
+        "independent_reproduction_verified_at": null
+      }
     },
     {
       "id": "github-python-loader-2024",
@@ -59,7 +104,22 @@
       "updated": "2026-08-14",
       "graph": "/data/pivots/graphs/github-python.json",
       "research": "https://hecavex.com/en/research/github-and-malware/",
-      "tags": ["malware", "Python", "GitHub", "static analysis"]
+      "tags": [
+        "malware",
+        "Python",
+        "GitHub",
+        "static analysis"
+      ],
+      "reproducibility": {
+        "preserved_inputs": "Published article excerpts and graph JSON. This case has no separately linked complete original-sample evidence bundle.",
+        "transformations": "Trace the published static layers and decoded retrieval strings in the excerpts; inspect as text only.",
+        "source_attributed_conclusions": "The loader assessment follows the published static analysis. The graph re-expresses that source account rather than a new byte-for-byte sample replication.",
+        "unavailable": "The final stage is unavailable. Complete original bytes, dependency state and runtime behavior are not supplied for independent end-to-end replay; no family or exfiltration verdict is justified.",
+        "analytical_cutoff": "2024-11-10 original analysis; 2026-08-14 graph/publication update is not a new malware observation.",
+        "metadata_recorded_at": "2026-09-10",
+        "method": "publication-boundary-description",
+        "independent_reproduction_verified_at": null
+      }
     }
   ]
 }
