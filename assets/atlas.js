@@ -11,6 +11,10 @@
   const actorContextCount = document.querySelector('#atlas-context-count');
   let records = [];
   let recordsLoaded = false;
+  let linkedObservationId = null;
+  let linkClearedFilters = false;
+  const linkStatus = document.querySelector('#atlas-link-status');
+  const viewFields = { q: search, country, type, year };
 
   const element = (name, className, text) => {
     const node = document.createElement(name);
@@ -58,6 +62,7 @@
   function renderRecord(record) {
     const article = element('article', 'atlas-record');
     article.id = record.id;
+    article.tabIndex = -1;
     article.dataset.search = normalise([record.title, record.summary, record.country, record.type, record.sector, record.actor, record.attribution].join(' '));
 
     const date = element('div', 'atlas-date');
@@ -77,6 +82,20 @@
     source.href = record.source;
     source.rel = 'noopener';
     links.append(source);
+    const permalink = element('a', 'observation-link', 'Observation permalink');
+    const observationUrl = new URL(location.pathname, location.origin);
+    observationUrl.hash = `observation=${encodeURIComponent(record.id)}`;
+    permalink.href = observationUrl.href;
+    permalink.setAttribute('aria-label', `Observation permalink: ${record.title}`);
+    permalink.addEventListener('click', (event) => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      const savedFilters = Object.fromEntries(Object.entries(viewFields).map(([name, field]) => [name, field.value]));
+      history.replaceState({ ...history.state, atlasObservationFilters: savedFilters }, '', location.href);
+      history.pushState({ ...history.state, atlasObservationFilters: null }, '', observationUrl.href);
+      restoreObservationLink();
+    });
+    links.append(document.createTextNode(' · '), permalink);
     (record.apt_refs || []).forEach((reference) => {
       links.append(document.createTextNode(' · '));
       const link = element('a', '', `${reference.label} ↗`);
@@ -136,6 +155,69 @@
       button.classList.toggle('active', active);
       button.setAttribute('aria-pressed', String(active));
     });
+  }
+
+  function clearLinkedRecord() {
+    list.querySelectorAll('[data-linked-observation]').forEach((article) => article.removeAttribute('data-linked-observation'));
+    linkStatus.hidden = true;
+    linkStatus.textContent = '';
+    list.before(linkStatus);
+  }
+
+  function restoreObservationLink() {
+    if (!recordsLoaded) return;
+    clearLinkedRecord();
+    const prefixed = location.hash.startsWith('#observation=');
+    let id;
+    try { id = decodeURIComponent(location.hash.slice(prefixed ? 13 : 1)); }
+    catch {
+      linkedObservationId = null;
+      linkClearedFilters = false;
+      if (prefixed) {
+        linkStatus.hidden = false;
+        linkStatus.textContent = 'The observation link is malformed. Browse the records or download the source JSON.';
+      }
+      return;
+    }
+    const record = records.find((item) => item.id === id);
+    if (!record) {
+      linkedObservationId = null;
+      linkClearedFilters = false;
+      if (prefixed) {
+        linkStatus.hidden = false;
+        linkStatus.textContent = 'This observation ID is not in the published Atlas dataset. Browse the records or download the source JSON. No matching observation is inferred.';
+      } else if (!location.hash.startsWith('#view=') && history.state?.atlasObservationFilters) {
+        for (const [name, field] of Object.entries(viewFields)) field.value = history.state.atlasObservationFilters[name] || '';
+        update();
+      }
+      return;
+    }
+    if (linkedObservationId !== record.id) linkClearedFilters = false;
+    linkedObservationId = record.id;
+    linkClearedFilters ||= Object.values(viewFields).some((field) => field.value);
+    Object.values(viewFields).forEach((field) => { field.value = ''; });
+    update();
+    const article = document.getElementById(record.id);
+    article.setAttribute('data-linked-observation', '');
+    linkStatus.hidden = false;
+    linkStatus.textContent = `Opened observation ${record.id}.${linkClearedFilters ? ' Filters cleared to reveal the linked record.' : ''} Source, period precision and review limits remain attached to the observation.`;
+    article.before(linkStatus);
+    article.focus({ preventScroll: true });
+    linkStatus.scrollIntoView({ block: 'start', behavior: 'instant' });
+  }
+
+  function updateFromFilters() {
+    if (recordsLoaded) {
+      if (list.querySelector('[data-linked-observation]')) {
+        const url = new URL(location.href);
+        url.hash = '';
+        history.replaceState({ ...history.state, atlasObservationFilters: null }, '', url.href);
+      }
+      clearLinkedRecord();
+      linkedObservationId = null;
+      linkClearedFilters = false;
+    }
+    update();
   }
 
   function renderMappings() {
@@ -215,7 +297,10 @@
         contextRelease.append(sourceLink);
       }
       update();
-      window.HECAVEX_LABS?.bindCopiedView?.({ q: search, country, type, year }, search.closest('form') || search.parentElement.parentElement, update);
+      window.HECAVEX_LABS?.bindCopiedView?.(viewFields, search.closest('form') || search.parentElement.parentElement, update);
+      window.addEventListener('hashchange', restoreObservationLink);
+      window.addEventListener('popstate', restoreObservationLink);
+      restoreObservationLink();
     } catch (error) {
       list.replaceChildren(element('div', 'empty', 'The Atlas dataset could not be loaded. Download the JSON or report the problem.'));
       count.textContent = 'Dataset unavailable';
@@ -229,11 +314,11 @@
     }
   }
 
-  [search, country, type, year].forEach((control) => control.addEventListener(control === search ? 'input' : 'change', update));
-  document.querySelectorAll('[data-country-button]').forEach((button) => button.addEventListener('click', () => { country.value = country.value === button.dataset.countryButton ? '' : button.dataset.countryButton; update(); }));
+  [search, country, type, year].forEach((control) => control.addEventListener(control === search ? 'input' : 'change', updateFromFilters));
+  document.querySelectorAll('[data-country-button]').forEach((button) => button.addEventListener('click', () => { country.value = country.value === button.dataset.countryButton ? '' : button.dataset.countryButton; updateFromFilters(); }));
   window.HECAVEX_LABS?.bindShellSearch((query) => {
     search.value = query;
-    update();
+    updateFromFilters();
   });
   initialise();
 })();

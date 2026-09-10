@@ -56,6 +56,65 @@ try {
     await page.locator('#atlas-search').fill('846');
     assert.equal(await page.locator('#atlas-records > article:visible').count(), 1);
     assert.deepEqual(await page.evaluate(() => window.cspViolations), []);
+    const recordId = await page.locator('#atlas-records > article:visible').getAttribute('id');
+    const atlasData = await page.request.get(new URL('data/atlas/records.json', base).href).then(response => response.json());
+    const recordCountry = atlasData.records.find(record => record.id === recordId).country.toLowerCase();
+    const permalink = await page.locator('#atlas-records > article:visible .observation-link').getAttribute('href');
+    await page.locator('#atlas-records > article:visible .observation-link').click();
+    await page.waitForFunction(id => document.activeElement?.id === id, recordId);
+    assert.equal(await page.locator('#atlas-search').inputValue(), '');
+    assert.match(await page.locator('#atlas-link-status').innerText(), /Filters cleared/i);
+    assert.equal(await page.locator('[data-linked-observation]').getAttribute('id'), recordId);
+    await page.goBack();
+    await page.waitForFunction(() => document.querySelector('#atlas-search').value === '846');
+    assert.equal(await page.locator('#atlas-records > article:visible').count(), 1);
+    assert.equal(await page.locator('[data-linked-observation]').count(), 0);
+    await page.goForward();
+    await page.waitForFunction(id => document.activeElement?.id === id, recordId);
+    assert.equal(await page.locator('#atlas-search').inputValue(), '');
+
+    for (const width of [320, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(new URL(`baltic-threat-atlas/?q=does-not-match#observation=${encodeURIComponent(recordId)}`, base).href);
+      await page.waitForFunction(id => document.activeElement?.id === id, recordId);
+      assert.equal(await page.locator('#atlas-search').inputValue(), '');
+      assert.match(await page.locator('#atlas-link-status').innerText(), /Filters cleared/i);
+      assert(await page.locator('[data-linked-observation]').isVisible());
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      assert.deepEqual(await page.evaluate(() => window.cspViolations), []);
+      await page.locator('#atlas-search').fill('846');
+      await page.waitForFunction(() => location.hash === '');
+      assert.equal(await page.evaluate(() => location.hash), '');
+      assert.equal(await page.locator('[data-linked-observation]').count(), 0);
+    }
+    await page.goto(new URL(`baltic-threat-atlas/#${encodeURIComponent(recordId)}`, base).href);
+    await page.waitForFunction(id => document.activeElement?.id === id, recordId);
+    await page.goto(new URL('baltic-threat-atlas/#observation=missing-observation-id', base).href);
+    await page.waitForFunction(() => document.querySelector('#atlas-link-status').textContent.includes('not in the published'));
+    assert.equal(await page.locator('[data-linked-observation]').count(), 0);
+    await page.goto(new URL('baltic-threat-atlas/#observation=%E0%A4%A', base).href);
+    await page.waitForFunction(() => document.querySelector('#atlas-link-status').textContent.includes('malformed'));
+
+    await page.goto(new URL('baltic-threat-atlas/#view=' + encodeURIComponent('q=846&country=' + recordCountry), base).href);
+    await page.waitForFunction(() => document.querySelector('#atlas-search').value === '846');
+    assert.equal(await page.locator('#atlas-country').inputValue(), recordCountry);
+    assert.equal(await page.locator('#atlas-records > article:visible').count(), 1);
+    await page.locator('#atlas-records > article:visible .observation-link').click();
+    await page.waitForFunction(id => document.activeElement?.id === id, recordId);
+    await page.goBack();
+    await page.waitForFunction(country => document.querySelector('#atlas-country').value === country, recordCountry);
+    assert.equal(await page.locator('#atlas-search').inputValue(), '846');
+    assert.equal(await page.locator('#atlas-records > article:visible').count(), 1);
+    assert.deepEqual(await page.evaluate(() => window.cspViolations), []);
+
+    const noJs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 320, height: 900 } });
+    try {
+      const staticPage = await noJs.newPage();
+      await staticPage.goto(permalink);
+      assert(await staticPage.locator('noscript a[href="/data/atlas/records.json"]').isVisible());
+      assert.equal(await staticPage.locator('#atlas-records').isVisible(), false);
+      assert(await staticPage.locator('main > noscript').innerText().then(text => text.includes('JavaScript')));
+    } finally { await noJs.close(); }
   } else throw new Error('Unknown smoke profile');
   assert.deepEqual(failures, []);
   console.log(profile + ' served-release browser smoke passed');
