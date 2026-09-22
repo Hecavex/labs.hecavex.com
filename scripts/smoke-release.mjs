@@ -6,7 +6,7 @@ import { browserForChecks, servedTarget } from './browser_support.mjs';
 const [target, profile] = process.argv.slice(2);
 const preview = await servedTarget(target);
 const { base } = preview;
-const browser = await browserForChecks();
+const browser = await browserForChecks().catch(async error => { await preview.close(); throw error; });
 try {
   const page = await browser.newPage();
   const failures = [];

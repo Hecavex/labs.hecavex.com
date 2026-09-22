@@ -4,8 +4,8 @@ import path from 'node:path';
 import { browserForChecks, servedTarget } from './browser_support.mjs';
 
 const preview = await servedTarget(process.argv[2] || '.');
-const browser = await browserForChecks();
-const routes = ['', 'lt/', 'lt/metodika/', 'baltic-threat-atlas/', 'pivot-graph/', 'attack-map/', 'changes/', 'about/', 'methodology/', 'licence/', 'security/', 'osint-workbench/', 'data/', '404.html'];
+const browser = await browserForChecks().catch(async error => { await preview.close(); throw error; });
+const routes = ['', 'lt/', 'lt/metodika/', 'baltic-threat-atlas/', 'pivot-graph/', 'attack-map/', 'changes/', 'about/', 'methodology/', 'licence/', 'security/', 'osint-workbench/', '404.html'];
 const widths = [320, 390, 768, 1160, 1161, 1440, 1920];
 let checked = 0;
 
@@ -13,6 +13,11 @@ try {
   const page = await browser.newPage();
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
+  // This compatibility route intentionally leaves Labs. Validate the handoff
+  // rather than applying Labs geometry assertions to the live Research site.
+  const redirect = await page.request.get(new URL('data/', preview.base).href);
+  assert.equal(redirect.status(), 200);
+  assert.match(await redirect.text(), /http-equiv="refresh" content="0; url=https:\/\/hecavex\.com\/data\/"/);
   for (const width of widths) {
     await page.setViewportSize({ width, height: 1000 });
     for (const route of routes) {
@@ -100,7 +105,7 @@ try {
     }
   } finally { await noJs.close(); }
   assert.deepEqual(errors, []);
-  console.log(`Labs overview and geometry passed: ${checked} route/viewport combinations; EN/LT filtering, empty recovery, keyboard, forced colors, reduced motion, no-JS and query privacy.`);
+  console.log(`Labs overview and geometry passed: ${checked} route/viewport combinations and canonical Data handoff; EN/LT filtering, empty recovery, keyboard, forced colors, reduced motion, no-JS and query privacy.`);
 } finally {
   await browser.close();
   await preview.close();
