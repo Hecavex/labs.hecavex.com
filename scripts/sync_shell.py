@@ -8,7 +8,7 @@ from pathlib import Path
 import re
 import sys
 
-from site_contract import LOCAL_NAVIGATION, PORTFOLIO_NAVIGATION, ROUTES, Route
+from site_contract import ASSET_VERSION, LOCAL_NAVIGATION, PORTFOLIO_NAVIGATION, ROUTES, Route
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -114,10 +114,26 @@ def render_header(route: Route) -> str:
 def render_footer() -> str:
     return '''<footer class="site-footer">
     <div class="footer-inner">
-      <div class="footer-brand"><strong>HECAVEX LABS</strong><span>Inspectable public CTI workspaces by <a href="https://hecavex.com/en/">HECAVEX</a>.</span></div>
+      <div class="footer-brand"><strong>HECAVEX Labs</strong><span>Inspectable public CTI workspaces by <a href="https://hecavex.com/en/">HECAVEX</a>.</span><span>Sources, methods and limits stay visible.</span></div>
       <nav aria-label="Footer"><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/">Labs</a><a href="https://hecavex.com/data/">Data</a><a href="/changes/">Changes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a><a href="/licence/">Licence</a><a href="https://hecavex.com/en/privacy/">Privacy</a><a href="/security/">Security</a><a href="/lt/" hreflang="lt">Lietuviškai</a></nav>
     </div>
   </footer>'''
+
+
+def sync_style_assets(text: str) -> str:
+    """Keep local font loading and cache versions consistent on every route."""
+    if '/assets/fonts.css?v=' not in text:
+        text = re.sub(
+            r'(?m)^(\s*)(<link rel="stylesheet" href="/assets/styles\.css\?v=[^\"]+">)',
+            rf'\g<1><link rel="stylesheet" href="/assets/fonts.css?v={ASSET_VERSION}">\n\g<1>\g<2>',
+            text,
+            count=1,
+        )
+    return re.sub(
+        r'(/assets/(?:fonts\.css|styles\.css|attack-evidence\.css|workspace-discovery\.css|site\.js))\?v=[^"\s]+',
+        rf'\g<1>?v={ASSET_VERSION}',
+        text,
+    )
 
 
 def transform(text: str, route: Route) -> str:
@@ -129,6 +145,7 @@ def transform(text: str, route: Route) -> str:
             f"found {len(header_matches)} header(s), {len(footer_matches)} footer(s)"
         )
     text = HEADER_RE.sub(render_header(route), text, count=1)
+    text = sync_style_assets(text)
     return FOOTER_RE.sub(render_footer(), text, count=1)
 
 

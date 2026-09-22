@@ -35,8 +35,26 @@
 
   const searchInputs = [...document.querySelectorAll('[data-shell-search]')];
   const searchItems = [...document.querySelectorAll('[data-search-item]')];
+  const workspaceCount = document.querySelector('[data-workspace-count]');
+  const workspaceEmpty = document.querySelector('[data-workspace-empty]');
+  const workspaceResets = [...document.querySelectorAll('[data-workspace-reset]')];
   const shellSearchSubscribers = new Set();
   let shellQuery = new URLSearchParams(location.search).get('q') || '';
+
+  // The overview owns its count and recovery action; analytical pages own
+  // their independent dataset result states via bindShellSearch below.
+  const updateWorkspaceFeedback = (normalizedQuery) => {
+    if (!workspaceCount) return;
+    const visible = searchItems.filter((item) => !item.hidden).length;
+    const lithuanian = document.documentElement.lang === 'lt';
+    workspaceCount.textContent = lithuanian
+      ? `Rodoma: ${visible} / ${searchItems.length}`
+      : normalizedQuery ? `${visible} of ${searchItems.length} workspaces` : `${visible} workspaces`;
+    if (workspaceEmpty) workspaceEmpty.hidden = visible !== 0;
+    workspaceResets.forEach((button) => {
+      if (!button.closest('[data-workspace-empty]')) button.hidden = !normalizedQuery;
+    });
+  };
 
   const publishShellSearch = (query) => {
     shellQuery = query;
@@ -47,6 +65,7 @@
     searchItems.forEach((item) => {
       item.hidden = Boolean(normalized) && !item.textContent.toLowerCase().includes(normalized);
     });
+    updateWorkspaceFeedback(normalized);
     shellSearchSubscribers.forEach((subscriber) => subscriber(query));
   };
 
@@ -115,6 +134,10 @@
       publishShellSearch(input.value);
     });
   });
+  workspaceResets.forEach((button) => button.addEventListener('click', () => {
+    publishShellSearch('');
+    document.querySelector('#workspace-search')?.focus();
+  }));
   publishShellSearch(shellQuery);
 
   const documentToc = document.querySelector('.document-toc');

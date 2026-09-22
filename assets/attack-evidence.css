@@ -8,10 +8,10 @@
   gap: clamp(2rem, 6vw, 6rem);
   align-items: start;
   margin: var(--page-top) 0 2.25rem;
-  padding: clamp(1.5rem, 3vw, 2.5rem);
-  border: 1px solid var(--hx-border);
-  border-top: 2px solid var(--hx-steel);
-  background: var(--hx-surface-1);
+  padding: 1rem 0 2rem;
+  border: 0;
+  border-bottom: 1px solid var(--hx-border);
+  background: transparent;
 }
 
 .evidence-hero h1 {
@@ -93,20 +93,18 @@
 .evidence-stats span,
 .evidence-controls label > span {
   color: var(--hx-text-faint);
-  font: 600 .61rem var(--font-mono);
-  letter-spacing: .08em;
-  text-transform: uppercase;
+  font: 500 .75rem/1.5 var(--font-sans);
 }
 
 .evidence-stats strong {
   color: var(--hx-text);
-  font: 600 1.6rem var(--font-mono);
+  font: 600 1.75rem var(--font-heading);
 }
 
 .evidence-method,
 .evidence-index,
 .comparison {
-  margin-top: clamp(3.5rem, 7vw, 6rem);
+  margin-top: var(--major-section-space);
 }
 
 .evidence-method > h2 {
@@ -132,7 +130,7 @@
 
 .method-grid > div > span {
   color: var(--hx-accent);
-  font: 600 .65rem var(--font-mono);
+  font: 500 .75rem var(--font-mono);
 }
 
 .method-grid h3 {
@@ -160,37 +158,39 @@
 .evidence-section-head > p {
   margin: 0;
   color: var(--hx-text-muted);
-  font: 500 .72rem var(--font-mono);
+  font: 400 .8125rem var(--font-sans);
 }
 
 .evidence-controls {
   display: grid;
-  grid-template-columns: minmax(18rem, 2fr) repeat(4, minmax(9rem, 1fr)) auto;
-  gap: 1px;
-  padding: 1px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 1.25rem;
   border: 1px solid var(--hx-border);
-  background: var(--hx-border);
+  background: var(--hx-surface-1);
 }
+
+.evidence-controls .wide-field { grid-column: 1 / -1; }
 
 .evidence-controls label {
   display: grid;
   align-content: center;
   gap: .35rem;
   min-width: 0;
-  padding: .65rem .75rem;
+  padding: 0;
   background: var(--hx-surface-1);
 }
 
 .evidence-controls input,
 .evidence-controls select {
-  min-height: 2rem;
-  padding: .2rem 0;
-  border: 0;
+  min-height: 2.75rem;
+  padding: .5rem .75rem;
+  border: 1px solid var(--hx-border);
   border-radius: 0;
-  background: transparent;
+  background: var(--hx-bg);
   color: var(--hx-text);
   box-shadow: none;
-  font: 500 .72rem var(--font-mono);
+  font: 400 .875rem var(--font-sans);
 }
 
 .evidence-controls input:focus,
@@ -202,7 +202,7 @@
   grid-column: 1 / -1;
   min-width: 7rem;
   min-height: 2.75rem;
-  border: 0;
+  border: 1px solid var(--hx-border);
   background: var(--hx-surface-1);
 }
 
@@ -222,7 +222,7 @@
 .evidence-toolbar p {
   margin: 0;
   color: var(--hx-text-muted);
-  font: 500 .68rem var(--font-mono);
+  font: 400 .8125rem var(--font-sans);
 }
 
 .evidence-toolbar p strong {
@@ -247,9 +247,7 @@
 .evidence-table-head span {
   padding: .7rem .9rem;
   color: var(--hx-text-faint);
-  font: 600 .59rem var(--font-mono);
-  letter-spacing: .08em;
-  text-transform: uppercase;
+  font: 600 .75rem var(--font-sans);
 }
 
 .evidence-row {
@@ -299,7 +297,7 @@
   display: block;
   margin-bottom: .25rem;
   color: var(--hx-accent);
-  font: 600 .68rem var(--font-mono);
+  font: 500 .75rem var(--font-mono);
 }
 
 .evidence-tags {
@@ -315,9 +313,7 @@
   padding: .15rem .4rem;
   border: 1px solid var(--hx-border);
   color: var(--hx-text-muted);
-  font: 600 .59rem var(--font-mono);
-  letter-spacing: .04em;
-  text-transform: uppercase;
+  font: 500 .75rem/1.4 var(--font-sans);
 }
 
 .evidence-tag.high,
@@ -340,7 +336,7 @@
 
 .timeline-value {
   color: var(--hx-text-soft);
-  font: 500 .7rem/1.7 var(--font-mono);
+  font: 400 .75rem/1.7 var(--font-mono);
 }
 
 .row-actions {
@@ -350,12 +346,12 @@
 }
 
 .row-action {
-  min-height: 2.2rem;
+  min-height: 2.75rem;
   padding: .4rem .55rem;
   border: 1px solid var(--hx-border);
   background: transparent;
   color: var(--hx-text-soft);
-  font: 600 .62rem var(--font-mono);
+  font: 500 .8125rem var(--font-sans);
   text-align: left;
 }
 
@@ -438,8 +434,7 @@
 
 .comparison-facts span {
   color: var(--hx-text-faint);
-  font: 600 .55rem var(--font-mono);
-  text-transform: uppercase;
+  font: 500 .75rem/1.5 var(--font-sans);
 }
 
 .comparison-facts strong {
@@ -506,13 +501,12 @@
 }
 
 .mapping-dialog-head .dialog-close {
-  min-height: 2.25rem;
+  min-height: 2.75rem;
   padding: .4rem .7rem;
   border: 1px solid var(--hx-border);
   background: transparent;
   color: var(--hx-text-soft);
-  font: 600 .62rem var(--font-mono);
-  text-transform: uppercase;
+  font: 600 .8125rem var(--font-sans);
 }
 
 .mapping-dialog-head .dialog-close:hover {
@@ -567,8 +561,7 @@
 
 .mapping-meta span {
   color: var(--hx-text-faint);
-  font: 600 .55rem var(--font-mono);
-  text-transform: uppercase;
+  font: 500 .75rem/1.5 var(--font-sans);
 }
 
 .mapping-meta strong {
@@ -621,7 +614,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: .7rem;
-  font: 600 .66rem var(--font-mono);
+  font: 500 .8125rem/1.5 var(--font-sans);
 }
 
 @media (max-width: 75rem) {
@@ -630,7 +623,7 @@
   }
 
   .evidence-controls .wide-field {
-    grid-column: span 2;
+    grid-column: 1 / -1;
   }
 
   .evidence-table-head,
@@ -714,7 +707,7 @@
 
 @media (max-width: 40rem) {
   .evidence-hero {
-    padding: 1rem;
+    padding: 0 0 1.5rem;
   }
 
   .evidence-hero h1 {

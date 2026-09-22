@@ -9,6 +9,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+ASSET_VERSION = "20260922-1"
+
 
 @dataclass(frozen=True)
 class Route:
