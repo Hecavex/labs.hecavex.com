@@ -316,9 +316,9 @@ label.field-error { border-color: var(--hx-danger) !important; background: var(-
 .site-footer { border-top: 1px solid var(--hx-border); background: var(--hx-bg); }
 .footer-inner { display: flex; width: min(100%, var(--shell-max)); min-height: 8rem; margin-inline: auto; padding: 1.7rem var(--shell-pad); align-items: flex-start; justify-content: space-between; gap: 2rem; }
 .footer-brand { display: grid; gap: .45rem; color: var(--hx-text-muted); font-size: .76rem; }
-.footer-brand strong { color: var(--hx-text); font: 600 1rem var(--font-heading); }
+.footer-brand strong { color: var(--hx-text); font: 600 .75rem var(--font-mono); letter-spacing: .12em; }
 .site-footer nav { display: flex; min-width: 0; flex-wrap: wrap; justify-content: flex-end; gap: .65rem 1rem; }
-.site-footer nav a { display: inline-flex; align-items: center; min-height: 2.75rem; padding-block: .35rem; color: var(--hx-text-muted); font: 500 .75rem var(--font-sans); text-decoration: none; }
+.site-footer nav a { display: inline-flex; align-items: center; min-height: 2.75rem; padding-block: .35rem; color: var(--hx-text-muted); font: 500 .75rem/normal var(--font-sans); letter-spacing: 0; text-transform: none; text-decoration: none; }
 .site-footer nav a:hover { color: var(--hx-steel); }
 
 /* Shared analytical controls: status and identifiers retain their meaning. */

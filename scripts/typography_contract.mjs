@@ -13,6 +13,8 @@ const roles = [
   ['.brand-hero .lead, .page-head .lead, .evidence-hero .lead', 'Inter', 400, 1.45, -.006, 'lead'],
   ['main .eyebrow', 'Inter', 600, 1.5, .02, 12],
   ['.button, .row-action, .mapping-dialog-head .dialog-close', 'Inter', 600, 1.5, 0, 14],
+  ['.footer-brand strong', 'IBM Plex Mono', 600, 'normal', .12, 12],
+  ['.site-footer nav a', 'Inter', 500, 'normal', 0, 12, 'none'],
 ];
 
 export async function assertTypography(page, context) {
@@ -25,10 +27,11 @@ export async function assertTypography(page, context) {
         size: parseFloat(style.fontSize), weight: Number(style.fontWeight),
         leading: style.lineHeight === 'normal' ? 'normal' : parseFloat(style.lineHeight),
         tracking: style.letterSpacing === 'normal' ? 0 : parseFloat(style.letterSpacing),
+        transform: style.textTransform,
       };
     })), roles);
   for (const sample of samples) {
-    const [family, weight, leading, tracking, size] = sample.expected;
+    const [family, weight, leading, tracking, size, transform] = sample.expected;
     const label = `${sample.selector}: ${context}`;
     assert.equal(sample.family, family, `type family: ${label}`);
     assert.equal(sample.weight, weight, `type weight: ${label}`);
@@ -37,5 +40,6 @@ export async function assertTypography(page, context) {
     assert(Math.abs(sample.tracking - sample.size * tracking) < .03, `type tracking: ${label}`);
     const expectedSize = size === 'lead' ? Math.min(20, Math.max(17.6, sample.viewport * .016)) : size;
     if (expectedSize !== undefined) assert(Math.abs(sample.size - expectedSize) < .03, `type size ${sample.size}, expected ${expectedSize}: ${label}`);
+    if (transform !== undefined) assert.equal(sample.transform, transform, `type transform: ${label}`);
   }
 }
