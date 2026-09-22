@@ -230,13 +230,13 @@ label.field-error { border-color: var(--hx-danger) !important; background: var(-
 .atlas-record .observation-link { display: inline-flex; align-items: center; min-height: 2rem; }
 .atlas-date { color: var(--hx-text-muted); font: .72rem/1.6 var(--font-mono); }
 .atlas-record h3 { margin: .25rem 0; font-size: 1.05rem; }
-.atlas-record p { margin: .3rem 0 .7rem; color: var(--hx-text-muted); font-size: .9rem; }
+.atlas-record p:not(.eyebrow) { margin: .3rem 0 .7rem; color: var(--hx-text-muted); font-size: .9rem; }
 .atlas-tags { display: flex; flex-wrap: wrap; gap: .35rem; }
 .atlas-tag { padding: .15rem .45rem; border: 1px solid var(--hx-border-subtle); color: var(--hx-text-muted); font: .75rem/1.5 var(--font-sans); }
 .atlas-side { position: sticky; top: 1.5rem; display: grid; gap: .75rem; }
 .mapping-card { padding: .9rem; border: 1px solid var(--hx-border-subtle); background: var(--hx-surface-1); }
 .mapping-card h3 { margin: 0 0 .35rem; font-size: 1rem; }
-.mapping-card p { margin: .25rem 0; color: var(--hx-text-muted); font-size: .82rem; }
+.mapping-card p:not(.eyebrow) { margin: .25rem 0; color: var(--hx-text-muted); font-size: .82rem; }
 .country-strip { display: grid; grid-template-columns: repeat(3, 1fr); margin: 1rem 0; border: 1px solid var(--hx-border-subtle); }
 .country-button { padding: .8rem 1rem; border: 0; border-right: 1px solid var(--hx-border-subtle); background: var(--hx-surface-1); color: var(--hx-text-soft); text-align: left; }
 .country-button:last-child { border: 0; }

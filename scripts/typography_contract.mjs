@@ -36,6 +36,6 @@ export async function assertTypography(page, context) {
     else assert(Math.abs(sample.leading - sample.size * leading) < .03, `type leading: ${label}`);
     assert(Math.abs(sample.tracking - sample.size * tracking) < .03, `type tracking: ${label}`);
     const expectedSize = size === 'lead' ? Math.min(20, Math.max(17.6, sample.viewport * .016)) : size;
-    if (expectedSize !== undefined) assert(Math.abs(sample.size - expectedSize) < .03, `type size: ${label}`);
+    if (expectedSize !== undefined) assert(Math.abs(sample.size - expectedSize) < .03, `type size ${sample.size}, expected ${expectedSize}: ${label}`);
   }
 }
