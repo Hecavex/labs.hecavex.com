@@ -33,7 +33,6 @@
 .evidence-hero .lead {
   max-width: 62ch;
   margin: 0;
-  font-size: clamp(1rem, 1.45vw, 1.22rem);
 }
 
 .hero-actions,
@@ -351,7 +350,8 @@
   border: 1px solid var(--hx-border);
   background: transparent;
   color: var(--hx-text-soft);
-  font: 500 .8125rem var(--font-sans);
+  font: 600 .875rem/1.5 var(--font-sans);
+  letter-spacing: 0;
   text-align: left;
 }
 
@@ -506,7 +506,8 @@
   border: 1px solid var(--hx-border);
   background: transparent;
   color: var(--hx-text-soft);
-  font: 600 .8125rem var(--font-sans);
+  font: 600 .875rem/1.5 var(--font-sans);
+  letter-spacing: 0;
 }
 
 .mapping-dialog-head .dialog-close:hover {

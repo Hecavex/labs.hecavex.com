@@ -7,7 +7,7 @@ Use the responsibility below to find a change's source. Do not edit a deployed a
 | Responsibility | Source | Contract / check |
 | --- | --- | --- |
 | EN / LT workspace discovery | `index.html`, `lt/index.html`, `assets/workspace-discovery.css` | `scripts/smoke_workspace_discovery.mjs` checks layout, filters, empty recovery, local query privacy, keyboard and no-JS access |
-| Shared palette, type, shell and general analytical UI | `assets/styles.css` | `scripts/validate.py` checks the coordinated design tokens; `scripts/audit_performance.py` enforces transfer budgets |
+| Shared palette, type, shell and general analytical UI | `assets/styles.css` | `scripts/validate.py` checks the coordinated design tokens; `scripts/typography_contract.mjs` checks rendered Research-aligned role metrics across the overview suite; `scripts/audit_performance.py` enforces transfer budgets |
 | Self-hosted font subsets and provenance | `assets/fonts.css`, `assets/fonts/README.md` | Font loading is explicit in the generated shell; every expected binary must be referenced locally and accompanied by its license |
 | Generated navigation / footer / asset version | `scripts/site_contract.py`, `scripts/sync_shell.py` | Edit the generator, then `python scripts/sync_shell.py --write`; `--check` rejects drift across all routes |
 | Browser navigation, shell search and copied views | `assets/site.js` | `updateWorkspaceFeedback` owns only overview state; `bindShellSearch` hands dataset filtering to the responsible workspace. `scripts/test_copied_view.js` preserves opt-in sharing |

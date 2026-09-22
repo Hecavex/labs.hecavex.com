@@ -272,12 +272,17 @@ shell_css_contract = {
     "64px mobile header": r"@media\s*\(max-width:\s*1160px\)[\s\S]*?--header-offset:\s*4rem\s*;",
     "1.65 main reading rhythm": r"main\s*\{[^}]*line-height:\s*1\.65\s*;",
     "2rem section heading ceiling": r"h2\s*\{[^}]*font-size:\s*clamp\(1\.45rem,\s*2\.4vw,\s*2rem\)\s*;",
-    "44px search control containment": r"\.header-search input,\s*\.mobile-header-search input\s*\{[^}]*min-height:\s*0\s*;[^}]*line-height:\s*1\.2\s*;",
-    "44px readable call to action": r"\.button\s*\{[^}]*min-height:\s*2\.75rem\s*;[^}]*font:\s*600\s+\.8125rem/1\.4\s+var\(--font-sans\)\s*;",
-    "12px sentence-case navigation": r"\.portfolio-navigation a,\s*\.product-navigation a\s*\{[^}]*font:\s*500\s+\.75rem\s+var\(--font-sans\)\s*;",
+    "44px search control containment": r"\.header-search input,\s*\.mobile-header-search input\s*\{[^}]*min-height:\s*0\s*;[^}]*font:\s*600\s+\.75rem/normal\s+var\(--font-sans\)\s*;[^}]*letter-spacing:\s*0\s*;",
+    "44px readable call to action": r"\.button\s*\{[^}]*min-height:\s*2\.75rem\s*;[^}]*font:\s*600\s+\.875rem/1\.5\s+var\(--font-sans\)\s*;[^}]*letter-spacing:\s*0\s*;",
+    "12px sentence-case navigation": r"\.portfolio-navigation a,\s*\.product-navigation a\s*\{[^}]*font:\s*600\s+\.75rem/normal\s+var\(--font-sans\)\s*;[^}]*letter-spacing:\s*0\s*;[^}]*text-transform:\s*none\s*;",
+    "12px identity subtitles": r"\.brand-copy small\s*\{[^}]*font:\s*500\s+\.75rem/normal\s+var\(--font-sans\)\s*;[^}]*letter-spacing:\s*0\s*;",
+    "12px product subtitle": r"\.product-identity span\s*\{[^}]*font:\s*500\s+\.75rem/normal\s+var\(--font-sans\)\s*;[^}]*letter-spacing:\s*0\s*;",
     "Space Grotesk display family": r'--font-heading:\s*"Space Grotesk",',
     "16px body floor": r"body\s*\{[^}]*font:\s*16px/1\.65\s+var\(--font-sans\)\s*;",
-    "16px mobile hero lead floor": r"\.brand-hero \.lead,\s*\.page-head \.lead\s*\{[^}]*font-size:\s*1rem\s*;",
+    "shared responsive hero lead": r"\.lead\s*\{[^}]*font:\s*400\s+clamp\(1\.1rem,\s*1\.6vw,\s*1\.25rem\)/1\.45\s+var\(--font-sans\)\s*;[^}]*letter-spacing:\s*-\.006em\s*;",
+    "12px section eyebrow": r"\.eyebrow\s*\{[^}]*font:\s*600\s+\.75rem/1\.5\s+var\(--font-sans\)\s*;[^}]*letter-spacing:\s*\.02em\s*;[^}]*text-transform:\s*none\s*;",
+    "research title tracking": r"h1\s*\{[^}]*letter-spacing:\s*-\.04em\s*;",
+    "research tertiary heading rhythm": r"h3\s*\{[^}]*line-height:\s*1\.2\s*;",
 }
 for label, pattern in shell_css_contract.items():
     if not re.search(pattern, styles_text):
