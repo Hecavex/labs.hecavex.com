@@ -246,7 +246,7 @@ label.field-error { border-color: var(--hx-danger) !important; background: var(-
 
 .case-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; margin: 0 0 .75rem; }
 .case-toolbar > span { min-width: 0; max-width: min(42rem, 100%); color: var(--hx-text-muted); font: .72rem/1.5 var(--font-mono); overflow-wrap: anywhere; text-align: right; }
-.case-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
+.case-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 .case-card { display: grid; gap: .65rem; min-height: 12.5rem; padding: 1rem; border: 1px solid var(--hx-border); border-top: 2px solid var(--hx-steel); background: var(--hx-surface-1); color: var(--hx-text); text-align: left; cursor: pointer; }
 .case-card:hover { border-color: var(--hx-steel); background: var(--hx-surface-2); }
 .case-card[aria-pressed="true"] { border-color: var(--hx-accent); border-top-color: var(--hx-accent); background: var(--hx-accent-soft); box-shadow: inset 3px 0 0 var(--hx-accent); }

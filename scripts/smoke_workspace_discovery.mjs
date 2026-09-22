@@ -35,6 +35,8 @@ try {
           heroInset: hero && getComputedStyle(hero).paddingLeft,
           titleSize: parseFloat(getComputedStyle(document.querySelector('h1')).fontSize),
           titleFont: getComputedStyle(document.querySelector('h1')).fontFamily,
+          displayFontLoaded: document.fonts.check('600 16px "Space Grotesk"', document.querySelector('h1').textContent),
+          bodySize: parseFloat(getComputedStyle(document.body).fontSize),
           visibleNavSizes: [...document.querySelectorAll('.portfolio-navigation a, .product-navigation a')].filter(a => a.getBoundingClientRect().width > 0).map(a => parseFloat(getComputedStyle(a).fontSize)),
         };
       });
@@ -44,6 +46,8 @@ try {
       assert.equal(geometry.headerHeight, width > 1160 ? 116 : 64, `header geometry: ${context}`);
       assert(geometry.titleSize <= 52.01, `oversized title: ${context}`);
       assert(geometry.titleFont.startsWith('"Space Grotesk"'), `display type: ${context}`);
+      assert(geometry.displayFontLoaded, `display font failed to load: ${context}`);
+      assert.equal(geometry.bodySize, 16, `reading type: ${context}`);
       assert(geometry.visibleNavSizes.every(size => size >= 12), `small navigation: ${context}`);
       if (geometry.heroHeight !== undefined) {
         if (width > 680) assert(geometry.heroHeight >= 320, `desktop hero minimum: ${context}`);
