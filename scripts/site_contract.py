@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-ASSET_VERSION = "20260922-1"
+ASSET_VERSION = "20260922-2"
 
 
 @dataclass(frozen=True)

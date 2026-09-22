@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { browserForChecks, servedTarget } from './browser_support.mjs';
+import { assertTypography } from './typography_contract.mjs';
 
 const preview = await servedTarget(process.argv[2] || '.');
 const browser = await browserForChecks().catch(async error => { await preview.close(); throw error; });
@@ -41,6 +42,7 @@ try {
         };
       });
       const context = `${route || '/'} at ${width}`;
+      await assertTypography(page, context);
       assert.equal(geometry.overflow, false, `page overflow: ${context}`);
       assert.equal(geometry.networkHeight, 64, `network row: ${context}`);
       assert.equal(geometry.headerHeight, width > 1160 ? 116 : 64, `header geometry: ${context}`);
@@ -109,7 +111,7 @@ try {
     }
   } finally { await noJs.close(); }
   assert.deepEqual(errors, []);
-  console.log(`Labs overview and geometry passed: ${checked} route/viewport combinations and canonical Data handoff; EN/LT filtering, empty recovery, keyboard, forced colors, reduced motion, no-JS and query privacy.`);
+  console.log(`Labs overview and geometry passed: ${checked} route/viewport combinations with shared role typography and canonical Data handoff; EN/LT filtering, empty recovery, keyboard, forced colors, reduced motion, no-JS and query privacy.`);
 } finally {
   await browser.close();
   await preview.close();
