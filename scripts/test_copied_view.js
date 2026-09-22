@@ -46,6 +46,6 @@ assert.equal(location.search, '');
   await created.find((node) => node.tagName === 'BUTTON').events.click();
   assert.ok(created.some((node) => node.tagName === 'INPUT' && node.readOnly && node.value.startsWith(location.origin)));
   const css = fs.readFileSync('assets/styles.css', 'utf8');
-  assert.match(css, /\.site-footer[^{}]*a\s*\{[^}]*min-height:\s*2rem/);
+  assert.match(css, /\.site-footer[^{}]*a\s*\{[^}]*min-height:\s*2\.75rem/);
   console.log('Copied-view regressions passed: explicit consent, fragment round-trip, malformed input, invalid options, clipboard fallback and footer targets.');
 })().catch((error) => { console.error(error); process.exitCode = 1; });

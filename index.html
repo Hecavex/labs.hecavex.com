@@ -10,7 +10,9 @@
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="stylesheet" href="/assets/styles.css?v=20260907-1">
+  <link rel="stylesheet" href="/assets/fonts.css?v=20260922-1">
+  <link rel="stylesheet" href="/assets/styles.css?v=20260922-1">
+  <link rel="stylesheet" href="/assets/workspace-discovery.css?v=20260922-1">
   <meta property="og:site_name" content="HECAVEX Labs">
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="HECAVEX Labs">
@@ -55,17 +57,19 @@
     <div class="shell">
       <header class="brand-hero home-hero">
         <div class="home-hero-copy">
-          <p class="eyebrow">Evidence-led intelligence workspaces</p>
+          <p class="eyebrow">HECAVEX Labs</p>
           <h1>Research that can be inspected, queried and challenged.</h1>
           <p class="lead">HECAVEX Labs turns selected research into small operational interfaces. Sources, transformations, confidence and evidence boundaries stay visible.</p>
         </div>
         <div class="home-hero-utility">
-          <a class="button primary" href="#workspaces">Open workspaces →</a>
-          <p class="hero-meta">LABS · BY HECAVEX · NO ACCOUNTS · PRIVACY-FIRST ANALYTICS</p>
+          <h2 class="hero-note-title">Follow the evidence.</h2>
+          <p>Public observations, case reasoning and procedure claims. Each workspace keeps the source and its limits in view.</p>
+          <a class="button primary" href="#workspaces">Choose a workspace</a>
+          <p class="hero-access">No account required · <a href="/methodology/">Methods and limits</a></p>
         </div>
       </header>
 
-      <div class="stat-grid" aria-label="Labs statistics">
+      <div class="stat-grid scope-strip" aria-label="Labs statistics">
         <div class="stat"><strong>3</strong><span>focused public workspaces</span></div>
         <div class="stat"><strong>18</strong><span>sourced Baltic observations</span></div>
         <div class="stat"><strong>4</strong><span>approved pivot cases</span></div>
@@ -73,12 +77,30 @@
       </div>
 
       <section class="section" id="workspaces">
-        <div class="section-head"><div><p class="eyebrow">Operational interfaces</p><h2>Three deliberately bounded workspaces</h2></div><p>Each lab states what it knows, how it knows it and where the evidence stops.</p></div>
-        <div class="grid" data-search-scope>
-          <a class="panel" href="/baltic-threat-atlas/" data-search-item><span class="badge official">source linked</span><h3>Baltic Threat Atlas</h3><p>Query public cyber observations concerning Lithuania, Latvia and Estonia, then follow supported actor mappings into APT Notes.</p><span class="panel-link">Explore 18 observations →</span></a>
-          <a class="panel" href="/pivot-graph/" data-search-item><span class="badge derived">4 approved case graphs</span><h3>Pivot Workspace</h3><p>Compare released smishing, supply-chain JavaScript and Python loader investigations from seed artefact through explicit analytical limits.</p><span class="panel-link">Explore the case library →</span></a>
-          <a class="panel" href="/attack-map/" data-search-item><span class="badge official">source linked</span><h3>ATT&amp;CK Evidence Explorer</h3><p>Inspect procedure-level mappings drawn from APT Notes records, with source, confidence and uncertainty kept beside every claim.</p><span class="panel-link">Explore source-linked mappings →</span></a>
+        <div class="section-head"><div><h2>Three deliberately bounded workspaces</h2><p>Start with the question you need to examine.</p></div></div>
+        <form class="workspace-filter" role="search" action="/">
+          <label for="workspace-search"><span>Find a workspace</span><input id="workspace-search" name="q" type="search" placeholder="Country, case, technique…" autocomplete="off" data-shell-search></label>
+          <p class="workspace-count" data-workspace-count role="status" aria-live="polite">3 workspaces</p>
+          <button class="button" type="button" data-workspace-reset hidden>Clear filter</button>
+        </form>
+        <div class="workspace-list" data-search-scope>
+          <a class="workspace-row" href="/baltic-threat-atlas/" data-search-item>
+            <div class="workspace-identity"><span class="workspace-kind">Regional evidence</span><h3>Baltic Threat Atlas</h3><span class="panel-link">Explore 18 observations <span aria-hidden="true">↗</span></span></div>
+            <div class="workspace-description"><p>Query public cyber observations concerning Lithuania, Latvia and Estonia, then follow supported actor mappings into APT Notes.</p><p class="workspace-question">What was reported, by whom, and for which period?</p></div>
+            <div class="workspace-scope"><span class="badge official">source linked</span><span>Lithuania · Latvia · Estonia</span><span>Selected coverage, not a prevalence ranking</span></div>
+          </a>
+          <a class="workspace-row" href="/pivot-graph/" data-search-item>
+            <div class="workspace-identity"><span class="workspace-kind">Case reasoning</span><h3>Pivot Workspace</h3><span class="panel-link">Explore the case library <span aria-hidden="true">↗</span></span></div>
+            <div class="workspace-description"><p>Compare released smishing, supply-chain JavaScript and Python loader investigations from seed artefact through explicit analytical limits.</p><p class="workspace-question">Which relationships does the evidence actually support?</p></div>
+            <div class="workspace-scope"><span class="badge derived">4 approved case graphs</span><span>Observations · derivations · assessments</span><span>Similarity alone does not establish an operator</span></div>
+          </a>
+          <a class="workspace-row" href="/attack-map/" data-search-item>
+            <div class="workspace-identity"><span class="workspace-kind">Procedure evidence</span><h3>ATT&amp;CK Evidence Explorer</h3><span class="panel-link">Explore source-linked mappings <span aria-hidden="true">↗</span></span></div>
+            <div class="workspace-description"><p>Inspect procedure-level mappings drawn from APT Notes records, with source, confidence and uncertainty kept beside every claim.</p><p class="workspace-question">What source supports this procedure-to-technique mapping?</p></div>
+            <div class="workspace-scope"><span class="badge official">source linked</span><span>Actor · campaign · technique · source</span><span>Not an attribution or defensive coverage score</span></div>
+          </a>
         </div>
+        <div class="workspace-empty" data-workspace-empty hidden><h3>No workspace matches that filter.</h3><p>Try “Baltic”, “pivot” or “ATT&amp;CK”, or clear the filter to see all three.</p><button class="button" type="button" data-workspace-reset>Show all workspaces</button></div>
         <aside class="latest-change" aria-labelledby="latest-change-title"><div><p class="eyebrow">Latest meaningful change</p><h3 id="latest-change-title">Source comparisons with defensible decision boundaries</h3><p>Claim confidence and recorded assurance stay separate. Atlas comparison limits, case reproduction boundaries and a fictional worked exercise make the next analytical step inspectable.</p></div><div><time datetime="2026-09-10">10 Sep 2026</time><a href="/changes/#change-2026-09-10-claim-assurance">Read the change record →</a></div></aside>
       </section>
 
@@ -111,10 +133,10 @@
   </main>
   <footer class="site-footer">
     <div class="footer-inner">
-      <div class="footer-brand"><strong>HECAVEX LABS</strong><span>Inspectable public CTI workspaces by <a href="https://hecavex.com/en/">HECAVEX</a>.</span></div>
+      <div class="footer-brand"><strong>HECAVEX Labs</strong><span>Inspectable public CTI workspaces by <a href="https://hecavex.com/en/">HECAVEX</a>.</span><span>Sources, methods and limits stay visible.</span></div>
       <nav aria-label="Footer"><a href="https://hecavex.com/en/research/">Research</a><a href="https://radar.hecavex.com/">Radar</a><a href="https://apt.hecavex.com/">APT Notes</a><a href="https://labs.hecavex.com/">Labs</a><a href="https://hecavex.com/data/">Data</a><a href="/changes/">Changes</a><a href="/methodology/">Methodology</a><a href="/about/">About</a><a href="/licence/">Licence</a><a href="https://hecavex.com/en/privacy/">Privacy</a><a href="/security/">Security</a><a href="/lt/" hreflang="lt">Lietuviškai</a></nav>
     </div>
   </footer>
-  <script src="/assets/site.js?v=20260907-1"></script>
+  <script src="/assets/site.js?v=20260922-1"></script>
 </body>
 </html>

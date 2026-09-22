@@ -13,7 +13,7 @@ from urllib.parse import unquote, urlparse
 
 from build_reviewed_attack_evidence import ATTACK_MANIFEST_SHA256, read_attack_manifest
 from stage_public_data import ANALYTICS_SOURCE, analytics_loader
-from site_contract import ROUTES as SHELL_ROUTES
+from site_contract import ASSET_VERSION, ROUTES as SHELL_ROUTES
 from sync_shell import render_sitemap, transform as render_shell
 
 
@@ -113,6 +113,8 @@ required = {
     "methodology/index.html",
     "security/index.html",
     "assets/styles.css",
+    "assets/fonts.css",
+    "assets/workspace-discovery.css",
     "assets/attack-evidence.css",
     "assets/hecavex-mark.svg",
     "assets/site.js",
@@ -207,6 +209,9 @@ font_paths = {
     "assets/fonts/README.md",
     "assets/fonts/INTER-OFL.txt",
     "assets/fonts/IBM-PLEX-MONO-OFL.txt",
+    "assets/fonts/SPACE-GROTESK-OFL.txt",
+    "assets/fonts/space-grotesk/space-grotesk-latin-wght-normal.woff2",
+    "assets/fonts/space-grotesk/space-grotesk-latin-ext-wght-normal.woff2",
     *{
         f"assets/fonts/inter/inter-{subset}-{weight}-normal.woff2"
         for subset in ("latin", "latin-ext")
@@ -226,6 +231,7 @@ missing_fonts = sorted(path for path in font_paths if not (root / path).is_file(
 if missing_fonts:
     errors.append("Missing self-hosted font files: " + ", ".join(missing_fonts))
 styles_text = (root / "assets/styles.css").read_text(encoding="utf-8")
+font_styles_text = (root / "assets/fonts.css").read_text(encoding="utf-8")
 attack_styles_text = (root / "assets/attack-evidence.css").read_text(encoding="utf-8")
 mark_text = (root / "assets/hecavex-mark.svg").read_text(encoding="utf-8").lower()
 for required_mark_colour in ("#55b9b1", "#ece9e1"):
@@ -264,22 +270,25 @@ shell_css_contract = {
     "52px local navigation target": r"\.product-navigation a\s*\{[^}]*min-height:\s*3\.25rem\s*;",
     "1160px mobile collapse": r"@media\s*\(max-width:\s*1160px\)",
     "64px mobile header": r"@media\s*\(max-width:\s*1160px\)[\s\S]*?--header-offset:\s*4rem\s*;",
-    "1.66 main reading rhythm": r"main\s*\{[^}]*line-height:\s*1\.66\s*;",
+    "1.65 main reading rhythm": r"main\s*\{[^}]*line-height:\s*1\.65\s*;",
     "2rem section heading ceiling": r"h2\s*\{[^}]*font-size:\s*clamp\(1\.45rem,\s*2\.4vw,\s*2rem\)\s*;",
-    "36px search control containment": r"\.header-search input,\s*\.mobile-header-search input\s*\{[^}]*min-height:\s*0\s*;[^}]*line-height:\s*1\.2\s*;",
-    "44px mono call to action": r"\.button\s*\{[^}]*min-height:\s*2\.75rem\s*;[^}]*font:\s*600\s+\.68rem/1\s+var\(--font-mono\)\s*;",
+    "44px search control containment": r"\.header-search input,\s*\.mobile-header-search input\s*\{[^}]*min-height:\s*0\s*;[^}]*line-height:\s*1\.2\s*;",
+    "44px readable call to action": r"\.button\s*\{[^}]*min-height:\s*2\.75rem\s*;[^}]*font:\s*600\s+\.8125rem/1\.4\s+var\(--font-sans\)\s*;",
+    "12px sentence-case navigation": r"\.portfolio-navigation a,\s*\.product-navigation a\s*\{[^}]*font:\s*500\s+\.75rem\s+var\(--font-sans\)\s*;",
+    "Space Grotesk display family": r'--font-heading:\s*"Space Grotesk",',
+    "16px body floor": r"body\s*\{[^}]*font:\s*16px/1\.65\s+var\(--font-sans\)\s*;",
     "16px mobile hero lead floor": r"\.brand-hero \.lead,\s*\.page-head \.lead\s*\{[^}]*font-size:\s*1rem\s*;",
 }
 for label, pattern in shell_css_contract.items():
     if not re.search(pattern, styles_text):
         errors.append(f"Portfolio shell CSS contract differs: {label}")
 geometry_css_contract = {
-    "page top token": r"--page-top:\s*clamp\(3\.25rem,\s*5vw,\s*4\.75rem\)\s*;",
+    "page top token": r"--page-top:\s*clamp\(2rem,\s*3vw,\s*3rem\)\s*;",
     "page bottom token": r"--page-bottom:\s*clamp\(4rem,\s*8vw,\s*8rem\)\s*;",
-    "major section token": r"--major-section-space:\s*clamp\(3\.5rem,\s*7vw,\s*6\.5rem\)\s*;",
+    "major section token": r"--major-section-space:\s*clamp\(3rem,\s*5vw,\s*4\.5rem\)\s*;",
     "page title token": r"--page-title-size:\s*clamp\(2\.4rem,\s*3\.6vw,\s*3\.25rem\)\s*;",
-    "page title leading token": r"--page-title-leading:\s*1\s*;",
-    "product hero height token": r"--frame-product-hero:\s*clamp\(21rem,\s*26\.2vw,\s*23\.5625rem\)\s*;",
+    "page title leading token": r"--page-title-leading:\s*1\.08\s*;",
+    "product hero height token": r"--frame-product-hero:\s*20rem\s*;",
     "shared page bottom": r"main\s*\{[^}]*padding:\s*0\s+0\s+var\(--page-bottom\)\s*;",
     "shared hero page top": r"\.brand-hero,\s*\.page-head\s*\{[^}]*margin:\s*var\(--page-top\)\s+0\s+2\.25rem\s*;",
     "shared hero title scale": r"\.brand-hero h1,\s*\.page-head h1\s*\{[^}]*font-size:\s*var\(--page-title-size\)\s*;[^}]*line-height:\s*var\(--page-title-leading\)\s*;",
@@ -290,9 +299,9 @@ geometry_css_contract = {
     "900px general grid breakpoint": r"@media\s*\(max-width:\s*900px\)[\s\S]*?\.grid,\s*\.source-grid,\s*\.recipe-grid,\s*\.flow,\s*\.flow\.property-flow\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)\s*;",
     "odd final general grid item span": r"\.grid > :last-child:nth-child\(odd\)[^{}]*\{[^}]*grid-column:\s*1\s*/\s*-1\s*;",
     "680px single-column breakpoint": r"@media\s*\(max-width:\s*680px\)[\s\S]*?\.grid,\s*\.flow,\s*\.flow\.property-flow,[^{}]*\{[^}]*grid-template-columns:\s*1fr\s*;",
-    "framed two-column homepage hero": r"\.home-hero\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1\.7fr\)\s+minmax\(18rem,\s*\.6fr\)\s*;[^}]*min-height:\s*var\(--frame-product-hero\)\s*;[^}]*gap:\s*clamp\(2rem,\s*4vw,\s*4rem\)\s*;[^}]*padding:\s*clamp\(1\.75rem,\s*3vw,\s*2\.15rem\)\s+clamp\(1\.75rem,\s*3vw,\s*3rem\)\s*;[^}]*border:\s*1px\s+solid\s+var\(--hx-border\)\s*;[^}]*border-top:\s*3px\s+solid\s+var\(--hx-steel\)\s*;[^}]*background:\s*var\(--hx-surface-1\)\s*;",
+    "open two-column homepage hero": r"\.home-hero\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1\.7fr\)\s+minmax\(18rem,\s*\.6fr\)\s*;[^}]*min-height:\s*var\(--frame-product-hero\)\s*;[^}]*gap:\s*clamp\(2rem,\s*4vw,\s*4rem\)\s*;[^}]*padding:\s*1rem\s+0\s+2rem\s*;[^}]*border:\s*0\s*;[^}]*border-bottom:\s*1px\s+solid\s+var\(--hx-border\)\s*;[^}]*background:\s*transparent\s*;",
     "homepage hero title measure": r"\.home-hero h1\s*\{[^}]*max-width:\s*18ch\s*;",
-    "homepage hero mobile stack": r"@media\s*\(max-width:\s*680px\)[\s\S]*?\.home-hero\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)\s*;[^}]*min-height:\s*auto\s*;[^}]*padding:\s*1\.5rem\s*;",
+    "homepage hero mobile stack": r"@media\s*\(max-width:\s*680px\)[\s\S]*?\.home-hero\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)\s*;[^}]*min-height:\s*auto\s*;[^}]*padding:\s*0\s+0\s+1\.5rem\s*;",
 }
 for label, pattern in geometry_css_contract.items():
     if not re.search(pattern, styles_text):
@@ -302,7 +311,7 @@ if re.search(r"\.document-prose\s*\{[^}]*max-width:\s*76rem\s*;", styles_text):
 attack_geometry_contract = {
     "ATT&CK hero page top": r"\.evidence-hero\s*\{[^}]*margin:\s*var\(--page-top\)\s+0\s+2\.25rem\s*;",
     "ATT&CK hero title scale": r"\.evidence-hero h1\s*\{[^}]*font-size:\s*var\(--page-title-size\)\s*;[^}]*line-height:\s*var\(--page-title-leading\)\s*;",
-    "ATT&CK hero shared frame": r"\.evidence-hero\s*\{[^}]*border-top:\s*2px\s+solid\s+var\(--hx-steel\)\s*;",
+    "ATT&CK open hero": r"\.evidence-hero\s*\{[^}]*border:\s*0\s*;[^}]*border-bottom:\s*1px\s+solid\s+var\(--hx-border\)\s*;",
 }
 for label, pattern in attack_geometry_contract.items():
     if not re.search(pattern, attack_styles_text):
@@ -310,12 +319,12 @@ for label, pattern in attack_geometry_contract.items():
 if re.search(r"font-size:\s*clamp\([^;]*(?:5\.6rem|14vw)", attack_styles_text):
     errors.append("ATT&CK hero must not restore a property-specific oversized title scale")
 for font_path in sorted(path for path in font_paths if path.endswith(".woff2")):
-    if f'url("/{font_path}")' not in styles_text:
+    if f'url("/{font_path}")' not in font_styles_text:
         errors.append(f"Self-hosted font is not referenced by the stylesheet: {font_path}")
-if re.search(r"@(?:import|font-face)[^}]*https?://", styles_text, re.IGNORECASE | re.DOTALL):
+if re.search(r"@(?:import|font-face)[^}]*https?://", styles_text + font_styles_text, re.IGNORECASE | re.DOTALL):
     errors.append("Stylesheet must not load fonts from a remote origin")
 font_readme = (root / "assets/fonts/README.md").read_text(encoding="utf-8")
-for provenance_marker in ("Fontsource 5.3.0", "INTER-OFL.txt", "IBM-PLEX-MONO-OFL.txt"):
+for provenance_marker in ("Fontsource 5.3.0", "INTER-OFL.txt", "IBM-PLEX-MONO-OFL.txt", "SPACE-GROTESK-OFL.txt"):
     if provenance_marker not in font_readme:
         errors.append(f"Font provenance note is missing: {provenance_marker}")
 for forbidden_token in ("--hx-surface-3", "--hx-ember", "--hx-action"):
@@ -384,10 +393,12 @@ for path in html_files:
             errors.append(f"Shared identity declaration differs or is missing from {relative}: {declaration}")
     if re.search(r'<link[^>]+rel="stylesheet"[^>]+href="https?://', text, re.IGNORECASE):
         errors.append(f"Remote stylesheet dependency found in {relative}")
-    expected_stylesheet = "/assets/styles.css?v=20260907-1"
-    expected_stylesheets = [expected_stylesheet]
+    expected_stylesheet = f"/assets/styles.css?v={ASSET_VERSION}"
+    expected_stylesheets = [f"/assets/fonts.css?v={ASSET_VERSION}", expected_stylesheet]
+    if relative in {Path("index.html"), Path("lt/index.html")}:
+        expected_stylesheets.append(f"/assets/workspace-discovery.css?v={ASSET_VERSION}")
     if relative == Path("attack-map/index.html"):
-        expected_stylesheets.append("/assets/attack-evidence.css?v=20260907-1")
+        expected_stylesheets.append(f"/assets/attack-evidence.css?v={ASSET_VERSION}")
     if parser.stylesheets != expected_stylesheets:
         errors.append(
             f"Versioned route stylesheet differs in {relative}: "
@@ -395,7 +406,7 @@ for path in html_files:
         )
     if re.search(r'<script[^>]+src="https?://', text, re.IGNORECASE):
         errors.append(f"Remote script dependency found in {relative}")
-    if text.count('/assets/site.js?v=20260907-1') != 1:
+    if text.count(f'/assets/site.js?v={ASSET_VERSION}') != 1:
         errors.append(f"Versioned shared site script differs or is missing from {relative}")
     duplicates = sorted({value for value in parser.ids if parser.ids.count(value) > 1})
     if duplicates:

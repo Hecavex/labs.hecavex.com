@@ -1,27 +1,12 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import http from 'node:http';
 import { createHash } from 'node:crypto';
-import { pathToFileURL } from 'node:url';
+import { browserForChecks, servedTarget } from './browser_support.mjs';
 const [target, profile] = process.argv.slice(2);
-const { chromium } = await import(pathToFileURL(path.resolve(process.env.PLAYWRIGHT_MODULE || '.browser-check/node_modules/playwright-core/index.mjs')).href);
-let server;
-let base = target;
-if (!/^https?:/.test(target)) {
-  const root = path.resolve(target);
-  server = http.createServer((request, response) => {
-    const route = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
-    const filename = path.resolve(root, '.' + route + (route.endsWith('/') ? 'index.html' : ''));
-    if (!filename.startsWith(root + path.sep) || !fs.existsSync(filename) || !fs.statSync(filename).isFile()) { response.writeHead(404); response.end(); return; }
-    const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.wasm': 'application/wasm', '.svg': 'image/svg+xml' };
-    response.setHeader('Content-Type', mime[path.extname(filename)] || 'application/octet-stream');
-    fs.createReadStream(filename).pipe(response);
-  });
-  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-  base = 'http://127.0.0.1:' + server.address().port + '/';
-}
-const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || '/usr/bin/google-chrome', headless: true });
+const preview = await servedTarget(target);
+const { base } = preview;
+const browser = await browserForChecks();
 try {
   const page = await browser.newPage();
   const failures = [];
@@ -234,5 +219,5 @@ try {
   console.log(profile + ' served-release browser smoke passed');
 } finally {
   await browser.close();
-  if (server) await new Promise(resolve => server.close(resolve));
+  await preview.close();
 }

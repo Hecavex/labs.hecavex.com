@@ -104,7 +104,9 @@ jobs:
       - name: Install bounded browser smoke dependency
         run: npm install --prefix .browser-check --no-save --package-lock=false playwright-core@1.62.1
       - name: Test staged data interaction and CSP in Chrome
-        run: node scripts/smoke-release.mjs _site labs
+        run: |
+          node scripts/smoke-release.mjs _site labs
+          node scripts/smoke_workspace_discovery.mjs _site
       - name: Record publication manifest
         id: release
         run: node scripts/release.mjs create _site labs
