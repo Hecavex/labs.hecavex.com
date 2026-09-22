@@ -1195,6 +1195,11 @@ if change_items:
     newest_change = max(change_items, key=lambda item: str(item.get("date_published", "")))
     newest_change_day = str(newest_change.get("date_published", ""))[:10]
     newest_change_fragment = urlparse(newest_change.get("url", "")).fragment
+    changes_heading_date = re.search(
+        r'id="changes-through"[^>]*>[^<]*<time datetime="([^"]+)"', changes_html,
+    )
+    if not changes_heading_date or changes_heading_date.group(1) != newest_change_day:
+        errors.append("Changes heading date has drifted from the newest feed record")
     latest_home_record = re.search(
         r'<aside class="latest-change".*?<time datetime="([^"]+)".*?href="/changes/#([^"]+)"',
         home_html,
