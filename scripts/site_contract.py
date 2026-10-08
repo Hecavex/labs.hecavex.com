@@ -9,7 +9,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-ASSET_VERSION = "20260922-3"
+ASSET_VERSION = "20261008-1"
+
+# Localized orientation and methodology summaries; analytical workspaces stay EN.
+LOCALIZED_ROUTE_PAIRS = (("/", "/lt/"), ("/methodology/", "/lt/metodika/"))
 
 
 @dataclass(frozen=True)
@@ -32,9 +35,9 @@ class Route:
 
 ROUTES = (
     Route("404.html", "/404.html", None, "link", utility_href="/", utility_text="Workspaces"),
-    Route("lt/index.html", "/lt/", "overview", "link", utility_href="/", utility_text="EN", sitemap_lastmod="2026-09-07"),
+    Route("lt/index.html", "/lt/", "overview", "link", utility_href="/", utility_text="EN", sitemap_lastmod="2026-10-08"),
     Route("lt/metodika/index.html", "/lt/metodika/", "methodology", "link", utility_href="/methodology/", utility_text="EN", sitemap_lastmod="2026-09-10"),
-    Route("index.html", "/", "overview", "search", "Filter Labs workspaces", "Filter", sitemap_lastmod="2026-09-07"),
+    Route("index.html", "/", "overview", "search", "Filter Labs workspaces", "Filter", sitemap_lastmod="2026-10-08"),
     Route("baltic-threat-atlas/index.html", "/baltic-threat-atlas/", "atlas", "search", "Search Baltic Threat Atlas", "Search", sitemap_lastmod="2026-09-10"),
     Route("pivot-graph/index.html", "/pivot-graph/", "pivots", "search", "Search case claims", "Search", sitemap_lastmod="2026-09-10"),
     Route("attack-map/index.html", "/attack-map/", "attack", "search", "Search actors or techniques", "Search", sitemap_lastmod="2026-09-10"),
