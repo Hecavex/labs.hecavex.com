@@ -66,6 +66,7 @@ jobs:
           APT_NOTES_DIST: .codex-tmp/upstream-apt/dist
         run: |
           python scripts/sync_shell.py --check
+          python scripts/test_metadata.py
           python scripts/sync_atlas_context.py --check --apt-dist .codex-tmp/upstream-apt/dist
           python scripts/build_reviewed_attack_evidence.py --check --require-source --apt-dist .codex-tmp/upstream-apt/dist
           python scripts/check_upstream_contract.py --require-revision --apt-dist .codex-tmp/upstream-apt/dist

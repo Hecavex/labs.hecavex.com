@@ -8,7 +8,7 @@ from pathlib import Path
 import re
 import sys
 
-from site_contract import ASSET_VERSION, LOCAL_NAVIGATION, PORTFOLIO_NAVIGATION, ROUTES, Route
+from site_contract import ASSET_VERSION, LOCALIZED_ROUTE_PAIRS, LOCAL_NAVIGATION, PORTFOLIO_NAVIGATION, ROUTES, Route
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -136,6 +136,27 @@ def sync_style_assets(text: str) -> str:
     )
 
 
+def sync_localization(text: str, route: Route) -> str:
+    """Publish alternates only for real localized summaries, with reciprocal URLs."""
+    text = re.sub(r'\s*<link\b[^>]*hreflang="[^"]+"[^>]*>', "", text)
+    text = re.sub(r'\s*<meta\b[^>]*property="og:locale:alternate"[^>]*>', "", text)
+    links = []
+    for english, lithuanian in LOCALIZED_ROUTE_PAIRS:
+        if route.public_path not in (english, lithuanian):
+            continue
+        links = [
+            f'<link rel="alternate" hreflang="en" href="https://labs.hecavex.com{english}">',
+            f'<link rel="alternate" hreflang="lt" href="https://labs.hecavex.com{lithuanian}">',
+            f'<link rel="alternate" hreflang="x-default" href="https://labs.hecavex.com{english}">',
+            f'<meta property="og:locale:alternate" content="{"en_US" if route.public_path == lithuanian else "lt_LT"}">',
+        ]
+        break
+    if 'name="robots"' not in text:
+        directive = 'noindex,follow' if route.public_path == '/404.html' else 'index,follow,max-image-preview:large'
+        text = text.replace('</head>', f'  <meta name="robots" content="{directive}">\n</head>', 1)
+    return re.sub(r'\s*</head>', '\n  ' + '\n  '.join(links) + '\n</head>', text, count=1) if links else text
+
+
 def transform(text: str, route: Route) -> str:
     header_matches = HEADER_RE.findall(text)
     footer_matches = FOOTER_RE.findall(text)
@@ -146,6 +167,7 @@ def transform(text: str, route: Route) -> str:
         )
     text = HEADER_RE.sub(render_header(route), text, count=1)
     text = sync_style_assets(text)
+    text = sync_localization(text, route)
     return FOOTER_RE.sub(render_footer(), text, count=1)
 
 
