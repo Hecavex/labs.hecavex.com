@@ -1,0 +1,260 @@
+{
+  "schema_version": "2.0.0",
+  "case": {
+    "id": "ai-tooling-supply-chain-2026",
+    "title": "AI tooling lures: mutable downloads and static evidence",
+    "status": "published",
+    "updated": "2026-10-09",
+    "research": "https://hecavex.com/en/research/fakegit-ai-skills-mutable-downloads/",
+    "publication_approved": true,
+    "publication_approved_at": "2026-10-09",
+    "boundary": "This graph separates reported associations, pinned source observations, acquired-byte equality and bounded data transformations. The independently inspected Polygon contract is not recovered from the acquired Lua. ToxicSkills is separate reported context without a campaign-joining edge. No sample execution, operator attribution, victim count or prevalence is established.",
+    "source_basis": "Direct primary source pages plus published sanitized HECAVEX source/static/chain receipts dated 2026-10-09. The fixed replay covers one selected constant relation, not complete original-sample reproduction. Linked third-party primary pages do not independently certify HECAVEX acquisition or arithmetic results.",
+    "indicator_policy": "Suspect repository identities and destinations appear only as defanged, non-clickable text; evidence links point to primary reports, source-view commits or public ledger records. No payload-download link is supplied.",
+    "research_translations": {
+      "en": "https://hecavex.com/en/research/fakegit-ai-skills-mutable-downloads/",
+      "lt": "https://hecavex.com/lt/tyrimai/fakegit-ai-igudziai-kintantys-atsisiuntimai/"
+    },
+    "evidence_bundle": "https://hecavex.com/assets/data/fakegit-ai-skills-v1/methodology.md",
+    "support_records": [
+      "https://hecavex.com/assets/data/fakegit-ai-skills-v1/github-observations.json",
+      "https://hecavex.com/assets/data/fakegit-ai-skills-v1/static-analysis.json",
+      "https://hecavex.com/assets/data/fakegit-ai-skills-v1/ioc-observations.json",
+      "https://hecavex.com/assets/data/fakegit-ai-skills-v1/toxicskills-source-observations.json"
+    ]
+  },
+  "nodes": [
+    {
+      "id": "historical-list",
+      "class": "observed",
+      "label": "Published repository/hash association",
+      "short_label": [
+        "Historical list",
+        "association"
+      ],
+      "x": 110,
+      "y": 95,
+      "meaning": "Island's pinned July CSV associates github[.]com/amanahmed2222/skills with archive SHA-256 06cd34cacbcc7046b7e0bac0cdfb6d94e79049cb974218dca247b28e619c59ac. The historical malicious classification is attributed to Island; a listed name alone does not prove current bytes or behavior.",
+      "confidence": "source-attributed historical association",
+      "evidence_label": "Island's pinned CSV",
+      "evidence": "https://github.com/island-io/island-security-research-artifacts/blob/72b77c0e2cc53cae92acd27258cf229077e1bfca/agentbaiting/malicious-repositories-and-zip-hashes-2026-07.csv"
+    },
+    {
+      "id": "readme-repoint",
+      "class": "observed",
+      "label": "Pinned README download re-pointing",
+      "short_label": [
+        "README-only",
+        "re-pointing"
+      ],
+      "x": 350,
+      "y": 95,
+      "meaning": "Commit 84a4fdc3840133c30e283ee34adb730b49d3dff4 records only a README.md change: four Markdown destinations and one badge image source now name a branch-based ZIP path. The commit records 2026-10-09T13:37:13Z. A branch destination is mutable; this source fact alone does not show a download or execution.",
+      "confidence": "direct pinned diff/tree observation",
+      "evidence_label": "Pinned commit diff (source view)",
+      "evidence": "https://github.com/amanahmed2222/skills/commit/84a4fdc3840133c30e283ee34adb730b49d3dff4"
+    },
+    {
+      "id": "acquired-bytes",
+      "class": "observed",
+      "label": "Acquired bytes match the historical hash",
+      "short_label": [
+        "Acquired archive",
+        "hash equality"
+      ],
+      "x": 590,
+      "y": 95,
+      "meaning": "A later, separately authorized inert acquisition yielded 487,650 archive bytes. Its SHA-256 equals Island's historical value, and Git-object SHA-1 f8ef6f6e39990c57cbc35ca540c8c0895bfa97c4 equals the pinned tree blob. These are two distinct hash roles. The archive contains a launcher, text-named Lua member, executable and DLL. Published static-analysis.json records these measurements; Island’s CSV establishes the historical association.",
+      "confidence": "recorded acquired-byte equality; published sanitized receipts",
+      "evidence_label": "Published byte hashes and static limits",
+      "evidence": "https://hecavex.com/assets/data/fakegit-ai-skills-v1/static-analysis.json"
+    },
+    {
+      "id": "constant-data",
+      "class": "derived",
+      "label": "Bounded Lua constant recovery",
+      "short_label": [
+        "539 constant pairs",
+        "292 unique values"
+      ],
+      "x": 830,
+      "y": 95,
+      "meaning": "Analyst-authored data parsing and arithmetic recovered 292 unique printable values from 539 candidate constant pairs; independent arithmetic recomputed all 539 outputs, while five selected original source-pair proofs were independently checked. Content includes Windows declarations/API names, command fragments and a 174-byte eth_call JSON template with placeholders. The linked Prometheus source is an algorithm comparison, not proof of runtime behavior, obfuscator attribution or sample identity. The public helper replays one fixed placeholder template; source hashes are provenance metadata and are not revalidated by that helper.",
+      "confidence": "bounded mathematical derivation; reachability unresolved",
+      "evidence_label": "Fixed 174-byte replay and its limits",
+      "evidence": "https://hecavex.com/assets/data/fakegit-ai-skills-v1/constant-replay/README.md"
+    },
+    {
+      "id": "installer-source",
+      "class": "observed",
+      "label": "Directory-copy installer source",
+      "short_label": [
+        "Installer directory",
+        "copy path"
+      ],
+      "x": 110,
+      "y": 290,
+      "meaning": "The reviewed vercel-labs/skills installer revision passes the selected skill directory to a recursive copy path. Ordinary ZIP files are absent from its exclusion list. The adjacent skill guidance looked like ordinary branch-management instructions. Neither source read is an observed installation, and no malicious intent is attributed to the installer maintainer.",
+      "confidence": "direct static source observation",
+      "evidence_label": "Pinned installer source",
+      "evidence": "https://github.com/vercel-labs/skills/blob/e878c4502674f84094dc27b5ad94ddaf64f22551/src/installer.ts"
+    },
+    {
+      "id": "conditional-copy",
+      "class": "derived",
+      "label": "Conditional sibling-file transfer",
+      "short_label": [
+        "Sibling ZIP may",
+        "cross copy boundary"
+      ],
+      "x": 350,
+      "y": 290,
+      "meaning": "If this reviewed directory-copy path installs the selected directory containing the regular ZIP file, that sibling can be copied with the skill. This is a conditional source-level inference. Copying a file is distinct from launching it, and the acquired archive was not installed through this path during the investigation.",
+      "confidence": "conditional static inference",
+      "evidence_label": "Copy behavior source",
+      "evidence": "https://github.com/vercel-labs/skills/blob/e878c4502674f84094dc27b5ad94ddaf64f22551/src/installer.ts"
+    },
+    {
+      "id": "trust-boundary",
+      "class": "assessment",
+      "label": "Review the resolved bytes and directory",
+      "short_label": [
+        "Review bytes",
+        "and full directory"
+      ],
+      "x": 590,
+      "y": 290,
+      "meaning": "Pinned README re-pointing, a verified historical archive-byte match and a conditional directory-copy path support reviewing both the resolved download and the selected directory. A benign-looking skill description is not a complete file inventory. This bounded risk assessment does not establish automatic execution or a new campaign.",
+      "confidence": "high for review-scope risk; runtime not established",
+      "evidence_label": "Apiiro's reported mechanism",
+      "evidence": "https://apiiro.com/blog/never-deleted-only-re-pointed"
+    },
+    {
+      "id": "runtime-boundary",
+      "class": "limitation",
+      "label": "Static content is not runtime proof",
+      "short_label": [
+        "No runtime or",
+        "operator proof"
+      ],
+      "x": 830,
+      "y": 290,
+      "meaning": "No Lua, launcher, recovered command or DLL was executed or loaded. The DLL's PE structure is runtime-compatible, not an authenticity or malicious-behavior proof. A protection message prevented the adjacent executable's later independent read, so that member has acquisition-only measurements. Opaque calls and state-dependent configuration remain unresolved. No concrete RPC endpoint, contract or selector was recovered from the Lua; no victim or operator is identified.",
+      "confidence": "explicit analytical boundary",
+      "evidence_label": "Published static-analysis boundaries",
+      "evidence": "https://hecavex.com/assets/data/fakegit-ai-skills-v1/static-analysis.json"
+    },
+    {
+      "id": "reported-polygon",
+      "class": "observed",
+      "label": "Separately reported Polygon contract",
+      "short_label": [
+        "Apiiro's separate",
+        "Polygon lead"
+      ],
+      "x": 110,
+      "y": 495,
+      "meaning": "Apiiro reports SmartLoader using Polygon contract 0x1823A9a0Ec8e0C25dD957D0841e3D41a4474bAdc for a replaceable destination. This report seeded a separate passive-chain check. The contract is not a recovered configuration value from the acquired archive, and a public RPC provider is distinct from the returned suspect destination.",
+      "confidence": "source-attributed reported association",
+      "evidence_label": "Apiiro's primary report",
+      "evidence": "https://apiiro.com/blog/never-deleted-only-re-pointed"
+    },
+    {
+      "id": "pinned-chain-states",
+      "class": "derived",
+      "label": "Pinned end-of-block destination states",
+      "short_label": [
+        "Two successful",
+        "state transitions"
+      ],
+      "x": 350,
+      "y": 495,
+      "meaning": "Successful receipts and ABI decoding, compared at the ends of blocks N-1 and N, support 83[.]97[.]20[.]150 → 194[.]48[.]248[.]94 at block 91,820,366 (2026-08-11T08:06:16Z), then → 185[.]10[.]68[.]110 at block 93,979,042 (2026-09-17T19:33:16Z). The latter is also returned at fixed block 95,232,281 (2026-10-09T13:47:21Z), with two-provider agreement for that snapshot. Historical states used one provider. These observations were retrieved October 9.",
+      "confidence": "reproduced snapshot/ABI derivation; published sanitized receipts",
+      "evidence_label": "Published block-state observations",
+      "evidence": "https://hecavex.com/assets/data/fakegit-ai-skills-v1/ioc-observations.json"
+    },
+    {
+      "id": "chain-boundary",
+      "class": "limitation",
+      "label": "A state change is not a compromise",
+      "short_label": [
+        "Chain state ≠",
+        "victim execution"
+      ],
+      "x": 590,
+      "y": 495,
+      "meaning": "End-of-block calls are not a transaction-level execution trace. Block time, retrieval time and provider first-seen time have different meanings. Returned IPs were not contacted; no reachability, shutdown, infection, victim count or operator identity is established. The placeholder-only Lua template does not independently link the acquired sample to this contract.",
+      "confidence": "explicit evidence and attribution boundary",
+      "evidence_label": "Public contract record",
+      "evidence": "https://polygonscan.com/address/0x1823A9a0Ec8e0C25dD957D0841e3D41a4474bAdc"
+    },
+    {
+      "id": "separate-toxic-context",
+      "class": "observed",
+      "label": "Separate known prerequisite instructions",
+      "short_label": [
+        "ToxicSkills context",
+        "not joined to FakeGit"
+      ],
+      "x": 830,
+      "y": 495,
+      "meaning": "A separate Snyk-reported lead retained three reviewed skill texts that frame an external utility as a prerequisite. Windows instructions request a password-protected ZIP and executable; text-only macOS decoding points to HTTP retrieval passed to a shell at 91[.]92[.]242[.]30. No live payload was obtained from those instructions; a later Windows archive attempt returned HTTP 404. No relationship to FakeGit, operator identity, repository-owner intent or current compromise is inferred. This context node deliberately has no campaign-joining edge.",
+      "confidence": "source text observation; prior report attributed",
+      "evidence_label": "Snyk ToxicSkills report",
+      "evidence": "https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/"
+    }
+  ],
+  "edges": [
+    {
+      "source": "historical-list",
+      "target": "readme-repoint",
+      "relationship": "selected known lead"
+    },
+    {
+      "source": "readme-repoint",
+      "target": "acquired-bytes",
+      "relationship": "named archive target"
+    },
+    {
+      "source": "acquired-bytes",
+      "target": "constant-data",
+      "relationship": "supplied inert text"
+    },
+    {
+      "source": "constant-data",
+      "target": "runtime-boundary",
+      "relationship": "bounded by"
+    },
+    {
+      "source": "installer-source",
+      "target": "conditional-copy",
+      "relationship": "conditional copy path"
+    },
+    {
+      "source": "conditional-copy",
+      "target": "trust-boundary",
+      "relationship": "supports review scope"
+    },
+    {
+      "source": "acquired-bytes",
+      "target": "trust-boundary",
+      "relationship": "supports byte review"
+    },
+    {
+      "source": "trust-boundary",
+      "target": "runtime-boundary",
+      "relationship": "not execution proof"
+    },
+    {
+      "source": "reported-polygon",
+      "target": "pinned-chain-states",
+      "relationship": "seeded passive check"
+    },
+    {
+      "source": "pinned-chain-states",
+      "target": "chain-boundary",
+      "relationship": "bounds inference"
+    }
+  ]
+}

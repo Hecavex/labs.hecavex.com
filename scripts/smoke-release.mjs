@@ -191,6 +191,24 @@ try {
       assert((await page.locator('#case-reproducibility').innerText()).includes('Complete original bytes'));
       assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
       assert.deepEqual(await page.evaluate(() => window.cspViolations), []);
+      await page.goto(new URL('pivot-graph/?case=ai-tooling-supply-chain-2026', base).href);
+      await page.waitForFunction(() => document.querySelector('#case-title').textContent === 'AI tooling lures: mutable downloads and static evidence');
+      assert.equal(await page.locator('#case-total').innerText(), '5');
+      assert.equal(await page.locator('#case-node-count').innerText(), '12');
+      assert.equal(await page.locator('#case-edge-count').innerText(), '10');
+      assert.equal(await page.locator('#case-research-link').getAttribute('href'), 'https://hecavex.com/en/research/fakegit-ai-skills-mutable-downloads/');
+      assert.equal(await page.locator('#case-json-link').getAttribute('href'), '/data/pivots/graphs/ai-tooling-supply-chain.json');
+      assert((await page.locator('#case-reproducibility').textContent()).includes('five selected original source pairings'));
+      assert((await page.locator('#case-reproducibility').textContent()).includes('539 recorded outputs'));
+      await page.locator('#graph-svg [data-id="constant-data"]').focus();
+      await page.keyboard.press('Enter');
+      assert.equal(await page.locator('#node-title').innerText(), 'Bounded Lua constant recovery');
+      assert((await page.locator('#node-detail').innerText()).includes('not revalidated'));
+      await page.locator('#graph-svg [data-id="reported-polygon"]').click();
+      assert((await page.locator('#node-detail').innerText()).includes('not a recovered configuration value'));
+      assert((await page.locator('#case-boundary').innerText()).includes('without a campaign-joining edge'));
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      assert.deepEqual(await page.evaluate(() => window.cspViolations), []);
     }
     await page.emulateMedia({ forcedColors: 'active', reducedMotion: 'reduce' });
     await page.goto(new URL('attack-map/#worked-exercise', base).href);

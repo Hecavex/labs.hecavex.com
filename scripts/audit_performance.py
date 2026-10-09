@@ -50,6 +50,7 @@ ROUTE_DATA_GZIP_BUDGETS = {
             "data/pivots/graphs/hostinger.json",
             "data/pivots/graphs/unipark.json",
             "data/pivots/graphs/github-python.json",
+            "data/pivots/graphs/ai-tooling-supply-chain.json",
         ),
     ),
 }

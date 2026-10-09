@@ -1,7 +1,40 @@
 {
   "schema_version": "1.2.0",
-  "updated": "2026-09-10",
+  "updated": "2026-10-09",
   "cases": [
+    {
+      "id": "ai-tooling-supply-chain-2026",
+      "title": "AI tooling lures: mutable downloads and static evidence",
+      "short_title": "AI tooling supply chain",
+      "summary": "Pinned README changes, one acquired archive and bounded Lua data recovery, with separately verified Polygon state and explicit runtime limits.",
+      "status": "published",
+      "publication_approved": true,
+      "publication_approved_at": "2026-10-09",
+      "updated": "2026-10-09",
+      "graph": "/data/pivots/graphs/ai-tooling-supply-chain.json",
+      "research": "https://hecavex.com/en/research/fakegit-ai-skills-mutable-downloads/",
+      "tags": [
+        "AI skills",
+        "mutable downloads",
+        "static analysis",
+        "source provenance"
+      ],
+      "reproducibility": {
+        "preserved_inputs": "Pinned primary source pages and indicator lists, published sanitized acquisition/static/chain receipts, and a fixed 174-byte ciphertext/seed replay are linked from the investigation. Original archives and complete sample members are not distributed.",
+        "transformations": "Compare the pinned README diff and historical hash association. Distinguish Git-object SHA-1 from archive-byte SHA-256. The fixed replay verifies one ciphertext/output relation, with UTF-8/LF bytes and one final LF. Independent arithmetic reproduced 539 recorded outputs; five selected original source pairings were independently checked. Separately documented ABI decoding compares end-of-block chain states.",
+        "source_attributed_conclusions": "Island's historical repository/hash association, Apiiro's SmartLoader and Polygon lead, and Snyk's separate ToxicSkills report remain explicitly source-attributed. They do not independently establish current execution or a shared operator.",
+        "unavailable": "No complete public original-sample or byte-level reproduction package. The fixed replay does not obtain or revalidate original Lua/source-span hashes, prove all 539 source bindings, resolve opaque callees or establish execution. No concrete RPC configuration recovered from the acquired Lua, actor attribution, victim count or campaign prevalence. Withheld candidates and downstream collector identities are excluded.",
+        "analytical_cutoff": "2026-10-09 finite source and static-analysis observations; block dates describe on-chain records rather than collection time or campaign onset.",
+        "metadata_recorded_at": "2026-10-09",
+        "method": "curated-source-and-bounded-static-receipt-projection",
+        "independent_reproduction_verified_at": null
+      },
+      "research_translations": {
+        "en": "https://hecavex.com/en/research/fakegit-ai-skills-mutable-downloads/",
+        "lt": "https://hecavex.com/lt/tyrimai/fakegit-ai-igudziai-kintantys-atsisiuntimai/"
+      },
+      "evidence_bundle": "https://hecavex.com/assets/data/fakegit-ai-skills-v1/methodology.md"
+    },
     {
       "id": "unipark-smishing-2026",
       "title": "UNIPARK smishing infrastructure",

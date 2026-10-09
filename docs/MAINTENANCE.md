@@ -24,6 +24,10 @@ HECAVEX Labs is maintained on a best-effort basis by Deividas Lis / HECAVEX. It 
 
 Curated changes should preserve source URLs, dates, review state, confidence or status language, and explicit limitations. Observations, derivations and analytical assessments remain separate record types. Technical similarity, a common ATT&CK technique or shared infrastructure does not independently establish attribution.
 
+Private pivot proposals stay outside this public repository. Exclusion from the Pages staging copy list does not make a tracked GitHub file private. After actual owner approval, promote only sanitized data: update the graph and catalogue record together with the exact public manifest, metadata/counts and normal publication checks. Record `publication_approved: true` and the actual approval date; do not change approval values merely to make a preview or validator pass.
+
+The AI tooling case is approved for publication on 2026-10-09. Its graph links the canonical English and Lithuanian investigation and published sanitized support. The fixed 174-byte replay is a bounded constant relation, not a complete sample reproduction. Five independently checked original source pairings remain separate from 539 independently recomputed arithmetic outputs. Run `python scripts/test_ai_tooling_pivot.py` before the unchanged staged release gate. Original samples, withheld candidates and private research receipts are excluded.
+
 The principal maintained data areas are:
 
 - `data/atlas/` for selected Baltic observations and explicitly bounded Europe-context actors;

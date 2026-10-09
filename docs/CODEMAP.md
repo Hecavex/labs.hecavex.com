@@ -21,6 +21,7 @@ Use the responsibility below to find a change's source. Do not edit a deployed a
 ## Data and release boundary
 
 - `data/public-manifest.json` is the exact public-data allowlist. `scripts/stage_public_data.py` stages only its entries and injects non-executable evidence context.
+- `data/pivots/graphs/ai-tooling-supply-chain.json` is the owner-approved AI tooling case. `scripts/test_ai_tooling_pivot.py` checks explicit approval, exact staging membership, bilingual article links, defanged indicators, source roles and separate static/chain/context boundaries. The fixed replay covers one constant relation; five source pairings and 539 arithmetic outputs remain distinct.
 - `scripts/upstream-release.json` pins the approved APT source. The generators and `scripts/check_upstream_contract.py` enforce reproducibility. A new visual release does not require changing the analytical pin.
 - `scripts/validate.py`, `scripts/test_provenance.py` and `scripts/test_analytical_contract.py` preserve schema, source wording, provenance and analytical limitations.
 - `.github/workflows/pages.yml` validates, stages, tests CSP and interactive data, creates a release manifest, deploys, then verifies the live revision and artifact hashes.
