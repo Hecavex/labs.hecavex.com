@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "updated": "2026-09-10",
+  "updated": "2026-10-09",
   "default_policy": "deny",
   "description": "Exact allowlist of files intentionally published below /data/. A new file is not deployed until it is reviewed and added here.",
   "files": [
@@ -32,6 +32,12 @@
       "path": "data/pivots/cases.json",
       "catalogue_id": "pivot-case-library",
       "role": "distribution-index",
+      "licence_url": "https://labs.hecavex.com/licence/#original-data"
+    },
+    {
+      "path": "data/pivots/graphs/ai-tooling-supply-chain.json",
+      "catalogue_id": "pivot-case-library",
+      "role": "distribution",
       "licence_url": "https://labs.hecavex.com/licence/#original-data"
     },
     {

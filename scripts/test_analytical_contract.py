@@ -46,4 +46,4 @@ for case in cases:
 github = next(case for case in cases if case["id"] == "github-python-loader-2024")
 assert "final stage is unavailable" in github["reproducibility"]["unavailable"]
 assert "evidence_bundle" not in github
-print("Analytical contracts passed: dates, 18 comparability exclusions, Latvia wording, two bounded APT31 corrections and four reproduction boundaries.")
+print(f"Analytical contracts passed: dates, 18 comparability exclusions, Latvia wording, two bounded APT31 corrections and {len(cases)} reproduction boundaries.")

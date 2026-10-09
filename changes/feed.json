@@ -6,6 +6,18 @@
   "description": "Meaningful dataset additions, corrections, schema changes and workspace lifecycle changes.",
   "items": [
     {
+      "id": "labs-ai-tooling-pivot-2026-10-09",
+      "url": "https://labs.hecavex.com/changes/#change-2026-10-09-ai-tooling-pivot",
+      "title": "AI tooling supply-chain case published",
+      "date_published": "2026-10-09T18:17:29Z",
+      "content_text": "The fifth approved Pivot case separates pinned README download changes, acquired-archive hash equality, a conditional directory-copy path and bounded Lua constant recovery. Independent arithmetic reproduced 539 recorded outputs; five selected original source pairings were independently checked. A public fixed 174-byte replay covers one placeholder template. Separately reported Polygon states and ToxicSkills context do not establish a shared operator, runtime execution or victim impact. Original samples and withheld candidate identities remain excluded.",
+      "tags": [
+        "dataset-addition",
+        "static-analysis",
+        "non-breaking"
+      ]
+    },
+    {
       "id": "labs-claim-assurance-2026-09-10",
       "url": "https://labs.hecavex.com/changes/#change-2026-09-10-claim-assurance",
       "title": "Source comparisons with defensible decision boundaries",
